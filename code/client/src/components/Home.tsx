@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 const Home = () => {
-  const [phrase, setPhrase] = useState(
-    "Hello Kiruna Explorer! We're coming for you! ;)"
-  );
+  const [phrase, setPhrase] = useState("Hello Kiruna Explorer! We're coming for you! ;)");
   return (
     <Container className="text-center mt-5">
       <Row>
