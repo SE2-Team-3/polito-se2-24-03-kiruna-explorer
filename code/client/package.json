@@ -16,7 +16,8 @@
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
     "react-flow-renderer": "^10.3.17",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.27.0",
+    "bootstrap-icons": "^1.11.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
