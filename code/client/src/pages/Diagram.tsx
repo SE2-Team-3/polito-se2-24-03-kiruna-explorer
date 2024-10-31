@@ -16,6 +16,30 @@ import {
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
+// Popup component with delete functionality
+const Popup: React.FC<{
+  message: string;
+  onClose: () => void;
+  onDelete: () => void;
+}> = ({ message, onClose, onDelete }) => (
+  <div
+    style={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      padding: "20px",
+      backgroundColor: "white",
+      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+      zIndex: 1000,
+    }}
+  >
+    <p>{message}</p>
+    <button onClick={onDelete}>Delete Node</button>
+    <button onClick={onClose}>Close</button>
+  </div>
+);
+
 const Diagram = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
@@ -27,6 +51,28 @@ const Diagram = () => {
     x: 0,
     y: 0,
   });
+
+  // Popup visibility state
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+
+  // Handle node click to open popup
+  const onNodeClick = (_: any, node: Node) => {
+    setPopupMessage(node.data.label);
+    setPopupVisible(true);
+    setSelectedNodeId(node.id);
+  };
+
+  // Close popup
+  const closePopup = () => setPopupVisible(false);
+
+  const deleteNode = () => {
+    if (selectedNodeId) {
+      setNodes((nds) => nds.filter((node) => node.id !== selectedNodeId));
+      closePopup();
+    }
+  };
 
   // Load diagram state from local storage on mount
   useEffect(() => {
@@ -152,6 +198,7 @@ const Diagram = () => {
             onConnect={onConnect}
             onEdgeClick={onEdgeClick}
             showEdges={showEdges}
+            onNodeClick={onNodeClick}
           />
         </div>
       </div>
@@ -162,6 +209,15 @@ const Diagram = () => {
           <button onClick={() => setSelectedEdge(null)}>No</button>
         </div>
       )}
+
+      {popupVisible && popupMessage && (
+        <Popup
+          message={popupMessage}
+          onClose={closePopup}
+          onDelete={deleteNode}
+        />
+      )}
+
       <div style={{ display: "flex" }}>
         <NodeForm newNode={newNode} setNewNode={setNewNode} addNode={addNode} />
         <div style={{ marginTop: "20px" }}>

@@ -9,6 +9,7 @@ const DiagramArea = ({
   onNodesChange,
   onConnect,
   onEdgeClick,
+  onNodeClick,
 }: any) => {
   return (
     <div style={{ width: "3080px", height: "595px" }}>
@@ -19,6 +20,7 @@ const DiagramArea = ({
         onNodesChange={onNodesChange}
         onConnect={onConnect}
         onEdgeClick={onEdgeClick}
+        onNodeClick={onNodeClick}
         fitView
         connectionLineStyle={{ stroke: "rgb(0, 0, 0)", strokeWidth: 2 }}
         zoomOnScroll={false}
