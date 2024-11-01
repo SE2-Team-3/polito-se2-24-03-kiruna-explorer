@@ -1,14 +1,23 @@
 import { Container } from "react-bootstrap";
-import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
 import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
-import { NewDocument, User } from "./interfaces/types";
+import { NewDocument } from "./interfaces/types";
+import { User, UserContext } from "./components/UserContext";
+import API from "./API/API";
+import Login from "./components/Login";
 
 function App() {
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
+  const [loginMessage, setLoginMessage] = useState<String>("");
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const [newDocument, setNewDocument] = useState<NewDocument>({
     Title: "",
     Description: "",
@@ -22,30 +31,93 @@ function App() {
     Georeference: [[]],
   });
 
-  const [user, setUser] = useState<User>({
-    Username: "",
-  });
-  const sara: User = { Username: "Sara" };
-  if (user.Username != "Sara") setUser(sara);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const u = await API.getUserInfo();
+        console.log(u);
+        setUser(new User(u.username, u.name, u.surname));
+        setLoggedIn(true);
+        setIsLoaded(true);
+        navigate("/");
+      } catch {
+        setLoggedIn(false);
+        setUser(undefined);
+        setIsLoaded(true);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const doLogin = function (username: string, password: string) {
+    API.login(username, password)
+      .then((u: User) => {
+        setLoggedIn(true);
+        setUser(new User(u.username, u.name, u.surname));
+        setIsLoaded(true);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(typeof err);
+        setLoginMessage(
+          err.error
+            ? err.error
+            : err.message
+            ? err.message
+            : typeof err === "string"
+            ? err
+            : "An error occurred"
+        );
+      });
+  };
+
+  const doLogOut = async () => {
+    await API.logOut();
+    setLoggedIn(false);
+    setUser(undefined);
+    setIsLoaded(false);
+    navigate("/");
+  };
 
   return (
-    <Container>
+    <Container fluid style={{ padding: 0, height: "100%" }}>
       <NavBar />
       <LeftSideBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/urban-planner" element={<UrbanPlanner />} />
-        <Route
-          path="/add-document"
-          element={
-            <AddDocumentForm
-              user={user}
-              document={newDocument}
-              setDocument={setNewDocument}
-            />
-          }
-        />
-      </Routes>
+      <UserContext.Provider value={user}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              loggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Login
+                login={doLogin}
+                message={loginMessage}
+                setMessage={setLoginMessage}
+              />
+            }
+          />
+          <Route
+            path="/home"
+            element={loggedIn ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route path="/urban-planner" element={<UrbanPlanner />} />
+          <Route
+            path="/add-document"
+            element={
+              <AddDocumentForm
+                document={newDocument}
+                setDocument={setNewDocument}
+              />
+            }
+          />
+        </Routes>
+      </UserContext.Provider>
     </Container>
   );
 }

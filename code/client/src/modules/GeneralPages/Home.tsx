@@ -3,9 +3,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import "../style.css";
 
 const Home = () => {
-  const [phrase, setPhrase] = useState(
-    "Hello Kiruna Explorer! We're coming for you! ;)"
-  );
+  const [phrase, setPhrase] = useState("Hello Kiruna Explorer! We're coming for you! ;)");
   return (
     <div className="main-page">
       <Row>
