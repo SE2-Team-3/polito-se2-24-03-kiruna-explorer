@@ -9,8 +9,7 @@ import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentF
 import { NewDocument, User } from "./interfaces/types";
 
 function App() {
-  const [document, setDocument] = useState<NewDocument>({
-    //DocumentID: 1,
+  const [newDocument, setNewDocument] = useState<NewDocument>({
     Title: "",
     Description: "",
     DocumentType: "", //same thing as scale
@@ -20,7 +19,6 @@ function App() {
     CreatedAt: "",
     Language: "",
     Pages: "",
-    //Connections: 0,
     Georeference: [[]],
   });
 
@@ -42,8 +40,8 @@ function App() {
           element={
             <AddDocumentForm
               user={user}
-              document={document}
-              setDocument={setDocument}
+              document={newDocument}
+              setDocument={setNewDocument}
             />
           }
         />
