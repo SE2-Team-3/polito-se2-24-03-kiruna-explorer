@@ -12,3 +12,124 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Container principale per occupare tutta la pagina */
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #7091e6, #ede8f5);
+}
+
+.loginWrapper {
+  display: flex;
+  background: white;
+  border-radius: 1px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 80%;
+  max-width: 900px;
+  height: 800px;
+}
+/* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%; /* Larghezza al 50% per dividere perfettamente */
+  padding: 40px;
+}
+
+.loginTitle i {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.loginFormContainer {
+  justify-content: center;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.loginFormContainer h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.form input {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1rem;
+}
+.loginBtn {
+  width: 95% !important;
+  margin-top: 20px !important;
+  padding: 10px !important;
+  font-size: 1rem !important;
+  background: linear-gradient(to right, #7091e6, #ede8f5) !important;
+  color: white !important;
+  border-color: white !important;
+}
+
+.loginFooter {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Sezione destra per l'immagine, con effetto opaco */
+.imageSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%; /* Larghezza al 50% per dividere perfettamente */
+  position: relative;
+  overflow: hidden;
+  padding-right: 0px !important;
+}
+
+/* Immagine completamente contenuta e opaca */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.imageContainer img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6; /* Opacità per l’effetto desiderato */
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Testo in risalto sopra l'immagine opaca */
+.imageContainer h3,
+.imageContainer p {
+  position: relative;
+  z-index: 2; /* Sopra l'immagine */
+  color: black !important;
+}
+
+.imageContainer h3 {
+  font-size: 2rem;
+  color: #000;
+  margin-bottom: 10px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.imageContainer p {
+  font-size: 1rem;
+  color: #333;
+}
