@@ -5,13 +5,19 @@ import LanguageSelection from "./LanguageSelection";
 import StakeholderSelection from "./StakeholderSelection";
 import SubmitCancelButtons from "./SubmitCancelButtons";
 import "../../style.css";
+import { Props } from "../../../interfaces/types";
+import { useNavigate } from "react-router-dom";
+import API from "../../../API/API";
 
-const AddDocumentForm = () => {
+const AddDocumentForm = (props: Props) => {
+  const navigate = useNavigate();
+
   /**
    * VALIDATION
    */
   const [validated, setValidated] = useState(false);
 
+  //on submit
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -20,6 +26,26 @@ const AddDocumentForm = () => {
     }
 
     setValidated(true);
+
+    const document = {
+      Title: props.document.Title.trim(),
+      Description: props.document.Description.trim(),
+      DocumentType: props.document.DocumentType.trim(),
+      Scale: props.document.DocumentType.trim(),
+      NodeType: props.document.NodeType,
+      Stakeholders: props.document.Stakeholders,
+      CreatedAt: props.document.CreatedAt,
+      Language: props.document.Language,
+      Pages: props.document.Pages.trim(),
+      Georeference: props.document.Georeference,
+    };
+
+    console.log(document);
+
+    if (validated) {
+      API.addDocument(document);
+      navigate("/urban-planner");
+    }
   };
 
   return (
@@ -36,15 +62,24 @@ const AddDocumentForm = () => {
         </Row>
 
         {/* Document Details Section */}
-        <DocumentDetails />
+        <DocumentDetails
+          document={props.document}
+          setDocument={props.setDocument}
+        />
 
         {/* Language and Stakeholder Selection Section */}
         <Row className="row-box">
           <Col>
-            <LanguageSelection />
+            <LanguageSelection
+              document={props.document}
+              setDocument={props.setDocument}
+            />
           </Col>
           <Col>
-            <StakeholderSelection />
+            <StakeholderSelection
+              document={props.document}
+              setDocument={props.setDocument}
+            />
           </Col>
         </Row>
 

@@ -1,9 +1,13 @@
 import { Col, Row, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../style.css";
 
-const StakeholderSelection = () => {
-  const stakeholders = [
+const StakeholderSelection = (props: any) => {
+  const [stakeholders, setStakeholders] = useState<string[]>(
+    props.document ? props.document.Stakeholders : []
+  );
+
+  const stakeholdersList = [
     "LKAB",
     "Municipality",
     "Regional authority",
@@ -12,32 +16,35 @@ const StakeholderSelection = () => {
     "Others",
   ];
 
-  const [selectedStakeholders, setSelectedStakeholders] = useState<string[]>(
-    []
-  );
-
   const handleCheckboxChange = (event: any) => {
     const { value, checked } = event.target;
     if (checked) {
-      setSelectedStakeholders([...selectedStakeholders, value]);
+      setStakeholders([...stakeholders, value]);
     } else {
-      setSelectedStakeholders(
-        selectedStakeholders.filter((stakeholder) => stakeholder !== value)
-      );
+      setStakeholders(stakeholders.filter((sh) => sh !== value));
     }
   };
+
+  useEffect(() => {
+    if (props.setDocument) {
+      props.setDocument((prevDocument: any) => ({
+        ...prevDocument,
+        Stakeholders: stakeholders,
+      }));
+    }
+  }, [stakeholders, props.setDocument]);
 
   return (
     <Form.Group as={Col} controlId="formGridSH">
       <Form.Label className="black-text">Stakeholders</Form.Label>
       <Row>
-        {stakeholders.map((stakeholder, index) => (
+        {stakeholdersList.map((sh, index) => (
           <Col xs={6} key={index}>
             <Form.Check
               type="checkbox"
-              label={stakeholder}
-              value={stakeholder}
-              checked={selectedStakeholders.includes(stakeholder)}
+              label={sh}
+              value={sh}
+              checked={stakeholders.includes(sh)}
               onChange={handleCheckboxChange}
               className="form-check-large"
             />
