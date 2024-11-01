@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3001/";
+const baseURL = "http://localhost:3001/api/";
 
 /** ------------------- Access APIs ------------------------ */
 
@@ -24,11 +24,16 @@ async function login(username: string, password: string) {
 }
 
 async function logOut() {
-  await fetch(baseURL + "sessions/current", { method: "DELETE", credentials: "include" });
+  await fetch(baseURL + "sessions/current", {
+    method: "DELETE",
+    credentials: "include",
+  });
 }
 
 async function getUserInfo() {
-  const response = await fetch(baseURL + "sessions/current", { credentials: "include" });
+  const response = await fetch(baseURL + "sessions/current", {
+    credentials: "include",
+  });
   if (response.ok) {
     const user = await response.json();
     return user;
