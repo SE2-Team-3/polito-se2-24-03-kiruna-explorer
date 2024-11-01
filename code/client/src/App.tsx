@@ -4,7 +4,7 @@ import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import UrbanPlanner from "./modules/UrbanPlanner/components/UrbanPlanner";
-import AddDocumentForm from "./modules/UrbanPlanner/components/AddDocumentForm";
+import AddDocumentForm from "./modules/UrbanPlanner/components/AddDocumentForm/AddDocumentForm";
 
 function App() {
   return (

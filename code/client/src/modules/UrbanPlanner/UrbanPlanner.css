@@ -20,7 +20,7 @@
 
 .big-bold-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bold;
   margin-left: 20px;
   margin-top: 20px;
@@ -30,7 +30,7 @@
 
 .blue-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   margin-left: 20px;
   margin-right: 20px;
@@ -41,7 +41,7 @@
 
 .black-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   justify-content: left;
   color: #1e1e1e;
@@ -55,4 +55,38 @@
 
 .col-box {
   width: 50%;
+  margin-top: 20px;
+}
+
+.button-white {
+  background-color: transparent;
+  border-color: #3d52a0;
+  color: #3d52a0;
+  font-size: 24px;
+  padding: 10px;
+  width: 110px;
+}
+
+.button-white:hover {
+  background-color: #3d52a0;
+  border-color: #3d52a0;
+  color: white;
+}
+
+.form-check-large {
+  font-size: 20px;
+}
+
+.button-small {
+  background-color: transparent;
+  border-color: #1e1e1e;
+  color: #1e1e1e;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.button-small:hover {
+  background-color: #1e1e1e;
+  border-color: #1e1e1e;
+  color: white;
 }
