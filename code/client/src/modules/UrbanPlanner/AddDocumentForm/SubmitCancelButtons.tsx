@@ -1,5 +1,5 @@
 import { Col, Row, Button } from "react-bootstrap";
-import "../../UrbanPlanner.css";
+import "../../style.css";
 
 const SubmitCancelButtons = () => {
   return (

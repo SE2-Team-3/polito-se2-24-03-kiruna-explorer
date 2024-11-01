@@ -1,6 +1,6 @@
 import { Col, Row, Form, Button } from "react-bootstrap";
 import { useState } from "react";
-import "../../UrbanPlanner.css";
+import "../../style.css";
 
 const LanguageSelection = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");

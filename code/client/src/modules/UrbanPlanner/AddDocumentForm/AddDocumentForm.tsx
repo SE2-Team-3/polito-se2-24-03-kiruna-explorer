@@ -4,7 +4,7 @@ import DocumentDetails from "./DocumentDetails";
 import LanguageSelection from "./LanguageSelection";
 import StakeholderSelection from "./StakeholderSelection";
 import SubmitCancelButtons from "./SubmitCancelButtons";
-import "../../UrbanPlanner.css";
+import "../../style.css";
 
 const AddDocumentForm = () => {
   /**

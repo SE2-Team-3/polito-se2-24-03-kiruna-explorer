@@ -1,5 +1,5 @@
 import { Col, Row, Form } from "react-bootstrap";
-import "../../UrbanPlanner.css";
+import "../../style.css";
 
 const DocumentDetails = () => {
   return (

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
+import "../style.css";
 
 const Home = () => {
   const [phrase, setPhrase] = useState(
     "Hello Kiruna Explorer! We're coming for you! ;)"
   );
   return (
-    <Container className="text-center mt-5">
+    <div className="main-page">
       <Row>
         <Col>
           <h1>{phrase}</h1>
@@ -15,7 +16,7 @@ const Home = () => {
           </Button>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

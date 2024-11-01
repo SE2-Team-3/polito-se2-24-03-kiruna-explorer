@@ -1,10 +1,10 @@
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
-import UrbanPlanner from "./modules/UrbanPlanner/components/UrbanPlanner";
-import AddDocumentForm from "./modules/UrbanPlanner/components/AddDocumentForm/AddDocumentForm";
+import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
+import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
 
 function App() {
   return (

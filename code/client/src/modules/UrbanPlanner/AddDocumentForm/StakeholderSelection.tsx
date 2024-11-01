@@ -1,6 +1,6 @@
 import { Col, Row, Form } from "react-bootstrap";
 import { useState } from "react";
-import "../../UrbanPlanner.css";
+import "../../style.css";
 
 const StakeholderSelection = () => {
   const stakeholders = [
