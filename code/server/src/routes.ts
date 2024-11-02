@@ -20,6 +20,7 @@ function initRoutes(app: express.Application) {
    */
   app.use(`${prefix}/sessions`, authRoutes.getRouter());
   app.use(`${prefix}/users`, userRoutes.getRouter());
+  app.use(`${prefix}/documents`, userRoutes.getRouter());
 
   ErrorHandler.registerErrorHandler(app);
 }

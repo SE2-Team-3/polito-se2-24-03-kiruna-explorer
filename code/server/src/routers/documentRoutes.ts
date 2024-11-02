@@ -51,7 +51,7 @@ class DocumentRoutes {
          * It returns a 201 status code if the link is registered successfully.
          */
         this.router.post(
-            "/documents-connections",
+            "/link",
             this.authenticator.isLoggedIn,
             body("documentId1").isInt().custom(value => value > 0),
             body("documentId2").isInt().custom(value => value > 0),
