@@ -8,7 +8,7 @@ class Document {
     stakeholders: string
     issuanceDate: string | null
     language: string | null
-    pages: number | null
+    pages: string | null
     areaId: number | null
 
     constructor(
@@ -21,7 +21,7 @@ class Document {
         stakeholders: string,
         issuanceDate: string | null,
         language: string | null,
-        pages: number | null,
+        pages: string | null,
         areaId: number | null
     ) {
         this.documentId = documentId;

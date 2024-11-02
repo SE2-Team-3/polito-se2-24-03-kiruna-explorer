@@ -1,3 +1,12 @@
+-- database: db.db
+DROP TABLE IF EXISTS Document;
+DROP TABLE IF EXISTS Area;
+DROP TABLE IF EXISTS DocumentConnections;
+DROP TABLE IF EXISTS Resouces;
+DROP TABLE IF EXISTS DocumentResources;
+DROP TABLE IF EXISTS Attachment;
+DROP TABLE IF EXISTS DocumentAttachments;
+
 CREATE TABLE Document (
     documentId INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
@@ -8,7 +17,7 @@ CREATE TABLE Document (
     stakeholders TEXT NOT NULL,
     issuanceDate DATE DEFAULT NULL,
     language TEXT DEFAULT NULL,
-	pages INTEGER DEFAULT NULL,
+	pages TEXT DEFAULT NULL,
 	areaId INTEGER DEFAULT NULL
 );
 
@@ -33,7 +42,7 @@ CREATE TABLE DocumentResources (
 	documentId INTEGER,
 	resourceId INTEGER,
 	fileType TEXT NOT NULL,
-	PRIMARY KEY (documentId, resourceId2)
+	PRIMARY KEY (documentId, resourceId)
 );
 
 CREATE TABLE Attachment (
@@ -45,5 +54,5 @@ CREATE TABLE DocumentAttachments (
 	documentId INTEGER,
 	attachmentId INTEGER,
 	fileType TEXT NOT NULL,
-	PRIMARY KEY (documentId, resourceId2)
+	PRIMARY KEY (documentId, attachmentId)
 );
