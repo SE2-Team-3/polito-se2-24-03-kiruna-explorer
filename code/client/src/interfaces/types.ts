@@ -14,11 +14,7 @@ export interface NewDocument {
   Georeference: number[][];
 }
 
-export interface User {
-  Username: string;
-}
 export interface Props {
-  user: User;
   document: NewDocument;
   setDocument: React.Dispatch<React.SetStateAction<NewDocument>>;
 }

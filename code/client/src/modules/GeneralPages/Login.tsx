@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import kirunaChurch from "../../assets/Kiruna_church.jpg";
+import "../style.css";
+import "../../components/style.css";
 
 export default function Login(props: any) {
   const [username, setUsername] = useState("");
@@ -30,15 +33,20 @@ export default function Login(props: any) {
   };
 
   return (
-    <Container fluid className="loginContainer">
+    <div className="loginContainer">
       <Row className="loginWrapper">
         {/* Colonna sinistra per il form di accesso */}
         <Col md={6} className="formSection">
-          <Row className="loginTitle">
-            <i className="bi bi-diagram-2">Kiruna eXplorer</i>
+          <Row>
+            <Col>
+              <span className="title-text">Kiruna</span>
+              <span className="title-text bold-text">Explorer</span>
+            </Col>
           </Row>
           <Row className="loginFormContainer">
-            <h2>Login to your account</h2>
+            <span className="black-text" style={{ marginBottom: "20px" }}>
+              Login to your account
+            </span>
             {props.message ? (
               <Alert
                 className="error"
@@ -54,17 +62,17 @@ export default function Login(props: any) {
                 placeholder="Email"
                 type="email"
                 value={username}
-                onChange={(ev) => setUsername(ev.target.value)}
+                onChange={(event) => setUsername(event.target.value)}
               />
               <Form.Control
                 className="mt-3"
                 placeholder="Password"
                 type="password"
                 value={password}
-                onChange={(ev) => setPassword(ev.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </Form.Group>
-            <Button variant="dark" type="submit" className="loginBtn" onClick={handleSubmit}>
+            <Button type="submit" className="loginBtn" onClick={handleSubmit}>
               Login
             </Button>
           </Row>
@@ -73,13 +81,10 @@ export default function Login(props: any) {
         {/* Colonna destra per l'immagine */}
         <Col md={6} className="imageSection">
           <div className="imageContainer">
-            <img
-              src="https://i.guim.co.uk/img/media/30e82ea3c6839b6162bcc07e61b3aa1357c1535b/0_254_4493_2697/master/4493.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d02d1df74e226c642af1b82206e4e767"
-              alt="Order status illustration"
-            />
+            <img src={kirunaChurch} alt="Order status illustration" />
           </div>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }

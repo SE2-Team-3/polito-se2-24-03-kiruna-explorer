@@ -1,7 +1,15 @@
 import { Col, Row } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import "./style.css";
 
 const LeftSideBar = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
+  if (isLoginPage) {
+    return null;
+  }
+
   return (
     <div className="sidebar-container">
       <Row className="top-side-box"></Row>

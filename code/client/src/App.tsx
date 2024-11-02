@@ -9,7 +9,7 @@ import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentF
 import { NewDocument } from "./interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
-import Login from "./components/Login";
+import Login from "./modules/GeneralPages/Login";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -81,7 +81,7 @@ function App() {
   };
 
   return (
-    <Container fluid style={{ padding: 0, height: "100%" }}>
+    <Container>
       <NavBar />
       <LeftSideBar />
       <UserContext.Provider value={user}>
