@@ -1,17 +1,12 @@
-import { useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import "../style.css";
 
 const Home = () => {
-  const [phrase, setPhrase] = useState("Hello Kiruna Explorer! We're coming for you! ;)");
   return (
     <div className="main-page">
       <Row>
         <Col>
-          <h1>{phrase}</h1>
-          <Button variant="primary" onClick={() => setPhrase("Let's explore!")}>
-            Change Phrase
-          </Button>
+          <h1>Welcome to home page</h1>
         </Col>
       </Row>
     </div>

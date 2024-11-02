@@ -49,6 +49,7 @@ body {
 
 .top-side-box {
   height: 75%;
+  padding-top: 30px;
 }
 
 .bottom-side-box {
@@ -81,4 +82,38 @@ body {
 .blue-icon {
   color: #3d52a0;
   size: 24px;
+}
+
+.blue-icon:hover {
+  color: white;
+  size: 24px;
+}
+
+.arrow-icon-box {
+  background-color: transparent;
+  color: #3d52a0;
+  align-items: right;
+  font-size: 30px;
+  margin-left: 20px;
+}
+
+.arrow-icon-box:hover {
+  color: white;
+}
+
+.file-icon-box {
+  background-color: transparent;
+  color: #3d52a0;
+  align-items: center;
+  font-size: 30px;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+.menu-text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  color: #3d52a0;
 }

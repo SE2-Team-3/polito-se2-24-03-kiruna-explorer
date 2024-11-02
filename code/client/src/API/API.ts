@@ -82,12 +82,12 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
  */
 function addDocument(document: NewDocument) {
   return getJson(
-    fetch(URL + "/document/", {
+    fetch(URL + "/documents/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      //credentials: "include",
+      credentials: "include",
       body: JSON.stringify(document),
     })
   );

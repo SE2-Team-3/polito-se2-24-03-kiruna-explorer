@@ -56,7 +56,7 @@ function App() {
         setLoggedIn(true);
         setUser(new User(u.username, u.name, u.surname));
         setIsLoaded(true);
-        navigate("/");
+        navigate("/urban-planner");
       })
       .catch((err) => {
         console.log(typeof err);
@@ -82,14 +82,18 @@ function App() {
 
   return (
     <Container>
-      <NavBar />
-      <LeftSideBar />
       <UserContext.Provider value={user}>
+        <NavBar />
+        <LeftSideBar logout={doLogOut} />
         <Routes>
           <Route
             path="/"
             element={
-              loggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
+              loggedIn ? (
+                <Navigate to="/urban-planner" />
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
