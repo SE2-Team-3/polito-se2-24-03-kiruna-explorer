@@ -25,7 +25,7 @@ class DocumentRoutes {
     initRoutes() {
         this.router.post(
             "/",
-            //this.authenticator.isLoggedIn,
+            this.authenticator.isLoggedIn,
             body("title").notEmpty().isString(),
             body("description").notEmpty().isString(),
             body("documentType").notEmpty().isString(),
