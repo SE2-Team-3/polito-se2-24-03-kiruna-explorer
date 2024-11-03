@@ -41,15 +41,17 @@ const LeftSideBar = (props: { logout: () => void }) => {
       </Row>
       <Row className="bottom-side-box">
         <Col>
-          <div className="title-text">
+          <div className="user-text">
             <span className="login-icon-box">
               <i className="bi bi-person white-icon"></i>
             </span>
-            <span className="title-text bold-text">
-              {user ? user.name : "User"}
-            </span>
+            <span className="bold-text">{user ? user.name : "Username"}</span>
             <span className="logout-icon-box" onClick={props.logout}>
-              <i className="bi bi-box-arrow-right blue-icon"></i>
+              {user ? (
+                <i className="bi bi-box-arrow-right blue-icon"></i>
+              ) : (
+                <i className="bi bi-box-arrow-in-right blue-icon"></i>
+              )}
             </span>
           </div>
         </Col>

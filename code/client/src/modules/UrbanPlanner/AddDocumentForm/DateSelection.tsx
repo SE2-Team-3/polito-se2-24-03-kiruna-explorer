@@ -23,6 +23,7 @@ const DateSelection = (props: any) => {
         type="date"
         value={createdAt}
         onChange={(event) => setCreatedAt(event.target.value)}
+        className="font-size-20"
       />
     </Form.Group>
   );

@@ -11,12 +11,15 @@ const SubmitCancelButtons = () => {
 
   return (
     <Row className="row-box">
-      <Col className="col-box"></Col>
       <Col className="col-box">
         <Button type="submit" className="button-white float-end ms-2">
           Submit
         </Button>
-        <Button variant="primary" className="button-white float-end"  onClick={handleCancel}>
+        <Button
+          variant="primary"
+          className="button-white float-end"
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
       </Col>

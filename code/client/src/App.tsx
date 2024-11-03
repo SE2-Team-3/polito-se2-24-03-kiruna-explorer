@@ -56,7 +56,7 @@ function App() {
         setLoggedIn(true);
         setUser(new User(u.username, u.name, u.surname));
         setIsLoaded(true);
-        navigate("/urban-planner");
+        navigate("/");
       })
       .catch((err) => {
         console.log(typeof err);
@@ -106,18 +106,22 @@ function App() {
               />
             }
           />
+          <Route path="/home" element={<Home />} />
           <Route
-            path="/home"
-            element={loggedIn ? <Home /> : <Navigate to="/login" />}
+            path="/urban-planner"
+            element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
           />
-          <Route path="/urban-planner" element={<UrbanPlanner />} />
           <Route
             path="/add-document"
             element={
-              <AddDocumentForm
-                document={newDocument}
-                setDocument={setNewDocument}
-              />
+              loggedIn ? (
+                <AddDocumentForm
+                  document={newDocument}
+                  setDocument={setNewDocument}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
         </Routes>

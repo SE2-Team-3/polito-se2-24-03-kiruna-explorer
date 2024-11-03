@@ -33,7 +33,7 @@ const LanguageSelection = (props: any) => {
             value="English"
             checked={language === "English"}
             onChange={(e) => setLanguage(e.target.value)}
-            className="form-check-large"
+            className="font-size-20"
           />
         </Col>
         <Col xs="auto">
@@ -45,7 +45,7 @@ const LanguageSelection = (props: any) => {
             value="Swedish"
             checked={language === "Swedish"}
             onChange={(e) => setLanguage(e.target.value)}
-            className="form-check-large"
+            className="font-size-20"
           />
         </Col>
       </Row>

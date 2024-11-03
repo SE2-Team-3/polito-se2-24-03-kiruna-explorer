@@ -30,6 +30,7 @@ const DocumentDetails = (props: any) => {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           placeholder="Title of document"
+          className="font-size-20"
         />
         <Form.Control.Feedback type="invalid">
           Please enter the document title
@@ -44,6 +45,7 @@ const DocumentDetails = (props: any) => {
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           placeholder="Enter your description here"
+          className="font-size-20"
         />
         <Form.Control.Feedback type="invalid">
           Please enter a description

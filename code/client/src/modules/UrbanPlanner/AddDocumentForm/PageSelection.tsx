@@ -22,6 +22,7 @@ const PageSelection = (props: any) => {
         value={pages}
         onChange={(event) => setPages(event.target.value)}
         placeholder="Number of pages"
+        className="font-size-20"
       />
     </Form.Group>
   );

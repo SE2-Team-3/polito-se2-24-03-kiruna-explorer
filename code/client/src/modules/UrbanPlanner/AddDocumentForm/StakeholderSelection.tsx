@@ -10,9 +10,9 @@ const StakeholderSelection = (props: any) => {
   const stakeholdersList = [
     "LKAB",
     "Municipality",
-    "Regional authority",
-    "Architecture firms",
     "Citizen",
+    "Architecture firms",
+    "Regional authority",
     "Others",
   ];
 
@@ -46,7 +46,7 @@ const StakeholderSelection = (props: any) => {
               value={sh}
               checked={stakeholders.includes(sh)}
               onChange={handleCheckboxChange}
-              className="form-check-large"
+              className="font-size-20"
             />
           </Col>
         ))}

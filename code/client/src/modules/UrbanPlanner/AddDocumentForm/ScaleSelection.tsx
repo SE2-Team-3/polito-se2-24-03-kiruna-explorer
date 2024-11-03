@@ -35,6 +35,7 @@ const ScaleSelection = (props: any) => {
           required
           value={scale}
           onChange={(event) => handleScaleChange(event.target.value)}
+          className="font-size-20"
         >
           <option value="">Select scale</option>
           <option value="Text">Text</option>
@@ -50,7 +51,7 @@ const ScaleSelection = (props: any) => {
             value={customScale}
             style={{ width: "60%" }}
             onChange={(event) => setCustomScale(event.target.value)}
-            className="mt-0"
+            className="mt-0 font-size-20"
           />
         )}
       </InputGroup>

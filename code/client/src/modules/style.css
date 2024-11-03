@@ -1,9 +1,11 @@
 .main-page {
-  position: fixed;
-  height: calc(100% - 100px);
-  width: calc(100% - 350px);
-  left: 350px;
-  top: 100px;
+  position: relative;
+  min-height: calc(100vh - 100px);
+  padding: 20px;
+  overflow-y: auto;
+  /*width: calc(100vh - 350px);*/
+  margin-left: 350px;
+  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,8 +16,22 @@
   backdrop-filter: blur(10px);
   border: 3px solid #adbbba;
   border-radius: 10px;
-  width: 50%;
-  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  /* Adjustments for smaller screens */
+  .main-page {
+    margin-left: 0; /* Full width on small screens */
+    margin-top: 0;
+  }
+  .document-form {
+    width: 100%; /* Take up full width on small screens */
+    margin: 10px; /* Margin for a little spacing on edges */
+  }
 }
 
 .big-bold-text {
@@ -49,8 +65,8 @@
 }
 
 .row-box {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .col-box {
@@ -73,7 +89,7 @@
   color: white;
 }
 
-.form-check-large {
+.font-size-20 {
   font-size: 20px;
 }
 
