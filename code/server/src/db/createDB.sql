@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS Document;
 DROP TABLE IF EXISTS Georeference;
 DROP TABLE IF EXISTS DocumentConnections;
-DROP TABLE IF EXISTS Resouces;
+DROP TABLE IF EXISTS Resources;
 DROP TABLE IF EXISTS DocumentResources;
 DROP TABLE IF EXISTS Attachment;
 DROP TABLE IF EXISTS DocumentAttachments;
@@ -33,7 +33,7 @@ CREATE TABLE DocumentConnections (
 	PRIMARY KEY (documentId1, documentId2)
 );
 
-CREATE TABLE Resouces (
+CREATE TABLE Resources (
 	resourceId INTEGER PRIMARY KEY,
 	data BLOB
 );

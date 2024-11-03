@@ -54,7 +54,37 @@ class DocumentRoutes {
                     .then((data: any) => res.status(201).json(data))
                     .catch((error: any) => next(error))
         );
+        
+        /**
+         * Route for linking documents.
+         * It requires the user to be logged in.
+         * It requires the following parameters:
+         * - documentId1: number. It is the first document to be connected.
+         * - documentId2: number. It is the second document to be connected.
+         * - linkType: string. It must be one of the four known link types.
+         * It returns a 201 status code if the link is registered successfully.
+         */
+        this.router.post(
+            "/link",
+            this.authenticator.isLoggedIn,
+            body("documentId1").isInt().custom(value => value > 0),
+            body("documentId2").isInt().custom(value => value > 0),
+            body("linkType").isString().isIn(["direct consequence","collateral consqeuence","prevision","update"]),
+            this.errorHandler.validateRequest,
+            (req: any, res: any, next: any) => this.controller.linkDocuments(req.body.documentId1,req.body.documentId2,req.body.linkType)
+                .then(() => res.status(201).json({
+                    status:"success",
+                    message:"Documents linked successfully",
+                    data:{
+                        documentId1:req.body.documentId1,
+                        documentId2:req.body.documentId2,
+                        linkType:req.body.linkType
+                    }
+                }))
+                .catch((err) => {
+                    res.status(err.customCode)
+                    next(err)
+                })
+        )
     }
 }
-
-export default DocumentRoutes;
