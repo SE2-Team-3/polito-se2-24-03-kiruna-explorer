@@ -9,7 +9,7 @@ class Document {
     issuanceDate: string | null
     language: string | null
     pages: string | null
-    areaId: number | null
+    georeferenceId: number | null
 
     constructor(
         documentId: number,
@@ -22,7 +22,7 @@ class Document {
         issuanceDate: string | null,
         language: string | null,
         pages: string | null,
-        areaId: number | null
+        georeferenceId: number | null
     ) {
         this.documentId = documentId;
         this.title = title;
@@ -34,7 +34,7 @@ class Document {
         this.issuanceDate = issuanceDate;
         this.language = language;
         this.pages = pages;
-        this.areaId = areaId;
+        this.georeferenceId = georeferenceId;
     }
 }
 

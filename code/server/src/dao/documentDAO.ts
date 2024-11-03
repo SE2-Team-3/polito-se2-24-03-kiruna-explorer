@@ -17,35 +17,35 @@ class DocumentDAO {
         return new Promise<any>((resolve, reject) => {
             try {
                 const documentIdSql = "SELECT MAX(documentId) AS documentId FROM Document";
-                const areaIdSql = "SELECT MAX(areaId) AS areaId FROM Area";
-                const createDocumentSql = 
-                    "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, areaId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                const createAreaSql = "INSERT INTO Area (areaId, polygon) VALUES (?, ?)";
+                const georeferenceIdSql = "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
+                const createDocumentSql =
+                    "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, georeferenceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                const createGeoreferenceSql = "INSERT INTO Georeference (georeferenceId, coordinates) VALUES (?, ?)";
 
                 let documentId = 1;
-                const area = georeference ? JSON.stringify(georeference) : null;
-                let areaId = georeference ? 1 : null;
-                const stakeholdersString = stakeholders.join(", ");
-                
+                const coordinates = georeference ? JSON.stringify(georeference) : null;
+                let georeferenceId = georeference ? 1 : null;
+                const stakeholdersString = JSON.stringify(stakeholders);
+
                 db.get(documentIdSql, [], (err: Error | null, row: any) => {
                     if (err) return reject(err);
                     if (row.documentId) documentId = row.documentId + 1;
-                    db.get(areaIdSql, [], (err: Error | null, row: any) => {
+                    db.get(georeferenceIdSql, [], (err: Error | null, row: any) => {
                         if (err) return reject(err);
-                        if (row.areaId) areaId = area ? row.areaId + 1 : null;
-                        db.run(createDocumentSql, [documentId, title, description, documentType, scale, nodeType, stakeholdersString, issuanceDate, language, pages, areaId], (err: Error | null) => {
+                        if (row.georeferenceId) georeferenceId = georeference ? row.georeferenceId + 1 : null;
+                        db.run(createDocumentSql, [documentId, title, description, documentType, scale, nodeType, stakeholdersString, issuanceDate, language, pages, georeferenceId], (err: Error | null) => {
                             if (err) return reject(err);
-                            if (area) {
-                                db.run(createAreaSql, [areaId, area], (err: Error | null) => {
+                            if (georeference) {
+                                db.run(createGeoreferenceSql, [georeferenceId, coordinates], (err: Error | null) => {
                                     if (err) return reject(err);
-                                    return resolve({ 
+                                    return resolve({
                                         status: 201,
                                         documentId: documentId,
                                         message: "Document created successfully"
                                     });
                                 });
                             } else {
-                                return resolve({ 
+                                return resolve({
                                     status: 201,
                                     documentId: documentId,
                                     message: "Document created successfully"

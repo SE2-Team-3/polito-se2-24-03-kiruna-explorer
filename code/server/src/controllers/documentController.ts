@@ -19,7 +19,7 @@ class DocumentController {
         pages: string | null,
         georeference: string[] | null
     ): Promise<any> {
-        return await this.documentDAO.createDocument(
+        return this.documentDAO.createDocument(
             title,
             description,
             documentType,
