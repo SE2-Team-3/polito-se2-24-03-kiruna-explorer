@@ -1,3 +1,4 @@
+import { InvalidLinkError } from "../errors/documentError";
 import DocumentDAO from "../dao/documentDAO";
 
 /**
@@ -12,6 +13,7 @@ class DocumentController {
   }
 
   async linkDocuments(documentId1:number,documentId2:number,linkType:string): Promise<boolean> {
+    if (documentId1==documentId2) throw new InvalidLinkError
     return this.dao.linkDocuments(documentId1,documentId2,linkType)
   }
 }
