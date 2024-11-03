@@ -1,6 +1,6 @@
-
+-- database: db.db
 DROP TABLE IF EXISTS Document;
-DROP TABLE IF EXISTS Area;
+DROP TABLE IF EXISTS Georeference;
 DROP TABLE IF EXISTS DocumentConnections;
 DROP TABLE IF EXISTS Resources;
 DROP TABLE IF EXISTS DocumentResources;
@@ -17,13 +17,13 @@ CREATE TABLE Document (
     stakeholders TEXT NOT NULL,
     issuanceDate DATE DEFAULT NULL,
     language TEXT DEFAULT NULL,
-	pages INTEGER DEFAULT NULL,
-	areaId INTEGER DEFAULT NULL
+	pages TEXT DEFAULT NULL,
+	georeferenceId INTEGER DEFAULT NULL
 );
 
-CREATE TABLE Area (
-	areaId INTEGER PRIMARY KEY,
-	polygon TEXT NOT NULL
+CREATE TABLE Georeference (
+	georeferenceId INTEGER PRIMARY KEY,
+	coordinates TEXT NOT NULL
 );
 
 CREATE TABLE DocumentConnections (

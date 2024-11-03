@@ -1,46 +1,60 @@
-import express, { Router } from "express"
-import ErrorHandler from "../helper"
-import { body, param, query } from "express-validator"
-import DocumentController from "../controllers/documentController"
-import Authenticator from "./auth"
-
+import express, { Router } from "express";
+import DocumentController from "../controllers/documentController";
+import { body, param } from "express-validator";
+import ErrorHandler from "../helper";
+import Authenticator from "./auth";
 
 class DocumentRoutes {
-    private controller: DocumentController
-    private router: Router
-    private errorHandler: ErrorHandler
-    private authenticator: Authenticator
+    private router: Router;
+    private errorHandler: ErrorHandler;
+    private controller: DocumentController;
+    private authenticator: Authenticator;
 
-    /**
-     * Constructs a new instance of the DocumentRoutes class.
-     * @param {Authenticator} authenticator - The authenticator object used for authentication.
-     */
     constructor(authenticator: Authenticator) {
-        this.authenticator = authenticator
-        this.controller = new DocumentController()
-        this.router = express.Router()
-        this.errorHandler = new ErrorHandler()
-        this.initRoutes()
+        this.router = express.Router();
+        this.errorHandler = new ErrorHandler();
+        this.controller = new DocumentController();
+        this.authenticator = authenticator;
+        this.initRoutes();
     }
 
-    /**
-     * Returns the router instance.
-     * @returns The router instance.
-     */
     getRouter(): Router {
-        return this.router
+        return this.router;
     }
 
-    /**
-     * Initializes the routes for the document router.
-     * 
-     * @remarks
-     * This method sets up the HTTP routes for handling document-related operations.
-     * It can (and should!) apply authentication, authorization, and validation middlewares to protect the routes.
-     * 
-     */
     initRoutes() {
-
+        this.router.post(
+            "/",
+            this.authenticator.isLoggedIn,
+            body("title").notEmpty().isString(),
+            body("description").notEmpty().isString(),
+            body("documentType").notEmpty().isString(),
+            body("scale").notEmpty().isString(),
+            body("nodeType").notEmpty().isString(),
+            body("stakeholders").notEmpty().isArray(),
+            body("issuanceDate").optional().isString(),
+            body("language").optional().isString(),
+            body("pages").optional().isString(),
+            body("georeference").optional().isArray(),
+            this.errorHandler.validateRequest,
+            (req: any, res: any, next: any) =>
+                this.controller
+                    .createDocument(
+                        req.body.title,
+                        req.body.description,
+                        req.body.documentType,
+                        req.body.scale,
+                        req.body.nodeType,
+                        req.body.stakeholders,
+                        req.body.issuanceDate,
+                        req.body.language,
+                        req.body.pages,
+                        req.body.georeference
+                    )
+                    .then((data: any) => res.status(201).json(data))
+                    .catch((error: any) => next(error))
+        );
+        
         /**
          * Route for linking documents.
          * It requires the user to be logged in.

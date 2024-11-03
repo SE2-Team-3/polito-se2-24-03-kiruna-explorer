@@ -8,8 +8,8 @@ class Document {
     stakeholders: string
     issuanceDate: string | null
     language: string | null
-    pages: number | null
-    areaId: number | null
+    pages: string | null
+    georeferenceId: number | null
 
     constructor(
         documentId: number,
@@ -21,8 +21,8 @@ class Document {
         stakeholders: string,
         issuanceDate: string | null,
         language: string | null,
-        pages: number | null,
-        areaId: number | null
+        pages: string | null,
+        georeferenceId: number | null
     ) {
         this.documentId = documentId;
         this.title = title;
@@ -34,7 +34,7 @@ class Document {
         this.issuanceDate = issuanceDate;
         this.language = language;
         this.pages = pages;
-        this.areaId = areaId;
+        this.georeferenceId = georeferenceId;
     }
 }
 
