@@ -1,10 +1,11 @@
-import { Col, Row, Form } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const StakeholderSelection = (props: any) => {
+const StakeholderSelection = (props: Props) => {
   const [stakeholders, setStakeholders] = useState<string[]>(
-    props.document ? props.document.Stakeholders : []
+    props.document ? props.document.stakeholders : []
   );
 
   const stakeholdersList = [
@@ -16,41 +17,43 @@ const StakeholderSelection = (props: any) => {
     "Others",
   ];
 
-  const handleCheckboxChange = (event: any) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setStakeholders([...stakeholders, value]);
-    } else {
-      setStakeholders(stakeholders.filter((sh) => sh !== value));
-    }
+  // Handle changes in the select input
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    setStakeholders(selectedOptions);
   };
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        Stakeholders: stakeholders,
+        stakeholders: stakeholders,
       }));
     }
   }, [stakeholders, props.setDocument]);
 
   return (
     <Form.Group as={Col} controlId="formGridSH">
-      <Form.Label className="black-text">Stakeholders</Form.Label>
-      <Row>
+      <Form.Label className="black-text">Stakeholders * </Form.Label>
+      <Form.Select
+        multiple
+        required
+        value={stakeholders}
+        onChange={handleSelectChange}
+        className="font-size-20"
+      >
         {stakeholdersList.map((sh, index) => (
-          <Col xs={6} key={index}>
-            <Form.Check
-              type="checkbox"
-              label={sh}
-              value={sh}
-              checked={stakeholders.includes(sh)}
-              onChange={handleCheckboxChange}
-              className="font-size-20"
-            />
-          </Col>
+          <option key={index} value={sh}>
+            {sh}
+          </option>
         ))}
-      </Row>
+      </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        Please select at least one stakeholder.
+      </Form.Control.Feedback>
     </Form.Group>
   );
 };

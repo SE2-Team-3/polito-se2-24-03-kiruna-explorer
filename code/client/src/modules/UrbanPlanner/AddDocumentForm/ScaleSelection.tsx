@@ -1,38 +1,39 @@
 import { Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const ScaleSelection = (props: any) => {
-  const [scale, setScale] = useState(
-    props.document ? props.document.Scale : ""
+const ScaleSelection = (props: Props) => {
+  const [documentType, setDocumentType] = useState(
+    props.document ? props.document.documentType : ""
   );
-  const [customScale, setCustomScale] = useState("");
+  const [scale, setScale] = useState(
+    props.document ? props.document.scale : ""
+  );
 
-  const handleScaleChange = (value: string) => {
-    setScale(value);
-
-    if (value !== "Plan") {
-      setCustomScale("");
-    }
+  const handleTypeChange = (value: string) => {
+    setDocumentType(value);
+    setScale(value === "Plan" ? "" : value);
   };
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        Scale: scale === "Plan" && customScale ? customScale : scale,
+        documentType: documentType,
+        scale: scale,
       }));
     }
-  }, [scale, customScale, props.setDocument]);
+  }, [documentType, scale, props.setDocument]);
 
   return (
     <Form.Group as={Col} controlId="formGridScale">
-      <Form.Label className="black-text">Scale</Form.Label>
+      <Form.Label className="black-text">Scale *</Form.Label>
       <InputGroup>
         <Form.Select
           required
-          value={scale}
-          onChange={(event) => handleScaleChange(event.target.value)}
+          value={documentType}
+          onChange={(event) => handleTypeChange(event.target.value)}
           className="font-size-20"
         >
           <option value="">Select scale</option>
@@ -41,14 +42,14 @@ const ScaleSelection = (props: any) => {
           <option value="Plan">Plan</option>
           <option value="Actions">Blueprints/actions</option>
         </Form.Select>
-        {scale === "Plan" && (
+        {documentType === "Plan" && (
           <Form.Control
             required
             type="text"
             placeholder="Enter scale in 1:xxx format"
-            value={customScale}
+            value={scale}
             style={{ width: "60%" }}
-            onChange={(event) => setCustomScale(event.target.value)}
+            onChange={(event) => setScale(event.target.value)}
             className="mt-0 font-size-20"
           />
         )}

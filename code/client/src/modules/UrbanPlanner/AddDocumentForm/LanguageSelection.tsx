@@ -1,17 +1,18 @@
 import { Col, Row, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const LanguageSelection = (props: any) => {
+const LanguageSelection = (props: Props) => {
   const [language, setLanguage] = useState(
-    props.document ? props.document.Language : ""
+    props.document ? props.document.language : ""
   );
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        Language: language,
+        language: language,
       }));
     }
   }, [language, props.setDocument]);

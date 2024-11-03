@@ -1,15 +1,18 @@
 import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const PageSelection = (props: any) => {
-  const [pages, setPages] = useState(props.document ? props.document.Pages : 0);
+const PageSelection = (props: Props) => {
+  const [pages, setPages] = useState(
+    props.document ? props.document.pages : ""
+  );
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        Pages: pages,
+        pages: pages,
       }));
     }
   }, [pages, props.setDocument]);

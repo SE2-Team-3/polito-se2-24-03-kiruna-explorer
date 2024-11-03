@@ -19,16 +19,16 @@ function App() {
   const navigate = useNavigate();
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
-    Title: "",
-    Description: "",
-    DocumentType: "", //same thing as scale
-    Scale: "",
-    NodeType: "",
-    Stakeholders: [],
-    CreatedAt: "",
-    Language: "",
-    Pages: "",
-    Georeference: [[]],
+    title: "",
+    description: "",
+    documentType: "", //same thing as scale
+    scale: "",
+    nodeType: "",
+    stakeholders: [],
+    issuanceDate: "",
+    language: "",
+    pages: "",
+    georeference: [[]],
   });
 
   useEffect(() => {

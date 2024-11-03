@@ -1,21 +1,22 @@
 import { Row, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const DocumentDetails = (props: any) => {
+const DocumentDetails = (props: Props) => {
   const [title, setTitle] = useState(
-    props.document ? props.document.Title : ""
+    props.document ? props.document.title : ""
   );
   const [description, setDescription] = useState(
-    props.document ? props.document.Description : ""
+    props.document ? props.document.description : ""
   );
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        Title: title,
-        Description: description,
+        title: title,
+        description: description,
       }));
     }
   }, [title, description, props.setDocument]);

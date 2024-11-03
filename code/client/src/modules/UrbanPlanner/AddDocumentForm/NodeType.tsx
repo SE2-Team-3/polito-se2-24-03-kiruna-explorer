@@ -1,17 +1,18 @@
 import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const NodeType = (props: any) => {
+const NodeType = (props: Props) => {
   const [nodeType, setNodeType] = useState(
-    props.document ? props.document.NodeType : ""
+    props.document ? props.document.nodeType : ""
   );
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        NodeType: nodeType,
+        nodeType: nodeType,
       }));
     }
   }, [nodeType, props.setDocument]);

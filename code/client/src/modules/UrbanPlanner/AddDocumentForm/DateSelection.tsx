@@ -1,28 +1,29 @@
 import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
+import { Props, NewDocument } from "../../../interfaces/types";
 
-const DateSelection = (props: any) => {
-  const [createdAt, setCreatedAt] = useState(
-    props.document ? props.document.CreatedAt : ""
+const DateSelection = (props: Props) => {
+  const [issuanceDate, setIssuanceDate] = useState(
+    props.document ? props.document.issuanceDate : ""
   );
 
   useEffect(() => {
     if (props.setDocument) {
-      props.setDocument((prevDocument: any) => ({
+      props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        CreatedAt: createdAt,
+        issuanceDate: issuanceDate,
       }));
     }
-  }, [createdAt, props.setDocument]);
+  }, [issuanceDate, props.setDocument]);
 
   return (
     <Form.Group as={Col} controlId="formGridDate">
       <Form.Label className="black-text">Date</Form.Label>
       <Form.Control
         type="date"
-        value={createdAt}
-        onChange={(event) => setCreatedAt(event.target.value)}
+        value={issuanceDate}
+        onChange={(event) => setIssuanceDate(event.target.value)}
         className="font-size-20"
       />
     </Form.Group>

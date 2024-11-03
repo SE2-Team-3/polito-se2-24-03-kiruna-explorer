@@ -1,17 +1,17 @@
 // Define the Document interface
 export interface NewDocument {
   //DocumentID: number;
-  Title: string;
-  Description: string;
-  DocumentType: string; //same thing as scale
-  Scale: string;
-  NodeType: string;
-  Stakeholders: string[];
-  CreatedAt: string;
-  Language: string;
-  Pages: string;
+  title: string;
+  description: string;
+  documentType: string; //same thing as scale
+  scale: string;
+  nodeType: string;
+  stakeholders: string[];
+  issuanceDate: string;
+  language: string;
+  pages: string;
   //Connections: number;
-  Georeference: number[][];
+  georeference: number[][];
 }
 
 export interface Props {

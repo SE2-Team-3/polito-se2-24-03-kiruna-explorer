@@ -81,8 +81,10 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
  * This funciton adds a new page in db.
  */
 function addDocument(document: NewDocument) {
+  console.log(document);
+
   return getJson(
-    fetch(URL + "/documents/", {
+    fetch(baseURL + "documents/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
