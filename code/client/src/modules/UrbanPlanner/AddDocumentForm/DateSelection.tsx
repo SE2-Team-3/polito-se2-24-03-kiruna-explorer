@@ -11,7 +11,7 @@ const DateSelection = (props: any) => {
     if (props.setDocument) {
       props.setDocument((prevDocument: any) => ({
         ...prevDocument,
-        createdAt: createdAt,
+        CreatedAt: createdAt,
       }));
     }
   }, [createdAt, props.setDocument]);

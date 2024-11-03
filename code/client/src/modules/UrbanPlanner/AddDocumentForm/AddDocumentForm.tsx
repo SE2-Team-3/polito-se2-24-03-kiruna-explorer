@@ -30,7 +30,7 @@ const AddDocumentForm = (props: Props) => {
         Title: props.document.Title.trim(),
         Description: props.document.Description.trim(),
         DocumentType: props.document.DocumentType.trim(),
-        Scale: props.document.DocumentType.trim(),
+        Scale: props.document.Scale.trim(),
         NodeType: props.document.NodeType,
         Stakeholders: props.document.Stakeholders,
         CreatedAt: props.document.CreatedAt,
@@ -38,8 +38,6 @@ const AddDocumentForm = (props: Props) => {
         Pages: props.document.Pages.trim(),
         Georeference: props.document.Georeference,
       };
-
-      console.log(document);
 
       API.addDocument(document);
       const newDoc: NewDocument = {
@@ -113,7 +111,10 @@ const AddDocumentForm = (props: Props) => {
         </Row>
 
         {/* Submit and Cancel Buttons */}
-        <SubmitCancelButtons />
+        <SubmitCancelButtons
+          document={props.document}
+          setDocument={props.setDocument}
+        />
       </Form>
     </div>
   );

@@ -8,10 +8,9 @@ const ScaleSelection = (props: any) => {
   );
   const [customScale, setCustomScale] = useState("");
 
-  const handleScaleChange = (value: any) => {
+  const handleScaleChange = (value: string) => {
     setScale(value);
 
-    // Reset the custom scale if a different scale is selected
     if (value !== "Plan") {
       setCustomScale("");
     }
@@ -21,10 +20,9 @@ const ScaleSelection = (props: any) => {
     if (props.setDocument) {
       props.setDocument((prevDocument: any) => ({
         ...prevDocument,
-        Scale: scale === "Plan" ? customScale : scale,
+        Scale: scale === "Plan" && customScale ? customScale : scale,
       }));
     }
-    console.log(props.document.Scale);
   }, [scale, customScale, props.setDocument]);
 
   return (

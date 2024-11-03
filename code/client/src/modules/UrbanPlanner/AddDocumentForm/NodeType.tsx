@@ -1,4 +1,4 @@
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
 
@@ -26,10 +26,10 @@ const NodeType = (props: any) => {
         className="font-size-20"
       >
         <option value="">Select document type</option>
-        <option value="Design">Design document</option>
-        <option value="Informative">Informative document</option>
-        <option value="Prescriptive">Prescriptive document</option>
-        <option value="Technical">Technical document</option>
+        <option value="Design document">Design document</option>
+        <option value="Informative document">Informative document</option>
+        <option value="Prescriptive document">Prescriptive document</option>
+        <option value="Technical document">Technical document</option>
         <option value="Agreement">Agreement</option>
         <option value="Conflict">Conflict</option>
         <option value="Consultation">Consultation</option>
