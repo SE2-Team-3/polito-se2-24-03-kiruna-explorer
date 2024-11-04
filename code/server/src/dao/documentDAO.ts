@@ -98,7 +98,6 @@ class DocumentDAO {
                         })
                     })
                 })
-                
             } catch (error) {
                 reject(error)
             }

@@ -42,6 +42,10 @@ class DocumentController {
     if (documentId1==documentId2) throw new InvalidLinkError
     return this.documentDAO.linkDocuments(documentId1,documentId2,linkType)
   }
+
+  async georeferenceDocument(documentId:number,georeference:string): Promise<boolean> {
+    return this.documentDAO.georeferenceDocument(documentId,georeference)
+  }
 }
 
 export default DocumentController;
