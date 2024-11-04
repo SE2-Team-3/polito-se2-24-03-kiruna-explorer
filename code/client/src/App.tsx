@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
 import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
-import { NewDocument } from "./interfaces/types";
+import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
@@ -86,6 +86,7 @@ function App() {
         <NavBar />
         <LeftSideBar logout={doLogOut} />
         <Routes>
+          {/* default page is login page */}
           <Route
             path="/"
             element={
@@ -96,6 +97,7 @@ function App() {
               )
             }
           />
+          {/* login page */}
           <Route
             path="/login"
             element={
@@ -106,13 +108,15 @@ function App() {
               />
             }
           />
+          {/* no login required */}
           <Route path="/home" element={<Home />} />
+          {/* urban-planner login required */}
           <Route
             path="/urban-planner"
             element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
           />
           <Route
-            path="/add-document"
+            path="/urban-planner/add-document"
             element={
               loggedIn ? (
                 <AddDocumentForm

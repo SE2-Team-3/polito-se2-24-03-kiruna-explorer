@@ -8,7 +8,7 @@ import NodeType from "./NodeType";
 import ScaleSelection from "./ScaleSelection";
 import PageSelection from "./PageSelection";
 import "../../style.css";
-import { Props, NewDocument } from "../../../interfaces/types";
+import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 
@@ -40,31 +40,31 @@ const AddDocumentForm = (props: Props) => {
         georeference: props.document.georeference,
       };
 
-      API.addDocument(document)
-        .then(() => {
-          // Reset document state
-          const newDoc: NewDocument = {
-            title: "",
-            description: "",
-            documentType: "", // same thing as scale
-            scale: "",
-            nodeType: "",
-            stakeholders: [],
-            issuanceDate: "",
-            language: "",
-            pages: "",
-            georeference: [[]],
-          };
-          props.setDocument(newDoc);
-          navigate("/urban-planner");
-          setErrorMessage("");
-        })
+      API.addDocument(document).then(() => {
+        // Reset document state
+        const newDoc: NewDocument = {
+          title: "",
+          description: "",
+          documentType: "", // same thing as scale
+          scale: "",
+          nodeType: "",
+          stakeholders: [],
+          issuanceDate: "",
+          language: "",
+          pages: "",
+          georeference: [[]],
+        };
+        props.setDocument(newDoc);
+        navigate("/urban-planner");
+        setErrorMessage("");
+      });
+      /*
         .catch((error) => {
           console.error("Error adding document:", error);
           setErrorMessage(
             "An error has occurred while trying to register the document."
           );
-        });
+      })*/
     }
   };
 

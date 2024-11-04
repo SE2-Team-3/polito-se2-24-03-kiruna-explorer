@@ -1,7 +1,7 @@
 import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
-import { Props, NewDocument } from "../../../interfaces/types";
+import { Props, NewDocument } from "./interfaces/types";
 
 const PageSelection = (props: Props) => {
   const [pages, setPages] = useState(

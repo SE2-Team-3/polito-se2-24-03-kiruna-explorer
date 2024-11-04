@@ -2,7 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import "./style.css";
+import "../index.css";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
   }
 
   const handleNavigation = () => {
-    navigate("/add-document"); // Redirects to /add-document
+    navigate("/urban-planner/add-document"); // Redirects to /add-document
   };
 
   return (
@@ -23,15 +23,15 @@ const LeftSideBar = (props: { logout: () => void }) => {
       <Row className="top-side-box">
         {user ? (
           <Col>
-            <div className="menu-text">
+            <div className="menu-text" role="button" onClick={handleNavigation}>
               <span className="file-icon-box">
                 <i className="bi bi-files"></i>
               </span>
               <span className="menu-text bold-text">New document</span>
-              <span className="arrow-icon-box" onClick={handleNavigation}>
-                <i className="bi bi-caret-right-fill"></i>{" "}
+              <span className="arrow-icon-box">
+                <i className="bi bi-caret-right-fill"></i>
               </span>
-            </div>
+            </div>{" "}
           </Col>
         ) : (
           <></>

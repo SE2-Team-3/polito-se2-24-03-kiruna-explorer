@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import "./style.css";
+import "../index.css";
 
 const NavBar = () => {
   const location = useLocation();

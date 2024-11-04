@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import kirunaChurch from "../../assets/Kiruna_church.jpg";
 import "../style.css";
-import "../../components/style.css";
+import "../../index.css";
 
 export default function Login(props: any) {
   const [username, setUsername] = useState("");

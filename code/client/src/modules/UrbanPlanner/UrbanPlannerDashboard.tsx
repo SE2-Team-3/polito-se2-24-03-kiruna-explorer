@@ -6,7 +6,9 @@ const UrbanPlanner = () => {
     <div className="main-page">
       <Row>
         <Col>
-          <h1>Welcome to Urban Planner Dashboard</h1>
+          <h1 className="document-form m-5 p-5" style={{ textAlign: "center" }}>
+            Welcome to Urban Planner Dashboard
+          </h1>
         </Col>
       </Row>
     </div>

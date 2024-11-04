@@ -1,5 +1,5 @@
 // Initialize all the API calls here
-import { NewDocument } from "../interfaces/types";
+import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -81,8 +81,6 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
  * This funciton adds a new page in db.
  */
 function addDocument(document: NewDocument) {
-  console.log(document);
-
   return getJson(
     fetch(baseURL + "documents/", {
       method: "POST",
