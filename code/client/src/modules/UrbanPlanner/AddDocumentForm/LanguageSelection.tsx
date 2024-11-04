@@ -36,8 +36,7 @@ const LanguageSelection = (props: Props) => {
             onChange={(e) => setLanguage(e.target.value)}
             className="font-size-20"
           />
-        </Col>
-        <Col xs="auto">
+
           <Form.Check
             type="radio"
             id="language-swedish"
@@ -49,16 +48,18 @@ const LanguageSelection = (props: Props) => {
             className="font-size-20"
           />
         </Col>
+        <Col>
+          {language && (
+            <Button
+              variant="primary"
+              onClick={handleDeselect}
+              className="button-small mt-2"
+            >
+              Deselect
+            </Button>
+          )}
+        </Col>
       </Row>
-      {language && (
-        <Button
-          variant="primary"
-          onClick={handleDeselect}
-          className="button-small mt-2"
-        >
-          Deselect
-        </Button>
-      )}
     </Form.Group>
   );
 };

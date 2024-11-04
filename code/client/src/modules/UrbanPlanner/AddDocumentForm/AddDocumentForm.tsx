@@ -114,15 +114,19 @@ const AddDocumentForm = (props: Props) => {
           document={props.document}
           setDocument={props.setDocument}
         />
-        <Row className="row-box">
-          <DateSelection
+
+        {/* Field: scale - nodetype */}
+        <Row className=" row-box">
+          <ScaleSelection
             document={props.document}
             setDocument={props.setDocument}
           />
           <NodeType document={props.document} setDocument={props.setDocument} />
         </Row>
-        <Row className=" row-box">
-          <ScaleSelection
+
+        {/* Field: date - pages - languages */}
+        <Row className="row-box">
+          <DateSelection
             document={props.document}
             setDocument={props.setDocument}
           />
@@ -130,15 +134,28 @@ const AddDocumentForm = (props: Props) => {
             document={props.document}
             setDocument={props.setDocument}
           />
+          <LanguageSelection
+            document={props.document}
+            setDocument={props.setDocument}
+          />
         </Row>
 
-        {/* Language and Stakeholder Selection Section */}
+        {/* Field - georeference and Stakeholder */}
         <Row className="row-box">
-          <Col>
-            <LanguageSelection
+          <Col style={{ backgroundColor: "red" }}>
+            {/*
+            the background is red just to visualize it
+            - you can remove it if/when you want- 
+
+            add here georeference
+            something like
+            <Georeference
               document={props.document}
               setDocument={props.setDocument}
             />
+            <Georeference /> stays in GeoreferenceSelection.tsx
+            remember to import the file in this page
+          */}
           </Col>
           <Col>
             <StakeholderSelection
