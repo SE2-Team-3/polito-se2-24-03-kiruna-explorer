@@ -1,11 +1,15 @@
 import { Container } from "react-bootstrap";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import Home from "./components/Home";
-import UrbanPlanner from "./modules/UrbanPlanner/components/UrbanPlanner";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Home from "./modules/GeneralPages/Home";
+import NavBar from "./components/NavBar";
+import LeftSideBar from "./components/LeftSideBar";
+import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
+import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
+import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
-import Login from "./components/Login";
+import Login from "./modules/GeneralPages/Login";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -13,6 +17,19 @@ function App() {
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const [newDocument, setNewDocument] = useState<NewDocument>({
+    title: "",
+    description: "",
+    documentType: "", //same thing as scale
+    scale: "",
+    nodeType: "",
+    stakeholders: [],
+    issuanceDate: "",
+    language: "",
+    pages: "",
+    georeference: [[]],
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -64,16 +81,53 @@ function App() {
   };
 
   return (
-    <Container fluid style={{ padding: 0, height: "100%" }}>
+    <Container>
       <UserContext.Provider value={user}>
+        <NavBar />
+        <LeftSideBar logout={doLogOut} />
         <Routes>
-          <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          {/* default page is login page */}
+          <Route
+            path="/"
+            element={
+              loggedIn ? (
+                <Navigate to="/urban-planner" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          {/* login page */}
           <Route
             path="/login"
-            element={<Login login={doLogin} message={loginMessage} setMessage={setLoginMessage} />}
+            element={
+              <Login
+                login={doLogin}
+                message={loginMessage}
+                setMessage={setLoginMessage}
+              />
+            }
           />
-          <Route path="/home" element={loggedIn ? <Home /> : <Navigate to="/login" />} />
-          <Route path="/urban-planner" element={<UrbanPlanner />} />
+          {/* no login required */}
+          <Route path="/home" element={<Home />} />
+          {/* urban-planner login required */}
+          <Route
+            path="/urban-planner"
+            element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/urban-planner/add-document"
+            element={
+              loggedIn ? (
+                <AddDocumentForm
+                  document={newDocument}
+                  setDocument={setNewDocument}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
         </Routes>
       </UserContext.Provider>
     </Container>

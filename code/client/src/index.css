@@ -1,135 +1,113 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-image: url("./assets/Kiruna_square.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-/* Container principale per occupare tutta la pagina */
-.loginContainer {
+.navbar-container {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(to right, #7091e6, #ede8f5);
+  padding: 0 30px;
 }
 
-.loginWrapper {
-  display: flex;
-  background: white;
-  border-radius: 1px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 80%;
-  max-width: 900px;
-  height: 800px;
-}
-/* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */
-.formSection {
+.sidebar-container {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 100px;
+  left: 0px;
+  width: 350px;
+  height: calc(100% - 100px);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 50%; /* Larghezza al 50% per dividere perfettamente */
-  padding: 40px;
+  justify-content: space-between;
 }
 
-.loginTitle i {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+.title-text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 40px;
+  color: #1e1e1e;
 }
 
-.loginFormContainer {
-  justify-content: center;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-}
-
-.loginFormContainer h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.form input {
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 1rem;
-}
-.loginBtn {
-  width: 95% !important;
-  margin-top: 20px !important;
-  padding: 10px !important;
-  font-size: 1rem !important;
-  background: linear-gradient(to right, #7091e6, #ede8f5) !important;
-  color: white !important;
-  border-color: white !important;
-}
-
-.loginFooter {
-  margin-top: 10px;
-  text-align: center;
-}
-
-/* Sezione destra per l'immagine, con effetto opaco */
-.imageSection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%; /* Larghezza al 50% per dividere perfettamente */
-  position: relative;
-  overflow: hidden;
-  padding-right: 0px !important;
-}
-
-/* Immagine completamente contenuta e opaca */
-.imageContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.imageContainer img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.6; /* Opacità per l’effetto desiderato */
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-/* Testo in risalto sopra l'immagine opaca */
-.imageContainer h3,
-.imageContainer p {
-  position: relative;
-  z-index: 2; /* Sopra l'immagine */
-  color: black !important;
-}
-
-.imageContainer h3 {
-  font-size: 2rem;
-  color: #000;
-  margin-bottom: 10px;
-  font-weight: 300;
+.bold-text {
+  font-weight: bold;
   font-style: italic;
 }
 
-.imageContainer p {
-  font-size: 1rem;
-  color: #333;
+.menu-text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  color: #3d52a0;
+}
+
+.user-text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  color: #1e1e1e;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 30px;
+}
+
+.file-icon-box,
+.arrow-icon-box,
+.login-icon-box,
+.logout-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 30px;
+  margin-right: 8px;
+}
+
+.file-icon-box,
+.arrow-icon-box,
+.logout-icon-box {
+  color: #3d52a0;
+}
+
+.arrow-icon-box:hover,
+.logout-icon-box:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.login-icon-box {
+  background-color: #3d52a0;
+  color: white;
+  width: 60px;
+}
+
+.top-side-box {
+  flex-grow: 1;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bottom-side-box {
+  display: flex;
+  align-items: center;
 }
