@@ -30,10 +30,20 @@ body {
   left: 0px;
   width: 350px;
   height: calc(100% - 100px);
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.3s ease;
+  transform: translateX(0);
+}
+
+.sidebar-container.open {
+  transform: translateX(0);
+}
+
+.menu-icon {
+  display: none;
 }
 
 .title-text {
@@ -53,6 +63,7 @@ body {
   display: flex;
   align-items: center;
   color: #3d52a0;
+  min-width: 210px;
 }
 
 .user-text {
@@ -110,4 +121,62 @@ body {
 .bottom-side-box {
   display: flex;
   align-items: center;
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  /* Show menu icon on small screens */
+  .menu-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 34px;
+    color: #3d52a0;
+    cursor: pointer;
+    display: block;
+    z-index: 1000;
+  }
+
+  /* Hide sidebar by default on small screens */
+  .sidebar-container {
+    transform: translateX(-100%);
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* Show sidebar when it has the "open" class */
+  .sidebar-container.open {
+    transform: translateX(0);
+  }
+
+  .title-text {
+    font-size: 30px;
+  }
+
+  .menu-text {
+    font-size: 20px;
+    min-width: 180px;
+  }
+
+  .file-icon-box,
+  .arrow-icon-box,
+  .login-icon-box,
+  .logout-icon-box {
+    font-size: 26px;
+  }
+
+  .bottom-side-box {
+    display: flex; /* Ensure it displays flexibly */
+    margin-top: auto; /* Always at the bottom */
+  }
+
+  .text-24 {
+    font-size: 24px;
+  }
+
+  .login-icon-box {
+    width: 50px;
+    font-size: 24px;
+    margin-left: 15px;
+  }
 }
