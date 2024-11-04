@@ -57,8 +57,8 @@
 
 .black-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 300;
   justify-content: left;
   color: #1e1e1e;
   padding-top: 10px;
@@ -152,14 +152,14 @@
   border-radius: 5px;
   padding: 10px;
   font-size: 1rem;
+  width: 100%;
 }
 
+/* Responsive button styling */
 .loginBtn {
   background-image: linear-gradient(to right, #e8cbc0 0%, #636fa4 51%, #e8cbc0 100%);
-}
-.loginBtn {
   border: none;
-  width: 45%;
+  width: 40%; /* Full width on smaller screens */
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
@@ -170,7 +170,6 @@
   background-size: 200% auto;
   color: white;
   border-radius: 10px;
-  display: block;
 }
 
 .loginBtn:hover {
@@ -185,6 +184,10 @@
   margin: 0;
   padding: 0;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 /* Immagine completamente contenuta e opaca */
@@ -206,31 +209,55 @@
 }
 
 .explorer {
-  font-weight: bold;
-  font-style: italic;
+  font-weight: 300;
   background: -webkit-linear-gradient(left, #3d52a0, #e8cbc0);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Testo in risalto sopra l'immagine opaca 
-.imageContainer h3,
-.imageContainer p {
-  position: relative;
-  z-index: 2; /* Sopra l'immagine 
-  color: black !important;
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  /* Stacks columns vertically on medium screens */
+  .loginWrapper {
+    flex-direction: column;
+    height: auto;
+    max-width: 600px;
+  }
+  .formSection,
+  .imageSection {
+    width: 100%;
+    padding: 20px;
+  }
 }
 
-.imageContainer h3 {
-  font-size: 2rem;
-  color: #000;
-  margin-bottom: 10px;
-  font-weight: 300;
-  font-style: italic;
+@media (max-width: 768px) {
+  /* Full-width layout for small screens */
+  .loginContainer {
+    padding: 20px;
+  }
+  .formSection {
+    padding: 20px;
+  }
+  .loginBtn {
+    font-size: 18px;
+    padding: 8px;
+    width: 95%;
+  }
 }
 
-.imageContainer p {
-  font-size: 1rem;
-  color: #333;
+@media (max-width: 576px) {
+  /* Further adjustments for extra small screens */
+  .loginWrapper {
+    padding: 10px;
+  }
+  .formSection {
+    padding: 10px;
+  }
+  .loginBtn {
+    font-size: 16px;
+    padding: 6px;
+  }
+  .imageSection {
+    display: none; /* Hide image on extra small screens */
+  }
 }
-*/

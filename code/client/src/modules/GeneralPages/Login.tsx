@@ -38,7 +38,7 @@ export default function Login(props: any) {
         {/* Colonna sinistra per il form di accesso */}
         <Col md={6} className="formSection">
           <Row>
-            <Col>
+            <Col className="col-title">
               <span className="title-text">Kiruna</span>
               <span className="explorer title-text">Explorer</span>
             </Col>
