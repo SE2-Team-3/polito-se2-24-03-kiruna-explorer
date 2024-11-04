@@ -63,16 +63,33 @@ class DocumentDAO {
         });
     }
 
-    linkDocuments(documentId1:number,documentId2:number,linkType:string): Promise<boolean> {
-        return new Promise<boolean>((resolve,reject)=>{
+    linkDocuments(documentId1: number, documentId2: number, linkType: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
             try {
-                const sql='INSERT INTO DocumentConnections VALUES (?,?,?)'
-                db.run(sql,[documentId1,documentId2,linkType],(err:any)=>{
+                const sql = 'INSERT INTO DocumentConnections VALUES (?,?,?)'
+                db.run(sql, [documentId1, documentId2, linkType], (err: any) => {
                     if (err) {
-                        if (err.errno===19) reject(new DuplicateLinkError)
+                        if (err.errno === 19) reject(new DuplicateLinkError)
                         else reject(err)
                     }
                     else resolve(true)
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    getDocuments(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            try {
+                const sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, COUNT(*) AS connections, coordinates
+                FROM Document D, Georeference G, DocumentConnections DC
+                WHERE (D.documentId=DC.documentId1 OR D.documentId=DC.documentId2) AND D.georeferenceId=G.georeferenceId
+                GROUP BY documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, coordinates`
+                db.all(sql, (err:Error|null, rows:any) => {
+                    if (err) return reject(err)
+                    resolve(rows)
                 })
             } catch (error) {
                 reject(error)

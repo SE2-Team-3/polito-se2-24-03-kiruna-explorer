@@ -105,6 +105,13 @@ class DocumentRoutes {
             next(err);
           })
     );
+
+    this.router.get(
+      "/",
+      (req:any, res:any, next:any)=>{
+        this.controller.getDocuments().then((documents)=>res.status(200).json(documents)).catch((err)=>next(err))
+      }
+    )
   }
 }
 

@@ -42,6 +42,10 @@ class DocumentController {
     if (documentId1==documentId2) throw new InvalidLinkError
     return this.documentDAO.linkDocuments(documentId1,documentId2,linkType)
   }
+
+  async getDocuments(): Promise<any> {
+    return this.documentDAO.getDocuments()
+  }
 }
 
 export default DocumentController;
