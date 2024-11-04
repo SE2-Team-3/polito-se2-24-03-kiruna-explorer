@@ -10,6 +10,7 @@ import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/t
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
+import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -112,6 +113,10 @@ function App() {
                 <Navigate to="/login" />
               )
             }
+          />
+          <Route
+            path="/urban-planner/link-documents"
+            element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
           />
         </Routes>
       </UserContext.Provider>

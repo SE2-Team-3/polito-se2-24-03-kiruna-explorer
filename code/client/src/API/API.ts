@@ -1,6 +1,6 @@
 // Initialize all the API calls here
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
-import { Document } from "../models/document";
+import Document from "../models/document";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -89,6 +89,21 @@ function addDocument(document: NewDocument) {
     })
   );
 }
+
+async function getDocuments() {
+  const response = await fetch(baseURL + "documents/", {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const documents: Document[] = await response.json();
+    return documents;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
 /**
  * This funciton create a link beetween 2 documents in db.
  */
@@ -101,8 +116,8 @@ function linkDocuments(document1: Document, document2: Document, linkType: strin
       },
       credentials: "include",
       body: JSON.stringify({
-        documentId1: document1.documentID,
-        documentId2: document2.documentID,
+        documentId1: document1.documentId,
+        documentId2: document2.documentId,
         linkType: linkType,
       }),
     })
@@ -115,6 +130,7 @@ const API = {
   getUserInfo,
   addDocument,
   linkDocuments,
+  getDocuments,
 };
 
 export default API;

@@ -40,7 +40,7 @@ export default function Login(props: any) {
           <Row>
             <Col>
               <span className="title-text">Kiruna</span>
-              <span className="title-text bold-text">Explorer</span>
+              <span className="explorer title-text">Explorer</span>
             </Col>
           </Row>
           <Row className="loginFormContainer">

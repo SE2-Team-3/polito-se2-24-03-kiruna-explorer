@@ -1,32 +1,30 @@
-export class Document {
-  documentID: number;
+class Document {
+  documentId: number;
   title: string;
   description: string;
-  documentType: string; //same thing as scale
+  documentType: string;
   scale: string;
   nodeType: string;
-  stakeholders: string[];
-  issuanceDate: string;
-  language: string;
-  pages: string;
-  connections: number;
-  georeference: number[][];
+  stakeholders: string;
+  issuanceDate: string | null;
+  language: string | null;
+  pages: string | null;
+  georeferenceId: number | null;
 
   constructor(
-    documentID: number,
+    documentId: number,
     title: string,
     description: string,
     documentType: string,
     scale: string,
     nodeType: string,
-    stakeholders: string[],
-    issuanceDate: string,
-    language: string,
-    pages: string,
-    connections: number,
-    georeference: number[][]
+    stakeholders: string,
+    issuanceDate: string | null,
+    language: string | null,
+    pages: string | null,
+    georeferenceId: number | null
   ) {
-    this.documentID = documentID;
+    this.documentId = documentId;
     this.title = title;
     this.description = description;
     this.documentType = documentType;
@@ -36,7 +34,8 @@ export class Document {
     this.issuanceDate = issuanceDate;
     this.language = language;
     this.pages = pages;
-    this.connections = connections;
-    this.georeference = georeference;
+    this.georeferenceId = georeferenceId;
   }
 }
+
+export default Document;

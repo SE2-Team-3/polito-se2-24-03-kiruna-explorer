@@ -155,20 +155,28 @@
 }
 
 .loginBtn {
-  width: 95%;
+  background-image: linear-gradient(to right, #e8cbc0 0%, #636fa4 51%, #e8cbc0 100%);
+}
+.loginBtn {
+  border: none;
+  width: 45%;
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #3d52a0;
-  color: #adbbba;
-  border-color: #adbbba;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
 }
 
 .loginBtn:hover {
-  background-color: #adbbba;
-  color: #3d52a0;
-  border-color: #3d52a0;
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Sezione destra per l'immagine, con effetto opaco */
@@ -195,6 +203,14 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.85;
+}
+
+.explorer {
+  font-weight: bold;
+  font-style: italic;
+  background: -webkit-linear-gradient(left, #3d52a0, #e8cbc0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Testo in risalto sopra l'immagine opaca 
