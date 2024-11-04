@@ -107,7 +107,7 @@ async function getDocuments() {
 /**
  * This funciton create a link beetween 2 documents in db.
  */
-function linkDocuments(document1: Document, document2: Document, linkType: string) {
+function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
   return getJson(
     fetch(baseURL + "documents/link", {
       method: "POST",
@@ -116,8 +116,8 @@ function linkDocuments(document1: Document, document2: Document, linkType: strin
       },
       credentials: "include",
       body: JSON.stringify({
-        documentId1: document1.documentId,
-        documentId2: document2.documentId,
+        documentId1: documentId1,
+        documentId2: documentId2,
         linkType: linkType,
       }),
     })
