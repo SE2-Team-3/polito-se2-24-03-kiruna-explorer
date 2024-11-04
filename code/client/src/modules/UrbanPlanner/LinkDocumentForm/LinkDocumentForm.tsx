@@ -33,11 +33,6 @@ export default function LinkDocumentForm() {
     navigate("/urban-planner");
   };
 
-  console.log("selectedDocument1", selectedDocument1);
-  console.log("selectedDocument2", selectedDocument2);
-  console.log("linkType", linkType);
-  console.log("documents", documents);
-
   return (
     <div className="main-page">
       <Form className="document-form" onSubmit={handleSubmit} noValidate>
