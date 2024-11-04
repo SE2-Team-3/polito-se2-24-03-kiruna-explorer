@@ -89,24 +89,12 @@ function App() {
           {/* default page is login page */}
           <Route
             path="/"
-            element={
-              loggedIn ? (
-                <Navigate to="/urban-planner" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
+            element={loggedIn ? <Navigate to="/urban-planner" /> : <Navigate to="/login" />}
           />
           {/* login page */}
           <Route
             path="/login"
-            element={
-              <Login
-                login={doLogin}
-                message={loginMessage}
-                setMessage={setLoginMessage}
-              />
-            }
+            element={<Login login={doLogin} message={loginMessage} setMessage={setLoginMessage} />}
           />
           {/* no login required */}
           <Route path="/home" element={<Home />} />
@@ -119,10 +107,7 @@ function App() {
             path="/urban-planner/add-document"
             element={
               loggedIn ? (
-                <AddDocumentForm
-                  document={newDocument}
-                  setDocument={setNewDocument}
-                />
+                <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
               ) : (
                 <Navigate to="/login" />
               )
