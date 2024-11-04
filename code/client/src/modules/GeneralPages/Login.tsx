@@ -57,7 +57,7 @@ export default function Login(props: any) {
                 {props.message}
               </Alert>
             ) : null}
-            <Form.Group className="form" controlId="login">
+            <Form.Group className="form">
               <Form.Control
                 placeholder="Email"
                 type="email"

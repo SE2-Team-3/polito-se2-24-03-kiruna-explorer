@@ -6,19 +6,17 @@ import "./style.css";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const navigate = useNavigate();
+  const user = useContext(UserContext);
 
+  const isLoginPage = location.pathname === "/login";
   if (isLoginPage) {
     return null;
   }
 
-  const navigate = useNavigate();
-
   const handleNavigation = () => {
     navigate("/add-document"); // Redirects to /add-document
   };
-
-  const user = useContext(UserContext);
 
   return (
     <div className="sidebar-container">
