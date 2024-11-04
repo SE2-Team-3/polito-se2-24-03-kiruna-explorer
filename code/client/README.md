@@ -49,4 +49,31 @@ export default tseslint.config({
 });
 ```
 
-## Routes, Components and their functionalities, etc. will be placed here.
+
+## Client Application Routes
+The `App` component defines a set of routes using `react-router-dom` to handle navigation between different parts of the application.
+<br/>Here’s a breakdown of each route’s functionality:
+
+* #### Root Route (`/`): 
+   When a user navigates to the root path (`/`), this route checks if the user is logged in:
+<br/>If logged in: Redirects the user to the `/home` route.
+<br/>If not logged in: Redirects the user to the `/login` route.
+
+* #### Login Route (`/login`):
+  Displays the `Login` component, which provides a login form.This route is accessible when the user is not logged in. If the login is successful, the user is redirected to `/home`.
+
+* #### Home Route (`/home`):
+  Displays the `Home` component, which is the main landing page for logged-in users.
+
+* #### Urban Planner Route (`/urban-planner`):
+Displays the `UrbanPlanner` component, which likely provides tools and views specific to urban planners.
+
+## Client Application Components
+* #### Login Component in (`Login.tsx`):
+  This component provides a login interface for users, allowing them to input their credentials (username and password) and submit them to log into the application.
+
+* #### Home Component in (`Home.tsx`):
+  This component serves as a welcome page for users after they log in to have access to their modules.
+
+ * #### Urban Planner Component in (`modules/UrbanPlanner/UrbanPlanner.tsx`):
+   This component provides urban planner module to intract with the application.
