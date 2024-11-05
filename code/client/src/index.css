@@ -10,7 +10,7 @@ body {
 }
 
 .navbar-container {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100px;
@@ -23,7 +23,7 @@ body {
 }
 
 .sidebar-container {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
   position: fixed;
   top: 100px;
@@ -124,6 +124,44 @@ body {
   margin-top: auto;
 }
 
+@media (max-width: 1024px) {
+  /* Hide sidebar by default on small screens */
+  .sidebar-container {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .title-text {
+    font-size: 35px;
+  }
+
+  .menu-text {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .file-icon-box,
+  .arrow-icon-box,
+  .login-icon-box,
+  .logout-icon-box {
+    font-size: 20px;
+  }
+
+  .bottom-side-box {
+    display: flex; /* Ensure it displays flexibly */
+    margin-top: auto; /* Always at the bottom */
+  }
+
+  .text-24 {
+    font-size: 24px;
+  }
+
+  .login-icon-box {
+    width: 50px;
+    font-size: 20px;
+    margin-left: 15px;
+  }
+}
 @media (max-width: 768px) {
   /* Show menu icon on small screens */
   .menu-icon {
