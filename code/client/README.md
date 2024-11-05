@@ -75,5 +75,9 @@ Displays the `UrbanPlanner` component, which likely provides tools and views spe
 * #### Home Component in (`Home.tsx`):
   This component serves as a welcome page for users after they log in to have access to their modules.
 
+  * #### UserContext Component in (`UserContext.tsx`):
+  This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
+
+
  * #### Urban Planner Component in (`modules/UrbanPlanner/UrbanPlanner.tsx`):
    This component provides urban planner module to intract with the application.
