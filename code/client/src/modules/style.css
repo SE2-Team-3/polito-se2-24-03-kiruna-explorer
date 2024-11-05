@@ -170,6 +170,7 @@
   width: 100%;
   max-width: 1000px;
   height: 800px;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
 }
 /* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */
 .formSection {
@@ -189,10 +190,17 @@
 }
 
 .form input {
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 10px;
   font-size: 1rem;
   width: 100%;
+  border-color: #636fa4;
+  background-color: #adbbba;
+  border-width: 2px;
+}
+
+.form input:focus {
+  background-color: #adbbba;
 }
 
 /* Responsive button styling */
@@ -201,17 +209,16 @@
 }
 .loginBtn {
   border: none;
-  width: 40%; /* Full width on smaller screens */
+  width: 95%; /* Full width on smaller screens */
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
-  font-weight: bold;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .loginBtn:hover {

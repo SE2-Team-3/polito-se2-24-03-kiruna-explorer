@@ -59,7 +59,7 @@ export default function Login(props: any) {
             ) : null}
             <Form.Group className="form">
               <Form.Control
-                placeholder="Email"
+                placeholder="Username"
                 type="email"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
