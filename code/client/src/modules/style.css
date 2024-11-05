@@ -21,6 +21,9 @@
   max-width: 900px;
   padding: 10px;
   box-sizing: border-box;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .big-bold-text {
@@ -115,8 +118,6 @@
   .document-form {
     width: 100%; /* Take up full width on small screens */
     margin-top: 0px; /* Margin for a little spacing on edges */
-    max-height: calc(100vh - 130px);
-    overflow-y: auto;
   }
 
   .big-bold-text {
