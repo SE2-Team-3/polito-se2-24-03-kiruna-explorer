@@ -7,6 +7,7 @@ import DateSelection from "./DateSelection";
 import NodeType from "./NodeType";
 import ScaleSelection from "./ScaleSelection";
 import PageSelection from "./PageSelection";
+import GeoreferenceSelection from "./GeoreferenceSelection";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
@@ -144,21 +145,14 @@ const AddDocumentForm = (props: Props) => {
 
         {/* Field - georeference and Stakeholder */}
         <Row className="row-box">
-          <Col style={{ backgroundColor: "red" }}>
-            {/*
-            the background is red just to visualize it
-            - you can remove it if/when you want- 
-
-            add here georeference
-            something like
-            <Georeference
+        
+          <Col>
+            <GeoreferenceSelection
               document={props.document}
               setDocument={props.setDocument}
             />
-            <Georeference /> stays in GeoreferenceSelection.tsx
-            remember to import the file in this page
-          */}
           </Col>
+          
           <StakeholderSelection
             document={props.document}
             setDocument={props.setDocument}
