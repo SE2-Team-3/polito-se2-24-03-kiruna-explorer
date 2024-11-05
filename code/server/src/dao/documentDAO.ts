@@ -80,17 +80,17 @@ class DocumentDAO {
         })
     }
 
-    georeferenceDocument(documentId:number,georeference:string): Promise<boolean> {
+    georeferenceDocument(documentId:number,georeference:string[]): Promise<boolean> {
         return new Promise<boolean>((resolve,reject)=>{
             try {
                 const georeferenceIdSql = "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
                 const updateDocumentSql =
-                    "UPDATE Document SET georeference=? WHERE documentId=?";
+                    "UPDATE Document SET georeferenceId=? WHERE documentId=?";
                 const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?)";
                 db.get(georeferenceIdSql,(err:Error|null,row:any)=>{
                     if (err) return reject(err)
-                    const georeferenceId=row.georeferenceId
-                    db.run(createGeoreferenceSql,[georeferenceId,georeference],(err:Error|null)=>{
+                    const georeferenceId=row.georeferenceId?row.georeferenceId+1:1
+                    db.run(createGeoreferenceSql,[georeferenceId,JSON.stringify(georeference)],(err:Error|null)=>{
                         if(err) return reject(err)
                         db.run(updateDocumentSql,[georeferenceId,documentId],(err:Error|null)=>{
                             if(err) reject(err)

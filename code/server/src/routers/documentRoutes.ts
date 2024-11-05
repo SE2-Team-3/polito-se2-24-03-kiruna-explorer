@@ -117,7 +117,7 @@ class DocumentRoutes {
       this.errorHandler.validateRequest,
       (req:any, res:any, next:any) => {
         this.controller.georeferenceDocument(req.params.documentId, req.body.georeference)
-          .then(res.status(201).json({
+          .then(()=>res.status(201).json({
             "status":"success",
             "message":"Georeference created successfully",
             "data": req.body.georeference
