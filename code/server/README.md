@@ -1,4 +1,9 @@
 # kiruna-explorer
+This document lists all APIs and database scheme that compose the Kiruna Explorer application.
+# Table of Contents
+- [Access APIs](#access-apis)
+- [User APIs](#user-apis)
+- [Database Scheme](#database-scheme)
 
 ## API Server
 ### Access APIs
