@@ -68,16 +68,29 @@ The `App` component defines a set of routes using `react-router-dom` to handle n
 * #### Urban Planner Route (`/urban-planner`):
 Displays the `UrbanPlanner` component, which likely provides tools and views specific to urban planners.
 
+* #### Add Document Route (`/urban-planner/add-document`):
+Loads the `AddDocumentForm` component, which allows the user to add a new document.
+
 ## Client Application Components
-* #### Login Component in (`Login.tsx`):
-  This component provides a login interface for users, allowing them to input their credentials (username and password) and submit them to log into the application.
 
-* #### Home Component in (`Home.tsx`):
-  This component serves as a welcome page for users after they log in to have access to their modules.
+* #### Left Side Bar Component in (`LeftSideBar.tsx`):
+   The component is a sidebar component that provides navigation and user-specific options in the app. It includes a button to create a new document, displays the username, and provides a logout option.
 
-  * #### UserContext Component in (`UserContext.tsx`):
+* #### Nav Bar Component in (`NavBar.tsx`):
+   The NavBar component renders a simple navigation bar with a title. It helps maintain a consistent UI by ensuring the navbar is visible across the application, except on the login page.
+
+* #### UserContext Component in (`UserContext.tsx`):
   This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
 
+* #### Login Component in (`modules/GeneralPages/Login.tsx`):
+  This component provides a login interface for users, allowing them to input their credentials (username and password) and submit them to log into the application.
 
- * #### Urban Planner Component in (`modules/UrbanPlanner/UrbanPlanner.tsx`):
+* #### Home Component in (`modules/GeneralPages/Home.tsx`):
+  This component serves as a welcome page for users after they log in to have access to their modules.
+
+* #### Urban Planner Component in (`modules/UrbanPlanner/UrbanPlanner.tsx`):
    This component provides urban planner module to intract with the application.
+
+
+
+
