@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: margin-left 0.3s ease;
 }
 
 .document-form {
@@ -20,18 +21,6 @@
   max-width: 900px;
   padding: 10px;
   box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  /* Adjustments for smaller screens */
-  .main-page {
-    margin-left: 0; /* Full width on small screens */
-    margin-top: 0;
-  }
-  .document-form {
-    width: 100%; /* Take up full width on small screens */
-    margin: 10px; /* Margin for a little spacing on edges */
-  }
 }
 
 .big-bold-text {
@@ -98,13 +87,64 @@
   border-color: #1e1e1e;
   color: #1e1e1e;
   font-size: 18px;
-  margin-top: 10px;
 }
 
 .button-small:hover {
   background-color: #1e1e1e;
   border-color: #1e1e1e;
   color: white;
+}
+
+@media (min-width: 768px) {
+  .main-page.sidebar-open {
+    display: block;
+    margin-left: 350px; /* Adjust to match sidebar width */
+  }
+}
+@media (max-width: 768px) {
+  /* Style adjustments when sidebar is open on smaller screens */
+  .main-page.sidebar-open {
+    display: none; /* Hide main page content when sidebar is open on small screens */
+  }
+  /* Adjustments for smaller screens */
+  .main-page {
+    margin-left: 0; /* Full width on small screens */
+    margin-top: 100px;
+  }
+
+  .document-form {
+    width: 100%; /* Take up full width on small screens */
+    margin-top: 0px; /* Margin for a little spacing on edges */
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+
+  .big-bold-text {
+    font-size: 20px;
+  }
+
+  .blue-text {
+    font-size: 16px;
+  }
+
+  .black-text {
+    font-size: 12px;
+  }
+
+  .font-size-20 {
+    font-size: 12px;
+  }
+
+  .button-white {
+    font-size: 14px;
+    width: 70px;
+    padding: 5px;
+  }
+
+  .button-small {
+    font-size: 12px;
+    padding: 5px;
+  }
 }
 
 /* Container principale per occupare tutta la pagina */
@@ -158,6 +198,8 @@
 /* Responsive button styling */
 .loginBtn {
   background-image: linear-gradient(to right, #e8cbc0 0%, #636fa4 51%, #e8cbc0 100%);
+}
+.loginBtn {
   border: none;
   width: 40%; /* Full width on smaller screens */
   margin-top: 20px;
@@ -259,5 +301,15 @@
   }
   .imageSection {
     display: none; /* Hide image on extra small screens */
+  }
+}
+
+@media (max-width: 426px) {
+  .document-form .row-box {
+    flex-direction: column; /* Stack items vertically */
+  }
+
+  .document-form .col-box {
+    width: 100%; /* Full width for each column on small screens */
   }
 }
