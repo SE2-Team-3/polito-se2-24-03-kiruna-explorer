@@ -205,7 +205,7 @@
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #e8cbc0 0%, #636fa4 51%, #e8cbc0 100%);
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
 }
 .loginBtn {
   border: none;
@@ -259,7 +259,7 @@
 
 .explorer {
   font-weight: 300;
-  background: -webkit-linear-gradient(left, #3d52a0, #e8cbc0);
+  background: -webkit-linear-gradient(right, #3d52a0, #7091e6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
