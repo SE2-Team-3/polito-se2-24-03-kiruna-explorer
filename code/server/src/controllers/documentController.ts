@@ -1,3 +1,4 @@
+import { InvalidCoordinatesError } from "../errors/georeferenceError";
 import DocumentDAO from "../dao/documentDAO";
 import { InvalidLinkError } from "../errors/documentError";
 
@@ -44,6 +45,7 @@ class DocumentController {
   }
 
   async georeferenceDocument(documentId:number,georeference:string): Promise<boolean> {
+    if (georeference==null) throw new InvalidCoordinatesError
     return this.documentDAO.georeferenceDocument(documentId,georeference)
   }
 }

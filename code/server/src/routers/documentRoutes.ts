@@ -123,7 +123,7 @@ class DocumentRoutes {
             "data": req.body.georeference
           }))
           .catch((err)=>{
-            res.status(400)
+            res.status(err.customCode)
             next(err)
           })
       }
