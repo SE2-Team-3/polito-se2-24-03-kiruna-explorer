@@ -1,4 +1,4 @@
-import { Col, Form , InputGroup, Alert } from "react-bootstrap";
+import { Col, Form, InputGroup, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
 import { Props } from "./interfaces/types";
@@ -17,25 +17,33 @@ const GeoreferenceSelection = (props: Props) => {
       });
     }
   }, [latitude, longitude]);
-  
-const validateLatitude = (lat: number) => {
-    const latMin = 67.8200;
-    const latMax = 67.8900;
-    
+
+  const validateLatitude = (lat: number) => {
+    const latMin = 67.82;
+    const latMax = 67.89;
+
     if (lat < latMin || lat > latMax) {
-      setLatError(`Latitude must be between ${latMin.toFixed(4)} and ${latMax.toFixed(4)}.`);
+      setLatError(
+        `Latitude must be between ${latMin.toFixed(4)} and ${latMax.toFixed(
+          4
+        )}.`
+      );
       return false;
     }
     setLatError("");
     return true;
   };
-  
- const validateLongitude = (lon: number) => {
-    const lonMin = 20.1000;
-    const lonMax = 20.3500;
+
+  const validateLongitude = (lon: number) => {
+    const lonMin = 20.1;
+    const lonMax = 20.35;
 
     if (lon < lonMin || lon > lonMax) {
-      setLonError(`Longitude must be between ${lonMin.toFixed(4)} and ${lonMax.toFixed(4)}.`);
+      setLonError(
+        `Longitude must be between ${lonMin.toFixed(4)} and ${lonMax.toFixed(
+          4
+        )}.`
+      );
       return false;
     }
     setLonError("");
@@ -57,7 +65,11 @@ const validateLatitude = (lat: number) => {
   return (
     <Form.Group as={Col} className="align-items-center">
       <Form.Label className="black-text">Georeference</Form.Label>
-      {latError && <Alert variant="danger" className="my-2">{latError}</Alert>}
+      {latError && (
+        <Alert variant="danger" className="my-2">
+          {latError}
+        </Alert>
+      )}
       <Col className="geo-box w-100">
         <InputGroup className="w-100">
           <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
@@ -70,11 +82,15 @@ const validateLatitude = (lat: number) => {
             onChange={handleLatitudeChange}
             placeholder="Insert Latitude"
             className="font-size-20"
+            required
           />
         </InputGroup>
-        
       </Col>
-      {lonError && <Alert variant="danger" className="my-2">{lonError}</Alert>}
+      {lonError && (
+        <Alert variant="danger" className="my-2">
+          {lonError}
+        </Alert>
+      )}
       <Col className="geo-box w-100">
         <InputGroup className="w-100">
           <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
@@ -87,12 +103,12 @@ const validateLatitude = (lat: number) => {
             onChange={handleLongitudeChange}
             placeholder="Insert Longitude"
             className="font-size-20"
+            required
           />
-        </InputGroup> 
+        </InputGroup>
       </Col>
     </Form.Group>
   );
 };
 
 export default GeoreferenceSelection;
- 
