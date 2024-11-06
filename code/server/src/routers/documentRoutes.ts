@@ -75,20 +75,11 @@ class DocumentRoutes {
         .custom((value) => value > 0),
       body("linkType")
         .isString()
-        .isIn([
-          "direct consequence",
-          "collateral consqeuence",
-          "prevision",
-          "update",
-        ]),
+        .isIn(["direct consequence", "collateral consequence", "prevision", "update"]),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
-          .linkDocuments(
-            req.body.documentId1,
-            req.body.documentId2,
-            req.body.linkType
-          )
+          .linkDocuments(req.body.documentId1, req.body.documentId2, req.body.linkType)
           .then(() =>
             res.status(201).json({
               status: "success",
@@ -105,7 +96,13 @@ class DocumentRoutes {
             next(err);
           })
     );
-
+  
+    this.router.get("/", (req: any, res: any, next: any) => {
+      this.controller
+        .getDocuments()
+        .then((documents) => res.status(200).json(documents))
+        .catch((err) => next(err));
+    });
     /*
     * This route can be used to update any field of a document in the future, just by specifying in the body the field to update and its new value.
     * For now it will by default always assume the call is made to update the georeference.

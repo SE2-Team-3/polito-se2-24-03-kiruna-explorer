@@ -1,5 +1,6 @@
 // Initialize all the API calls here
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
+import Document from "../models/document";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -61,17 +62,13 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
           response
             .json()
             .then((json: any) => resolve(json))
-            .catch((err: any) =>
-              reject({ error: "Cannot parse server response" })
-            );
+            .catch((err: any) => reject({ error: "Cannot parse server response" }));
         } else {
           // analyzing the cause of error
           response
             .json()
             .then((obj: any) => reject(obj)) // error msg in the response body
-            .catch((err: any) =>
-              reject({ error: "Cannot parse server response" })
-            ); // something else
+            .catch((err: any) => reject({ error: "Cannot parse server response" })); // something else
         }
       })
       .catch((err: any) => reject({ error: "Cannot communicate" })); // connection error
@@ -93,11 +90,47 @@ function addDocument(document: NewDocument) {
   );
 }
 
+async function getDocuments() {
+  const response = await fetch(baseURL + "documents/", {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const documents: Document[] = await response.json();
+    return documents;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+/**
+ * This funciton create a link beetween 2 documents in db.
+ */
+function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
+  return getJson(
+    fetch(baseURL + "documents/link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        documentId1: documentId1,
+        documentId2: documentId2,
+        linkType: linkType,
+      }),
+    })
+  );
+}
+
 const API = {
   login,
   logOut,
   getUserInfo,
   addDocument,
+  linkDocuments,
+  getDocuments,
 };
 
 export default API;

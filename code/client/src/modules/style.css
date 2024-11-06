@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: margin-left 0.3s ease;
 }
 
 .document-form {
@@ -20,18 +21,6 @@
   max-width: 900px;
   padding: 10px;
   box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  /* Adjustments for smaller screens */
-  .main-page {
-    margin-left: 0; /* Full width on small screens */
-    margin-top: 0;
-  }
-  .document-form {
-    width: 100%; /* Take up full width on small screens */
-    margin: 10px; /* Margin for a little spacing on edges */
-  }
 }
 
 .big-bold-text {
@@ -57,8 +46,8 @@
 
 .black-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 300;
   justify-content: left;
   color: #1e1e1e;
   padding-top: 10px;
@@ -98,13 +87,64 @@
   border-color: #1e1e1e;
   color: #1e1e1e;
   font-size: 18px;
-  margin-top: 10px;
 }
 
 .button-small:hover {
   background-color: #1e1e1e;
   border-color: #1e1e1e;
   color: white;
+}
+
+@media (min-width: 768px) {
+  .main-page.sidebar-open {
+    display: block;
+    margin-left: 350px; /* Adjust to match sidebar width */
+  }
+}
+@media (max-width: 768px) {
+  /* Style adjustments when sidebar is open on smaller screens */
+  .main-page.sidebar-open {
+    display: none; /* Hide main page content when sidebar is open on small screens */
+  }
+  /* Adjustments for smaller screens */
+  .main-page {
+    margin-left: 0; /* Full width on small screens */
+    margin-top: 100px;
+  }
+
+  .document-form {
+    width: 100%; /* Take up full width on small screens */
+    margin-top: 0px; /* Margin for a little spacing on edges */
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+
+  .big-bold-text {
+    font-size: 20px;
+  }
+
+  .blue-text {
+    font-size: 16px;
+  }
+
+  .black-text {
+    font-size: 12px;
+  }
+
+  .font-size-20 {
+    font-size: 12px;
+  }
+
+  .button-white {
+    font-size: 14px;
+    width: 70px;
+    padding: 5px;
+  }
+
+  .button-small {
+    font-size: 12px;
+    padding: 5px;
+  }
 }
 
 /* Container principale per occupare tutta la pagina */
@@ -130,6 +170,7 @@
   width: 100%;
   max-width: 1000px;
   height: 800px;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
 }
 /* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */
 .formSection {
@@ -149,26 +190,41 @@
 }
 
 .form input {
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 10px;
   font-size: 1rem;
+  width: 100%;
+  border-color: #636fa4;
+  background-color: #adbbba;
+  border-width: 2px;
 }
 
+.form input:focus {
+  background-color: #adbbba;
+}
+
+/* Responsive button styling */
 .loginBtn {
-  width: 95%;
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+}
+.loginBtn {
+  border: none;
+  width: 95%; /* Full width on smaller screens */
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
-  font-weight: bold;
-  background-color: #3d52a0;
-  color: #adbbba;
-  border-color: #adbbba;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 20px;
 }
 
 .loginBtn:hover {
-  background-color: #adbbba;
-  color: #3d52a0;
-  border-color: #3d52a0;
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Sezione destra per l'immagine, con effetto opaco */
@@ -177,6 +233,10 @@
   margin: 0;
   padding: 0;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 /* Immagine completamente contenuta e opaca */
@@ -197,24 +257,66 @@
   opacity: 0.85;
 }
 
-/* Testo in risalto sopra l'immagine opaca 
-.imageContainer h3,
-.imageContainer p {
-  position: relative;
-  z-index: 2; /* Sopra l'immagine 
-  color: black !important;
-}
-
-.imageContainer h3 {
-  font-size: 2rem;
-  color: #000;
-  margin-bottom: 10px;
+.explorer {
   font-weight: 300;
-  font-style: italic;
+  background: -webkit-linear-gradient(right, #3d52a0, #7091e6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.imageContainer p {
-  font-size: 1rem;
-  color: #333;
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  /* Stacks columns vertically on medium screens */
+  .loginWrapper {
+    flex-direction: column;
+    height: auto;
+    max-width: 600px;
+  }
+  .formSection,
+  .imageSection {
+    width: 100%;
+    padding: 20px;
+  }
 }
-*/
+
+@media (max-width: 768px) {
+  /* Full-width layout for small screens */
+  .loginContainer {
+    padding: 20px;
+  }
+  .formSection {
+    padding: 20px;
+  }
+  .loginBtn {
+    font-size: 18px;
+    padding: 8px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Further adjustments for extra small screens */
+  .loginWrapper {
+    padding: 10px;
+  }
+  .formSection {
+    padding: 10px;
+  }
+  .loginBtn {
+    font-size: 16px;
+    padding: 6px;
+  }
+  .imageSection {
+    display: none; /* Hide image on extra small screens */
+  }
+}
+
+@media (max-width: 426px) {
+  .document-form .row-box {
+    flex-direction: column; /* Stack items vertically */
+  }
+
+  .document-form .col-box {
+    width: 100%; /* Full width for each column on small screens */
+  }
+}

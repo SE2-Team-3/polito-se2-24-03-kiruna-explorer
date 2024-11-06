@@ -11,9 +11,11 @@ import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
+import { useSidebar } from "../../../components/SidebarContext";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
+  const { isSidebarOpen } = useSidebar();
 
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [validated, setValidated] = useState(false);
@@ -87,7 +89,7 @@ const AddDocumentForm = (props: Props) => {
   };
 
   return (
-    <div className="main-page">
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Form
         className="document-form"
         noValidate
@@ -114,15 +116,19 @@ const AddDocumentForm = (props: Props) => {
           document={props.document}
           setDocument={props.setDocument}
         />
-        <Row className="row-box">
-          <DateSelection
+
+        {/* Field: scale - nodetype */}
+        <Row className=" row-box">
+          <ScaleSelection
             document={props.document}
             setDocument={props.setDocument}
           />
           <NodeType document={props.document} setDocument={props.setDocument} />
         </Row>
-        <Row className=" row-box">
-          <ScaleSelection
+
+        {/* Field: date - pages - languages */}
+        <Row className="row-box">
+          <DateSelection
             document={props.document}
             setDocument={props.setDocument}
           />
@@ -130,22 +136,33 @@ const AddDocumentForm = (props: Props) => {
             document={props.document}
             setDocument={props.setDocument}
           />
+          <LanguageSelection
+            document={props.document}
+            setDocument={props.setDocument}
+          />
         </Row>
 
-        {/* Language and Stakeholder Selection Section */}
+        {/* Field - georeference and Stakeholder */}
         <Row className="row-box">
-          <Col>
-            <LanguageSelection
+          <Col style={{ backgroundColor: "red" }}>
+            {/*
+            the background is red just to visualize it
+            - you can remove it if/when you want- 
+
+            add here georeference
+            something like
+            <Georeference
               document={props.document}
               setDocument={props.setDocument}
             />
+            <Georeference /> stays in GeoreferenceSelection.tsx
+            remember to import the file in this page
+          */}
           </Col>
-          <Col>
-            <StakeholderSelection
-              document={props.document}
-              setDocument={props.setDocument}
-            />
-          </Col>
+          <StakeholderSelection
+            document={props.document}
+            setDocument={props.setDocument}
+          />
         </Row>
 
         {/* Submit and Cancel Buttons */}

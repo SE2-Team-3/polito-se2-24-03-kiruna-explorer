@@ -38,9 +38,9 @@ export default function Login(props: any) {
         {/* Colonna sinistra per il form di accesso */}
         <Col md={6} className="formSection">
           <Row>
-            <Col>
+            <Col className="col-title">
               <span className="title-text">Kiruna</span>
-              <span className="title-text bold-text">Explorer</span>
+              <span className="explorer title-text">Explorer</span>
             </Col>
           </Row>
           <Row className="loginFormContainer">
@@ -59,7 +59,7 @@ export default function Login(props: any) {
             ) : null}
             <Form.Group className="form">
               <Form.Control
-                placeholder="Email"
+                placeholder="Username"
                 type="email"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}

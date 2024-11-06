@@ -1,17 +1,12 @@
-import { Col, Row } from "react-bootstrap";
+import React from "react";
+import { useSidebar } from "../../components/SidebarContext";
 import "../style.css";
 
-const UrbanPlanner = () => {
+const UrbanPlanner: React.FC = () => {
+  const { isSidebarOpen } = useSidebar();
+
   return (
-    <div className="main-page">
-      <Row>
-        <Col>
-          <h1 className="document-form m-5 p-5" style={{ textAlign: "center" }}>
-            Welcome to Urban Planner Dashboard
-          </h1>
-        </Col>
-      </Row>
-    </div>
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}></div>
   );
 };
 

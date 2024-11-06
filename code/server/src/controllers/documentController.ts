@@ -44,10 +44,15 @@ class DocumentController {
     return this.documentDAO.linkDocuments(documentId1,documentId2,linkType)
   }
 
+
+  async getDocuments(): Promise<any> {
+    return this.documentDAO.getDocuments()
+  }
+    
   async georeferenceDocument(documentId:number,georeference:string[]): Promise<boolean> {
     if (georeference==null) throw new InvalidCoordinatesError
     return this.documentDAO.georeferenceDocument(documentId,georeference)
   }
-}
+
 
 export default DocumentController;

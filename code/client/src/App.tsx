@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
+import { SidebarProvider } from "./components/SidebarContext";
 import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
 import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
 import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
+import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -82,54 +84,62 @@ function App() {
 
   return (
     <Container>
-      <UserContext.Provider value={user}>
-        <NavBar />
-        <LeftSideBar logout={doLogOut} />
-        <Routes>
-          {/* default page is login page */}
-          <Route
-            path="/"
-            element={
-              loggedIn ? (
-                <Navigate to="/urban-planner" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          {/* login page */}
-          <Route
-            path="/login"
-            element={
-              <Login
-                login={doLogin}
-                message={loginMessage}
-                setMessage={setLoginMessage}
-              />
-            }
-          />
-          {/* no login required */}
-          <Route path="/home" element={<Home />} />
-          {/* urban-planner login required */}
-          <Route
-            path="/urban-planner"
-            element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/urban-planner/add-document"
-            element={
-              loggedIn ? (
-                <AddDocumentForm
-                  document={newDocument}
-                  setDocument={setNewDocument}
+      <SidebarProvider>
+        <UserContext.Provider value={user}>
+          <NavBar />
+          <LeftSideBar logout={doLogOut} />
+          <Routes>
+            {/* default page is login page */}
+            <Route
+              path="/"
+              element={
+                loggedIn ? (
+                  <Navigate to="/urban-planner" />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            {/* login page */}
+            <Route
+              path="/login"
+              element={
+                <Login
+                  login={doLogin}
+                  message={loginMessage}
+                  setMessage={setLoginMessage}
                 />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-        </Routes>
-      </UserContext.Provider>
+              }
+            />
+            {/* no login required */}
+            <Route path="/home" element={<Home />} />
+            {/* urban-planner login required */}
+            <Route
+              path="/urban-planner"
+              element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/urban-planner/add-document"
+              element={
+                loggedIn ? (
+                  <AddDocumentForm
+                    document={newDocument}
+                    setDocument={setNewDocument}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/urban-planner/link-documents"
+              element={
+                loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
+              }
+            />
+          </Routes>
+        </UserContext.Provider>
+      </SidebarProvider>
     </Container>
   );
 }
