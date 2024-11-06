@@ -75,11 +75,20 @@ class DocumentRoutes {
         .custom((value) => value > 0),
       body("linkType")
         .isString()
-        .isIn(["direct consequence", "collateral consequence", "prevision", "update"]),
+        .isIn([
+          "direct consequence",
+          "collateral consequence",
+          "prevision",
+          "update",
+        ]),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
-          .linkDocuments(req.body.documentId1, req.body.documentId2, req.body.linkType)
+          .linkDocuments(
+            req.body.documentId1,
+            req.body.documentId2,
+            req.body.linkType
+          )
           .then(() =>
             res.status(201).json({
               status: "success",
@@ -96,7 +105,7 @@ class DocumentRoutes {
             next(err);
           })
     );
-  
+
     this.router.get("/", (req: any, res: any, next: any) => {
       this.controller
         .getDocuments()
@@ -104,27 +113,32 @@ class DocumentRoutes {
         .catch((err) => next(err));
     });
     /*
-    * This route can be used to update any field of a document in the future, just by specifying in the body the field to update and its new value.
-    * For now it will by default always assume the call is made to update the georeference.
-    */
+     * This route can be used to update any field of a document in the future, just by specifying in the body the field to update and its new value.
+     * For now it will by default always assume the call is made to update the georeference.
+     */
     this.router.patch(
       "/:documentId",
       this.authenticator.isLoggedIn,
-      param("documentId").isInt().custom((value) => value > 0),
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
       this.errorHandler.validateRequest,
-      (req:any, res:any, next:any) => {
-        this.controller.georeferenceDocument(req.params.documentId, req.body.georeference)
-          .then(()=>res.status(201).json({
-            "status":"success",
-            "message":"Georeference created successfully",
-            "data": req.body.georeference
-          }))
-          .catch((err)=>{
-            res.status(err.customCode)
-            next(err)
-          })
+      (req: any, res: any, next: any) => {
+        this.controller
+          .georeferenceDocument(req.params.documentId, req.body.georeference)
+          .then(() =>
+            res.status(201).json({
+              status: "success",
+              message: "Georeference created successfully",
+              data: req.body.georeference,
+            })
+          )
+          .catch((err) => {
+            res.status(err.customCode);
+            next(err);
+          });
       }
-    )
+    );
   }
 }
 

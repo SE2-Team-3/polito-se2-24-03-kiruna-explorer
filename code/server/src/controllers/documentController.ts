@@ -52,7 +52,10 @@ class DocumentController {
     return this.documentDAO.getDocuments();
   }
 
-  async georeferenceDocument(documentId: number, georeference: string[]): Promise<boolean> {
+  async georeferenceDocument(
+    documentId: number,
+    georeference: string[]
+  ): Promise<boolean> {
     if (georeference == null) throw new InvalidCoordinatesError();
     return this.documentDAO.georeferenceDocument(documentId, georeference);
   }

@@ -1,63 +1,113 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, InputGroup, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import { Props } from "./interfaces/types";
 
 const GeoreferenceSelection = (props: Props) => {
-  /* 
-  The mockup let the urban-planner choose between Area and Location
-  We do not have to to the Area in this user stories
-  so we will implement just the location (lat, long)
-  
-  declare one variable for georeference
+  const [latitude, setLatitude] = useState(67.8558);
+  const [longitude, setLongitude] = useState(20.2253);
+  const [latError, setLatError] = useState("");
+  const [lonError, setLonError] = useState("");
 
-  declare one variable for latitude and one for longitude
+  useEffect(() => {
+    if (validateLatitude(latitude) && validateLongitude(longitude)) {
+      props.setDocument({
+        ...props.document,
+        georeference: [[latitude, longitude]],
+      });
+    }
+  }, [latitude, longitude]);
 
-  the form shold be something like
-  const [georeference, setGeoreference] = useState(
-      props.document ? props.document.georeference : [[]]
-  );
+  const validateLatitude = (lat: number) => {
+    const latMin = 67.82;
+    const latMax = 67.89;
 
-  for latitude and longitude just initilize them at 0
-  */
+    if (lat < latMin || lat > latMax) {
+      setLatError(
+        `Latitude must be between ${latMin.toFixed(4)} and ${latMax.toFixed(
+          4
+        )}.`
+      );
+      return false;
+    }
+    setLatError("");
+    return true;
+  };
 
-  /*
-  consider than georeference is composed of [lat, long]
-  so everytime the urban-planner update the values of
-  lat or long, we have to update the local georeference
-  */
+  const validateLongitude = (lon: number) => {
+    const lonMin = 20.1;
+    const lonMax = 20.35;
 
-  /*
-  based on the other form we can use the useEffect to update
-  the props.document.georeference
-  
-  ask our friend about this to be sure 
-  the useEffect is called ath the right time
-  */
+    if (lon < lonMin || lon > lonMax) {
+      setLonError(
+        `Longitude must be between ${lonMin.toFixed(4)} and ${lonMax.toFixed(
+          4
+        )}.`
+      );
+      return false;
+    }
+    setLonError("");
+    return true;
+  };
 
-  /*
-  help yourself looking at other file
-  the most similar is probably PageSelection
-  but remember that our form need number as input
-  */
+  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLatitude(value);
+    validateLatitude(value);
+  };
+
+  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLongitude(value);
+    validateLongitude(value);
+  };
+
   return (
-    /* everything goes into a Form.Group  */
-    /* Form.Label */
-    /* 2 Form.Control
-      - 1 for lat
-      - 1 for long
-    
-    <Form.Control
-      type="number"
-      step="0.01" //this is really important because we have float number
-      value={lat/long}
-      onChange={(event) => setLat/setLong(event.target.value)}
-      placeholder="Latitude/Longitude"
-      className="font-size-20" //uniform to other Form
-    />
-
-    the form stays in different rows since we do not have a large space
-    */
+    <Form.Group as={Col} className="align-items-center">
+      <Form.Label className="black-text">Georeference</Form.Label>
+      {latError && (
+        <Alert variant="danger" className="my-2">
+          {latError}
+        </Alert>
+      )}
+      <Col className="geo-box w-100">
+        <InputGroup className="w-100">
+          <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
+          <Form.Control
+            type="number"
+            step="0.0001"
+            min="67.8200"
+            max="67.8900"
+            value={latitude}
+            onChange={handleLatitudeChange}
+            placeholder="Insert Latitude"
+            className="font-size-20"
+            required
+          />
+        </InputGroup>
+      </Col>
+      {lonError && (
+        <Alert variant="danger" className="my-2">
+          {lonError}
+        </Alert>
+      )}
+      <Col className="geo-box w-100">
+        <InputGroup className="w-100">
+          <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
+          <Form.Control
+            type="number"
+            step="0.0001"
+            min="20.1000"
+            max="20.3500"
+            value={longitude}
+            onChange={handleLongitudeChange}
+            placeholder="Insert Longitude"
+            className="font-size-20"
+            required
+          />
+        </InputGroup>
+      </Col>
+    </Form.Group>
   );
 };
 

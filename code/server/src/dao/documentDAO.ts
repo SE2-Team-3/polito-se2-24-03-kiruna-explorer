@@ -17,8 +17,10 @@ class DocumentDAO {
   ): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       try {
-        const documentIdSql = "SELECT MAX(documentId) AS documentId FROM Document";
-        const georeferenceIdSql = "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
+        const documentIdSql =
+          "SELECT MAX(documentId) AS documentId FROM Document";
+        const georeferenceIdSql =
+          "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
         const createDocumentSql =
           "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, georeferenceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const createGeoreferenceSql =
@@ -34,7 +36,8 @@ class DocumentDAO {
           if (row.documentId) documentId = row.documentId + 1;
           db.get(georeferenceIdSql, [], (err: Error | null, row: any) => {
             if (err) return reject(err);
-            if (row.georeferenceId) georeferenceId = georeference ? row.georeferenceId + 1 : null;
+            if (row.georeferenceId)
+              georeferenceId = georeference ? row.georeferenceId + 1 : null;
             db.run(
               createDocumentSql,
               [
@@ -82,7 +85,11 @@ class DocumentDAO {
     });
   }
 
-  linkDocuments(documentId1: number, documentId2: number, linkType: string): Promise<boolean> {
+  linkDocuments(
+    documentId1: number,
+    documentId2: number,
+    linkType: string
+  ): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
         const sql = "INSERT INTO DocumentConnections VALUES (?,?,?)";
@@ -111,24 +118,35 @@ class DocumentDAO {
       }
     });
   }
-  georeferenceDocument(documentId: number, georeference: string[]): Promise<boolean> {
+  georeferenceDocument(
+    documentId: number,
+    georeference: string[]
+  ): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
-        const georeferenceIdSql = "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
-        const updateDocumentSql = "UPDATE Document SET georeferenceId=? WHERE documentId=?";
+        const georeferenceIdSql =
+          "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
+        const updateDocumentSql =
+          "UPDATE Document SET georeferenceId=? WHERE documentId=?";
         const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?)";
         db.get(georeferenceIdSql, (err: Error | null, row: any) => {
           if (err) return reject(err);
-          const georeferenceId = row.georeferenceId ? row.georeferenceId + 1 : 1;
+          const georeferenceId = row.georeferenceId
+            ? row.georeferenceId + 1
+            : 1;
           db.run(
             createGeoreferenceSql,
             [georeferenceId, JSON.stringify(georeference)],
             (err: Error | null) => {
               if (err) return reject(err);
-              db.run(updateDocumentSql, [georeferenceId, documentId], (err: Error | null) => {
-                if (err) reject(err);
-                else resolve(true);
-              });
+              db.run(
+                updateDocumentSql,
+                [georeferenceId, documentId],
+                (err: Error | null) => {
+                  if (err) reject(err);
+                  else resolve(true);
+                }
+              );
             }
           );
         });
@@ -151,11 +169,16 @@ class DocumentDAO {
   findGeoreference(georeference: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
-        const georeferenceIdSql = "SELECT georeferenceId FROM Georeference WHERE coordinates=?";
-        db.get(georeferenceIdSql, [georeference], (err: Error | null, row: any) => {
-          if (err) return reject(err);
-          resolve(row.georeferenceId);
-        });
+        const georeferenceIdSql =
+          "SELECT georeferenceId FROM Georeference WHERE coordinates=?";
+        db.get(
+          georeferenceIdSql,
+          [georeference],
+          (err: Error | null, row: any) => {
+            if (err) return reject(err);
+            resolve(row.georeferenceId);
+          }
+        );
       } catch (error) {
         reject(error);
       }

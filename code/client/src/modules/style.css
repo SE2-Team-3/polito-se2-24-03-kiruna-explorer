@@ -13,14 +13,17 @@
 }
 
 .document-form {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   border: 3px solid #adbbba;
   border-radius: 10px;
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   padding: 10px;
   box-sizing: border-box;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .big-bold-text {
@@ -63,8 +66,13 @@
   margin-top: 20px;
 }
 
+.geo-box {
+  width: 50%;
+  margin-top: 5px;
+}
+
 .button-white {
-  background-color: transparent;
+  background-color: white;
   border-color: #3d52a0;
   color: #3d52a0;
   font-size: 24px;
@@ -82,6 +90,10 @@
   font-size: 20px;
 }
 
+.font-size-18 {
+  font-size: 18px;
+}
+
 .button-small {
   background-color: transparent;
   border-color: #1e1e1e;
@@ -95,7 +107,47 @@
   color: white;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1024px) {
+  .main-page {
+    margin-left: 250px;
+  }
+
+  .document-form {
+    width: 100%; /* Take up full width on small screens */
+    margin-top: 0px; /* Margin for a little spacing on edges */
+  }
+
+  .big-bold-text {
+    font-size: 30px;
+  }
+
+  .blue-text {
+    font-size: 20px;
+  }
+
+  .black-text {
+    font-size: 20px;
+  }
+
+  .font-size-20 {
+    font-size: 16px;
+  }
+  .font-size-18 {
+    font-size: 14px;
+  }
+  .button-white {
+    font-size: 18px;
+    width: 70px;
+    padding: 5px;
+  }
+
+  .button-small {
+    font-size: 12px;
+    padding: 5px;
+  }
+}
+
+@media (min-width: 1024) {
   .main-page.sidebar-open {
     display: block;
     margin-left: 350px; /* Adjust to match sidebar width */
@@ -115,8 +167,6 @@
   .document-form {
     width: 100%; /* Take up full width on small screens */
     margin-top: 0px; /* Margin for a little spacing on edges */
-    max-height: calc(100vh - 130px);
-    overflow-y: auto;
   }
 
   .big-bold-text {
@@ -134,7 +184,10 @@
   .font-size-20 {
     font-size: 12px;
   }
-
+  .font-size-18 {
+    font-size: 12px;
+    padding: 5px;
+  }
   .button-white {
     font-size: 14px;
     width: 70px;
