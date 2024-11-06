@@ -105,6 +105,19 @@ class DocumentDAO {
     });
   }
 
+  getDocuments(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      try {
+        const sql = `SELECT * FROM Document`;
+        db.all(sql, (err: Error | null, rows: any) => {
+          if (err) return reject(err);
+          resolve(rows);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
   georeferenceDocument(
     documentId: number,
     georeference: string[]

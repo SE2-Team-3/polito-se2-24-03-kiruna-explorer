@@ -19,11 +19,16 @@ export default function LinkDocumentForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (selectedDocument1 && selectedDocument2) {
+    if (selectedDocument1 && selectedDocument2 && selectedDocument1 !== selectedDocument2) {
       API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(() => {
         setSelectedDocument1(null);
         setSelectedDocument2(null);
+        navigate("/urban-planner");
       });
+    } else if (selectedDocument1 && selectedDocument2 && selectedDocument1 === selectedDocument2) {
+      alert("Please select two different documents to link");
+    } else if (!selectedDocument1 || !selectedDocument2) {
+      alert("Please select two documents to link");
     }
   };
 
@@ -32,11 +37,6 @@ export default function LinkDocumentForm() {
     setSelectedDocument2(null);
     navigate("/urban-planner");
   };
-
-  console.log("selectedDocument1", selectedDocument1);
-  console.log("selectedDocument2", selectedDocument2);
-  console.log("linkType", linkType);
-  console.log("documents", documents);
 
   return (
     <div className="main-page">
