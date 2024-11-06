@@ -49,6 +49,7 @@ afterAll(async () => {
 
 describe("Product routes integration tests", () => {
   describe("POST /products", () => {
+    // KX1
     test("It should return 200 if the document created successfully", async () => {
       const reqInnput: any = {
         title: "doc-1",
@@ -60,7 +61,33 @@ describe("Product routes integration tests", () => {
         issuanceDate: "2024-11-06",
         language: "English",
         pages: "1",
-        georeference: [[]],
+      };
+
+      let document = await request(app)
+        .post(`${routePath}/documents`)
+        .set("Cookie", plannerCookie)
+        .send(reqInnput)
+        .expect(201);
+      let mydocument = document.body;
+
+      expect(mydocument).toBeDefined();
+      expect(mydocument.documentId).toBeDefined();
+      expect(mydocument.message).toBeDefined();
+    });
+
+    // kx3
+    test("It should return 200 if the document created successfully", async () => {
+      const reqInnput: any = {
+        title: "doc-1",
+        description: "doc-1",
+        documentType: "Text",
+        scale: "Text",
+        nodeType: "Design document",
+        stakeholders: ["LKAB"],
+        issuanceDate: "2024-11-06",
+        language: "English",
+        pages: "1",
+        georeference: [[67.8558, 20.2253]],
       };
 
       let document = await request(app)
