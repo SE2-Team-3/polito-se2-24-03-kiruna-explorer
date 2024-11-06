@@ -1,4 +1,4 @@
-import { Col, Form } from "react-bootstrap";
+import { Col, Form, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
@@ -7,12 +7,38 @@ const PageSelection = (props: Props) => {
   const [pages, setPages] = useState(
     props.document ? props.document.pages : ""
   );
+  const [pagesError, setPagesError] = useState("");
+
+  const validatePages = (input: string) => {
+    if (input === "") {
+      // Allow empty input (i.e., null value)
+      setPagesError("");
+      return true;
+    }
+
+    const pagesRegex = /^(\d+(-\d+)?)$/; // Matches a single number or a range n1-n2
+
+    if (!pagesRegex.test(input)) {
+      setPagesError(
+        "Pages must be a number, a range (e.g., '5' or '3-7'), or empty."
+      );
+      return false;
+    }
+
+    setPagesError("");
+    return true;
+  };
+
+  const handlePagesChange = (value: string) => {
+    setPages(value);
+    validatePages(value);
+  };
 
   useEffect(() => {
-    if (props.setDocument) {
+    if (props.setDocument && validatePages(pages)) {
       props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        pages: pages,
+        pages: pages, // Set to null if empty
       }));
     }
   }, [pages, props.setDocument]);
@@ -23,10 +49,16 @@ const PageSelection = (props: Props) => {
       <Form.Control
         type="text"
         value={pages}
-        onChange={(event) => setPages(event.target.value)}
-        placeholder="Number of pages"
+        onChange={(event) => handlePagesChange(event.target.value)}
+        placeholder="Enter number, range (e.g., '5' or '3-7'), or leave blank"
         className="font-size-20"
+        isInvalid={!!pagesError}
       />
+      {pagesError && (
+        <Alert variant="danger" className="my-2">
+          {pagesError}
+        </Alert>
+      )}
     </Form.Group>
   );
 };

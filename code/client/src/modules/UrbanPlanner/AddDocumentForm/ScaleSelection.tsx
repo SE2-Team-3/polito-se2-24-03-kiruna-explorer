@@ -1,4 +1,4 @@
-import { Col, Form, InputGroup } from "react-bootstrap";
+import { Col, Form, InputGroup, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
@@ -10,14 +10,32 @@ const ScaleSelection = (props: Props) => {
   const [scale, setScale] = useState(
     props.document ? props.document.scale : ""
   );
+  const [scaleError, setScaleError] = useState("");
 
   const handleTypeChange = (value: string) => {
     setDocumentType(value);
     setScale(value === "Plan" ? "" : value);
   };
 
+  const validateScale = (scaleValue: string) => {
+    const scaleRegex = /^1:\d+$/;
+    if (!scaleRegex.test(scaleValue) && documentType === "Plan") {
+      setScaleError(
+        "Scale must be in the format '1:x' where x is a positive number."
+      );
+      return false;
+    }
+    setScaleError("");
+    return true;
+  };
+
+  const handleScaleChange = (value: string) => {
+    setScale(value);
+    validateScale(value);
+  };
+
   useEffect(() => {
-    if (props.setDocument) {
+    if (props.setDocument && validateScale(scale)) {
       props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
         documentType: documentType,
@@ -46,12 +64,18 @@ const ScaleSelection = (props: Props) => {
           <Form.Control
             required
             type="text"
-            placeholder="Enter scale in 1:xxx format"
+            placeholder="Enter scale in 1:x format"
             value={scale}
             style={{ width: "60%" }}
-            onChange={(event) => setScale(event.target.value)}
+            onChange={(event) => handleScaleChange(event.target.value)}
             className="mt-0 font-size-20"
+            isInvalid={!!scaleError}
           />
+        )}
+        {scaleError && (
+          <Alert variant="danger" className="my-2">
+            {scaleError}
+          </Alert>
         )}
       </InputGroup>
     </Form.Group>

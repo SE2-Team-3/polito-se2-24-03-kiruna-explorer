@@ -1,4 +1,4 @@
-import { Col, Form, InputGroup, Alert } from "react-bootstrap";
+import { Row, Col, Form, InputGroup, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../style.css";
 import { Props } from "./interfaces/types";
@@ -70,7 +70,7 @@ const GeoreferenceSelection = (props: Props) => {
           {latError}
         </Alert>
       )}
-      <Col className="geo-box w-100">
+      <Row className="geo-box w-100">
         <InputGroup className="w-100">
           <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
           <Form.Control
@@ -85,13 +85,13 @@ const GeoreferenceSelection = (props: Props) => {
             required
           />
         </InputGroup>
-      </Col>
+      </Row>
       {lonError && (
         <Alert variant="danger" className="my-2">
           {lonError}
         </Alert>
       )}
-      <Col className="geo-box w-100">
+      <Row className="geo-box w-100">
         <InputGroup className="w-100">
           <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
           <Form.Control
@@ -106,7 +106,7 @@ const GeoreferenceSelection = (props: Props) => {
             required
           />
         </InputGroup>
-      </Col>
+      </Row>
     </Form.Group>
   );
 };
