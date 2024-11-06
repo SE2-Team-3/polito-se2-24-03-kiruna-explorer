@@ -68,7 +68,7 @@ const validateLatitude = (lat: number) => {
             max="67.8900"
             value={latitude}
             onChange={handleLatitudeChange}
-            placeholder="Latitude"
+            placeholder="Insert Latitude"
             className="font-size-20"
           />
         </InputGroup>
@@ -85,7 +85,7 @@ const validateLatitude = (lat: number) => {
             max="20.3500"
             value={longitude}
             onChange={handleLongitudeChange}
-            placeholder="Longitude"
+            placeholder="Insert Longitude"
             className="font-size-20"
           />
         </InputGroup> 
