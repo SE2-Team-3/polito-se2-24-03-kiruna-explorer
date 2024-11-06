@@ -3,7 +3,7 @@ import DocumentController from "../../controllers/documentController";
 import DocumentDAO from "../../dao/documentDAO";
 import { InvalidLinkError } from "../../errors/documentError";
 
-describe("Document Controller", () => {
+describe("Document Controller kx2", () => {
 
     let documentController: DocumentController;
 
@@ -16,7 +16,7 @@ describe("Document Controller", () => {
         jest.clearAllMocks();
     });
 
-    describe("listDocuments", () => {
+    describe("linkDocuments", () => {
 
         test("should resolve true", async () => {
             jest.spyOn(DocumentDAO.prototype, "linkDocuments").mockResolvedValueOnce(true);

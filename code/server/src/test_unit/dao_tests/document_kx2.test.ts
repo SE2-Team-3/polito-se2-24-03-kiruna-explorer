@@ -4,7 +4,7 @@ import db from "../../db/db";
 import { Database } from "sqlite3";
 import { DuplicateLinkError } from "../../errors/documentError";
 
-describe("Document DAO", () => {
+describe("Document DAO kx2", () => {
 
     let documentDAO: DocumentDAO;
 
