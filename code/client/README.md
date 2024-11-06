@@ -81,7 +81,7 @@ Displays the `UrbanPlanner` component, which likely provides tools and views spe
 * #### Add Document Route (`/urban-planner/add-document`):
 Loads the `AddDocumentForm` component, which allows the user to add a new document.
 
-* #### Add Document Route (`/urban-planner/link-documents`):
+* #### Link Documents Route (`/urban-planner/link-documents`):
 
 This route renders the `LinkDocumentForm` component when the user is logged in. If the user is not logged in, it redirects them to the login page.
 
