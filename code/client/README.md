@@ -81,6 +81,10 @@ Displays the `UrbanPlanner` component, which likely provides tools and views spe
 * #### Add Document Route (`/urban-planner/add-document`):
 Loads the `AddDocumentForm` component, which allows the user to add a new document.
 
+* #### Link Documents Route (`/urban-planner/link-documents`):
+
+This route renders the `LinkDocumentForm` component when the user is logged in. If the user is not logged in, it redirects them to the login page.
+
 # Client Application Components
 
 * #### Left Side Bar Component in (`LeftSideBar.tsx`):
@@ -125,5 +129,13 @@ Loads the `AddDocumentForm` component, which allows the user to add a new docume
    This component allows users to select multiple stakeholders from a predefined list.
 
 * ####   Georeference Selection Component in (`modules/UrbanPlanner/AddDocumentForm/GeoreferenceSelection.tsx`):
-   This component allows users to input geographical coordinates (latitude and longitude) and integrates this data into a document object
-   
+   This component allows users to input geographical coordinates (latitude and longitude) and integrates this data into a document object.
+
+* ####    Document Selector Component in (`modules/UrbanPlanner/LinkDocumentForm/DocumentSelector.tsx`):
+   This component is a document selection form where users can select two documents from a list, possibly for comparison or other dual-document operations.
+
+* ####     Link Type Selector Component in (`modules/UrbanPlanner/LinkDocumentForm/LinkTypeSelector.tsx`):
+   This component is a form element that provides four mutually exclusive radio button options for users to select a "link type." Once a user selects one of the options, the parent component’s state is updated to reflect the chosen link type. This component is useful when categorizing or classifying data based on predefined link types.
+
+* ####     Link Document Form Component in (`modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm.tsx`):
+   This component provides a form for linking two documents in a user interface. It includes two select inputs for choosing documents, a selector for the type of link between the documents, and buttons to submit the form or cancel the action
