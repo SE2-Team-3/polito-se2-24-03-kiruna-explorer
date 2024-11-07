@@ -68,14 +68,24 @@ sections:
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
+  Mockups could be designed in various level of complexities e.g. simple, complex to be choosen by the developer team.
+  Responsiveness in the Front End could have its own dedicated time.
+  Front End development could be have different estimations based on the user story complexity.
 
 - What lessons did you learn (both positive and negative) in this sprint?
+  (+) If we consider much more collaborations, we can make all team members more confident about the output of the product.
+  (+) If we have a good planning, we can create a balance in task assignments between members.
+  (-) We may consider more time for the UI/UX, specially mockups to consider alternatives.
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
+  much more realistic estimation for tasks.
+  team collaboration for tasks.
+
 - Which ones you were not able to achieve? Why?
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
-  > Propose one or two
+  > Sharing ideas about the design in mockups could guide the Front End developers to work on the UI/UX in a better way.
 
 - One thing you are proud of as a Team!!
+  Collaboration of all team members to implement all the functionalities to the final product.
