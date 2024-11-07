@@ -36,13 +36,20 @@ sections:
 > story `#0` is for technical tasks, leave out story points (not applicable in this case)
 
 - Hours per task average, standard deviation (estimate and actual)
+
+|       | avg EST | avg ACT | standard dev EST | stardard dev ACT |
+| ----- | ------- | ------- | ---------------- | ---------------- |
+| tasks | 2h 54m  | 2h 56m  | 4h 22m           | 3h 6m            |
+
 - Total estimation error ratio: sum of total hours spent / sum of total hours effort - 1
 
   $$\frac{\sum_i spent_{task_i}}{\sum_i estimation_{task_i}} - 1$$
+  =0,009833585
 
 - Absolute relative task estimation error: sum( abs( spent-task-i / estimation-task-i - 1))/n
 
   $$\frac{1}{n}\sum_i^n \left| \frac{spent_{task_i}}{estimation_task_i}-1 \right| $$
+  =0,000258779
 
 ## QUALITY MEASURES
 
