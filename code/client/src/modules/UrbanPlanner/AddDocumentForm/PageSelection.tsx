@@ -11,12 +11,11 @@ const PageSelection = (props: Props) => {
 
   const validatePages = (input: string) => {
     if (input === "") {
-      // Allow empty input (i.e., null value)
       setPagesError("");
       return true;
     }
 
-    const pagesRegex = /^(\d+(-\d+)?)$/; // Matches a single number or a range n1-n2
+    const pagesRegex = /^(\d+(-\d+)?)$/;
 
     if (!pagesRegex.test(input)) {
       setPagesError(
@@ -38,7 +37,7 @@ const PageSelection = (props: Props) => {
     if (props.setDocument && validatePages(pages)) {
       props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
-        pages: pages, // Set to null if empty
+        pages: pages,
       }));
     }
   }, [pages, props.setDocument]);
