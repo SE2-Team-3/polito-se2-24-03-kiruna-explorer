@@ -1,4 +1,4 @@
-# TEMPLATE FOR RETROSPECTIVE (Team ##)
+# TEMPLATE FOR RETROSPECTIVE (Team #3)
 
 The retrospective should include _at least_ the following
 sections:
@@ -11,9 +11,9 @@ sections:
 
 ### Macro statistics
 
-- Number of stories committed vs. done
-- Total points committed vs. done
-- Nr of hours planned vs. spent (as a team)
+- Number of stories committed vs. done: 3 / 3
+- Total points committed vs. done: 7 / 7
+- Nr of hours planned vs. spent (as a team): 110h 10m / 111h 15m
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
 
@@ -28,8 +28,10 @@ sections:
 
 | Story | # Tasks | Points | Hours est. | Hours actual |
 | ----- | ------- | ------ | ---------- | ------------ |
-| _#0_  |         |        |            |              |
-| n     |         |        |            |              |
+| _#0_  | 11      |        | 59h 10m    | 52h 5m       |
+| KX1   | 9       | 3      | 15h        | 21h 5m       |
+| KX2   | 9       | 2      | 18h        | 21h          |
+| KX3   | 9       | 2      | 18h        | 17h 5m       |
 
 > story `#0` is for technical tasks, leave out story points (not applicable in this case)
 
@@ -45,16 +47,16 @@ sections:
 ## QUALITY MEASURES
 
 - Unit Testing:
-  - Total hours estimated
-  - Total hours spent
-  - Nr of automated unit test cases
-  - Coverage (if available)
+  - Total hours estimated: 5h
+  - Total hours spent: 7h 15m
+  - Nr of automated unit test cases: 24
+  - Coverage (if available): statements 67.56%, branch 37.68%, functions: 63.15%, lines: 70.67%
 - E2E testing:
-  - Total hours estimated
-  - Total hours spent
+  - Total hours estimated: 6h
+  - Total hours spent: 3h 40m
 - Code review
-  - Total hours estimated
-  - Total hours spent
+  - Total hours estimated: 9h
+  - Total hours spent: 9h 5m
 
 ## ASSESSMENT
 
