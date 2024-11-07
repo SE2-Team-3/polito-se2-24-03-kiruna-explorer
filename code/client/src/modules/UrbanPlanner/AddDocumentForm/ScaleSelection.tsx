@@ -18,6 +18,10 @@ const ScaleSelection = (props: Props) => {
   };
 
   const validateScale = (scaleValue: string) => {
+    if (scaleValue === "") {
+      setScaleError("");
+      return true;
+    }
     const scaleRegex = /^1:\d+$/;
     if (!scaleRegex.test(scaleValue) && documentType === "Plan") {
       setScaleError(
