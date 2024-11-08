@@ -49,7 +49,7 @@ sections:
 - Absolute relative task estimation error: sum( abs( spent-task-i / estimation-task-i - 1))/n
 
   $$\frac{1}{n}\sum_i^n \left| \frac{spent_{task_i}}{estimation_task_i}-1 \right| $$
-  =0,000258779
+  =0,01955093
 
 ## QUALITY MEASURES
 
@@ -68,16 +68,19 @@ sections:
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
+
   - Mockups could be designed in various level of complexities e.g. simple, complex to be choosen by the developer team.
   - Responsiveness in the Front End could have its own dedicated time.
   - Front End development could be have different estimations based on the user story complexity.
 
 - What lessons did you learn (both positive and negative) in this sprint?
+
   - (+) If we consider much more collaborations, we can make all team members more confident about the output of the product.
   - (+) If we have a good planning, we can create a balance in task assignments between members.
   - (-) We may consider more time for the UI/UX, specially mockups to consider alternatives.
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
+
   - much more realistic estimation for tasks.
   - team collaboration for tasks.
 
