@@ -61,16 +61,16 @@ const ScaleSelection = (props: Props) => {
           <option value="">Select scale</option>
           <option value="Text">Text</option>
           <option value="Concept">Concept</option>
-          <option value="Plan">Plan</option>
+          <option value="Plan">Architectural plan</option>
           <option value="Actions">Blueprints/actions</option>
         </Form.Select>
         {documentType === "Plan" && (
           <Form.Control
             required
             type="text"
-            placeholder="Enter scale in 1:x format"
+            placeholder="1:XXXX"
             value={scale}
-            style={{ width: "60%" }}
+            style={{ width: "10%" }}
             onChange={(event) => handleScaleChange(event.target.value)}
             className="mt-0 font-size-20"
             isInvalid={!!scaleError}

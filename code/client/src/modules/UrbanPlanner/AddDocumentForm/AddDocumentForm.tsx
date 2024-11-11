@@ -7,7 +7,6 @@ import DateSelection from "./DateSelection";
 import NodeType from "./NodeType";
 import ScaleSelection from "./ScaleSelection";
 import PageSelection from "./PageSelection";
-import GeoreferenceSelection from "./GeoreferenceSelection";
 import GeoreferenceTypeSelection from "./GeoreferenceTypeSelection";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
@@ -128,12 +127,16 @@ const AddDocumentForm = (props: Props) => {
           <NodeType document={props.document} setDocument={props.setDocument} />
         </Row>
 
-        {/* Field: date - pages - languages */}
+        {/* Field: date */}
         <Row className="row-box">
           <DateSelection
             document={props.document}
             setDocument={props.setDocument}
           />
+        </Row>
+
+        {/* Field: pages - languages */}
+        <Row className="row-box">
           <PageSelection
             document={props.document}
             setDocument={props.setDocument}
@@ -146,7 +149,7 @@ const AddDocumentForm = (props: Props) => {
 
         {/* Field - georeference and Stakeholder */}
         <Row className="row-box">
-        
+
           <Col>
             <GeoreferenceTypeSelection
               document={props.document}
@@ -157,7 +160,7 @@ const AddDocumentForm = (props: Props) => {
               setDocument={props.setDocument}
             />*/}
           </Col>
-          
+
           <StakeholderSelection
             document={props.document}
             setDocument={props.setDocument}
