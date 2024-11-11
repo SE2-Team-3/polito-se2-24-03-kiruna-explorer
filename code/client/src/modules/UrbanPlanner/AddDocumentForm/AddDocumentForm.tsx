@@ -8,6 +8,7 @@ import NodeType from "./NodeType";
 import ScaleSelection from "./ScaleSelection";
 import PageSelection from "./PageSelection";
 import GeoreferenceSelection from "./GeoreferenceSelection";
+import GeoreferenceTypeSelection from "./GeoreferenceTypeSelection";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
@@ -147,10 +148,14 @@ const AddDocumentForm = (props: Props) => {
         <Row className="row-box">
         
           <Col>
-            <GeoreferenceSelection
+            <GeoreferenceTypeSelection
               document={props.document}
               setDocument={props.setDocument}
             />
+            {/*<GeoreferenceSelection
+              document={props.document}
+              setDocument={props.setDocument}
+            />*/}
           </Col>
           
           <StakeholderSelection
