@@ -44,6 +44,8 @@ export default function LinkDocumentForm() {
         <Row className="big-bold-text">Link Documents</Row>
         <DocumentSelector
           documents={documents}
+          selectedDocument1={selectedDocument1}
+          selectedDocument2={selectedDocument2}
           setSelectedDocument1={setSelectedDocument1}
           setSelectedDocument2={setSelectedDocument2}
         />
