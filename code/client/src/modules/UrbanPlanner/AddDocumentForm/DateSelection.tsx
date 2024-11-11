@@ -69,11 +69,18 @@ const DateSelection = (props: Props) => {
 
   const handleMonthChange = (value: string) => {
     setMonth(value);
+    if (value === "") {
+      setDay("");
+    }
     validateDate(day, month, year);
   };
 
   const handleYearChange = (value: string) => {
     setYear(value);
+    if (value === "") {
+      setMonth("");
+      setDay("");
+    }
     validateDate(day, month, year);
   };
 
