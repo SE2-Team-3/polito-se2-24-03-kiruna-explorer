@@ -5,6 +5,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import DocumentSelector from "./DocumentsSelector";
 import LinkTypeSelector from "./LinkTypeSelector";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../ToastProvider";
 
 export default function LinkDocumentForm() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function LinkDocumentForm() {
   const [selectedDocument1, setSelectedDocument1] = useState<number | null>();
   const [selectedDocument2, setSelectedDocument2] = useState<number | null>();
   const [linkType, setLinkType] = useState<string>("");
+
+  const showToast = useToast();
 
   useEffect(() => {
     API.getDocuments().then((documents) => setDocuments(documents));
@@ -23,6 +26,7 @@ export default function LinkDocumentForm() {
       API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(() => {
         setSelectedDocument1(null);
         setSelectedDocument2(null);
+        showToast("Documents linked successfully!");
         navigate("/urban-planner");
       });
     } else if (selectedDocument1 && selectedDocument2 && selectedDocument1 === selectedDocument2) {

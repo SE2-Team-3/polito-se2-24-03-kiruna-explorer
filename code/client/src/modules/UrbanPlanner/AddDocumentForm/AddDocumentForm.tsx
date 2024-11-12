@@ -13,6 +13,7 @@ import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
+import { useToast } from "../../../modules/ToastProvider";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const AddDocumentForm = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [validated, setValidated] = useState(false);
+
+  const showToast = useToast();
 
   //on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -58,8 +61,9 @@ const AddDocumentForm = (props: Props) => {
           georeference: [[]],
         };
         props.setDocument(newDoc);
-        navigate("/urban-planner");
         setErrorMessage("");
+        showToast("Document added successfully!");
+        navigate("/urban-planner");
       });
       /*
         .catch((error) => {
@@ -155,10 +159,6 @@ const AddDocumentForm = (props: Props) => {
               document={props.document}
               setDocument={props.setDocument}
             />
-            {/*<GeoreferenceSelection
-              document={props.document}
-              setDocument={props.setDocument}
-            />*/}
           </Col>
 
           <StakeholderSelection
