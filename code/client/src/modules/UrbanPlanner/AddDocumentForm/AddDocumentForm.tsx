@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useToast } from "../../../modules/ToastProvider";
+import { FaCheck } from "react-icons/fa";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
@@ -21,15 +22,19 @@ const AddDocumentForm = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [validated, setValidated] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1); // Step tracking
 
   const showToast = useToast();
 
-  //on submit
+  const handleNext = () => setCurrentStep((prevStep) => prevStep + 1);
+  const handlePrevious = () => setCurrentStep((prevStep) => prevStep - 1);
+
+  // on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setValidated(true);
     const form = event.currentTarget as HTMLFormElement;
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
@@ -47,11 +52,10 @@ const AddDocumentForm = (props: Props) => {
       };
 
       API.addDocument(document).then(() => {
-        // Reset document state
         const newDoc: NewDocument = {
           title: "",
           description: "",
-          documentType: "", // same thing as scale
+          documentType: "",
           scale: "",
           nodeType: "",
           stakeholders: [],
@@ -63,15 +67,8 @@ const AddDocumentForm = (props: Props) => {
         props.setDocument(newDoc);
         setErrorMessage("");
         showToast("Document added successfully!");
-        navigate("/urban-planner");
+        setCurrentStep(3); // Go to the final empty screen after submission
       });
-      /*
-        .catch((error) => {
-          console.error("Error adding document:", error);
-          setErrorMessage(
-            "An error has occurred while trying to register the document."
-          );
-      })*/
     }
   };
 
@@ -79,7 +76,7 @@ const AddDocumentForm = (props: Props) => {
     const resetDoc: NewDocument = {
       title: "",
       description: "",
-      documentType: "", //same thing as scale
+      documentType: "",
       scale: "",
       nodeType: "",
       stakeholders: [],
@@ -90,7 +87,25 @@ const AddDocumentForm = (props: Props) => {
     };
 
     props.setDocument(resetDoc);
-    navigate("/urban-planner"); // Redirect to /urban-planner
+    navigate("/urban-planner");
+  };
+
+  // Render function for step circles
+  const renderStepCircle = (step: number) => {
+    if (currentStep === step) {
+      // Current step (grey circle)
+      return <div className="step-circle active">{step}</div>;
+    } else if (currentStep > step) {
+      // Completed step (green circle with check)
+      return (
+        <div className="step-circle completed">
+          <FaCheck color="white" />
+        </div>
+      );
+    } else {
+      // Future step (white circle)
+      return <div className="step-circle">{step}</div>;
+    }
   };
 
   return (
@@ -112,76 +127,93 @@ const AddDocumentForm = (props: Props) => {
         )}
 
         <Row className="big-bold-text">New Document</Row>
-        <Row className="blue-text">
-          Please enter the details below to successfully add a new document
+
+        {/* Step Indicator Row */}
+        <Row className="step-indicator-row">
+          <Col className="step-col">
+            {renderStepCircle(1)}
+            <div className="step-label">Step 1</div>
+          </Col>
+          <Col className="step-col">
+            {renderStepCircle(2)}
+            <div className="step-label">Step 2</div>
+          </Col>
+          <Col className="step-col">
+            {renderStepCircle(3)}
+            <div className="step-label">Step 3</div>
+          </Col>
         </Row>
 
-        {/* Document Details Section */}
-        <DocumentDetails
-          document={props.document}
-          setDocument={props.setDocument}
-        />
-
-        {/* Field: scale - nodetype */}
-        <Row className=" row-box">
-          <ScaleSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-          <NodeType document={props.document} setDocument={props.setDocument} />
-        </Row>
-
-        {/* Field: date */}
-        <Row className="row-box">
-          <DateSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
-
-        {/* Field: pages - languages */}
-        <Row className="row-box">
-          <PageSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-          <LanguageSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
-
-        {/* Field - georeference and Stakeholder */}
-        <Row className="row-box">
-
-          <Col>
-            <GeoreferenceTypeSelection
+        {currentStep === 1 && (
+          <>
+            <DocumentDetails
               document={props.document}
               setDocument={props.setDocument}
             />
-          </Col>
+            <Row className="row-box">
+              <PageSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+              <LanguageSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Button onClick={handleNext} className="mt-3">
+              Next
+            </Button>
+          </>
+        )}
 
-          <StakeholderSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
+        {currentStep === 2 && (
+          <>
+            <Row className="row-box">
+              <StakeholderSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Row className="row-box">
+              <ScaleSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+              <NodeType
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Row className="row-box">
+              <DateSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
 
-        {/* Submit and Cancel Buttons */}
-        <Row className="row-box">
-          <Col className="col-box">
-            <Button type="submit" className="button-white float-end ms-2">
+            <Row className="row-box">
+              <GeoreferenceTypeSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Button onClick={handlePrevious} className="mt-3 me-2">
+              Back
+            </Button>
+            <Button type="submit" className="mt-3">
               Submit
             </Button>
-            <Button
-              variant="primary"
-              className="button-white float-end"
-              onClick={handleCancel}
-            >
-              Cancel
+          </>
+        )}
+
+        {currentStep === 3 && (
+          <>
+            <Row className="blue-text mt-4">Document added successfully!</Row>
+            <Button onClick={() => navigate("/urban-planner")} className="mt-3">
+              Back to Dashboard
             </Button>
-          </Col>
-        </Row>
+          </>
+        )}
       </Form>
     </div>
   );

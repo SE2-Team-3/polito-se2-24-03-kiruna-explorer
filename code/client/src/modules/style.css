@@ -28,7 +28,7 @@
 
 .big-bold-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 40px;
+  font-size: 28px;
   font-weight: bold;
   margin-left: 20px;
   margin-top: 20px;
@@ -105,6 +105,57 @@
   background-color: #1e1e1e;
   border-color: #1e1e1e;
   color: white;
+}
+
+.step-indicator-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step-col {
+  text-align: center;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #333;
+  margin: 0 auto;
+}
+
+.step-circle.active {
+  background-color: grey;
+  color: white;
+}
+
+.step-circle.completed {
+  background-color: green;
+  color: white;
+}
+
+.step-label {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #333;
+}
+
+/* Ensuring background and proper layering */
+.dropdown-menu {
+  background-color: #fff; /* White background */
+  z-index: 1050; /* Ensures it's above other elements */
+}
+
+/* Optional: Add some styling to improve visibility */
+.dropdown-item {
+  padding: 10px;
 }
 
 @media (max-width: 1024px) {
@@ -258,7 +309,12 @@
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
