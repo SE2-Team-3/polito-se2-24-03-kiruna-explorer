@@ -1,3 +1,7 @@
+/*
+PAGE STYLE
+*/
+
 .main-page {
   position: relative;
   min-height: calc(100vh - 100px);
@@ -12,6 +16,9 @@
   transition: margin-left 0.3s ease;
 }
 
+/*
+FORM STYLE
+*/
 .document-form {
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
@@ -26,6 +33,24 @@
   overflow-x: hidden;
 }
 
+.row-box {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.col-box {
+  width: 50%;
+  margin-top: 20px;
+}
+
+.geo-box {
+  width: 50%;
+  margin-top: 5px;
+}
+
+/*
+GENERAL TEXT STYLE
+*/
 .big-bold-text {
   font-family: "Open Sans", sans-serif;
   font-size: 28px;
@@ -56,42 +81,58 @@
   padding-top: 10px;
 }
 
-.row-box {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.col-box {
-  width: 50%;
-  margin-top: 20px;
-}
-
-.geo-box {
-  width: 50%;
-  margin-top: 5px;
-}
-
-.button-white {
-  background-color: white;
-  border-color: #3d52a0;
-  color: #3d52a0;
-  font-size: 24px;
-  padding: 10px;
-  width: 110px;
-}
-
-.button-white:hover {
-  background-color: #3d52a0;
-  border-color: #3d52a0;
-  color: white;
-}
-
 .font-size-20 {
   font-size: 20px;
 }
 
 .font-size-18 {
   font-size: 18px;
+}
+
+/*
+BUTTON STYLE
+*/
+.button-white,
+.button-blue {
+  font-size: 24px;
+  padding: 5px;
+  width: 110px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.button-white {
+  background-color: white;
+  border-color: #3d52a0;
+  color: #3d52a0;
+}
+
+.button-blue {
+  background-color: #3d52a0;
+  border-color: #3d52a0;
+  color: white;
+}
+
+.button-white:hover {
+  background-color: white;
+  color: #3d52a0;
+  border-color: #3d52a0;
+}
+
+.button-blue:hover {
+  background-color: #3d52a0;
+  color: white;
+  border-color: #3d52a0;
+}
+
+.button-white:hover,
+.button-blue:hover {
+  transform: scale(1.075);
+}
+.button-white:active,
+.button-blue:active {
+  transform: scale(0.95);
 }
 
 .button-small {
@@ -107,10 +148,12 @@
   color: white;
 }
 
+/*
+STEP PROGESS BAR
+*/
 .step-indicator-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
 }
 
 .step-col {
@@ -118,21 +161,21 @@
 }
 
 .step-circle {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background-color: white;
-  border: 2px solid #ccc;
+  border: 2px solid #adbbda;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #333;
+  color: #adbbba;
   margin: 0 auto;
 }
 
 .step-circle.active {
-  background-color: grey;
+  background-color: #adbbda;
   color: white;
 }
 
@@ -142,22 +185,31 @@
 }
 
 .step-label {
-  margin-top: 5px;
-  font-size: 12px;
-  color: #333;
+  margin-top: 05px;
+  font-size: 18px;
+  color: #1e1e1e;
 }
 
-/* Ensuring background and proper layering */
+.step-title {
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+}
+/*
+DROPDOWN STYLE
+*/
 .dropdown-menu {
-  background-color: #fff; /* White background */
-  z-index: 1050; /* Ensures it's above other elements */
+  background-color: #fff;
+  z-index: 1050;
 }
 
-/* Optional: Add some styling to improve visibility */
 .dropdown-item {
   padding: 10px;
 }
 
+/*
+SMALL LAPTOP RESPONSIVE PAGE
+*/
 @media (max-width: 1024px) {
   .main-page {
     margin-left: 250px;
@@ -186,7 +238,8 @@
   .font-size-18 {
     font-size: 14px;
   }
-  .button-white {
+  .button-white,
+  .button-blue {
     font-size: 18px;
     width: 70px;
     padding: 5px;
@@ -198,12 +251,19 @@
   }
 }
 
+/*
+LAPTOP RESPONSIVE PAGE
+*/
 @media (min-width: 1024) {
   .main-page.sidebar-open {
     display: block;
     margin-left: 350px; /* Adjust to match sidebar width */
   }
 }
+
+/*
+TABLET RESPONSIVE PAGE
+*/
 @media (max-width: 768px) {
   /* Style adjustments when sidebar is open on smaller screens */
   .main-page.sidebar-open {
@@ -239,7 +299,8 @@
     font-size: 12px;
     padding: 5px;
   }
-  .button-white {
+  .button-white,
+  .button-blue {
     font-size: 14px;
     width: 70px;
     padding: 5px;
@@ -251,6 +312,9 @@
   }
 }
 
+/*
+LOGIN
+*/
 /* Container principale per occupare tutta la pagina */
 .loginContainer {
   margin: 0;

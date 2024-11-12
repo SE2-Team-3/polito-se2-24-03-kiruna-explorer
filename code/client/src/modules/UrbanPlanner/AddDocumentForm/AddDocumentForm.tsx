@@ -93,18 +93,15 @@ const AddDocumentForm = (props: Props) => {
   // Render function for step circles
   const renderStepCircle = (step: number) => {
     if (currentStep === step) {
-      // Current step (grey circle)
-      return <div className="step-circle active">{step}</div>;
+      return <div className="step-circle active"></div>;
     } else if (currentStep > step) {
-      // Completed step (green circle with check)
       return (
         <div className="step-circle completed">
           <FaCheck color="white" />
         </div>
       );
     } else {
-      // Future step (white circle)
-      return <div className="step-circle">{step}</div>;
+      return <div className="step-circle"></div>;
     }
   };
 
@@ -132,15 +129,27 @@ const AddDocumentForm = (props: Props) => {
         <Row className="step-indicator-row">
           <Col className="step-col">
             {renderStepCircle(1)}
-            <div className="step-label">Step 1</div>
+            <div className="step-label">
+              <span>Step 1</span>
+              <br />
+              <span className="step-title">Basic info</span>
+            </div>
           </Col>
           <Col className="step-col">
             {renderStepCircle(2)}
-            <div className="step-label">Step 2</div>
+            <div className="step-label">
+              <span>Step 2</span>
+              <br />
+              <span className="step-title">Add. info</span>
+            </div>
           </Col>
           <Col className="step-col">
             {renderStepCircle(3)}
-            <div className="step-label">Step 3</div>
+            <div className="step-label">
+              <span>Step 3</span>
+              <br />
+              <span className="step-title">Link Doc</span>
+            </div>
           </Col>
         </Row>
 
@@ -160,7 +169,10 @@ const AddDocumentForm = (props: Props) => {
                 setDocument={props.setDocument}
               />
             </Row>
-            <Button onClick={handleNext} className="mt-3">
+            <Button onClick={handleCancel} className="button-white mt-3 me-3">
+              Cancel
+            </Button>
+            <Button onClick={handleNext} className="button-blue mt-3">
               Next
             </Button>
           </>
@@ -197,10 +209,10 @@ const AddDocumentForm = (props: Props) => {
                 setDocument={props.setDocument}
               />
             </Row>
-            <Button onClick={handlePrevious} className="mt-3 me-2">
+            <Button onClick={handlePrevious} className="button-white mt-3 me-3">
               Back
             </Button>
-            <Button type="submit" className="mt-3">
+            <Button type="submit" className="button-blue mt-3">
               Submit
             </Button>
           </>
