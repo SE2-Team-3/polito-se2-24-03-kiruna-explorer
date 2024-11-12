@@ -64,7 +64,6 @@ const GeoreferenceSelection = (props: Props) => {
 
   return (
     <Form.Group as={Col} className="align-items-center">
-      <Form.Label className="black-text">Georeference</Form.Label>
       {latError && (
         <Alert variant="danger" className="my-2">
           {latError}

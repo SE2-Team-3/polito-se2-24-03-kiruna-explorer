@@ -7,12 +7,13 @@ import DateSelection from "./DateSelection";
 import NodeType from "./NodeType";
 import ScaleSelection from "./ScaleSelection";
 import PageSelection from "./PageSelection";
-import GeoreferenceSelection from "./GeoreferenceSelection";
+import GeoreferenceTypeSelection from "./GeoreferenceTypeSelection";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
+import { useToast } from "../../../modules/ToastProvider";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const AddDocumentForm = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [validated, setValidated] = useState(false);
+
+  const showToast = useToast();
 
   //on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -58,8 +61,9 @@ const AddDocumentForm = (props: Props) => {
           georeference: [[]],
         };
         props.setDocument(newDoc);
-        navigate("/urban-planner");
         setErrorMessage("");
+        showToast("Document added successfully!");
+        navigate("/urban-planner");
       });
       /*
         .catch((error) => {
@@ -127,12 +131,16 @@ const AddDocumentForm = (props: Props) => {
           <NodeType document={props.document} setDocument={props.setDocument} />
         </Row>
 
-        {/* Field: date - pages - languages */}
+        {/* Field: date */}
         <Row className="row-box">
           <DateSelection
             document={props.document}
             setDocument={props.setDocument}
           />
+        </Row>
+
+        {/* Field: pages - languages */}
+        <Row className="row-box">
           <PageSelection
             document={props.document}
             setDocument={props.setDocument}
@@ -145,14 +153,14 @@ const AddDocumentForm = (props: Props) => {
 
         {/* Field - georeference and Stakeholder */}
         <Row className="row-box">
-        
+
           <Col>
-            <GeoreferenceSelection
+            <GeoreferenceTypeSelection
               document={props.document}
               setDocument={props.setDocument}
             />
           </Col>
-          
+
           <StakeholderSelection
             document={props.document}
             setDocument={props.setDocument}
