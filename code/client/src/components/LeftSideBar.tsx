@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
+import Dashboard from "../assets/icons/dashboard notselected.svg";
+import NewDocument from "../assets/icons/document notselected.svg";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
@@ -40,49 +42,28 @@ const LeftSideBar = (props: { logout: () => void }) => {
           {user ? (
             <Col>
               <Row>
-                <div
-                  className="menu-text"
-                  role="button"
-                  onClick={handleNavigation0}
-                >
+                <div className="menu-text" role="button" onClick={handleNavigation0}>
                   {" "}
                   <span className="file-icon-box">
-                    <i className="bi bi-clipboard"></i>
+                    <img src={Dashboard} alt="dashboard" />
                   </span>
-                  <span className="menu-text bold-text">Dashboard</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
+                  <span className="menu-text">Dashboard</span>
                 </div>{" "}
               </Row>
               <Row>
-                <div
-                  className="menu-text"
-                  role="button"
-                  onClick={handleNavigation1}
-                >
+                <div className="menu-text" role="button" onClick={handleNavigation1}>
                   <span className="file-icon-box">
-                    <i className="bi bi-files"></i>
+                    <img src={NewDocument} alt="new document" />
                   </span>
-                  <span className="menu-text bold-text">New document</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
+                  <span className="menu-text">New document</span>
                 </div>{" "}
               </Row>
               <Row>
-                <div
-                  className="menu-text"
-                  role="button"
-                  onClick={handleNavigation2}
-                >
+                <div className="menu-text" role="button" onClick={handleNavigation2}>
                   <span className="file-icon-box">
                     <i className="bi bi-link"></i>
                   </span>
-                  <span className="menu-text bold-text">Link documents</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
+                  <span className="menu-text">Link documents</span>
                 </div>{" "}
               </Row>
             </Col>
@@ -96,9 +77,14 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <span className="login-icon-box">
                 <i className="bi bi-person white-icon"></i>
               </span>
-              <span className="bold-text text-24">
-                {user ? user.name : "Username"}
-              </span>
+              <Row>
+                <style>
+                  @import
+                  url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+                </style>
+                <span className="user-name">{user ? user.name : "Username"}</span>
+                <span className="user-role">{user ? "Urban Planner" : "Role here"}</span>
+              </Row>
               <span className="logout-icon-box" onClick={props.logout}>
                 {user ? (
                   <i className="bi bi-box-arrow-right blue-icon"></i>
