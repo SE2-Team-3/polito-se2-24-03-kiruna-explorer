@@ -63,8 +63,7 @@ FORM STYLE
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   margin-left: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 .step-number {
   color: #adbbda;
@@ -98,7 +97,7 @@ GENERAL TEXT STYLE
 
 .black-text {
   font-family: "Open Sans", sans-serif;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 300;
   justify-content: left;
   color: #1e1e1e;
@@ -161,14 +160,14 @@ BUTTON STYLE
 
 .button-small {
   background-color: transparent;
-  border-color: #1e1e1e;
-  color: #1e1e1e;
+  border-color: #3d52a0;
+  color: #3d52a0;
   font-size: 18px;
 }
 
 .button-small:hover {
-  background-color: #1e1e1e;
-  border-color: #1e1e1e;
+  background-color: #3d52a0;
+  border-color: #3d52a0;
   color: white;
 }
 
@@ -176,6 +175,7 @@ BUTTON STYLE
 STEP PROGESS BAR
 */
 .step-indicator-row {
+  margin-bottom: 15px;
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
@@ -706,4 +706,8 @@ LOGIN
   .title-text {
     font-size: 26px;
   }
+}
+
+.pages-col {
+  --bs-gutter-x: 0;
 }

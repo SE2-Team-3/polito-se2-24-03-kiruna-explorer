@@ -3,7 +3,7 @@ body {
   padding: 0;
   height: 100%;
   /*background-image: url("./assets/Kiruna_square.jpg");*/
-  background-color: #ededed;
+  background-color: #ede8f5;
 }
 
 .navbar-container {
@@ -78,7 +78,6 @@ body {
   align-items: center;
   color: #3d52a0;
   min-width: 210px;
-  font-weight: bold;
   padding: 8px;
   padding-inline: 10%;
 }
@@ -89,6 +88,7 @@ body {
   border-radius: 10px;
   margin-inline: 15px; /* Aggiungi un margine orizzontale per creare il rientro */
   width: calc(100% - 30px); /* Riduce la larghezza per lasciare spazio ai margini */
+  font-weight: bold;
 }
 
 .user-text {
