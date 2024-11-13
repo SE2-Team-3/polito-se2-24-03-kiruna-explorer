@@ -300,6 +300,7 @@ DROPDOWN STYLE
   border: 1px solid #ccc;
   box-shadow: none;
   text-align: left;
+  width: 100%;
 }
 .dropdown-toggle:hover {
   background-color: white;
@@ -683,10 +684,12 @@ LOGIN
 
 @media (max-width: 768px) {
   /* Full-width layout for small screens */
+  
   .loginContainer {
     padding: 20px;
   }
   .formSection {
+    
     padding: 20px;
   }
   .loginBtn {
