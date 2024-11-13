@@ -3,7 +3,7 @@ body {
   padding: 0;
   height: 100%;
   /*background-image: url("./assets/Kiruna_square.jpg");*/
-  background-color: #ede8f5;
+  background-color: #ededed;
 }
 
 .navbar-container {
@@ -70,13 +70,21 @@ body {
   font-style: italic;
 }
 
-.menu-text {
+.menu-text-container {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   display: flex;
   align-items: center;
-  color: #8697c4;
+  color: #3d52a0;
   min-width: 210px;
+  font-weight: bold;
+  padding: 8px;
+}
+
+.menu-text-container:hover,
+.highlighted {
+  background-color: rgba(61, 82, 160, 0.12);
+  border-radius: 10px;
 }
 
 .user-text {
@@ -103,6 +111,11 @@ body {
   padding: 8px;
   font-size: 30px;
   margin-right: 8px;
+  color: #8697c4;
+}
+
+.file-icon-box:hover {
+  color: #3d52a0;
 }
 
 .arrow-icon-box:hover,
@@ -149,7 +162,7 @@ body {
     max-width: 250px;
   }
 
-  .menu-text {
+  .menu-text-container {
     font-size: 20px;
     min-width: 150px;
   }
@@ -162,8 +175,8 @@ body {
   }
 
   .bottom-side-box {
-    display: flex; /* Ensure it displays flexibly */
-    margin-top: auto; /* Always at the bottom */
+    display: flex;
+    margin-top: auto;
   }
 
   .text-24 {
@@ -201,7 +214,7 @@ body {
     transform: translateX(0);
   }
 
-  .menu-text {
+  .menu-text-container {
     font-size: 20px;
     min-width: 180px;
   }
@@ -214,8 +227,8 @@ body {
   }
 
   .bottom-side-box {
-    display: flex; /* Ensure it displays flexibly */
-    margin-top: auto; /* Always at the bottom */
+    display: flex;
+    margin-top: auto;
   }
 
   .text-24 {

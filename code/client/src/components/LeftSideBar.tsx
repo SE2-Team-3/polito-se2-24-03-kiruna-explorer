@@ -5,7 +5,9 @@ import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
 import Dashboard from "../assets/icons/dashboard notselected.svg";
+import DashboardSelected from "../assets/icons/dashboard selected.svg";
 import NewDocument from "../assets/icons/document notselected.svg";
+import NewDocumentSelected from "../assets/icons/document selected.svg";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
@@ -42,28 +44,60 @@ const LeftSideBar = (props: { logout: () => void }) => {
           {user ? (
             <Col>
               <Row>
-                <div className="menu-text" role="button" onClick={handleNavigation0}>
-                  {" "}
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation0}
+                >
                   <span className="file-icon-box">
-                    <img src={Dashboard} alt="dashboard" />
+                    {location.pathname === "/urban-planner" ? (
+                      <img src={DashboardSelected} alt="dashboard selected" />
+                    ) : (
+                      <img src={Dashboard} alt="dashboard" />
+                    )}
                   </span>
-                  <span className="menu-text">Dashboard</span>
+                  <span>Dashboard</span>
+                </div>
+              </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/add-document"
+                      ? "highlighted"
+                      : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation1}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/urban-planner/add-document" ? (
+                      <img
+                        src={NewDocumentSelected}
+                        alt="new document selected"
+                      />
+                    ) : (
+                      <img src={NewDocument} alt="new document" />
+                    )}
+                  </span>
+                  <span>New document</span>
                 </div>{" "}
               </Row>
               <Row>
-                <div className="menu-text" role="button" onClick={handleNavigation1}>
-                  <span className="file-icon-box">
-                    <img src={NewDocument} alt="new document" />
-                  </span>
-                  <span className="menu-text">New document</span>
-                </div>{" "}
-              </Row>
-              <Row>
-                <div className="menu-text" role="button" onClick={handleNavigation2}>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/link-documents"
+                      ? "highlighted"
+                      : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation2}
+                >
                   <span className="file-icon-box">
                     <i className="bi bi-link"></i>
                   </span>
-                  <span className="menu-text">Link documents</span>
+                  <span>Link documents</span>
                 </div>{" "}
               </Row>
             </Col>
@@ -82,8 +116,12 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   @import
                   url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
                 </style>
-                <span className="user-name">{user ? user.name : "Username"}</span>
-                <span className="user-role">{user ? "Urban Planner" : "Role here"}</span>
+                <span className="user-name">
+                  {user ? user.name : "Username"}
+                </span>
+                <span className="user-role">
+                  {user ? "Urban Planner" : "Role here"}
+                </span>
               </Row>
               <span className="logout-icon-box" onClick={props.logout}>
                 {user ? (

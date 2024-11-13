@@ -108,12 +108,12 @@ const DateSelection = (props: Props) => {
 
       <Row>
         <Col md={4}>
-          <Form.Label>Year</Form.Label>
+          <Form.Label className="font-size-18">Year</Form.Label>
           <Form.Select
             required
             value={year}
             onChange={(event) => handleYearChange(event.target.value)}
-            className="font-size-20"
+            className="font-size-18"
             isInvalid={!!dateError}
           >
             <option value="">yyyy</option>
@@ -127,11 +127,11 @@ const DateSelection = (props: Props) => {
 
         {year !== "" && (
           <Col md={3}>
-            <Form.Label>Month</Form.Label>
+            <Form.Label className="font-size-18">Month</Form.Label>
             <Form.Select
               value={month}
               onChange={(event) => handleMonthChange(event.target.value)}
-              className="font-size-20"
+              className="font-size-18"
               isInvalid={!!dateError}
             >
               <option value="">mm</option>
@@ -146,11 +146,11 @@ const DateSelection = (props: Props) => {
 
         {year !== "" && month !== "" && (
           <Col md={3}>
-            <Form.Label>Day</Form.Label>
+            <Form.Label className="font-size-18">Day</Form.Label>
             <Form.Select
               value={day}
               onChange={(event) => handleDayChange(event.target.value)}
-              className="font-size-20"
+              className="font-size-18"
               isInvalid={!!dateError}
             >
               <option value="">dd</option>

@@ -6,16 +6,19 @@ import API from "../../../API/API";
 import { useToast } from "../../ToastProvider";
 import { FaCheck } from "react-icons/fa";
 
-const MultipleLinkForm = () => {
+interface MultipleLinkFormProps {
+  newDocID: number;
+}
+
+const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
   const [validated, setValidated] = useState(false);
   const [currentStep, setCurrentStep] = useState(3);
 
   const showToast = useToast();
 
-  // on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     /* handle submit link form*/
     event.preventDefault();
