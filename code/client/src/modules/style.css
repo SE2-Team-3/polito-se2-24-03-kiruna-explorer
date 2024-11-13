@@ -166,7 +166,7 @@ STEP PROGESS BAR
   height: 50px;
   border-radius: 50%;
   background-color: white;
-  border: 2px solid #adbbda;
+  border: 3px solid #adbbda;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,6 +196,18 @@ STEP PROGESS BAR
   color: black;
   font-weight: bold;
 }
+
+.solid-line {
+  height: 5px;
+  background-color: #adbbda;
+}
+
+.line-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 /*
 DROPDOWN STYLE
 */

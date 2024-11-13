@@ -133,6 +133,14 @@ const AddDocumentForm = (props: Props) => {
               <span className="step-title">Basic info</span>
             </div>
           </Col>
+          <Col className="line-col">
+            <div></div>
+            <div className="solid-line"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Col>
           <Col className="step-col">
             {renderStepCircle(2)}
             <div className="step-label">
@@ -140,6 +148,14 @@ const AddDocumentForm = (props: Props) => {
               <br />
               <span className="step-title">Add. info</span>
             </div>
+          </Col>
+          <Col className="line-col">
+            <div></div>
+            <div className="solid-line"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </Col>
           <Col className="step-col">
             {renderStepCircle(3)}
@@ -175,12 +191,14 @@ const AddDocumentForm = (props: Props) => {
                 setDocument={props.setDocument}
               />
             </Row>
-            <Button onClick={handleCancel} className="button-white mt-3 me-3">
-              Cancel
-            </Button>
-            <Button onClick={handleNext} className="button-blue mt-3">
-              Next
-            </Button>
+            <Row className="row-box ">
+              <Button onClick={handleCancel} className="button-white mt-3 me-3">
+                Cancel
+              </Button>
+              <Button onClick={handleNext} className="button-blue mt-3">
+                Next
+              </Button>
+            </Row>
           </>
         )}
 
@@ -230,9 +248,7 @@ const AddDocumentForm = (props: Props) => {
         {currentStep === 3 && (
           <>
             <Row className="blue-text mt-4">Document added successfully!</Row>
-            <Button onClick={() => navigate("/urban-planner")} className="mt-3">
-              Back to Dashboard
-            </Button>
+            <Button className="mt-3">Back to Dashboard</Button>
           </>
         )}
       </Form>
