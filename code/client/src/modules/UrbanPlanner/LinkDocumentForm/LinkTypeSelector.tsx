@@ -1,42 +1,59 @@
 import { Form, Row } from "react-bootstrap";
 
-export default function LinkTypeSelector(props: any) {
-  const { linkType, setLinkType } = props;
+export default function LinkTypeSelector({ linkType, setLinkType }: any) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+
+    // Update the linkType state by adding or removing the selected value
+    if (isChecked) {
+      setLinkType((prev: string[]) => [...prev, value]);
+    } else {
+      setLinkType((prev: string[]) => prev.filter((item) => item !== value));
+    }
+  };
 
   return (
     <Row className="row-box">
       <Form.Label className="black-text">Link Type *</Form.Label>
 
+      {/* Direct consequence checkbox */}
       <Form.Check
-        type="radio"
+        type="checkbox"
         label="Direct consequence"
-        name="options"
         value="direct consequence"
-        onChange={(event) => setLinkType(event.target.value)}
+        checked={linkType.includes("direct consequence")}
+        onChange={handleChange}
         className="font-size-20"
       />
+
+      {/* Collateral consequence checkbox */}
       <Form.Check
-        type="radio"
+        type="checkbox"
         label="Collateral consequence"
-        name="options"
         value="collateral consequence"
-        onChange={(event) => setLinkType(event.target.value)}
+        checked={linkType.includes("collateral consequence")}
+        onChange={handleChange}
         className="font-size-20"
       />
+
+      {/* Prevision checkbox */}
       <Form.Check
-        type="radio"
+        type="checkbox"
         label="Prevision"
-        name="options"
         value="prevision"
-        onChange={(event) => setLinkType(event.target.value)}
+        checked={linkType.includes("prevision")}
+        onChange={handleChange}
         className="font-size-20"
       />
+
+      {/* Update checkbox */}
       <Form.Check
-        type="radio"
+        type="checkbox"
         label="Update"
-        name="options"
         value="update"
-        onChange={(event) => setLinkType(event.target.value)}
+        checked={linkType.includes("update")}
+        onChange={handleChange}
         className="font-size-20"
       />
     </Row>

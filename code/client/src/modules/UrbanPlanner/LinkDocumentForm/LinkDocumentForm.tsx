@@ -12,7 +12,7 @@ export default function LinkDocumentForm() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selectedDocument1, setSelectedDocument1] = useState<number | null>();
   const [selectedDocument2, setSelectedDocument2] = useState<number | null>();
-  const [linkType, setLinkType] = useState<string>("");
+  const [linkType, setLinkType] = useState<string[]>([]);
 
   const showToast = useToast();
 
@@ -22,24 +22,55 @@ export default function LinkDocumentForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (selectedDocument1 && selectedDocument2 && selectedDocument1 !== selectedDocument2) {
-      API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(() => {
-        setSelectedDocument1(null);
-        setSelectedDocument2(null);
+
+    // Check if linkType is empty
+    if (linkType.length === 0) {
+      alert("Please select at least one link type.");
+      return;
+    }
+
+    // Check if both documents are selected
+    if (!selectedDocument1 || !selectedDocument2) {
+      alert("Please select two documents to link.");
+      return;
+    }
+
+    // Ensure the documents are different
+    if (selectedDocument1 === selectedDocument2) {
+      alert("Please select two different documents to link.");
+      return;
+    }
+
+    // Create API call promises for each link type
+
+    const linkPromises = linkType.map((type) => {
+      console.log(type)
+      return API.linkDocuments(selectedDocument1, selectedDocument2, type);
+    });
+
+    // Use Promise.all to send multiple API requests concurrently
+    Promise.all(linkPromises)
+      .then(() => {
+        // Reset the form and show success message
+        resetForm();
         showToast("Documents linked successfully!");
         navigate("/urban-planner");
+      })
+      .catch((error) => {
+        console.error("Error linking documents", error);
+        alert("An error occurred while linking the documents.");
       });
-    } else if (selectedDocument1 && selectedDocument2 && selectedDocument1 === selectedDocument2) {
-      alert("Please select two different documents to link");
-    } else if (!selectedDocument1 || !selectedDocument2) {
-      alert("Please select two documents to link");
-    }
   };
 
   const handleCancel = () => {
+    resetForm();
+    navigate("/urban-planner");
+  };
+
+  const resetForm = () => {
     setSelectedDocument1(null);
     setSelectedDocument2(null);
-    navigate("/urban-planner");
+    setLinkType([]);
   };
 
   return (
