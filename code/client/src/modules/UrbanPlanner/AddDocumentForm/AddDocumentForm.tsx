@@ -1,5 +1,5 @@
 import { Col, Row, Form, Button, Alert } from "react-bootstrap";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useRef } from "react";
 import DocumentDetails from "./DocumentDetails";
 import LanguageSelection from "./LanguageSelection";
 import StakeholderSelection from "./StakeholderSelection";
@@ -13,7 +13,7 @@ import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
-import { useToast } from "../../../modules/ToastProvider";
+import { useToast } from "../../ToastProvider";
 import { FaCheck } from "react-icons/fa";
 
 const AddDocumentForm = (props: Props) => {
@@ -22,16 +22,24 @@ const AddDocumentForm = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [validated, setValidated] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // Step tracking
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const stakeholderSelectionRef = useRef<any>(null);
 
   const showToast = useToast();
 
-  const handleNext = () => setCurrentStep((prevStep) => prevStep + 1);
+  const handleNext = () => {
+    if (props.document.title && props.document.description) {
+      setErrorMessage("");
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else setErrorMessage("Title or Description are empty");
+  };
   const handlePrevious = () => setCurrentStep((prevStep) => prevStep - 1);
 
   // on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    stakeholderSelectionRef.current.handleValidationCheck();
     setValidated(true);
     const form = event.currentTarget as HTMLFormElement;
 
@@ -113,16 +121,6 @@ const AddDocumentForm = (props: Props) => {
         validated={validated}
         onSubmit={handleSubmit}
       >
-        {errorMessage && (
-          <Alert
-            variant="danger"
-            onClose={() => setErrorMessage("")}
-            dismissible
-          >
-            {errorMessage}
-          </Alert>
-        )}
-
         <Row className="big-bold-text">New Document</Row>
 
         {/* Step Indicator Row */}
@@ -152,7 +150,15 @@ const AddDocumentForm = (props: Props) => {
             </div>
           </Col>
         </Row>
-
+        {errorMessage && (
+          <Alert
+            variant="danger"
+            onClose={() => setErrorMessage("")}
+            dismissible
+          >
+            {errorMessage}
+          </Alert>
+        )}
         {currentStep === 1 && (
           <>
             <DocumentDetails
@@ -182,6 +188,7 @@ const AddDocumentForm = (props: Props) => {
           <>
             <Row className="row-box">
               <StakeholderSelection
+                ref={stakeholderSelectionRef}
                 document={props.document}
                 setDocument={props.setDocument}
               />
@@ -191,6 +198,8 @@ const AddDocumentForm = (props: Props) => {
                 document={props.document}
                 setDocument={props.setDocument}
               />
+            </Row>
+            <Row className="row-box">
               <NodeType
                 document={props.document}
                 setDocument={props.setDocument}

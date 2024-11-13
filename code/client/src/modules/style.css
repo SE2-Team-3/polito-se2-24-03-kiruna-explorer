@@ -152,6 +152,7 @@ BUTTON STYLE
 STEP PROGESS BAR
 */
 .step-indicator-row {
+  margin-top: 5px;
   display: flex;
   justify-content: space-between;
 }
@@ -198,13 +199,66 @@ STEP PROGESS BAR
 /*
 DROPDOWN STYLE
 */
-.dropdown-menu {
-  background-color: #fff;
-  z-index: 1050;
+/* Dropdown Toggle Button Styling */
+.dropdown-toggle {
+  background-color: white; /* White background */
+  color: #1e1e1e; /* Text color */
+  border: 1px solid #ccc; /* Light border */
+  box-shadow: none; /* Remove default shadow */
+  text-align: left;
+}
+.dropdown-toggle:hover {
+  background-color: white; /* Maintain white background on hover */
+  color: #1e1e1e; /* Maintain text color on hover */
+  cursor: default;
+  border-color: #1a73e866;
 }
 
+.dropdown-toggle:focus,
+.dropdown-toggle:active,
+.show > .dropdown-toggle {
+  outline: none;
+  background-color: white !important;
+  color: #1e1e1e !important;
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.3); /* Blue shadow on focus/click */
+}
+
+.dropdown.show,
+.dropdown-toggle {
+  background-color: white !important; /* Override blue change on checkbox click */
+}
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  background-color: white; /* White background */
+  border: 1px solid #ccc; /* Light border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  padding: 8px;
+  width: 100%;
+  margin-top: 4px; /* Slight gap between toggle and menu */
+}
+
+/* Dropdown Item Styling */
 .dropdown-item {
-  padding: 10px;
+  padding: 5px 10px;
+  color: #1e1e1e;
+  font-size: 18px;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(
+    26,
+    115,
+    232,
+    0.1
+  ); /* Light gray background on hover */
+}
+
+.form-check-input:checked + .form-check-label {
+  color: #3d52a0; /* Blue color for selected items */
+}
+
+.form-check-input {
+  cursor: pointer;
 }
 
 /*

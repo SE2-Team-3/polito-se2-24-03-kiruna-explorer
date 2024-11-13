@@ -65,16 +65,18 @@ const ScaleSelection = (props: Props) => {
           <option value="Actions">Blueprints/actions</option>
         </Form.Select>
         {documentType === "Plan" && (
-          <Form.Control
-            required
-            type="text"
-            placeholder="1:XXXX"
-            value={scale}
-            style={{ width: "10%" }}
-            onChange={(event) => handleScaleChange(event.target.value)}
-            className="mt-0 font-size-20"
-            isInvalid={!!scaleError}
-          />
+          <>
+            <Form.Control
+              required
+              type="text"
+              placeholder="1:XXXX"
+              value={scale}
+              style={{ width: "10%" }}
+              onChange={(event) => handleScaleChange(event.target.value)}
+              className="mt-0 font-size-20"
+              isInvalid={!!scaleError}
+            />
+          </>
         )}
         {scaleError && (
           <Alert variant="danger" className="my-2">

@@ -4,7 +4,6 @@ import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 
 const DateSelection = (props: Props) => {
-
   function validateDate(day: string, month: string, year: string): boolean {
     const dayNum = day !== "" ? Number(day) : null;
     const monthNum = month !== "" ? Number(month) : null;
@@ -48,7 +47,7 @@ const DateSelection = (props: Props) => {
 
     setDateError("Date must be in format yyyy or mm/yyyy or dd/mm/yyyy");
     return false;
-  };
+  }
 
   const formatDate = (day: string, month: string, year: string) => {
     if (day === "" && month === "" && year === "") {
@@ -126,8 +125,7 @@ const DateSelection = (props: Props) => {
           </Form.Select>
         </Col>
 
-        {
-          year !== "" &&
+        {year !== "" && (
           <Col md={3}>
             <Form.Label>Month</Form.Label>
             <Form.Select
@@ -144,10 +142,9 @@ const DateSelection = (props: Props) => {
               ))}
             </Form.Select>
           </Col>
-        }
+        )}
 
-        {
-          year !== "" && month !== "" &&
+        {year !== "" && month !== "" && (
           <Col md={3}>
             <Form.Label>Day</Form.Label>
             <Form.Select
@@ -164,9 +161,8 @@ const DateSelection = (props: Props) => {
               ))}
             </Form.Select>
           </Col>
-        }
+        )}
       </Row>
-
     </Form.Group>
   );
 };

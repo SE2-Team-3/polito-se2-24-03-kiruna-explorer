@@ -1,14 +1,15 @@
 import { Col, Form, Dropdown } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
-import { FaCheckSquare, FaSquare } from "react-icons/fa";
 
-const StakeholderSelection = (props: Props) => {
+const StakeholderSelection = forwardRef((props: Props, ref) => {
   const [stakeholders, setStakeholders] = useState<string[]>(
     props.document ? props.document.stakeholders : []
   );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [showValidation, setShowValidation] = useState(false);
 
   const stakeholdersList = [
     "LKAB",
@@ -35,7 +36,20 @@ const StakeholderSelection = (props: Props) => {
         stakeholders: stakeholders,
       }));
     }
+
+    setIsValid(stakeholders.length > 0);
   }, [stakeholders, props.setDocument]);
+
+  const handleValidationCheck = () => {
+    if (!isValid) {
+      setShowValidation(true); // Show error only if form is invalid
+    }
+  };
+
+  // Expose the handleValidationCheck function to the parent
+  useImperativeHandle(ref, () => ({
+    handleValidationCheck,
+  }));
 
   return (
     <Form.Group as={Col} controlId="formGridSH">
@@ -45,10 +59,12 @@ const StakeholderSelection = (props: Props) => {
       <Dropdown
         show={isDropdownOpen}
         onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="dropdown"
       >
         <Dropdown.Toggle
-          variant="outline-secondary"
-          className="w-100 text-start"
+          className={`dropdown-toggle w-100 font-size-20 ${
+            isValid && showValidation ? "" : "is-invalid"
+          }`}
         >
           {stakeholders.length > 0
             ? stakeholders.join(", ")
@@ -75,12 +91,14 @@ const StakeholderSelection = (props: Props) => {
         </Dropdown.Menu>
       </Dropdown>
 
-      {/* Messaggio di Feedback */}
-      <Form.Control.Feedback type="invalid">
-        Please select at least one stakeholder.
-      </Form.Control.Feedback>
+      {/* Validation Feedback */}
+      {!isValid && showValidation && (
+        <div className="invalid-feedback d-block">
+          Please select at least one stakeholder.
+        </div>
+      )}
     </Form.Group>
   );
-};
+});
 
 export default StakeholderSelection;
