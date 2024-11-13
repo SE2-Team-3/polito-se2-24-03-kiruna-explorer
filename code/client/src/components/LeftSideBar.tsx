@@ -4,6 +4,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
+import Dashboard from "../assets/icons/dashboard notselected.svg";
+import DashboardSelected from "../assets/icons/dashboard selected.svg";
+import NewDocument from "../assets/icons/document notselected.svg";
+import NewDocumentSelected from "../assets/icons/document selected.svg";
+import NewLinkSelected from "../assets/icons/link selected.svg";
+import NewLink from "../assets/icons/link notselected.svg";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
@@ -41,48 +47,56 @@ const LeftSideBar = (props: { logout: () => void }) => {
             <Col>
               <Row>
                 <div
-                  className="menu-text"
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner" ? "highlighted" : ""
+                  }`}
                   role="button"
                   onClick={handleNavigation0}
                 >
-                  {" "}
                   <span className="file-icon-box">
-                    <i className="bi bi-clipboard"></i>
+                    {location.pathname === "/urban-planner" ? (
+                      <img src={DashboardSelected} alt="dashboard selected" />
+                    ) : (
+                      <img src={Dashboard} alt="dashboard" />
+                    )}
                   </span>
-                  <span className="menu-text bold-text">Dashboard</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
-                </div>{" "}
+                  <span>Dashboard</span>
+                </div>
               </Row>
               <Row>
                 <div
-                  className="menu-text"
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/add-document" ? "highlighted" : ""
+                  }`}
                   role="button"
                   onClick={handleNavigation1}
                 >
                   <span className="file-icon-box">
-                    <i className="bi bi-files"></i>
+                    {location.pathname === "/urban-planner/add-document" ? (
+                      <img src={NewDocumentSelected} alt="new document selected" />
+                    ) : (
+                      <img src={NewDocument} alt="new document" />
+                    )}
                   </span>
-                  <span className="menu-text bold-text">New document</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
+                  <span>New document</span>
                 </div>{" "}
               </Row>
               <Row>
                 <div
-                  className="menu-text"
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/link-documents" ? "highlighted" : ""
+                  }`}
                   role="button"
                   onClick={handleNavigation2}
                 >
                   <span className="file-icon-box">
-                    <i className="bi bi-link"></i>
+                    {location.pathname === "/urban-planner/link-documents" ? (
+                      <img src={NewLinkSelected} alt="new document selected" />
+                    ) : (
+                      <img src={NewLink} alt="new document" />
+                    )}
                   </span>
-                  <span className="menu-text bold-text">Link documents</span>
-                  <span className="arrow-icon-box">
-                    <i className="bi bi-caret-right-fill"></i>
-                  </span>
+                  <span>Link documents</span>
                 </div>{" "}
               </Row>
             </Col>
@@ -96,9 +110,14 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <span className="login-icon-box">
                 <i className="bi bi-person white-icon"></i>
               </span>
-              <span className="bold-text text-24">
-                {user ? user.name : "Username"}
-              </span>
+              <Row>
+                <style>
+                  @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
+                  500,700,900');
+                </style>
+                <span className="user-name">{user ? user.name : "Username"}</span>
+                <span className="user-role">{user ? "Urban Planner" : "Role here"}</span>
+              </Row>
               <span className="logout-icon-box" onClick={props.logout}>
                 {user ? (
                   <i className="bi bi-box-arrow-right blue-icon"></i>

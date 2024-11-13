@@ -4,9 +4,7 @@ import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 
 const PageSelection = (props: Props) => {
-  const [pages, setPages] = useState(
-    props.document ? props.document.pages : ""
-  );
+  const [pages, setPages] = useState(props.document ? props.document.pages : "");
   const [pagesError, setPagesError] = useState("");
 
   const validatePages = (input: string) => {
@@ -18,9 +16,7 @@ const PageSelection = (props: Props) => {
     const pagesRegex = /^(\d+(-\d+)?)$/;
 
     if (!pagesRegex.test(input)) {
-      setPagesError(
-        "Pages must be a number, a range (e.g., '5' or '3-7'), or empty."
-      );
+      setPagesError("Pages must be a number, a range (e.g., '5' or '3-7'), or empty.");
       return false;
     }
 
@@ -43,7 +39,7 @@ const PageSelection = (props: Props) => {
   }, [pages, props.setDocument]);
 
   return (
-    <Form.Group as={Col} controlId="formGridPages">
+    <Form.Group as={Col} controlId="formGridPages" className="pages-col">
       <Form.Label className="black-text">Pages</Form.Label>
       <Form.Control
         type="text"
