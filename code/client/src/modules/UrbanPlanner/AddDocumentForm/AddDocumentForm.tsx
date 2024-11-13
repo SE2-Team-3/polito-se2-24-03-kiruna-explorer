@@ -21,9 +21,10 @@ const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
   const { isSidebarOpen } = useSidebar();
 
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
   const [validated, setValidated] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [newDocID, setNewDocID] = useState(0);
 
   const stakeholderSelectionRef = useRef<any>(null);
 
@@ -60,7 +61,10 @@ const AddDocumentForm = (props: Props) => {
         georeference: props.document.georeference,
       };
 
-      API.addDocument(document).then(() => {
+      API.addDocument(document).then((response) => {
+        const { documentId, message } = response;
+        setNewDocID(documentId);
+
         const newDoc: NewDocument = {
           title: "",
           description: "",
@@ -76,7 +80,7 @@ const AddDocumentForm = (props: Props) => {
         props.setDocument(newDoc);
         setErrorMessage("");
 
-        showToast("Document created", "Now you can see the document in the list");
+        showToast(message, "Now you can see the document in the list");
         setCurrentStep(3); // Go to the final empty screen after submission
       });
     }
@@ -165,6 +169,7 @@ const AddDocumentForm = (props: Props) => {
             </div>
           </Col>
         </Row>
+        {/* Alert message */}
         {errorMessage && (
           <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
             {errorMessage}
@@ -226,11 +231,7 @@ const AddDocumentForm = (props: Props) => {
 
         {currentStep === 3 && (
           <>
-            <MultipleDirectLinkForm />
-            {/*
-            <Row className="blue-text mt-4">Document added successfully!</Row>
-            <Button className="mt-3">Back to Dashboard</Button>
-            */}
+            <MultipleDirectLinkForm newDocID={newDocID} />
           </>
         )}
       </Form>

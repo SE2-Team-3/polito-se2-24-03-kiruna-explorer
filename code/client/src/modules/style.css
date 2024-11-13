@@ -51,11 +51,11 @@ FORM STYLE
 
 .row-box-button {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
-  align-items: flex-end; /* Align buttons to the bottom */
+  justify-content: flex-end;
+  align-items: flex-end;
   margin-left: 10px;
   margin-right: 10px;
-  height: 100%; /* Ensure it takes up full height for bottom alignment */
+  height: 100%;
 }
 
 .form-title {
@@ -197,6 +197,7 @@ STEP PROGESS BAR
   font-weight: bold;
   color: #adbbba;
   margin: 0 auto;
+  font-size: 20px;
 }
 
 .step-circle.active {
@@ -244,14 +245,14 @@ TOAST
   transform: translate(-50%, -50%);
   z-index: 1050;
   padding: 5px;
-  border-radius: 5px; /* Optional: rounded corners */
+  border-radius: 5px;
 }
 /* Container for the icon and text */
 .toast-content {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0; /* Remove extra padding */
+  padding: 0;
 }
 
 /* Custom styles for the green circle icon */
@@ -261,7 +262,7 @@ TOAST
   justify-content: center;
   width: 75px;
   height: 75px;
-  background-color: #28a745; /* Green color */
+  background-color: #28a745;
   border-radius: 50%;
   color: white;
 }
@@ -277,7 +278,7 @@ TOAST
   flex-direction: column;
   justify-content: center;
 }
-/* Bold and formatted toast text */
+
 .toast-bold {
   font-weight: bold;
   color: black;
@@ -292,17 +293,16 @@ TOAST
 /*
 DROPDOWN STYLE
 */
-/* Dropdown Toggle Button Styling */
 .dropdown-toggle {
-  background-color: white; /* White background */
-  color: #1e1e1e; /* Text color */
-  border: 1px solid #ccc; /* Light border */
-  box-shadow: none; /* Remove default shadow */
+  background-color: white;
+  color: #1e1e1e;
+  border: 1px solid #ccc;
+  box-shadow: none;
   text-align: left;
 }
 .dropdown-toggle:hover {
-  background-color: white; /* Maintain white background on hover */
-  color: #1e1e1e; /* Maintain text color on hover */
+  background-color: white;
+  color: #1e1e1e;
   cursor: default;
   border-color: #1a73e866;
 }
@@ -313,24 +313,23 @@ DROPDOWN STYLE
   outline: none;
   background-color: white !important;
   color: #1e1e1e !important;
-  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.3); /* Blue shadow on focus/click */
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.3);
 }
 
 .dropdown.show,
 .dropdown-toggle {
-  background-color: white !important; /* Override blue change on checkbox click */
-}
-/* Dropdown Menu Styling */
-.dropdown-menu {
-  background-color: white; /* White background */
-  border: 1px solid #ccc; /* Light border */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
-  padding: 8px;
-  width: 100%;
-  margin-top: 4px; /* Slight gap between toggle and menu */
+  background-color: white !important;
 }
 
-/* Dropdown Item Styling */
+.dropdown-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
 .dropdown-item {
   padding: 5px 10px;
   color: #1e1e1e;
@@ -338,11 +337,11 @@ DROPDOWN STYLE
 }
 
 .dropdown-item:hover {
-  background-color: rgba(26, 115, 232, 0.1); /* Light gray background on hover */
+  background-color: rgba(26, 115, 232, 0.12);
 }
 
 .form-check-input:checked + .form-check-label {
-  color: #3d52a0; /* Blue color for selected items */
+  color: #3d52a0;
 }
 
 .form-check-input {
@@ -358,8 +357,8 @@ SMALL LAPTOP RESPONSIVE PAGE
   }
 
   .document-form {
-    width: 100%; /* Take up full width on small screens */
-    margin-top: 0px; /* Margin for a little spacing on edges */
+    width: 100%;
+    margin-top: 0px;
   }
 
   .big-bold-text {
@@ -391,6 +390,24 @@ SMALL LAPTOP RESPONSIVE PAGE
     font-size: 12px;
     padding: 5px;
   }
+
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .step-label {
+    font-size: 16px;
+  }
+
+  .step-title {
+    font-size: 20px;
+  }
+
+  .solid-line {
+    height: 4px;
+  }
 }
 
 /*
@@ -399,7 +416,7 @@ LAPTOP RESPONSIVE PAGE
 @media (min-width: 1024) {
   .main-page.sidebar-open {
     display: block;
-    margin-left: 350px; /* Adjust to match sidebar width */
+    margin-left: 350px;
   }
 }
 
@@ -407,19 +424,18 @@ LAPTOP RESPONSIVE PAGE
 TABLET RESPONSIVE PAGE
 */
 @media (max-width: 768px) {
-  /* Style adjustments when sidebar is open on smaller screens */
   .main-page.sidebar-open {
     display: none; /* Hide main page content when sidebar is open on small screens */
   }
-  /* Adjustments for smaller screens */
+
   .main-page {
-    margin-left: 0; /* Full width on small screens */
+    margin-left: 0;
     margin-top: 100px;
   }
 
   .document-form {
-    width: 100%; /* Take up full width on small screens */
-    margin-top: 0px; /* Margin for a little spacing on edges */
+    width: 100%;
+    margin-top: 0px;
   }
 
   .big-bold-text {
@@ -451,6 +467,47 @@ TABLET RESPONSIVE PAGE
   .button-small {
     font-size: 12px;
     padding: 5px;
+  }
+
+  .step-circle {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .step-label {
+    font-size: 12px;
+  }
+
+  .step-title {
+    font-size: 16px;
+  }
+
+  .solid-line {
+    height: 3px;
+  }
+}
+
+/*
+MOBILE RESPONSIVE PAGE
+*/
+@media (max-width: 480px) {
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .step-label {
+    font-size: 10px;
+  }
+
+  .step-title {
+    font-size: 14px;
+  }
+
+  .solid-line {
+    height: 3px;
   }
 }
 
@@ -574,6 +631,12 @@ LOGIN
   -webkit-text-fill-color: transparent;
 }
 
+.title-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 40px;
+  color: black;
+}
+
 /* Responsive adjustments */
 @media (max-width: 992px) {
   /* Stacks columns vertically on medium screens */
@@ -586,6 +649,9 @@ LOGIN
   .imageSection {
     width: 100%;
     padding: 20px;
+  }
+  .title-text {
+    font-size: 34px;
   }
 }
 
@@ -601,6 +667,10 @@ LOGIN
     font-size: 18px;
     padding: 8px;
     width: 95%;
+  }
+
+  .title-text {
+    font-size: 30px;
   }
 }
 
@@ -619,6 +689,9 @@ LOGIN
   .imageSection {
     display: none; /* Hide image on extra small screens */
   }
+  .title-text {
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 426px) {
@@ -628,5 +701,9 @@ LOGIN
 
   .document-form .col-box {
     width: 100%; /* Full width for each column on small screens */
+  }
+
+  .title-text {
+    font-size: 26px;
   }
 }
