@@ -15,6 +15,7 @@ import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useToast } from "../../ToastProvider";
 import { FaCheck } from "react-icons/fa";
+import MultipleDirectLinkForm from "./MultipleDirectLinkForm";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
@@ -74,7 +75,11 @@ const AddDocumentForm = (props: Props) => {
         };
         props.setDocument(newDoc);
         setErrorMessage("");
-        showToast("Document added successfully!");
+
+        showToast(
+          "Document created",
+          "Now you can see the document in the list"
+        );
         setCurrentStep(3); // Go to the final empty screen after submission
       });
     }
@@ -121,7 +126,9 @@ const AddDocumentForm = (props: Props) => {
         validated={validated}
         onSubmit={handleSubmit}
       >
-        <Row className="big-bold-text">New Document</Row>
+        <Row className="big-bold-text">
+          {currentStep == 3 ? "Link Multiple Document" : "New Document"}
+        </Row>
 
         {/* Step Indicator Row */}
         <Row className="step-indicator-row">
@@ -191,7 +198,7 @@ const AddDocumentForm = (props: Props) => {
                 setDocument={props.setDocument}
               />
             </Row>
-            <Row className="row-box ">
+            <Row className="row-box-button">
               <Button onClick={handleCancel} className="button-white mt-3 me-3">
                 Cancel
               </Button>
@@ -236,19 +243,27 @@ const AddDocumentForm = (props: Props) => {
                 setDocument={props.setDocument}
               />
             </Row>
-            <Button onClick={handlePrevious} className="button-white mt-3 me-3">
-              Back
-            </Button>
-            <Button type="submit" className="button-blue mt-3">
-              Submit
-            </Button>
+            <Row className="row-box-button">
+              <Button
+                onClick={handlePrevious}
+                className="button-white mt-3 me-3"
+              >
+                Back
+              </Button>
+              <Button type="submit" className="button-blue mt-3">
+                Submit
+              </Button>
+            </Row>
           </>
         )}
 
         {currentStep === 3 && (
           <>
+            <MultipleDirectLinkForm />
+            {/*
             <Row className="blue-text mt-4">Document added successfully!</Row>
             <Button className="mt-3">Back to Dashboard</Button>
+            */}
           </>
         )}
       </Form>

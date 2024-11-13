@@ -48,6 +48,15 @@ FORM STYLE
   margin-top: 5px;
 }
 
+.row-box-button {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  align-items: flex-end; /* Align buttons to the bottom */
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 100%; /* Ensure it takes up full height for bottom alignment */
+}
+
 /*
 GENERAL TEXT STYLE
 */
@@ -206,6 +215,62 @@ STEP PROGESS BAR
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+/*
+TOAST
+*/
+
+.toast-container {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  padding: 5px;
+  border-radius: 5px; /* Optional: rounded corners */
+}
+/* Container for the icon and text */
+.toast-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0; /* Remove extra padding */
+}
+
+/* Custom styles for the green circle icon */
+.toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  background-color: #28a745; /* Green color */
+  border-radius: 50%;
+  color: white;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Bold and formatted toast text */
+.toast-bold {
+  font-weight: bold;
+  color: black;
+  font-size: 22px;
+}
+
+.toast-subtext {
+  color: black;
+  font-size: 16px;
 }
 
 /*
