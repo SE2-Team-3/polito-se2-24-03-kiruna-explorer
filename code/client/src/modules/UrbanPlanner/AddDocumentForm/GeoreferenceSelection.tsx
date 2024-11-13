@@ -64,47 +64,59 @@ const GeoreferenceSelection = (props: Props) => {
 
   return (
     <Form.Group as={Col} className="align-items-center">
-      {latError && (
-        <Alert variant="danger" className="my-2">
-          {latError}
-        </Alert>
-      )}
-      <Row className="geo-box w-100">
-        <InputGroup className="w-100">
-          <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
-          <Form.Control
-            type="number"
-            step="0.0001"
-            min="67.8200"
-            max="67.8900"
-            value={latitude}
-            onChange={handleLatitudeChange}
-            placeholder="Insert Latitude"
-            className="font-size-20"
-            required
-          />
-        </InputGroup>
+      <Row className="geo-box w-100 align-items-center">
+        {" "}
+        {/* Added align-items-center */}
+        <Col>
+          <InputGroup className="w-100">
+            <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
+            <Form.Control
+              type="number"
+              step="0.0001"
+              min="67.8200"
+              max="67.8900"
+              value={latitude}
+              onChange={handleLatitudeChange}
+              placeholder="Insert Latitude"
+              className="font-size-20"
+              required
+            />
+          </InputGroup>
+        </Col>
+        <Col>
+          {latError && (
+            <Alert variant="danger" className="my-2">
+              {latError}
+            </Alert>
+          )}
+        </Col>
       </Row>
-      {lonError && (
-        <Alert variant="danger" className="my-2">
-          {lonError}
-        </Alert>
-      )}
-      <Row className="geo-box w-100">
-        <InputGroup className="w-100">
-          <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
-          <Form.Control
-            type="number"
-            step="0.0001"
-            min="20.1000"
-            max="20.3500"
-            value={longitude}
-            onChange={handleLongitudeChange}
-            placeholder="Insert Longitude"
-            className="font-size-20"
-            required
-          />
-        </InputGroup>
+      <Row className="geo-box w-100 align-items-center">
+        {" "}
+        {/* Added align-items-center */}
+        <Col>
+          <InputGroup className="w-100">
+            <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
+            <Form.Control
+              type="number"
+              step="0.0001"
+              min="20.1000"
+              max="20.3500"
+              value={longitude}
+              onChange={handleLongitudeChange}
+              placeholder="Insert Longitude"
+              className="font-size-20"
+              required
+            />
+          </InputGroup>
+        </Col>
+        <Col>
+          {lonError && (
+            <Alert variant="danger" className="my-2">
+              {lonError}
+            </Alert>
+          )}
+        </Col>
       </Row>
     </Form.Group>
   );

@@ -1,5 +1,5 @@
 import { Col, Row, Form, Button, Alert } from "react-bootstrap";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useRef } from "react";
 import DocumentDetails from "./DocumentDetails";
 import LanguageSelection from "./LanguageSelection";
 import StakeholderSelection from "./StakeholderSelection";
@@ -13,23 +13,38 @@ import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
-import { useToast } from "../../../modules/ToastProvider";
+import { useToast } from "../../ToastProvider";
+import { FaCheck } from "react-icons/fa";
+import MultipleDirectLinkForm from "./MultipleDirectLinkForm";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
   const { isSidebarOpen } = useSidebar();
 
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
   const [validated, setValidated] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [newDocID, setNewDocID] = useState(0);
+
+  const stakeholderSelectionRef = useRef<any>(null);
 
   const showToast = useToast();
 
-  //on submit
+  const handleNext = () => {
+    if (props.document.title && props.document.description) {
+      setErrorMessage("");
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else setErrorMessage("Title or Description are empty");
+  };
+  const handlePrevious = () => setCurrentStep((prevStep) => prevStep - 1);
+
+  // on submit
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    stakeholderSelectionRef.current.handleValidationCheck();
     setValidated(true);
     const form = event.currentTarget as HTMLFormElement;
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
@@ -46,12 +61,14 @@ const AddDocumentForm = (props: Props) => {
         georeference: props.document.georeference,
       };
 
-      API.addDocument(document).then(() => {
-        // Reset document state
+      API.addDocument(document).then((response) => {
+        const { documentId, message } = response;
+        setNewDocID(documentId);
+
         const newDoc: NewDocument = {
           title: "",
           description: "",
-          documentType: "", // same thing as scale
+          documentType: "",
           scale: "",
           nodeType: "",
           stakeholders: [],
@@ -62,16 +79,10 @@ const AddDocumentForm = (props: Props) => {
         };
         props.setDocument(newDoc);
         setErrorMessage("");
-        showToast("Document added successfully!");
-        navigate("/urban-planner");
+
+        showToast(message, "Now you can see the document in the list");
+        setCurrentStep(3); // Go to the final empty screen after submission
       });
-      /*
-        .catch((error) => {
-          console.error("Error adding document:", error);
-          setErrorMessage(
-            "An error has occurred while trying to register the document."
-          );
-      })*/
     }
   };
 
@@ -79,7 +90,7 @@ const AddDocumentForm = (props: Props) => {
     const resetDoc: NewDocument = {
       title: "",
       description: "",
-      documentType: "", //same thing as scale
+      documentType: "",
       scale: "",
       nodeType: "",
       stakeholders: [],
@@ -90,98 +101,139 @@ const AddDocumentForm = (props: Props) => {
     };
 
     props.setDocument(resetDoc);
-    navigate("/urban-planner"); // Redirect to /urban-planner
+    navigate("/urban-planner");
+  };
+
+  // Render function for step circles
+  const renderStepCircle = (step: number) => {
+    if (currentStep === step) {
+      return <div className="step-circle active"></div>;
+    } else if (currentStep > step) {
+      return (
+        <div className="step-circle completed">
+          <FaCheck color="white" />
+        </div>
+      );
+    } else {
+      return <div className="step-circle"></div>;
+    }
   };
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Form
-        className="document-form"
-        noValidate
-        validated={validated}
-        onSubmit={handleSubmit}
-      >
+      <Form className="document-form" noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className="form-title">
+          {currentStep == 3 ? "Link Multiple Document" : "New Document"}
+        </Row>
+
+        {/* Step Indicator Row */}
+        <Row className="step-indicator-row">
+          <Col className="step-col">
+            {renderStepCircle(1)}
+            <div className="step-label">
+              <span className="step-number">Step 1</span>
+              <br />
+              <span className="step-title">Basic info</span>
+            </div>
+          </Col>
+          <Col className="line-col">
+            <div></div>
+            <div className="solid-line"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Col>
+          <Col className="step-col">
+            {renderStepCircle(2)}
+            <div className="step-label">
+              <span className="step-number">Step 2</span>
+              <br />
+              <span className="step-title">Add info</span>
+            </div>
+          </Col>
+          <Col className="line-col">
+            <div></div>
+            <div className="solid-line"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Col>
+          <Col className="step-col">
+            {renderStepCircle(3)}
+            <div className="step-label">
+              <span className="step-number">Step 3 (optional)</span>
+              <br />
+              <span className="step-title">Link Doc</span>
+            </div>
+          </Col>
+        </Row>
+        {/* Alert message */}
         {errorMessage && (
-          <Alert
-            variant="danger"
-            onClose={() => setErrorMessage("")}
-            dismissible
-          >
+          <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
             {errorMessage}
           </Alert>
         )}
+        {currentStep === 1 && (
+          <>
+            <DocumentDetails document={props.document} setDocument={props.setDocument} />
+            <Row className="row-box">
+              <PageSelection document={props.document} setDocument={props.setDocument} />
+              <LanguageSelection document={props.document} setDocument={props.setDocument} />
+            </Row>
+            <Row className="row-box-button">
+              <Button onClick={handleCancel} className="button-white mt-3 me-3">
+                Cancel
+              </Button>
+              <Button onClick={handleNext} className="button-blue mt-3">
+                Next
+              </Button>
+            </Row>
+          </>
+        )}
 
-        <Row className="big-bold-text">New Document</Row>
-        <Row className="blue-text">
-          Please enter the details below to successfully add a new document
-        </Row>
+        {currentStep === 2 && (
+          <>
+            <Row className="row-box">
+              <StakeholderSelection
+                ref={stakeholderSelectionRef}
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Row className="row-box">
+              <ScaleSelection document={props.document} setDocument={props.setDocument} />
+            </Row>
+            <Row className="row-box">
+              <NodeType document={props.document} setDocument={props.setDocument} />
+            </Row>
+            <Row className="row-box">
+              <DateSelection document={props.document} setDocument={props.setDocument} />
+            </Row>
 
-        {/* Document Details Section */}
-        <DocumentDetails
-          document={props.document}
-          setDocument={props.setDocument}
-        />
+            <Row className="row-box">
+              <GeoreferenceTypeSelection
+                document={props.document}
+                setDocument={props.setDocument}
+              />
+            </Row>
+            <Row className="row-box-button">
+              <Button onClick={handlePrevious} className="button-white mt-3 me-3">
+                Back
+              </Button>
+              <Button type="submit" className="button-blue mt-3">
+                Submit
+              </Button>
+            </Row>
+          </>
+        )}
 
-        {/* Field: scale - nodetype */}
-        <Row className=" row-box">
-          <ScaleSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-          <NodeType document={props.document} setDocument={props.setDocument} />
-        </Row>
-
-        {/* Field: date */}
-        <Row className="row-box">
-          <DateSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
-
-        {/* Field: pages - languages */}
-        <Row className="row-box">
-          <PageSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-          <LanguageSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
-
-        {/* Field - georeference and Stakeholder */}
-        <Row className="row-box">
-
-          <Col>
-            <GeoreferenceTypeSelection
-              document={props.document}
-              setDocument={props.setDocument}
-            />
-          </Col>
-
-          <StakeholderSelection
-            document={props.document}
-            setDocument={props.setDocument}
-          />
-        </Row>
-
-        {/* Submit and Cancel Buttons */}
-        <Row className="row-box">
-          <Col className="col-box">
-            <Button type="submit" className="button-white float-end ms-2">
-              Submit
-            </Button>
-            <Button
-              variant="primary"
-              className="button-white float-end"
-              onClick={handleCancel}
-            >
-              Cancel
-            </Button>
-          </Col>
-        </Row>
+        {currentStep === 3 && (
+          <>
+            <MultipleDirectLinkForm newDocID={newDocID} />
+          </>
+        )}
       </Form>
     </div>
   );
