@@ -31,7 +31,8 @@ FORM STYLE
   overflow-y: auto;
   overflow-x: hidden;
   padding: 40px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box {
@@ -493,9 +494,9 @@ MOBILE RESPONSIVE PAGE
 */
 @media (max-width: 480px) {
   .step-circle {
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
   }
 
   .step-label {
@@ -503,11 +504,31 @@ MOBILE RESPONSIVE PAGE
   }
 
   .step-title {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .solid-line {
     height: 3px;
+  }
+
+  .form-title {
+    font-size: 22px;
+    margin-left: 0px;
+  }
+
+  .step-indicator-row {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  .step-col {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .row-box {
+    margin-left: -15px;
+    margin-right: -15px;
   }
 }
 
@@ -572,7 +593,12 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
