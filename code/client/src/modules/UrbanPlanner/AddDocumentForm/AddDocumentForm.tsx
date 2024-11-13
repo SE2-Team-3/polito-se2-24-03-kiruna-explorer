@@ -76,10 +76,7 @@ const AddDocumentForm = (props: Props) => {
         props.setDocument(newDoc);
         setErrorMessage("");
 
-        showToast(
-          "Document created",
-          "Now you can see the document in the list"
-        );
+        showToast("Document created", "Now you can see the document in the list");
         setCurrentStep(3); // Go to the final empty screen after submission
       });
     }
@@ -120,13 +117,8 @@ const AddDocumentForm = (props: Props) => {
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Form
-        className="document-form"
-        noValidate
-        validated={validated}
-        onSubmit={handleSubmit}
-      >
-        <Row className="big-bold-text">
+      <Form className="document-form" noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className="form-title">
           {currentStep == 3 ? "Link Multiple Document" : "New Document"}
         </Row>
 
@@ -135,7 +127,7 @@ const AddDocumentForm = (props: Props) => {
           <Col className="step-col">
             {renderStepCircle(1)}
             <div className="step-label">
-              <span>Step 1</span>
+              <span className="step-number">Step 1</span>
               <br />
               <span className="step-title">Basic info</span>
             </div>
@@ -151,9 +143,9 @@ const AddDocumentForm = (props: Props) => {
           <Col className="step-col">
             {renderStepCircle(2)}
             <div className="step-label">
-              <span>Step 2</span>
+              <span className="step-number">Step 2</span>
               <br />
-              <span className="step-title">Add. info</span>
+              <span className="step-title">Add info</span>
             </div>
           </Col>
           <Col className="line-col">
@@ -167,36 +159,23 @@ const AddDocumentForm = (props: Props) => {
           <Col className="step-col">
             {renderStepCircle(3)}
             <div className="step-label">
-              <span>Step 3</span>
+              <span className="step-number">Step 3 (optional)</span>
               <br />
               <span className="step-title">Link Doc</span>
             </div>
           </Col>
         </Row>
         {errorMessage && (
-          <Alert
-            variant="danger"
-            onClose={() => setErrorMessage("")}
-            dismissible
-          >
+          <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
             {errorMessage}
           </Alert>
         )}
         {currentStep === 1 && (
           <>
-            <DocumentDetails
-              document={props.document}
-              setDocument={props.setDocument}
-            />
+            <DocumentDetails document={props.document} setDocument={props.setDocument} />
             <Row className="row-box">
-              <PageSelection
-                document={props.document}
-                setDocument={props.setDocument}
-              />
-              <LanguageSelection
-                document={props.document}
-                setDocument={props.setDocument}
-              />
+              <PageSelection document={props.document} setDocument={props.setDocument} />
+              <LanguageSelection document={props.document} setDocument={props.setDocument} />
             </Row>
             <Row className="row-box-button">
               <Button onClick={handleCancel} className="button-white mt-3 me-3">
@@ -219,22 +198,13 @@ const AddDocumentForm = (props: Props) => {
               />
             </Row>
             <Row className="row-box">
-              <ScaleSelection
-                document={props.document}
-                setDocument={props.setDocument}
-              />
+              <ScaleSelection document={props.document} setDocument={props.setDocument} />
             </Row>
             <Row className="row-box">
-              <NodeType
-                document={props.document}
-                setDocument={props.setDocument}
-              />
+              <NodeType document={props.document} setDocument={props.setDocument} />
             </Row>
             <Row className="row-box">
-              <DateSelection
-                document={props.document}
-                setDocument={props.setDocument}
-              />
+              <DateSelection document={props.document} setDocument={props.setDocument} />
             </Row>
 
             <Row className="row-box">
@@ -244,10 +214,7 @@ const AddDocumentForm = (props: Props) => {
               />
             </Row>
             <Row className="row-box-button">
-              <Button
-                onClick={handlePrevious}
-                className="button-white mt-3 me-3"
-              >
+              <Button onClick={handlePrevious} className="button-white mt-3 me-3">
                 Back
               </Button>
               <Button type="submit" className="button-blue mt-3">

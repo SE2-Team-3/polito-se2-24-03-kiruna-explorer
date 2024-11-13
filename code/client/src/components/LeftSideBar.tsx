@@ -79,8 +79,8 @@ const LeftSideBar = (props: { logout: () => void }) => {
               </span>
               <Row>
                 <style>
-                  @import
-                  url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+                  @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
+                  500,700,900');
                 </style>
                 <span className="user-name">{user ? user.name : "Username"}</span>
                 <span className="user-role">{user ? "Urban Planner" : "Role here"}</span>

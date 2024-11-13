@@ -33,6 +33,7 @@ body {
   justify-content: space-between;
   transition: transform 0.3s ease;
   transform: translateX(0);
+  box-shadow: 4px 0 8px -4px rgba(0, 0, 0, 0.1); /* Ombra solo a destra */
 }
 
 .sidebar-container.open {

@@ -20,9 +20,8 @@ PAGE STYLE
 FORM STYLE
 */
 .document-form {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: white;
   backdrop-filter: blur(10px);
-  border: 3px solid #adbbba;
   border-radius: 10px;
   width: 100%;
   max-width: 1000px;
@@ -31,6 +30,8 @@ FORM STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box {
@@ -55,6 +56,20 @@ FORM STYLE
   margin-left: 10px;
   margin-right: 10px;
   height: 100%; /* Ensure it takes up full height for bottom alignment */
+}
+
+.form-title {
+  font-size: x-large;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.step-number {
+  color: #adbbda;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
 }
 
 /*
@@ -190,7 +205,7 @@ STEP PROGESS BAR
 }
 
 .step-circle.completed {
-  background-color: green;
+  background-color: #0cce6b;
   color: white;
 }
 
@@ -201,9 +216,10 @@ STEP PROGESS BAR
 }
 
 .step-title {
-  font-size: 24px;
+  font-size: 20px;
   color: black;
-  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
 }
 
 .solid-line {
@@ -322,12 +338,7 @@ DROPDOWN STYLE
 }
 
 .dropdown-item:hover {
-  background-color: rgba(
-    26,
-    115,
-    232,
-    0.1
-  ); /* Light gray background on hover */
+  background-color: rgba(26, 115, 232, 0.1); /* Light gray background on hover */
 }
 
 .form-check-input:checked + .form-check-label {
@@ -504,12 +515,7 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(
-    to right,
-    #7091e6 0%,
-    #636fa4 51%,
-    #7091e6 100%
-  );
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
 }
 .loginBtn {
   border: none;
