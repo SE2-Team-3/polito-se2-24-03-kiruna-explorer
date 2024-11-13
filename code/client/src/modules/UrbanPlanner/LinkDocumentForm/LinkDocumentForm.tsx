@@ -22,24 +22,14 @@ export default function LinkDocumentForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (
-      selectedDocument1 &&
-      selectedDocument2 &&
-      selectedDocument1 !== selectedDocument2
-    ) {
-      API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(
-        () => {
-          setSelectedDocument1(null);
-          setSelectedDocument2(null);
-          showToast("Documents linked successfully!", "");
-          navigate("/urban-planner");
-        }
-      );
-    } else if (
-      selectedDocument1 &&
-      selectedDocument2 &&
-      selectedDocument1 === selectedDocument2
-    ) {
+    if (selectedDocument1 && selectedDocument2 && selectedDocument1 !== selectedDocument2) {
+      API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(() => {
+        setSelectedDocument1(null);
+        setSelectedDocument2(null);
+        showToast("Documents linked successfully!", "");
+        navigate("/urban-planner");
+      });
+    } else if (selectedDocument1 && selectedDocument2 && selectedDocument1 === selectedDocument2) {
       alert("Please select two different documents to link");
     } else if (!selectedDocument1 || !selectedDocument2) {
       alert("Please select two documents to link");
@@ -55,7 +45,7 @@ export default function LinkDocumentForm() {
   return (
     <div className="main-page">
       <Form className="document-form" onSubmit={handleSubmit} noValidate>
-        <Row className="big-bold-text">Link Documents</Row>
+        <Row className="form-title">Link Documents</Row>
         <DocumentSelector
           documents={documents}
           selectedDocument1={selectedDocument1}
@@ -69,11 +59,7 @@ export default function LinkDocumentForm() {
             <Button type="submit" className="button-blue float-end ms-2">
               Submit
             </Button>
-            <Button
-              variant="primary"
-              className="button-white float-end"
-              onClick={handleCancel}
-            >
+            <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
               Cancel
             </Button>
           </Col>
