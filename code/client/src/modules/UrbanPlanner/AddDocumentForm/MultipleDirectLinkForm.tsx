@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useToast } from "../../ToastProvider";
 import LinkTypeSelection from "./LinkTypeSelection"; 
-
+import Document from "../../../models/document";
 
 // Define a type for each entry in the linkEntries state
 interface LinkEntry {
   documentId: number; // Use documentId for linking existing docs
-  linkType: string;
+  linkType: string[]; // Now an array of strings
 }
 
 interface MultipleLinkFormProps {
@@ -32,7 +32,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   useEffect(() => {
     // Fetch documents from the database
     API.getDocuments()
-      .then(setDocuments)
+      .then((documents) => setDocuments(documents))
       .catch(err => setErrorMessage("Error loading documents: " + err));
   }, []);
 
@@ -46,9 +46,19 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     } else {
       // Handle linking each selected document with the new document
       linkEntries.forEach((entry) => {
-        API.linkDocuments(props.newDocID, entry.documentId, entry.linkType)
-          .then(() => showToast("Document linked successfully!"))
-          .catch(err => setErrorMessage("Linking failed: " + err));
+        const linkPromises = entry.linkType.map((type) => API.linkDocuments(props.newDocID, entry.documentId, type));
+    
+        // Use Promise.all to send multiple API requests concurrently
+        Promise.all(linkPromises)
+          .then(() => {
+            showToast("Documents linked successfully!", "");
+            navigate("/urban-planner");
+          })
+          .catch((error) => {
+            console.error("Error linking documents", error);
+            alert("An error occurred while linking the documents.");
+          });
+        
       });
     }
   };
@@ -58,12 +68,20 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   };
 
   const handleAddLink = () => {
-    setLinkEntries([...linkEntries, { documentId: 0, linkType: '' }]); // Add empty link entry
+    // Initialize with an empty array for linkType
+    setLinkEntries([...linkEntries, { documentId: 0, linkType: [] }]);
   };
 
-  const handleFieldChange = (index: number, field: 'documentId' | 'linkType', value: any) => {
+  const handleFieldChange = (index: number, field: 'documentId' | 'linkType', value: string | number | string[]) => {
     const updatedEntries = [...linkEntries];
-    updatedEntries[index][field] = value;
+    
+    // Type check based on field
+    if (field === 'documentId') {
+      updatedEntries[index].documentId = Number(value);
+    } else if (field === 'linkType' && Array.isArray(value)) {
+      updatedEntries[index].linkType = value;
+    }
+
     setLinkEntries(updatedEntries);
   };
 
@@ -89,7 +107,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
                 <Col md={6} className="mb-3">
                   <Form.Label className="font-size-18">Document</Form.Label>
                   <Form.Select 
-                    className="font-size-16 "
+                    className="font-size-16"
                     value={entry.documentId}
                     onChange={(e) => handleFieldChange(index, 'documentId', parseInt(e.target.value))}
                   >
@@ -105,11 +123,8 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
                 {/* Link Type Select */}
                 <Col md={6} className="mb-3">
                   <LinkTypeSelection
-                    document={props.document}
-                    setDocument={(updatedDoc) => {
-                      handleFieldChange(index, 'linkType', updatedDoc.linkTypes || []);
-                    }}
-                    ref={null}
+                    linkType={entry.linkType}
+                    setLinkType={(selectedLinkTypes) => handleFieldChange(index, 'linkType', selectedLinkTypes)}
                   />
                 </Col>
 
@@ -129,11 +144,11 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
             <Row className="row-box-button">
               <Button 
-                      variant="success" 
-                      type="button"  
-                      onClick={handleAddLink} 
-                      className="float-end"
-                      >
+                variant="success" 
+                type="button"  
+                onClick={handleAddLink} 
+                className="float-end"
+              >
                 Add Link
               </Button>
             </Row>
