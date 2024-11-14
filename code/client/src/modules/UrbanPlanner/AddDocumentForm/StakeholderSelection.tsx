@@ -85,6 +85,7 @@ const StakeholderSelection = forwardRef((props: Props, ref) => {
                 label={sh}
                 checked={stakeholders.includes(sh)}
                 onChange={() => toggleStakeholder(sh)}
+                className="form-check-label"
               />
             </Dropdown.Item>
           ))}

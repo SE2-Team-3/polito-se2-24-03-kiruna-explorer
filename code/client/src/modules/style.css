@@ -363,6 +363,9 @@ DROPDOWN STYLE
   cursor: pointer;
 }
 
+.form-check-label {
+  color: black !important;
+}
 /*
 SMALL LAPTOP RESPONSIVE PAGE
 */

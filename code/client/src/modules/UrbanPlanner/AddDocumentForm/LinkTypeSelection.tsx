@@ -5,14 +5,15 @@ import "../../style.css";
 interface LinkTypeSelectionProps {
   linkType: string[];
   setLinkType: (linkTypes: string[]) => void;
+  validated: boolean; // Accept validated flag from parent
 }
 
 const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
   linkType,
   setLinkType,
+  validated,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
 
   const linkTypeList = [
     "direct consequence",
@@ -29,12 +30,6 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
     );
   };
 
-  const handleValidationCheck = () => {
-    if (linkType.length === 0) {
-      setShowValidation(true);
-    }
-  };
-
   return (
     <Form.Group as={Col} controlId="formGridLinkType">
       <Form.Label className="font-size-18">Link Types</Form.Label>
@@ -46,7 +41,7 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
       >
         <Dropdown.Toggle
           className={`dropdown-toggle w-100 ${
-            linkType.length > 0 ? "" : "is-invalid"
+            linkType.length === 0 && validated ? "is-invalid" : ""
           }`}
         >
           {linkType.length > 0 ? linkType.join(", ") : "Select Link Types"}
@@ -76,7 +71,7 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
         </Dropdown.Menu>
       </Dropdown>
 
-      {!linkType.length && showValidation && (
+      {linkType.length === 0 && validated && (
         <div className="invalid-feedback d-block">
           Please select at least one link type.
         </div>

@@ -22,7 +22,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [validated, setValidated] = useState(false);
-  const [currentStep, setCurrentStep] = useState(3);
+  const [validatedSecondForm, setValidatedSecondForm] = useState(false); // Add validatedSecondForm state
 
   // Store fetched documents from the DB
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -38,30 +38,40 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setValidated(true);
-    const form = event.currentTarget as HTMLFormElement;
+    setValidated(true); // Mark the first form as validated
+    setValidatedSecondForm(true); // Mark the second form as validated
 
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
-      // Handle linking each selected document with the new document
-      linkEntries.forEach((entry) => {
-        const linkPromises = entry.linkType.map((type) =>
-          API.linkDocuments(props.newDocID, entry.documentId, type)
-        );
+    const form = event.currentTarget;
 
-        // Use Promise.all to send multiple API requests concurrently
-        Promise.all(linkPromises)
-          .then(() => {
-            showToast("Documents linked successfully!", "");
-            navigate("/urban-planner");
-          })
-          .catch((error) => {
-            console.error("Error linking documents", error);
-            alert("An error occurred while linking the documents.");
-          });
-      });
+    // Validation checks for each entry
+    const hasErrors = linkEntries.some(
+      (entry) => entry.documentId === 0 || entry.linkType.length === 0
+    );
+
+    if (hasErrors) {
+      setErrorMessage(
+        "Please select a document and at least one link type for each entry."
+      );
+      return;
     }
+
+    // Proceed with submitting if no errors
+    linkEntries.forEach((entry) => {
+      const linkPromises = entry.linkType.map((type) =>
+        API.linkDocuments(props.newDocID, entry.documentId, type)
+      );
+
+      // Use Promise.all to send multiple API requests concurrently
+      Promise.all(linkPromises)
+        .then(() => {
+          showToast("Documents linked successfully!", "");
+          navigate("/urban-planner");
+        })
+        .catch((error) => {
+          console.error("Error linking documents", error);
+          alert("An error occurred while linking the documents.");
+        });
+    });
   };
 
   const handleCancel = () => {
@@ -95,9 +105,15 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     setLinkEntries(updatedEntries);
   };
 
+  const availableDocuments = documents.filter(
+    (doc) =>
+      doc.documentId !== props.newDocID &&
+      !linkEntries.some((entry) => entry.documentId === doc.documentId)
+  );
+
   return (
     <>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form id="LinkMultipleDocumentForm" onSubmit={handleSubmit} noValidate>
         {errorMessage && (
           <Alert
             variant="danger"
@@ -108,78 +124,93 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
           </Alert>
         )}
 
-        {currentStep === 3 && (
-          <>
-            {linkEntries.map((entry, index) => (
-              <Row key={index} className="row-box-custom">
-                {/* Document Selector */}
-                <Col md={6} className="mb-3">
-                  <Form.Label className="font-size-18">Document</Form.Label>
-                  <Form.Select
-                    className="font-size-16"
-                    value={entry.documentId}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        index,
-                        "documentId",
-                        parseInt(e.target.value)
-                      )
-                    }
-                  >
-                    <option value={0}>Select a document</option>
-                    {documents.map((doc) => (
-                      <option key={doc.documentId} value={doc.documentId}>
-                        {doc.title}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Col>
+        {linkEntries.map((entry, index) => (
+          <Row key={index} className="row-box-custom">
+            {/* Document Selector */}
+            <Col md={6} className="mb-3">
+              <Form.Label className="font-size-18">Document</Form.Label>
+              <Form.Select
+                className={`font-size-16 ${
+                  entry.documentId === 0 && validatedSecondForm
+                    ? "is-invalid"
+                    : ""
+                }`}
+                value={entry.documentId}
+                onChange={(e) =>
+                  handleFieldChange(
+                    index,
+                    "documentId",
+                    parseInt(e.target.value)
+                  )
+                }
+              >
+                <option value={0}>Select a document</option>
+                {availableDocuments.map((doc) => (
+                  <option key={doc.documentId} value={doc.documentId}>
+                    {doc.title}
+                  </option>
+                ))}
+              </Form.Select>
+              {entry.documentId === 0 && validatedSecondForm && (
+                <Form.Control.Feedback type="invalid">
+                  Please select a document.
+                </Form.Control.Feedback>
+              )}
+            </Col>
 
-                {/* Link Type Select */}
-                <Col md={6} className="mb-3">
-                  <LinkTypeSelection
-                    linkType={entry.linkType}
-                    setLinkType={(selectedLinkTypes) =>
-                      handleFieldChange(index, "linkType", selectedLinkTypes)
-                    }
-                  />
-                </Col>
+            {/* Link Type Select */}
+            <Col md={6} className="mb-3">
+              <LinkTypeSelection
+                linkType={entry.linkType}
+                setLinkType={(selectedLinkTypes) =>
+                  handleFieldChange(index, "linkType", selectedLinkTypes)
+                }
+                validated={validatedSecondForm} // Pass validated flag here
+              />
+              {/* Display error if linkType is empty and form has been validated */}
+              {entry.linkType.length === 0 && validatedSecondForm && (
+                <Form.Control.Feedback type="invalid">
+                  Please select at least one link type.
+                </Form.Control.Feedback>
+              )}
+            </Col>
 
-                {/* Remove Link Button */}
-                <Col md={12} className="mb-3">
-                  <Button
-                    type="button"
-                    variant="danger"
-                    onClick={() => handleRemoveLink(index)}
-                    className="float-end"
-                  >
-                    Remove Link
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-
-            <Row className="row-box-button">
+            {/* Remove Link Button */}
+            <Col md={12} className="mb-3">
               <Button
-                variant="success"
                 type="button"
-                onClick={handleAddLink}
+                variant="danger"
+                onClick={() => handleRemoveLink(index)}
                 className="float-end"
               >
-                Add Link
+                Remove Link
               </Button>
-            </Row>
+            </Col>
+          </Row>
+        ))}
 
-            <Row className="row-box-button">
-              <Button onClick={handleCancel} className="button-white mt-3 me-3">
-                Cancel
-              </Button>
-              <Button type="submit" className="button-blue mt-3">
-                Submit
-              </Button>
-            </Row>
-          </>
+        {/* Conditionally render the "Add Link" button */}
+        {availableDocuments.length > 0 && (
+          <Row className="row-box-button">
+            <Button
+              variant="success"
+              type="button"
+              onClick={handleAddLink}
+              className="float-end"
+            >
+              Add Link
+            </Button>
+          </Row>
         )}
+
+        <Row className="row-box-button">
+          <Button onClick={handleCancel} className="button-white mt-3 me-3">
+            Cancel
+          </Button>
+          <Button type="submit" className="button-blue mt-3">
+            Submit
+          </Button>
+        </Row>
       </Form>
     </>
   );

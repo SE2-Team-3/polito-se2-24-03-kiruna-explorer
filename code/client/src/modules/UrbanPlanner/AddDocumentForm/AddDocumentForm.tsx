@@ -22,7 +22,7 @@ const AddDocumentForm = (props: Props) => {
   const { isSidebarOpen } = useSidebar();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [validated, setValidated] = useState(false);
+  const [validatedFirstForm, setValidatedFirstForm] = useState(false); // Separate validated state for the first form
   const [currentStep, setCurrentStep] = useState(1);
   const [newDocID, setNewDocID] = useState(0);
 
@@ -38,13 +38,11 @@ const AddDocumentForm = (props: Props) => {
   };
   const handlePrevious = () => setCurrentStep((prevStep) => prevStep - 1);
 
-  // on submit
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmitFirstForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     stakeholderSelectionRef.current.handleValidationCheck();
-    setValidated(true);
+    setValidatedFirstForm(true); // Set validated state for the first form
     const form = event.currentTarget as HTMLFormElement;
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
@@ -171,10 +169,11 @@ const AddDocumentForm = (props: Props) => {
         </Row>
 
         <Form
+          id="addDocumentForm"
           className="document-form"
           noValidate
-          validated={validated}
-          onSubmit={handleSubmit}
+          validated={validatedFirstForm} // Use first form's validated state
+          onSubmit={handleSubmitFirstForm}
         >
           {/* Alert message */}
           {errorMessage && (
