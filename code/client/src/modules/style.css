@@ -314,6 +314,8 @@ DROPDOWN STYLE
   box-shadow: none;
   text-align: left;
   width: 100%;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
 }
 .dropdown-toggle:hover {
   background-color: white;
