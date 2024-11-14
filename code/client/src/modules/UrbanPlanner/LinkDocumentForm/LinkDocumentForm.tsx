@@ -44,7 +44,7 @@ export default function LinkDocumentForm() {
     // Create API call promises for each link type
 
     const linkPromises = linkType.map((type) => {
-      console.log(type)
+      console.log(type);
       return API.linkDocuments(selectedDocument1, selectedDocument2, type);
     });
 
@@ -53,7 +53,7 @@ export default function LinkDocumentForm() {
       .then(() => {
         // Reset the form and show success message
         resetForm();
-        showToast("Documents linked successfully!","");
+        showToast("Documents linked successfully!", "");
         navigate("/urban-planner");
       })
       .catch((error) => {
@@ -75,27 +75,33 @@ export default function LinkDocumentForm() {
 
   return (
     <div className="main-page">
-      <Form className="document-form" onSubmit={handleSubmit} noValidate>
-        <Row className="big-bold-text">Link Documents</Row>
-        <DocumentSelector
-          documents={documents}
-          selectedDocument1={selectedDocument1}
-          selectedDocument2={selectedDocument2}
-          setSelectedDocument1={setSelectedDocument1}
-          setSelectedDocument2={setSelectedDocument2}
-        />
-        <LinkTypeSelector linkType={linkType} setLinkType={setLinkType} />
-        <Row className="row-box">
-          <Col className="col-box">
-            <Button type="submit" className="button-white float-end ms-2">
-              Submit
-            </Button>
-            <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+      <div className="form-container">
+        <Form className="document-form" onSubmit={handleSubmit} noValidate>
+          <Row className="big-bold-text">Link Documents</Row>
+          <DocumentSelector
+            documents={documents}
+            selectedDocument1={selectedDocument1}
+            selectedDocument2={selectedDocument2}
+            setSelectedDocument1={setSelectedDocument1}
+            setSelectedDocument2={setSelectedDocument2}
+          />
+          <LinkTypeSelector linkType={linkType} setLinkType={setLinkType} />
+          <Row className="row-box">
+            <Col className="col-box">
+              <Button type="submit" className="button-white float-end ms-2">
+                Submit
+              </Button>
+              <Button
+                variant="primary"
+                className="button-white float-end"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     </div>
   );
 }

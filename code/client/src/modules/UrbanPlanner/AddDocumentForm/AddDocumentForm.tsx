@@ -121,7 +121,7 @@ const AddDocumentForm = (props: Props) => {
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Form className="document-form" noValidate validated={validated} onSubmit={handleSubmit}>
+      <div className="form-container">
         <Row className="form-title">
           {currentStep == 3 ? "Link Multiple Document" : "New Document"}
         </Row>
@@ -169,72 +169,108 @@ const AddDocumentForm = (props: Props) => {
             </div>
           </Col>
         </Row>
-        {/* Alert message */}
-        {errorMessage && (
-          <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
-            {errorMessage}
-          </Alert>
-        )}
-        {currentStep === 1 && (
-          <>
-            <DocumentDetails document={props.document} setDocument={props.setDocument} />
-            <Row className="row-box">
-              <PageSelection document={props.document} setDocument={props.setDocument} />
-              <LanguageSelection document={props.document} setDocument={props.setDocument} />
-            </Row>
-            <Row className="row-box-button">
-              <Button onClick={handleCancel} className="button-white mt-3 me-3">
-                Cancel
-              </Button>
-              <Button onClick={handleNext} className="button-blue mt-3">
-                Next
-              </Button>
-            </Row>
-          </>
-        )}
 
-        {currentStep === 2 && (
-          <>
-            <Row className="row-box">
-              <StakeholderSelection
-                ref={stakeholderSelectionRef}
+        <Form
+          className="document-form"
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+        >
+          {/* Alert message */}
+          {errorMessage && (
+            <Alert
+              variant="danger"
+              onClose={() => setErrorMessage("")}
+              dismissible
+            >
+              {errorMessage}
+            </Alert>
+          )}
+          {currentStep === 1 && (
+            <>
+              <DocumentDetails
                 document={props.document}
                 setDocument={props.setDocument}
               />
-            </Row>
-            <Row className="row-box">
-              <ScaleSelection document={props.document} setDocument={props.setDocument} />
-            </Row>
-            <Row className="row-box">
-              <NodeType document={props.document} setDocument={props.setDocument} />
-            </Row>
-            <Row className="row-box">
-              <DateSelection document={props.document} setDocument={props.setDocument} />
-            </Row>
+              <Row className="row-box">
+                <PageSelection
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+                <LanguageSelection
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+              <Row className="row-box-button">
+                <Button
+                  onClick={handleCancel}
+                  className="button-white mt-3 me-3"
+                >
+                  Cancel
+                </Button>
+                <Button onClick={handleNext} className="button-blue mt-3">
+                  Next
+                </Button>
+              </Row>
+            </>
+          )}
 
-            <Row className="row-box">
-              <GeoreferenceTypeSelection
-                document={props.document}
-                setDocument={props.setDocument}
-              />
-            </Row>
-            <Row className="row-box-button">
-              <Button onClick={handlePrevious} className="button-white mt-3 me-3">
-                Back
-              </Button>
-              <Button type="submit" className="button-blue mt-3">
-                Submit
-              </Button>
-            </Row>
-          </>
-        )}
+          {currentStep === 2 && (
+            <>
+              <Row className="row-box">
+                <StakeholderSelection
+                  ref={stakeholderSelectionRef}
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+              <Row className="row-box">
+                <ScaleSelection
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+              <Row className="row-box">
+                <NodeType
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+              <Row className="row-box">
+                <DateSelection
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+
+              <Row className="row-box">
+                <GeoreferenceTypeSelection
+                  document={props.document}
+                  setDocument={props.setDocument}
+                />
+              </Row>
+              <Row className="row-box-button">
+                <Button
+                  onClick={handlePrevious}
+                  className="button-white mt-3 me-3"
+                >
+                  Back
+                </Button>
+                <Button type="submit" className="button-blue mt-3">
+                  Submit
+                </Button>
+              </Row>
+            </>
+          )}
+        </Form>
 
         {currentStep === 3 && (
           <>
             <MultipleDirectLinkForm newDocID={newDocID} />
           </>
         )}
-      </Form>
+      </div>
     </div>
   );
 };

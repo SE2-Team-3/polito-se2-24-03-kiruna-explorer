@@ -16,10 +16,7 @@ PAGE STYLE
   transition: margin-left 0.3s ease;
 }
 
-/*
-FORM STYLE
-*/
-.document-form {
+.form-container {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -30,9 +27,14 @@ FORM STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
     /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+}
+/*
+FORM STYLE
+*/
+.document-form {
+  padding: 20px;
 }
 
 .row-box {
@@ -517,16 +519,6 @@ MOBILE RESPONSIVE PAGE
     margin-left: 0px;
   }
 
-  .step-indicator-row {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
-
-  .step-col {
-    margin-left: -10px;
-    margin-right: -10px;
-  }
-
   .row-box {
     margin-left: -15px;
     margin-right: -15px;
@@ -684,12 +676,11 @@ LOGIN
 
 @media (max-width: 768px) {
   /* Full-width layout for small screens */
-  
+
   .loginContainer {
     padding: 20px;
   }
   .formSection {
-    
     padding: 20px;
   }
   .loginBtn {

@@ -7,15 +7,18 @@ interface LinkTypeSelectionProps {
   setLinkType: (linkTypes: string[]) => void;
 }
 
-const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({ linkType, setLinkType }) => {
+const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
+  linkType,
+  setLinkType,
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
   const linkTypeList = [
-    "Direct consequence",
-    "Collateral consequence",
-    "Prevision",
-    "Update",
+    "direct consequence",
+    "collateral consequence",
+    "prevision",
+    "update",
   ];
 
   const toggleLinkType = (type: string) => {
@@ -42,7 +45,9 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({ linkType, setLink
         className="dropdown"
       >
         <Dropdown.Toggle
-          className={`dropdown-toggle w-100 ${linkType.length > 0 ? "" : "is-invalid"}`}
+          className={`dropdown-toggle w-100 ${
+            linkType.length > 0 ? "" : "is-invalid"
+          }`}
         >
           {linkType.length > 0 ? linkType.join(", ") : "Select Link Types"}
         </Dropdown.Toggle>
@@ -58,7 +63,11 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({ linkType, setLink
               <Form.Check
                 type="checkbox"
                 id={`linkType-${index}`}
-                label={<span style={{ color: "black" }}>{type}</span>}
+                label={
+                  <span style={{ color: "black" }}>
+                    {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
+                  </span>
+                }
                 checked={linkType.includes(type)}
                 onChange={() => toggleLinkType(type)}
               />
