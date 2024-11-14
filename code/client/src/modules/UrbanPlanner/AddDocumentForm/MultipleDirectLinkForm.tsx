@@ -27,7 +27,9 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
   // Store fetched documents from the DB
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [linkEntries, setLinkEntries] = useState<LinkEntry[]>([]);
+  const [linkEntries, setLinkEntries] = useState<LinkEntry[]>([
+    { documentId: 0, linkType: [] },
+  ]);
   const showToast = useToast();
 
   useEffect(() => {
@@ -41,8 +43,6 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     event.preventDefault();
     setValidated(true); // Mark the first form as validated
     setValidatedSecondForm(true); // Mark the second form as validated
-
-    const form = event.currentTarget;
 
     // Validation checks for each entry
     const hasErrors = linkEntries.some(
@@ -112,6 +112,12 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
   return (
     <>
+      <Row className="description-container">
+        <span className="step-title">
+          Link one or more documents to the newly created document:{" "}
+          {documents.find((doc) => doc.documentId === props.newDocID)?.title}
+        </span>
+      </Row>
       <Form id="LinkMultipleDocumentForm" onSubmit={handleSubmit} noValidate>
         {errorMessage && (
           <Alert
@@ -137,7 +143,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
           return (
             <Row key={index} className="row-box-custom">
               {/* Document Selector */}
-              <Col md={6} className="mb-3">
+              <Col md={5} className="mb-3">
                 <Form.Label className="font-size-18">Document</Form.Label>
                 <Form.Select
                   className={`font-size-16 ${
@@ -186,13 +192,13 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
               </Col>
 
               {/* Remove Link Button */}
-              <Col md={12} className="mb-3">
+              <Col md={1} className="mb-3">
                 <BsTrash
-                  size={20}
+                  size={30}
                   type="button"
                   style={{ cursor: "pointer" }}
                   onClick={() => handleRemoveLink(index)}
-                  className="text-danger float-end"
+                  className="remove-link-button"
                 ></BsTrash>
               </Col>
             </Row>
@@ -205,27 +211,16 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
             doc.documentId !== props.newDocID &&
             !linkEntries.some((entry) => entry.documentId === doc.documentId)
         ).length > 0 && (
-          <Row className="row-box-button">
+          <Row className="row-box">
             <Col xs="auto">
               <Button
                 variant="primary"
                 type="button"
                 onClick={handleAddLink}
-                className="d-flex align-items-center justify-content-center"
-                style={{
-                  width: "24px",
-                  height: "24px",
-                  borderRadius: "50%",
-                  padding: 0,
-                  backgroundColor: "#3b5998", // Adjust color as needed
-                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)", // Optional shadow
-                }}
+                className="add-link-button"
               >
                 <BsPlus color="white" size={40} />
               </Button>
-            </Col>
-            <Col>
-              <span className="font-size-18"></span>
             </Col>
           </Row>
         )}
