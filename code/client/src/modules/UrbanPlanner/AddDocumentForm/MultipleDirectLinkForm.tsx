@@ -6,6 +6,8 @@ import API from "../../../API/API";
 import { useToast } from "../../ToastProvider";
 import LinkTypeSelection from "./LinkTypeSelection";
 import Document from "../../../models/document";
+import { BsTrash, BsPlus } from "react-icons/bs";
+
 
 // Define a type for each entry in the linkEntries state
 interface LinkEntry {
@@ -147,28 +149,45 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
                 {/* Remove Link Button */}
                 <Col md={12} className="mb-3">
-                  <Button
+                  <BsTrash
+                    size={20}
                     type="button"
-                    variant="danger"
+                    style={{ cursor: "pointer" }}
+                    //variant="danger"
                     onClick={() => handleRemoveLink(index)}
-                    className="float-end"
-                  >
-                    Remove Link
-                  </Button>
+                    className="text-danger float-end"
+                  >  
+                  </BsTrash>
                 </Col>
               </Row>
             ))}
 
-            <Row className="row-box-button">
-              <Button
-                variant="success"
-                type="button"
-                onClick={handleAddLink}
-                className="float-end"
-              >
-                Add Link
-              </Button>
-            </Row>
+<Row className="align-items-center mb-3">
+  {/* Add Link Button on the Left */}
+  <Col xs="auto">
+    <Button
+      variant="primary"
+      type="button"
+      onClick={handleAddLink}
+      className="d-flex align-items-center justify-content-center"
+      style={{
+        width: "24px",
+        height: "24px",
+        borderRadius: "50%",
+        padding: 0,
+        backgroundColor: "#3b5998", // Adjust color as needed
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)", // Optional shadow
+      }}
+    >
+      <BsPlus color="white" size={40} /> {/* Icon size can be adjusted */}
+    </Button>
+  </Col>
+
+  {/* Add Link Label/Text or Other Content on the Right */}
+  <Col>
+    <span className="font-size-18"></span>
+  </Col>
+</Row>
 
             <Row className="row-box-button">
               <Button onClick={handleCancel} className="button-white mt-3 me-3">
