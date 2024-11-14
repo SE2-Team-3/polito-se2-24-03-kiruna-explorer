@@ -78,7 +78,7 @@ const AddDocumentForm = (props: Props) => {
         props.setDocument(newDoc);
         setErrorMessage("");
 
-        showToast(message, "Now you can see the document in the list");
+        showToast(message, "Now you can see the document in the list", false);
         setCurrentStep(3); // Go to the final empty screen after submission
       });
     }

@@ -1,8 +1,10 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Row, Col, Toast, ToastContainer } from "react-bootstrap";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
-const ToastContext = createContext<(m1: string, m2: string) => void>(() => {});
+const ToastContext = createContext<
+  (m1: string, m2: string, isError: boolean) => void
+>(() => {});
 
 export const useToast = () => useContext(ToastContext);
 
@@ -11,10 +13,15 @@ interface ToastProviderProps {
 }
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const [toast, setToast] = useState({ m1: "", m2: "", show: false });
+  const [toast, setToast] = useState({
+    m1: "",
+    m2: "",
+    show: false,
+    isError: false,
+  });
 
-  const showToast = (m1: string, m2: string) => {
-    setToast({ m1, m2, show: true });
+  const showToast = (m1: string, m2: string, isError: boolean) => {
+    setToast({ m1, m2, show: true, isError });
   };
 
   const hideToast = () => setToast({ ...toast, show: false });
@@ -27,8 +34,17 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
           <Toast.Body>
             <Row className="toast-content">
               <Col xs={4} className="icon-container">
-                <div className="toast-icon">
-                  <FaCheck color="white" size={30} />
+                <div
+                  className="toast-icon"
+                  style={{
+                    backgroundColor: toast.isError ? "#ff0000" : "#28a745", // Red for error, Green for success
+                  }}
+                >
+                  {toast.isError ? (
+                    <FaTimes color="white" size={30} />
+                  ) : (
+                    <FaCheck color="white" size={30} />
+                  )}
                 </div>
               </Col>
               <Col xs={8} className="text-container">

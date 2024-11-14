@@ -65,12 +65,16 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
       // Use Promise.all to send multiple API requests concurrently
       Promise.all(linkPromises)
         .then(() => {
-          showToast("Documents linked successfully!", "");
+          showToast("Documents linked successfully!", "", false);
           navigate("/urban-planner");
         })
         .catch((error) => {
-          console.error("Error linking documents", error);
-          alert("An error occurred while linking the documents.");
+          console.error(error.error);
+          showToast(
+            "An error occurred while linking the documents.",
+            error.error,
+            true
+          );
         });
     });
   };
@@ -106,12 +110,6 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     setLinkEntries(updatedEntries);
   };
 
-  const availableDocuments = documents.filter(
-    (doc) =>
-      doc.documentId !== props.newDocID &&
-      !linkEntries.some((entry) => entry.documentId === doc.documentId)
-  );
-
   return (
     <>
       <Form id="LinkMultipleDocumentForm" onSubmit={handleSubmit} noValidate>
@@ -125,73 +123,88 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
           </Alert>
         )}
 
-        {linkEntries.map((entry, index) => (
-          <Row key={index} className="row-box-custom">
-            {/* Document Selector */}
-            <Col md={6} className="mb-3">
-              <Form.Label className="font-size-18">Document</Form.Label>
-              <Form.Select
-                className={`font-size-16 ${
-                  entry.documentId === 0 && validatedSecondForm
-                    ? "is-invalid"
-                    : ""
-                }`}
-                value={entry.documentId}
-                onChange={(e) =>
-                  handleFieldChange(
-                    index,
-                    "documentId",
-                    parseInt(e.target.value)
-                  )
-                }
-              >
-                <option value={0}>Select a document</option>
-                {availableDocuments.map((doc) => (
-                  <option key={doc.documentId} value={doc.documentId}>
-                    {doc.title}
-                  </option>
-                ))}
-              </Form.Select>
-              {entry.documentId === 0 && validatedSecondForm && (
-                <Form.Control.Feedback type="invalid">
-                  Please select a document.
-                </Form.Control.Feedback>
-              )}
-            </Col>
+        {linkEntries.map((entry, index) => {
+          // Filter available documents for each entry
+          const availableDocuments = documents.filter(
+            (doc) =>
+              doc.documentId !== props.newDocID && // Exclude current document (newDocID)
+              !linkEntries.some(
+                (link, linkIndex) =>
+                  linkIndex !== index && link.documentId === doc.documentId
+              ) // Exclude already selected documents in other entries
+          );
 
-            {/* Link Type Select */}
-            <Col md={6} className="mb-3">
-              <LinkTypeSelection
-                linkType={entry.linkType}
-                setLinkType={(selectedLinkTypes) =>
-                  handleFieldChange(index, "linkType", selectedLinkTypes)
-                }
-                validated={validatedSecondForm} // Pass validated flag here
-              />
-              {/* Display error if linkType is empty and form has been validated */}
-              {entry.linkType.length === 0 && validatedSecondForm && (
-                <Form.Control.Feedback type="invalid">
-                  Please select at least one link type.
-                </Form.Control.Feedback>
-              )}
-            </Col>
+          return (
+            <Row key={index} className="row-box-custom">
+              {/* Document Selector */}
+              <Col md={6} className="mb-3">
+                <Form.Label className="font-size-18">Document</Form.Label>
+                <Form.Select
+                  className={`font-size-16 ${
+                    entry.documentId === 0 && validatedSecondForm
+                      ? "is-invalid"
+                      : ""
+                  }`}
+                  value={entry.documentId}
+                  onChange={(e) =>
+                    handleFieldChange(
+                      index,
+                      "documentId",
+                      parseInt(e.target.value)
+                    )
+                  }
+                >
+                  <option value={0}>Select a document</option>
+                  {availableDocuments.map((doc) => (
+                    <option key={doc.documentId} value={doc.documentId}>
+                      {doc.title}
+                    </option>
+                  ))}
+                </Form.Select>
+                {entry.documentId === 0 && validatedSecondForm && (
+                  <Form.Control.Feedback type="invalid">
+                    Please select a document.
+                  </Form.Control.Feedback>
+                )}
+              </Col>
 
-            {/* Remove Link Button */}
-            <Col md={12} className="mb-3">
-              <BsTrash
-                size={20}
-                type="button"
-                style={{ cursor: "pointer" }}
-                //variant="danger"
-                onClick={() => handleRemoveLink(index)}
-                className="text-danger float-end"
-              ></BsTrash>
-            </Col>
-          </Row>
-        ))}
+              {/* Link Type Select */}
+              <Col md={6} className="mb-3">
+                <LinkTypeSelection
+                  linkType={entry.linkType}
+                  setLinkType={(selectedLinkTypes) =>
+                    handleFieldChange(index, "linkType", selectedLinkTypes)
+                  }
+                  validated={validatedSecondForm} // Pass validated flag here
+                />
+                {/* Display error if linkType is empty and form has been validated */}
+                {entry.linkType.length === 0 && validatedSecondForm && (
+                  <Form.Control.Feedback type="invalid">
+                    Please select at least one link type.
+                  </Form.Control.Feedback>
+                )}
+              </Col>
+
+              {/* Remove Link Button */}
+              <Col md={12} className="mb-3">
+                <BsTrash
+                  size={20}
+                  type="button"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleRemoveLink(index)}
+                  className="text-danger float-end"
+                ></BsTrash>
+              </Col>
+            </Row>
+          );
+        })}
 
         {/* Conditionally render the "Add Link" button */}
-        {availableDocuments.length > 0 && (
+        {documents.filter(
+          (doc) =>
+            doc.documentId !== props.newDocID &&
+            !linkEntries.some((entry) => entry.documentId === doc.documentId)
+        ).length > 0 && (
           <Row className="row-box-button">
             <Col xs="auto">
               <Button
@@ -208,11 +221,9 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
                   boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)", // Optional shadow
                 }}
               >
-                <BsPlus color="white" size={40} />{" "}
-                {/* Icon size can be adjusted */}
+                <BsPlus color="white" size={40} />
               </Button>
             </Col>
-            {/* Add Link Label/Text or Other Content on the Right */}
             <Col>
               <span className="font-size-18"></span>
             </Col>
