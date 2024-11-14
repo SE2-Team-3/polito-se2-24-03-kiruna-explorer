@@ -111,7 +111,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
         {currentStep === 3 && (
           <>
             {linkEntries.map((entry, index) => (
-              <Row key={index} className="row-box">
+              <Row key={index} className="row-box-custom">
                 {/* Document Selector */}
                 <Col md={6} className="mb-3">
                   <Form.Label className="font-size-18">Document</Form.Label>
