@@ -88,8 +88,8 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
                 {/* Document Selector */}
                 <Col md={6} className="mb-3">
                   <Form.Label className="font-size-18">Document</Form.Label>
-                  <Form.Select
-                    className="font-size-18"
+                  <Form.Select 
+                    className="font-size-16 "
                     value={entry.documentId}
                     onChange={(e) => handleFieldChange(index, 'documentId', parseInt(e.target.value))}
                   >

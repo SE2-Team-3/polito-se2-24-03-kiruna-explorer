@@ -10,8 +10,8 @@ import { useToast } from "../../ToastProvider";
 export default function LinkDocumentForm() {
   const navigate = useNavigate();
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [selectedDocument1, setSelectedDocument1] = useState<number | null>();
-  const [selectedDocument2, setSelectedDocument2] = useState<number | null>();
+  const [selectedDocument1, setSelectedDocument1] = useState<number | null>(null);
+  const [selectedDocument2, setSelectedDocument2] = useState<number | null>(null);
   const [linkType, setLinkType] = useState<string[]>([]);
 
   const showToast = useToast();
@@ -23,16 +23,18 @@ export default function LinkDocumentForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (selectedDocument1 && selectedDocument2 && selectedDocument1 !== selectedDocument2) {
-      API.linkDocuments(selectedDocument1, selectedDocument2, linkType).then(() => {
-        setSelectedDocument1(null);
-        setSelectedDocument2(null);
-        showToast("Documents linked successfully!", "");
-        navigate("/urban-planner");
-      })
-      .catch((error) => {
-        console.error("Error linking documents", error);
-        alert("An error occurred while linking the documents.");
-      });
+      API.linkDocuments(selectedDocument1, selectedDocument2, linkType)
+        .then(() => {
+          setSelectedDocument1(null);
+          setSelectedDocument2(null);
+          showToast("Documents linked successfully!", "");
+          navigate("/urban-planner");
+        })
+        .catch((error) => {
+          console.error("Error linking documents", error);
+          alert("An error occurred while linking the documents.");
+        });
+    }
   };
 
   const handleCancel = () => {

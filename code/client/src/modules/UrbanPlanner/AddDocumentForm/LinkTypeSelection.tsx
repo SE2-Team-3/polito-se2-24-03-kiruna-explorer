@@ -80,7 +80,8 @@ const LinkTypeSelection = forwardRef((props: Props, ref) => {
               <Form.Check
                 type="checkbox"
                 id={`linkType-${index}`}
-                label={lt}
+                //label={lt}
+                label={<span style={{ color: "black" }}>{lt}</span>}
                 checked={linkTypes.includes(lt)}
                 onChange={() => toggleLinkType(lt)}
               />
