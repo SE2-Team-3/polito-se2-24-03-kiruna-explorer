@@ -61,7 +61,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
       const linkPromises = entry.linkType.map((type) =>
         API.linkDocuments(props.newDocID, entry.documentId, type)
       );
-
+      console.log(linkPromises)
       // Use Promise.all to send multiple API requests concurrently
       Promise.all(linkPromises)
         .then(() => {
@@ -69,7 +69,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
           navigate("/urban-planner");
         })
         .catch((error) => {
-          console.error(error.error);
+          //console.error(error.error);
           showToast(
             "An error occurred while linking the documents.",
             error.error,

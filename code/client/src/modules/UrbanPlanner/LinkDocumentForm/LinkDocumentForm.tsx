@@ -25,26 +25,26 @@ export default function LinkDocumentForm() {
 
     // Check if linkType is empty
     if (linkType.length === 0) {
-      alert("Please select at least one link type.");
+      showToast("Please select at least one link type.", "", true);
+     
       return;
     }
 
     // Check if both documents are selected
     if (!selectedDocument1 || !selectedDocument2) {
-      alert("Please select two documents to link.");
+      showToast("Please select two documents to link.","",true);
       return;
     }
 
     // Ensure the documents are different
     if (selectedDocument1 === selectedDocument2) {
-      alert("Please select two different documents to link.");
+      showToast("Please select two different documents to link.","",true);
       return;
     }
 
     // Create API call promises for each link type
 
     const linkPromises = linkType.map((type) => {
-      console.log(type);
       return API.linkDocuments(selectedDocument1, selectedDocument2, type);
     });
 
@@ -53,13 +53,14 @@ export default function LinkDocumentForm() {
       .then(() => {
         // Reset the form and show success message
         resetForm();
-        showToast("Documents linked successfully!", "");
+        showToast("Documents linked successfully!", "", false);
         navigate("/urban-planner");
       })
+      /*
       .catch((error) => {
-        console.error("Error linking documents", error);
+        //console.error("Error linking documents", error);
         alert("An error occurred while linking the documents.");
-      });
+      });*/
   };
 
   const handleCancel = () => {

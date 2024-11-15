@@ -1,21 +1,15 @@
 import { Col, Row, Form, Button, Alert } from "react-bootstrap";
 import { useState, FormEvent, useRef } from "react";
-import DocumentDetails from "./DocumentDetails";
-import LanguageSelection from "./LanguageSelection";
-import StakeholderSelection from "./StakeholderSelection";
-import DateSelection from "./DateSelection";
-import NodeType from "./NodeType";
-import ScaleSelection from "./ScaleSelection";
-import PageSelection from "./PageSelection";
-import GeoreferenceTypeSelection from "./GeoreferenceTypeSelection";
-import "../../style.css";
 import { Props, NewDocument } from "./interfaces/types";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useToast } from "../../ToastProvider";
 import { FaCheck } from "react-icons/fa";
-import MultipleDirectLinkForm from "./MultipleDirectLinkForm";
+import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
+import "../../style.css";
 
 const AddDocumentForm = (props: Props) => {
   const navigate = useNavigate();
@@ -36,6 +30,7 @@ const AddDocumentForm = (props: Props) => {
       setCurrentStep((prevStep) => prevStep + 1);
     } else setErrorMessage("Title or Description are empty");
   };
+
   const handlePrevious = () => setCurrentStep((prevStep) => prevStep - 1);
 
   const handleSubmitFirstForm = (event: FormEvent<HTMLFormElement>) => {
@@ -138,9 +133,6 @@ const AddDocumentForm = (props: Props) => {
             <div></div>
             <div className="solid-line"></div>
             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
           </Col>
           <Col className="step-col">
             {renderStepCircle(2)}
@@ -154,9 +146,6 @@ const AddDocumentForm = (props: Props) => {
             <div></div>
             <div className="solid-line"></div>
             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
           </Col>
           <Col className="step-col">
             {renderStepCircle(3)}
@@ -168,112 +157,32 @@ const AddDocumentForm = (props: Props) => {
           </Col>
         </Row>
 
-        <Form
-          id="addDocumentForm"
-          className="document-form"
-          noValidate
-          validated={validatedFirstForm} // Use first form's validated state
-          onSubmit={handleSubmitFirstForm}
-        >
-          {/* Alert message */}
-          {errorMessage && (
-            <Alert
-              variant="danger"
-              onClose={() => setErrorMessage("")}
-              dismissible
-            >
-              {errorMessage}
-            </Alert>
-          )}
-          {currentStep === 1 && (
-            <>
-              <DocumentDetails
-                document={props.document}
-                setDocument={props.setDocument}
-              />
-              <Row className="row-box">
-                <PageSelection
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-                <LanguageSelection
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-              <Row className="row-box-button">
-                <Button
-                  onClick={handleCancel}
-                  className="button-white mt-3 me-3"
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleNext} className="button-blue mt-3">
-                  Next
-                </Button>
-              </Row>
-            </>
-          )}
-
-          {currentStep === 2 && (
-            <>
-              <Row className="row-box">
-                <StakeholderSelection
-                  ref={stakeholderSelectionRef}
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-              <Row className="row-box">
-                <ScaleSelection
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-              <Row className="row-box">
-                <NodeType
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-              <Row className="row-box">
-                <DateSelection
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-
-              <Row className="row-box">
-                <GeoreferenceTypeSelection
-                  document={props.document}
-                  setDocument={props.setDocument}
-                />
-              </Row>
-              <Row className="row-box-button">
-                <Button
-                  onClick={handlePrevious}
-                  className="button-white mt-3 me-3"
-                >
-                  Back
-                </Button>
-                <Button type="submit" className="button-blue mt-3">
-                  Submit
-                </Button>
-              </Row>
-            </>
-          )}
-        </Form>
-
-        {currentStep === 3 && (
-          
-            <MultipleDirectLinkForm newDocID={newDocID} />
-          
+        {/* Step Components */}
+        {currentStep === 1 && (
+          <StepOne
+            document={props.document}
+            setDocument={props.setDocument}
+            onNext={handleNext}
+            onCancel={handleCancel}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+          />
         )}
+
+        {currentStep === 2 && (
+          <StepTwo
+            document={props.document}
+            setDocument={props.setDocument}
+            stakeholderSelectionRef={stakeholderSelectionRef}
+            onBack={handlePrevious}
+            onSubmit={handleSubmitFirstForm}
+          />
+        )}
+
+        {currentStep === 3 && <StepThree newDocID={newDocID} />}
       </div>
     </div>
   );
 };
 
 export default AddDocumentForm;
-
-
