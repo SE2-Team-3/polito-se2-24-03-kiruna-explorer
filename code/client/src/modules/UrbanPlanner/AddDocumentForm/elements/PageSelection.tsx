@@ -1,10 +1,12 @@
 import { Col, Form, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const PageSelection = (props: Props) => {
-  const [pages, setPages] = useState(props.document ? props.document.pages : "");
+  const [pages, setPages] = useState(
+    props.document ? props.document.pages : ""
+  );
   const [pagesError, setPagesError] = useState("");
 
   const validatePages = (input: string) => {
@@ -16,7 +18,9 @@ const PageSelection = (props: Props) => {
     const pagesRegex = /^(\d+(-\d+)?)$/;
 
     if (!pagesRegex.test(input)) {
-      setPagesError("Pages must be a number, a range (e.g., '5' or '3-7'), or empty.");
+      setPagesError(
+        "Pages must be a number, a range (e.g., '5' or '3-7'), or empty."
+      );
       return false;
     }
 

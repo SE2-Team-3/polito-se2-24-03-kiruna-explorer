@@ -2,8 +2,8 @@ import { FormEvent, useEffect, useState } from "react";
 import Document from "../../../models/document";
 import API from "../../../API/API";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import DocumentSelector from "./DocumentsSelector";
-import LinkTypeSelector from "./LinkTypeSelector";
+import DocumentSelector from "./elements/DocumentsSelector";
+import LinkTypeSelector from "./elements/LinkTypeSelector";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../ToastProvider";
 
@@ -26,19 +26,19 @@ export default function LinkDocumentForm() {
     // Check if linkType is empty
     if (linkType.length === 0) {
       showToast("Please select at least one link type.", "", true);
-     
+
       return;
     }
 
     // Check if both documents are selected
     if (!selectedDocument1 || !selectedDocument2) {
-      showToast("Please select two documents to link.","",true);
+      showToast("Please select two documents to link.", "", true);
       return;
     }
 
     // Ensure the documents are different
     if (selectedDocument1 === selectedDocument2) {
-      showToast("Please select two different documents to link.","",true);
+      showToast("Please select two different documents to link.", "", true);
       return;
     }
 
@@ -49,14 +49,13 @@ export default function LinkDocumentForm() {
     });
 
     // Use Promise.all to send multiple API requests concurrently
-    Promise.all(linkPromises)
-      .then(() => {
-        // Reset the form and show success message
-        resetForm();
-        showToast("Documents linked successfully!", "", false);
-        navigate("/urban-planner");
-      })
-      /*
+    Promise.all(linkPromises).then(() => {
+      // Reset the form and show success message
+      resetForm();
+      showToast("Documents linked successfully!", "", false);
+      navigate("/urban-planner");
+    });
+    /*
       .catch((error) => {
         //console.error("Error linking documents", error);
         alert("An error occurred while linking the documents.");

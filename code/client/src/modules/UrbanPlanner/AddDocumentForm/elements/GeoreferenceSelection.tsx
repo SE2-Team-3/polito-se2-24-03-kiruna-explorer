@@ -1,7 +1,7 @@
 import { Row, Col, Form, InputGroup, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props } from "./interfaces/types";
+import "../../../style.css";
+import { Props } from "../interfaces/types";
 
 const GeoreferenceSelection = (props: Props) => {
   const [latitude, setLatitude] = useState(67.8558);

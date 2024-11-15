@@ -1,7 +1,7 @@
 import { Row, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const DocumentDetails = (props: Props) => {
   const [title, setTitle] = useState(

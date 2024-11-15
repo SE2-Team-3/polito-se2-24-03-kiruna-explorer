@@ -1,9 +1,9 @@
 import { Row, Button, Alert } from "react-bootstrap";
-import DocumentDetails from "./DocumentDetails";
-import PageSelection from "./PageSelection";
-import LanguageSelection from "./LanguageSelection";
-import { Props } from "./interfaces/types";
-import { useToast } from "../../ToastProvider";
+import DocumentDetails from "../elements/DocumentDetails";
+import PageSelection from "../elements/PageSelection";
+import LanguageSelection from "../elements/LanguageSelection";
+import { Props } from "../interfaces/types";
+import { useToast } from "../../../ToastProvider";
 
 interface StepOneProps {
   document: Props["document"];
@@ -14,8 +14,6 @@ interface StepOneProps {
   setErrorMessage: (message: string) => void;
 }
 
-const showToast = useToast();
-
 const StepOne = ({
   document,
   setDocument,
@@ -24,6 +22,8 @@ const StepOne = ({
   errorMessage,
   setErrorMessage,
 }: StepOneProps) => {
+  const showToast = useToast();
+
   const handleNext = () => {
     if (document.title && document.description) {
       setErrorMessage("");

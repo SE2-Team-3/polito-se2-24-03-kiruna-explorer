@@ -1,7 +1,7 @@
-import { Row, Col, Form, InputGroup, Alert } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props } from "./interfaces/types";
+import "../../../style.css";
+import { Props } from "../interfaces/types";
 import GeoreferenceSelection from "./GeoreferenceSelection";
 
 const GeoreferenceTypeSelection = (props: Props) => {

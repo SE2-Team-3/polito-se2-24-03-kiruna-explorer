@@ -1,7 +1,7 @@
 import { Col, Form, Dropdown } from "react-bootstrap";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const StakeholderSelection = forwardRef((props: Props, ref) => {
   const [stakeholders, setStakeholders] = useState<string[]>(

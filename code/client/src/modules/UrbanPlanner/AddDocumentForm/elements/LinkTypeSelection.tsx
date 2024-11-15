@@ -1,6 +1,6 @@
 import { Col, Form, Dropdown } from "react-bootstrap";
 import { useState } from "react";
-import "../../style.css";
+import "../../../style.css";
 
 interface LinkTypeSelectionProps {
   linkType: string[];

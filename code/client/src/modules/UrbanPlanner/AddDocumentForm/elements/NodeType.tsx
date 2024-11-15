@@ -1,7 +1,7 @@
 import { Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const NodeType = (props: Props) => {
   const [nodeType, setNodeType] = useState(

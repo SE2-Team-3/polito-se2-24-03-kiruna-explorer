@@ -1,11 +1,11 @@
 import { Row, Button } from "react-bootstrap";
-import StakeholderSelection from "./StakeholderSelection";
-import ScaleSelection from "./ScaleSelection";
-import NodeType from "./NodeType";
-import DateSelection from "./DateSelection";
-import GeoreferenceTypeSelection from "./GeoreferenceTypeSelection";
-import { Props } from "./interfaces/types";
-import { useToast } from "../../ToastProvider";
+import StakeholderSelection from "../elements/StakeholderSelection";
+import ScaleSelection from "../elements/ScaleSelection";
+import NodeType from "../elements/NodeType";
+import DateSelection from "../elements/DateSelection";
+import GeoreferenceTypeSelection from "../elements/GeoreferenceTypeSelection";
+import { Props } from "../interfaces/types";
+import { useToast } from "../../../ToastProvider";
 
 interface StepTwoProps {
   document: Props["document"];
@@ -59,7 +59,11 @@ const StepTwo = ({
           <Button onClick={onBack} className="button-white mt-3 me-3">
             Back
           </Button>
-          <Button type="submit" onClick={validateForm} className="button-blue mt-3">
+          <Button
+            type="submit"
+            onClick={validateForm}
+            className="button-blue mt-3"
+          >
             Submit
           </Button>
         </Row>

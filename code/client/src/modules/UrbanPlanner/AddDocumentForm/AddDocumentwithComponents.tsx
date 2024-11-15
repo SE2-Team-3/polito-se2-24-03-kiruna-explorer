@@ -6,9 +6,9 @@ import API from "../../../API/API";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useToast } from "../../ToastProvider";
 import { FaCheck } from "react-icons/fa";
-import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
+import StepOne from "./steps/StepOne";
+import StepTwo from "./steps/StepTwo";
+import StepThree from "./steps/StepThree";
 import "../../style.css";
 
 const AddDocumentForm = (props: Props) => {
