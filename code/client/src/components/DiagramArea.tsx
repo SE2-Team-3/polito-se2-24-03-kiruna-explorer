@@ -25,6 +25,8 @@ const DiagramArea = ({
         connectionLineStyle={{ stroke: "rgb(0, 0, 0)", strokeWidth: 2 }}
         zoomOnScroll={false}
         zoomOnPinch={false}
+        panOnDrag={false}
+        preventScrolling={false}
       >
         <Background />
       </ReactFlow>
