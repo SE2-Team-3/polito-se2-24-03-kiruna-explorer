@@ -12,10 +12,10 @@ CREATE TABLE Document (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     documentType TEXT NOT NULL,
-    scale TEXT NOT NULL,
+    scale INTEGER NOT NULL,
     nodeType TEXT NOT NULL,
     stakeholders TEXT NOT NULL,
-    issuanceDate DATE DEFAULT NULL,
+    issuanceDate TEXT DEFAULT NULL,
     language TEXT DEFAULT NULL,
 	pages TEXT DEFAULT NULL,
 	georeferenceId INTEGER DEFAULT NULL
@@ -30,7 +30,7 @@ CREATE TABLE DocumentConnections (
 	documentId1 INTEGER,
 	documentId2 INTEGER,
 	connection TEXT NOT NULL,
-	PRIMARY KEY (documentId1, documentId2)
+	PRIMARY KEY (documentId1, documentId2, connection)
 );
 
 CREATE TABLE Resources (

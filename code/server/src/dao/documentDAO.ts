@@ -1,13 +1,14 @@
 import db from "../db/db";
 import Document from "../components/document";
 import { DuplicateLinkError } from "../errors/documentError";
+import { Utility } from "../utilities";
 
 class DocumentDAO {
   async createDocument(
     title: string,
     description: string,
     documentType: string,
-    scale: string,
+    scale: number,
     nodeType: string,
     stakeholders: string[],
     issuanceDate: string | null,
@@ -25,6 +26,14 @@ class DocumentDAO {
           "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, georeferenceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const createGeoreferenceSql =
           "INSERT INTO Georeference (georeferenceId, coordinates) VALUES (?, ?)";
+
+        title=Utility.emptyFixer(title)
+        description=Utility.emptyFixer(description)
+        documentType=Utility.emptyFixer(documentType)
+        nodeType=Utility.emptyFixer(nodeType)
+        issuanceDate=Utility.emptyFixer(issuanceDate)
+        language=Utility.emptyFixer(language)
+        pages=Utility.emptyFixer(pages)
 
         let documentId = 1;
         const coordinates = georeference ? JSON.stringify(georeference) : null;
@@ -93,6 +102,9 @@ class DocumentDAO {
     return new Promise<boolean>((resolve, reject) => {
       try {
         const sql = "INSERT INTO DocumentConnections VALUES (?,?,?)";
+
+        linkType=Utility.emptyFixer(linkType)
+
         db.run(sql, [documentId1, documentId2, linkType], (err: any) => {
           if (err) {
             if (err.errno === 19) reject(new DuplicateLinkError());

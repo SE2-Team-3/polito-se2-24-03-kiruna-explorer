@@ -17,7 +17,7 @@ class DocumentController {
     title: string,
     description: string,
     documentType: string,
-    scale: string,
+    scale: number,
     nodeType: string,
     stakeholders: string[],
     issuanceDate: string | null,
