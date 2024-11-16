@@ -1,5 +1,5 @@
 import { LatLngExpression } from "leaflet";
-import React, { useState } from "react";
+import { useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Logo from "../../../assets/icons/logo.svg";
@@ -14,7 +14,7 @@ const ExploreMap = () => {
       description: "The masterplan for the city of Kiruna",
       documentType: "Text",
       scale: "Text",
-      nodeType: "Design doc.",
+      nodeType: "Design document.",
       stakeholders: ["Municipality", "Architecture firms"],
       issuanceDate: "2021-01-01",
       language: "English",
@@ -27,7 +27,7 @@ const ExploreMap = () => {
       description: "The church of Kiruna",
       documentType: "Plan",
       scale: "1:5000",
-      nodeType: "Design doc.",
+      nodeType: "Design document.",
       stakeholders: ["Others"],
       issuanceDate: "2023-01-01",
       language: "Swedish",
@@ -36,8 +36,8 @@ const ExploreMap = () => {
     },
     {
       documentId: 3,
-      title: "doc-3",
-      description: "doc-3",
+      title: "document-3",
+      description: "document-3",
       documentType: "Text",
       scale: "Text",
       nodeType: "Prescriptive documen",
@@ -45,10 +45,33 @@ const ExploreMap = () => {
       issuanceDate: "2022-01-01",
       language: "English",
       pages: "1",
-      georeference: [
-        [67.8558, 20.2252],
-        [67.861, 20.2382],
-      ],
+      georeference: [[67.868, 20.2252]],
+    },
+    {
+      documentId: 4,
+      title: "document-4",
+      description: "document-4",
+      documentType: "Text",
+      scale: "Text",
+      nodeType: "Prescriptive documen",
+      stakeholders: ["Others"],
+      issuanceDate: "2024-01-01",
+      language: "English",
+      pages: "1",
+      georeference: [[67.856, 20.25]],
+    },
+    {
+      documentId: 5,
+      title: "document-5",
+      description: "document-5",
+      documentType: "Text",
+      scale: "Text",
+      nodeType: "Prescriptive documen",
+      stakeholders: ["Architecture firms"],
+      issuanceDate: "2024-02-01",
+      language: "English",
+      pages: "1",
+      georeference: [[67.85, 20.22]],
     },
   ]);
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
@@ -79,36 +102,57 @@ const ExploreMap = () => {
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
         />
 
-        <Marker position={kirunaPosition} icon={logoIcon}>
-          <Popup autoClose={true} closeButton={true}>
-            <div>
-              <h1>Kiruna</h1>
-              <p>City of Kiruna</p>
-            </div>
-          </Popup>
-        </Marker>
-
         <MarkerClusterGroup>
-          {documents.map((doc, index) => {
-            if (!doc) return null;
-            if (!doc.georeference)
+          {documents.map((document) => {
+            if (!document) return null;
+            // No georeference (belong to municipality area)
+            if (!document.georeference)
               return (
                 <Marker
-                  key={doc.documentId}
+                  key={document.documentId}
                   icon={logoIcon}
                   position={kirunaPosition}
-                ></Marker>
+                >
+                  <Popup autoClose={true} closeButton={true}>
+                    <div>
+                      <h5>Title: {document.title}</h5>
+                      <p>Description: {document.description}</p>
+                      <p>documentType: {document.documentType}</p>
+                      <p>scale: {document.scale}</p>
+                      <p>nodeType: {document.nodeType}</p>
+                      <p>stakeholders: {document.stakeholders}</p>
+                      <p>issuanceDate: {document.issuanceDate}</p>
+                      <p>language: {document.language}</p>
+                      <p>pages: {document.pages}</p>
+                    </div>
+                  </Popup>
+                </Marker>
               );
-            if (doc.georeference.length === 1)
+            // Georeference (belong to a specific area)
+            if (document.georeference.length === 1)
               return (
                 <Marker
-                  key={doc.documentId}
+                  key={document.documentId}
                   icon={logoIcon}
                   position={L.latLng(
-                    doc.georeference[0][0],
-                    doc.georeference[0][1]
+                    document.georeference[0][0],
+                    document.georeference[0][1]
                   )}
-                ></Marker>
+                >
+                  <Popup autoClose={true} closeButton={true}>
+                    <div>
+                      <h5>Title: {document.title}</h5>
+                      <p>Description: {document.description}</p>
+                      <p>documentType: {document.documentType}</p>
+                      <p>scale: {document.scale}</p>
+                      <p>nodeType: {document.nodeType}</p>
+                      <p>stakeholders: {document.stakeholders}</p>
+                      <p>issuanceDate: {document.issuanceDate}</p>
+                      <p>language: {document.language}</p>
+                      <p>pages: {document.pages}</p>
+                    </div>
+                  </Popup>
+                </Marker>
               );
           })}
         </MarkerClusterGroup>
