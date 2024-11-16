@@ -2,11 +2,14 @@ import { LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import Logo from "../../../assets/icons/logo.svg";
+import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { useSidebar } from "../../../components/SidebarContext";
+import "../../style.css";
 
 const ExploreMap = () => {
+  const { isSidebarOpen } = useSidebar();
+
   const [documents, setDocuments] = useState([
     {
       documentId: 1,
@@ -40,7 +43,7 @@ const ExploreMap = () => {
       description: "document-3",
       documentType: "Text",
       scale: "Text",
-      nodeType: "Prescriptive documen",
+      nodeType: "Prescriptive document",
       stakeholders: ["Others"],
       issuanceDate: "2022-01-01",
       language: "English",
@@ -53,7 +56,7 @@ const ExploreMap = () => {
       description: "document-4",
       documentType: "Text",
       scale: "Text",
-      nodeType: "Prescriptive documen",
+      nodeType: "Prescriptive document",
       stakeholders: ["Others"],
       issuanceDate: "2024-01-01",
       language: "English",
@@ -66,7 +69,7 @@ const ExploreMap = () => {
       description: "document-5",
       documentType: "Text",
       scale: "Text",
-      nodeType: "Prescriptive documen",
+      nodeType: "Prescriptive document",
       stakeholders: ["Architecture firms"],
       issuanceDate: "2024-02-01",
       language: "English",
@@ -83,7 +86,7 @@ const ExploreMap = () => {
   });
 
   return (
-    <div className="map-wrapper">
+    <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <MapContainer
         attributionControl={false}
         center={kirunaPosition}
@@ -92,9 +95,6 @@ const ExploreMap = () => {
         zoomControl={true}
         scrollWheelZoom={true}
         className="map-container"
-        style={{
-          minHeight: "calc(100vh - 100px)",
-        }}
       >
         <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
         <TileLayer
@@ -115,15 +115,15 @@ const ExploreMap = () => {
                 >
                   <Popup autoClose={true} closeButton={true}>
                     <div>
-                      <h5>Title: {document.title}</h5>
+                      <h5>{document.title}</h5>
                       <p>Description: {document.description}</p>
-                      <p>documentType: {document.documentType}</p>
                       <p>scale: {document.scale}</p>
                       <p>nodeType: {document.nodeType}</p>
-                      <p>stakeholders: {document.stakeholders}</p>
                       <p>issuanceDate: {document.issuanceDate}</p>
+                      {/*<p>documentType: {document.documentType}</p>
+                      <p>stakeholders: {document.stakeholders}</p>
                       <p>language: {document.language}</p>
-                      <p>pages: {document.pages}</p>
+                      <p>pages: {document.pages}</p>*/}
                     </div>
                   </Popup>
                 </Marker>
@@ -141,15 +141,15 @@ const ExploreMap = () => {
                 >
                   <Popup autoClose={true} closeButton={true}>
                     <div>
-                      <h5>Title: {document.title}</h5>
+                      <h5>{document.title}</h5>
                       <p>Description: {document.description}</p>
-                      <p>documentType: {document.documentType}</p>
                       <p>scale: {document.scale}</p>
                       <p>nodeType: {document.nodeType}</p>
-                      <p>stakeholders: {document.stakeholders}</p>
                       <p>issuanceDate: {document.issuanceDate}</p>
+                      {/*<p>documentType: {document.documentType}</p>
+                      <p>stakeholders: {document.stakeholders}</p>
                       <p>language: {document.language}</p>
-                      <p>pages: {document.pages}</p>
+                      <p>pages: {document.pages}</p>*/}
                     </div>
                   </Popup>
                 </Marker>
