@@ -28,7 +28,7 @@ class DocumentDAO {
           "INSERT INTO Georeference (georeferenceId, coordinates) VALUES (?, ?)";
 
         let documentId = 1;
-        const coordinates = georeference.length!=0 ? JSON.stringify(georeference) : null;
+        const coordinates = JSON.stringify(georeference);
         let georeferenceId = georeference ? 1 : null;
         const stakeholdersString = JSON.stringify(stakeholders);
 
