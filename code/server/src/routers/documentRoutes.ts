@@ -35,7 +35,7 @@ class DocumentRoutes {
       body("issuanceDate").optional().isString(),
       body("language").optional().isString(),
       body("pages").optional().isString(),
-      body("georeference").optional().isArray(),
+      body("georeference").optional({nullable:true}).isArray(),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller

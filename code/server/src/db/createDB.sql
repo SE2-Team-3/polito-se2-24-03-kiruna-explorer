@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS Document;
 DROP TABLE IF EXISTS Georeference;
 DROP TABLE IF EXISTS DocumentConnections;
-DROP TABLE IF EXISTS Resources;
+DROP TABLE IF EXISTS Resource;
 DROP TABLE IF EXISTS DocumentResources;
 DROP TABLE IF EXISTS Attachment;
 DROP TABLE IF EXISTS DocumentAttachments;
@@ -15,7 +15,7 @@ CREATE TABLE Document (
     scale TEXT NOT NULL,
     nodeType TEXT NOT NULL,
     stakeholders TEXT NOT NULL,
-    issuanceDate DATE DEFAULT NULL,
+    issuanceDate TEXT DEFAULT NULL,
     language TEXT DEFAULT NULL,
 	pages TEXT DEFAULT NULL,
 	georeferenceId INTEGER DEFAULT NULL
@@ -30,10 +30,10 @@ CREATE TABLE DocumentConnections (
 	documentId1 INTEGER,
 	documentId2 INTEGER,
 	connection TEXT NOT NULL,
-	PRIMARY KEY (documentId1, documentId2)
+	PRIMARY KEY (documentId1, documentId2, connection)
 );
 
-CREATE TABLE Resources (
+CREATE TABLE Resource (
 	resourceId INTEGER PRIMARY KEY,
 	data BLOB
 );

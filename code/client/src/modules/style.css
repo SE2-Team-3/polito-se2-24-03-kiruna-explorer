@@ -16,10 +16,7 @@ PAGE STYLE
   transition: margin-left 0.3s ease;
 }
 
-/*
-FORM STYLE
-*/
-.document-form {
+.form-container {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -30,10 +27,27 @@ FORM STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
     /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
+
+.row-box-custom {
+  border: 2px solid #adbbba;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  padding-top: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a soft shadow */
+}
+
+/*
+FORM STYLE
+*/
+.document-form {
+  padding: 20px;
+}
+
 
 .row-box {
   margin-left: 10px;
@@ -113,6 +127,14 @@ GENERAL TEXT STYLE
   font-size: 18px;
 }
 
+.description-container {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+}
+
 /*
 BUTTON STYLE
 */
@@ -144,18 +166,21 @@ BUTTON STYLE
   border-color: #3d52a0;
 }
 
-.button-blue:hover {
+.button-blue:hover,
+.add-link-button:hover {
   background-color: #3d52a0;
   color: white;
   border-color: #3d52a0;
 }
 
 .button-white:hover,
-.button-blue:hover {
+.button-blue:hover,
+.add-link-button:hover {
   transform: scale(1.075);
 }
 .button-white:active,
-.button-blue:active {
+.button-blue:active,
+.add-link-button:active {
   transform: scale(0.95);
 }
 
@@ -170,6 +195,30 @@ BUTTON STYLE
   background-color: #3d52a0;
   border-color: #3d52a0;
   color: white;
+}
+
+.add-link-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  background-color: #3d52a0;
+  box-shadow: "0px 2px 5px rgba(0, 0, 0, 0.2)";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.remove-link-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  color: red;
+  margin-top: 5px;
 }
 
 /*
@@ -263,7 +312,6 @@ TOAST
   justify-content: center;
   width: 75px;
   height: 75px;
-  background-color: #28a745;
   border-radius: 50%;
   color: white;
 }
@@ -300,6 +348,9 @@ DROPDOWN STYLE
   border: 1px solid #ccc;
   box-shadow: none;
   text-align: left;
+  width: 100%;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
 }
 .dropdown-toggle:hover {
   background-color: white;
@@ -349,6 +400,9 @@ DROPDOWN STYLE
   cursor: pointer;
 }
 
+.form-check-label {
+  color: black !important;
+}
 /*
 SMALL LAPTOP RESPONSIVE PAGE
 */
@@ -487,6 +541,16 @@ TABLET RESPONSIVE PAGE
   .solid-line {
     height: 3px;
   }
+
+  .add-link-button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .remove-link-button {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 /*
@@ -516,19 +580,17 @@ MOBILE RESPONSIVE PAGE
     margin-left: 0px;
   }
 
-  .step-indicator-row {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
-
-  .step-col {
-    margin-left: -10px;
-    margin-right: -10px;
-  }
-
   .row-box {
     margin-left: -15px;
     margin-right: -15px;
+  }
+
+  .add-link-button {
+    margin-left: 10px;
+  }
+
+  .description-container {
+    margin-left: -5px;
   }
 }
 
@@ -683,6 +745,7 @@ LOGIN
 
 @media (max-width: 768px) {
   /* Full-width layout for small screens */
+
   .loginContainer {
     padding: 20px;
   }
