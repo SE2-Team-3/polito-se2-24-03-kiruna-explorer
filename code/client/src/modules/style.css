@@ -800,3 +800,50 @@ LOGIN
 .pages-col {
   --bs-gutter-x: 0;
 }
+
+/* MAP */
+.map-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.map-wrapper {
+  position: relative;
+  min-height: calc(100vh - 100px) !important;
+  padding: 20px;
+  overflow-x: auto;
+  margin-left: 350px;
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 1200px) {
+  .map-wrapper {
+    margin-left: 250px;
+  }
+}
+
+@media (max-width: 992px) {
+  .map-wrapper {
+    margin-left: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-wrapper {
+    margin-left: 50px;
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .map-wrapper {
+    margin-left: 0;
+    margin-top: 20px;
+    padding: 10px;
+  }
+}
