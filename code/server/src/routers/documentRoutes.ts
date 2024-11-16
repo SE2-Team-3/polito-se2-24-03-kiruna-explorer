@@ -29,7 +29,7 @@ class DocumentRoutes {
       body("title").notEmpty().isString(),
       body("description").notEmpty().isString(),
       body("documentType").notEmpty().isString(),
-      body("scale").notEmpty().isInt(),
+      body("scale").notEmpty().isString(),
       body("nodeType").notEmpty().isString(),
       body("stakeholders").notEmpty().isArray(),
       body("issuanceDate").optional().isString(),

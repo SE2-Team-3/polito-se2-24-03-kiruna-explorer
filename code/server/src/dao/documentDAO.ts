@@ -8,7 +8,7 @@ class DocumentDAO {
     title: string,
     description: string,
     documentType: string,
-    scale: number,
+    scale: string,
     nodeType: string,
     stakeholders: string[],
     issuanceDate: string | null,
@@ -27,16 +27,8 @@ class DocumentDAO {
         const createGeoreferenceSql =
           "INSERT INTO Georeference (georeferenceId, coordinates) VALUES (?, ?)";
 
-        title=Utility.emptyFixer(title)
-        description=Utility.emptyFixer(description)
-        documentType=Utility.emptyFixer(documentType)
-        nodeType=Utility.emptyFixer(nodeType)
-        issuanceDate=Utility.emptyFixer(issuanceDate)
-        language=Utility.emptyFixer(language)
-        pages=Utility.emptyFixer(pages)
-
         let documentId = 1;
-        const coordinates = georeference ? JSON.stringify(georeference) : null;
+        const coordinates = georeference.length!=0 ? JSON.stringify(georeference) : null;
         let georeferenceId = georeference ? 1 : null;
         const stakeholdersString = JSON.stringify(stakeholders);
 

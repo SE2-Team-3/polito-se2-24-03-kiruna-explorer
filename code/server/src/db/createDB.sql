@@ -12,7 +12,7 @@ CREATE TABLE Document (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     documentType TEXT NOT NULL,
-    scale INTEGER NOT NULL,
+    scale TEXT NOT NULL,
     nodeType TEXT NOT NULL,
     stakeholders TEXT NOT NULL,
     issuanceDate TEXT DEFAULT NULL,

@@ -1,6 +1,7 @@
 import { InvalidCoordinatesError } from "../errors/georeferenceError";
 import DocumentDAO from "../dao/documentDAO";
 import { InvalidLinkError } from "../errors/documentError";
+import { Utility } from "../utilities";
 
 /**
  * Represents a controller for managing documents.
@@ -17,7 +18,7 @@ class DocumentController {
     title: string,
     description: string,
     documentType: string,
-    scale: number,
+    scale: string,
     nodeType: string,
     stakeholders: string[],
     issuanceDate: string | null,
@@ -25,6 +26,11 @@ class DocumentController {
     pages: string | null,
     georeference: string[] | null
   ): Promise<any> {
+
+    issuanceDate=Utility.emptyFixer(issuanceDate)
+    language=Utility.emptyFixer(language)
+    pages=Utility.emptyFixer(pages)
+
     return this.documentDAO.createDocument(
       title,
       description,
