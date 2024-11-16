@@ -5,12 +5,14 @@ import { AuthRoutes, UserRoutes } from "./routers/userRoutes";
 import DocumentRoutes from "./routers/documentRoutes";
 
 const morgan = require("morgan");
+const fileUpload=require("express-fileupload")
 const prefix = "/api";
 
 function initRoutes(app: express.Application) {
   app.use(morgan("dev"));
   app.use(express.json({ limit: "25mb" }));
   app.use(express.urlencoded({ limit: "25mb", extended: true }));
+  app.use(fileUpload())
 
   const authenticator = new Authenticator(app);
   const authRoutes = new AuthRoutes(authenticator);

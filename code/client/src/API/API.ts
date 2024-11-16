@@ -124,14 +124,21 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
   );
 }
 
-async function uploadResource(resources:any) {
-  console.log(resources)
-  await fetch(baseURL+"documents/test", {
-    method:"POST",
-    headers: {},
-    credentials:"include",
-    body: resources[0]
-  })
+async function uploadResource(resources:File[]) {
+  let i=1
+  const data= new FormData()
+  for (const res of resources) {
+    console.log(res)
+    data.append("file"+i,res)
+    console.log(i++)
+  }
+  console.log(data)
+    await fetch(baseURL+"documents/test", {
+      method:"POST",
+      //headers: {"content-type":"multipart/form-data"},
+      credentials:"include",
+      body: data
+    })
   console.log("cia")
   return
 }

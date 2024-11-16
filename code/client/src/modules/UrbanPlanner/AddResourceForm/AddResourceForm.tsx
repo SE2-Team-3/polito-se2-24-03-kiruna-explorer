@@ -12,7 +12,6 @@ export default function AddResourceForm() {
     if (true) {
       API.uploadResource(resources).then(() => {
         alert("Done")
-        console.log(resources)
         //navigate("/urban-planner");
       });
     } else {
