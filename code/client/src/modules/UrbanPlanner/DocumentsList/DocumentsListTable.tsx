@@ -14,11 +14,14 @@ import {
 } from "react-bootstrap";
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function DocumentsListTable() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.getDocuments().then((documents) => setDocuments(documents));
@@ -100,7 +103,10 @@ export default function DocumentsListTable() {
                     <td>{item.pages}</td>
                     <td>
                       <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
-                        <Button variant="link">
+                        <Button
+                          variant="link"
+                          onClick={() => navigate("/urban-planner/link-documents")}
+                        >
                           <img src={LinkDocument} alt="link document" />
                         </Button>
                       </OverlayTrigger>

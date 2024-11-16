@@ -88,7 +88,7 @@ export default function LinkDocumentForm() {
           <LinkTypeSelector linkType={linkType} setLinkType={setLinkType} />
           <Row className="row-box">
             <Col className="col-box">
-              <Button type="submit" className="button-white float-end ms-2">
+              <Button type="submit" className="button-blue ms-3 btn btn-primary float-end">
                 Submit
               </Button>
               <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
