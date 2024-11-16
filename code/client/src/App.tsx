@@ -13,6 +13,7 @@ import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
+import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -67,10 +68,10 @@ function App() {
           err.error
             ? err.error
             : err.message
-              ? err.message
-              : typeof err === "string"
-                ? err
-                : "An error occurred"
+            ? err.message
+            : typeof err === "string"
+            ? err
+            : "An error occurred"
         );
       });
   };
@@ -94,23 +95,13 @@ function App() {
               {/* default page is login page */}
               <Route
                 path="/"
-                element={
-                  loggedIn ? (
-                    <Navigate to="/urban-planner" />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
+                element={loggedIn ? <Navigate to="/urban-planner" /> : <Navigate to="/login" />}
               />
               {/* login page */}
               <Route
                 path="/login"
                 element={
-                  <Login
-                    login={doLogin}
-                    message={loginMessage}
-                    setMessage={setLoginMessage}
-                  />
+                  <Login login={doLogin} message={loginMessage} setMessage={setLoginMessage} />
                 }
               />
               {/* no login required */}
@@ -124,10 +115,7 @@ function App() {
                 path="/urban-planner/add-document"
                 element={
                   loggedIn ? (
-                    <AddDocumentForm
-                      document={newDocument}
-                      setDocument={setNewDocument}
-                    />
+                    <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
                   ) : (
                     <Navigate to="/login" />
                   )
@@ -135,9 +123,11 @@ function App() {
               />
               <Route
                 path="/urban-planner/link-documents"
-                element={
-                  loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
-                }
+                element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/urban-planner/documents-list"
+                element={loggedIn ? <DocumentsListTable /> : <Navigate to="/login" />}
               />
             </Routes>
           </UserContext.Provider>
