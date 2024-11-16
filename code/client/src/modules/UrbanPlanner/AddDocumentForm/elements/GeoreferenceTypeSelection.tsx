@@ -11,7 +11,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
     if (geoType === "Municipality") {
       props.setDocument({
         ...props.document,
-        georeference: [],
+        georeference: null,
       });
     }
   }, [geoType]);
