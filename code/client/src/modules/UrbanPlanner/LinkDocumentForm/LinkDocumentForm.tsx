@@ -53,7 +53,7 @@ export default function LinkDocumentForm() {
       .then(() => {
         // Reset the form and show success message
         resetForm();
-        showToast("Documents linked successfully!", "");
+        showToast("Documents linked successfully!", "", false);
         navigate("/urban-planner");
       })
       .catch((error) => {
@@ -77,7 +77,7 @@ export default function LinkDocumentForm() {
     <div className="main-page">
       <div className="form-container">
         <Form className="document-form" onSubmit={handleSubmit} noValidate>
-          <Row className="big-bold-text">Link Documents</Row>
+          <Row className="form-title">Link Documents</Row>
           <DocumentSelector
             documents={documents}
             selectedDocument1={selectedDocument1}
@@ -91,11 +91,7 @@ export default function LinkDocumentForm() {
               <Button type="submit" className="button-white float-end ms-2">
                 Submit
               </Button>
-              <Button
-                variant="primary"
-                className="button-white float-end"
-                onClick={handleCancel}
-              >
+              <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
                 Cancel
               </Button>
             </Col>

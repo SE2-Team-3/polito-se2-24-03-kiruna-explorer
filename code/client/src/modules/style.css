@@ -802,7 +802,7 @@ LOGIN
 
 /* Colori alternati */
 .even-row {
-  background-color: #f9f9f9; /* Light grey */
+  background-color: #f9f9f9 !important; /* Light grey */
 }
 
 .odd-row {
@@ -810,9 +810,10 @@ LOGIN
 }
 
 /* Hover */
-.table-hover tbody tr:hover {
+/*.table-hover tbody tr:hover {
   background-color: #f7f7f7 !important;
 }
+*/
 
 /* Altri stili esistenti */
 .table {
@@ -901,4 +902,24 @@ button.btn-link:hover {
   font-size: 0.8rem;
   padding: 5px 10px;
   border-radius: 4px;
+}
+
+.items-per-page-span {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  margin-left: 7px;
+  color: #898989;
+}
+
+.pagination {
+  margin-top: 15px;
+}
+
+.page-item.active .page-link {
+  background-color: #3d52a0 !important;
+  border-color: #3d52a0 !important;
+  color: white;
+}
+.page-item .page-link {
+  color: #3d52a0;
 }
