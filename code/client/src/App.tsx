@@ -24,7 +24,8 @@ import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceF
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
+  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -47,17 +48,25 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const u = await API.getUserInfo();
-        console.log(u);
-        setUser(new User(u.username, u.name, u.surname));
-        setLoggedIn(true);
-        setIsLoaded(true);
-        navigate("/");
-      } catch {
+      if (isAnonymous) {
+        // Not authenticated  
         setLoggedIn(false);
         setUser(undefined);
         setIsLoaded(true);
+        navigate("/explore-map");
+      } else {
+        // authenticated
+        try {
+          const u = await API.getUserInfo();
+          setUser(new User(u.username, u.name, u.surname));
+          setLoggedIn(true);
+          setIsLoaded(true);
+          navigate("/");
+        } catch {
+          setLoggedIn(false);
+          setUser(undefined);
+          setIsLoaded(true);
+        }
       }
     };
 
@@ -84,6 +93,14 @@ function App() {
             : "An error occurred"
         );
       });
+  };
+
+  // Added for resident | visitor users (anonymous)
+  const doLoginAsAnonymous = function () {
+    setIsAnonymous(true);
+    setLoggedIn(false);
+    setUser(undefined);
+    navigate("/explore-map");
   };
 
   const doLogOut = async () => {

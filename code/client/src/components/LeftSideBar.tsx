@@ -42,6 +42,10 @@ const LeftSideBar = (props: { logout: () => void }) => {
     navigate("/explore-map");
     toggleSidebar();
   };
+  const handleNavigation3 = () => {
+    navigate("/explore-map");
+    toggleSidebar();
+  };
 
   return (
     <>
@@ -70,27 +74,6 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="text-box">View documents</span>
                 </div>
               </Row>
-              <Row>
-                <div
-                  className={`menu-text-container ${
-                    location.pathname === "/urban-planner/add-document"
-                      ? "highlighted"
-                      : ""
-                  }`}
-                  role="button"
-                  onClick={handleNavigation1}
-                >
-                  <span className="file-icon-box">
-                    {location.pathname === "/urban-planner/add-document" ? (
-                      <HiDocumentAdd />
-                    ) : (
-                      <TiDocumentAdd />
-                    )}
-                  </span>
-                  <span className="text-box">New document</span>
-                </div>{" "}
-              </Row>
-
               <Row>
                 <div
                   className={`menu-text-container ${
@@ -143,7 +126,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   location.pathname === "/explore-map" ? "highlighted" : ""
                 }`}
                 role="button"
-                onClick={handleNavigation4}
+                onClick={handleNavigation3}
               >
                 <span className="file-icon-box">
                   {location.pathname === "/explore-map" ? (
@@ -152,14 +135,15 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     <PiMapPinAreaLight />
                   )}
                 </span>
-                <span className="text-box">View documents</span>
-              </div>
+                <span>View documents</span>
+              </div>{" "}
             </Row>
           )}
         </Row>
         <Row className="bottom-side-box">
           <Col>
             {user ? (
+              //  Logout
               <div className="user-text">
                 <span className="login-icon-box">
                   <i className="bi bi-person white-icon"></i>
@@ -170,14 +154,23 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
                     500,700,900');
                   </style>
-                  <span className="user-name">{user.name || "Username"}</span>
-                  <span className="user-role">Urban Planner</span>
+                  <span className="user-name">
+                    {user ? user.name : "Username"}
+                  </span>
+                  <span className="user-role">
+                    {user ? "Urban Planner" : "Role here"}
+                  </span>
                 </Row>
                 <span className="logout-icon-box" onClick={props.logout}>
-                  <i className="bi bi-box-arrow-right blue-icon"></i>
+                  {user ? (
+                    <i className="bi bi-box-arrow-right blue-icon"></i>
+                  ) : (
+                    <i className="bi bi-box-arrow-in-right blue-icon"></i>
+                  )}
                 </span>
               </div>
             ) : (
+              // Login
               <div className="user-text">
                 <span className="login-icon-box">
                   <i className="bi bi-person white-icon"></i>
