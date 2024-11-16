@@ -3,6 +3,7 @@ import DocumentController from "../controllers/documentController";
 import { body, param } from "express-validator";
 import ErrorHandler from "../helper";
 import Authenticator from "./auth";
+import db from "../db/db";
 
 class DocumentRoutes {
   private router: Router;
@@ -139,6 +140,16 @@ class DocumentRoutes {
           });
       }
     );
+
+    this.router.post(
+      "/test",
+      (req,res,next)=>{
+        console.log(req.body)
+        //db.run("INSERT INTO Resources VALUES (1,?)",[req.body])
+        res.status(1)
+        console.log(1)
+      }
+    )
   }
 }
 

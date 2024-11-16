@@ -124,6 +124,18 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
   );
 }
 
+async function uploadResource(resources:any) {
+  console.log(resources)
+  await fetch(baseURL+"documents/test", {
+    method:"POST",
+    headers: {},
+    credentials:"include",
+    body: resources[0]
+  })
+  console.log("cia")
+  return
+}
+
 const API = {
   login,
   logOut,
@@ -131,6 +143,7 @@ const API = {
   addDocument,
   linkDocuments,
   getDocuments,
+  uploadResource
 };
 
 export default API;

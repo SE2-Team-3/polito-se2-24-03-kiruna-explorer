@@ -43,7 +43,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
       </div>
       <div className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}>
         <Row className="top-side-box">
-          {user ? (
+          {user || true ? (
             <Col>
               <Row>
                 <div

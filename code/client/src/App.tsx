@@ -13,6 +13,7 @@ import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
+import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -36,6 +37,7 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      return
       try {
         const u = await API.getUserInfo();
         console.log(u);
@@ -139,6 +141,7 @@ function App() {
                   loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
                 }
               />
+              <Route path="/res" element={<AddResourceForm />}/>
             </Routes>
           </UserContext.Provider>
         </SidebarProvider>
