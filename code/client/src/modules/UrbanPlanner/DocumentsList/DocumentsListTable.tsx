@@ -84,7 +84,7 @@ export default function DocumentsListTable() {
                 <tr>
                   <th>Title</th>
                   <th>Issuance Date</th>
-                  <th>Connections</th>
+                  <th>Language</th>
                   <th>Pages</th>
                   <th></th>
                 </tr>
@@ -99,7 +99,7 @@ export default function DocumentsListTable() {
                       {item.title}
                     </td>
                     <td>{item.issuanceDate}</td>
-                    <td>{item.issuanceDate}</td>
+                    <td>{item.language}</td>
                     <td>{item.pages}</td>
                     <td>
                       <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
