@@ -2,6 +2,7 @@ import { InvalidCoordinatesError } from "../errors/georeferenceError";
 import DocumentDAO from "../dao/documentDAO";
 import { InvalidLinkError } from "../errors/documentError";
 import { Utility } from "../utilities";
+import { Express } from "express";
 
 /**
  * Represents a controller for managing documents.
@@ -64,6 +65,22 @@ class DocumentController {
   ): Promise<boolean> {
     if (georeference == null) throw new InvalidCoordinatesError();
     return this.documentDAO.georeferenceDocument(documentId, georeference);
+  }
+
+  async uploadResource(documentId: number, file: Express.Multer.File): Promise<any> {
+    if (!file) throw new Error("No file uploaded");
+    return this.documentDAO.uploadResource(documentId, file);
+  }
+
+  async getResource(resourceId: number): Promise<any> {
+    return this.documentDAO.getResourceById(resourceId);
+  }
+
+  async getResources(documentId: number): Promise<any[]> {
+    if (!documentId || documentId <= 0) {
+      throw new Error("Invalid documentId");
+    }
+    return this.documentDAO.getResourcesByDocumentId(documentId);
   }
 }
 export default DocumentController;

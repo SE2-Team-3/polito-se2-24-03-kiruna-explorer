@@ -35,24 +35,22 @@ CREATE TABLE DocumentConnections (
 
 CREATE TABLE Resource (
 	resourceId INTEGER PRIMARY KEY,
-	data BLOB
+	data LONGBLOB
 );
 
 CREATE TABLE DocumentResources (
+	resourceId INTEGER PRIMARY KEY,
 	documentId INTEGER,
-	resourceId INTEGER,
-	fileType TEXT NOT NULL,
-	PRIMARY KEY (documentId, resourceId)
+	fileType TEXT NOT NULL
 );
 
 CREATE TABLE Attachment (
 	attachmentId INTEGER PRIMARY KEY,
-	data BLOB
+	data LONGBLOB
 );
 
 CREATE TABLE DocumentAttachments (
+	attachmentId INTEGER PRIMARY KEY,
 	documentId INTEGER,
-	attachmentId INTEGER,
-	fileType TEXT NOT NULL,
-	PRIMARY KEY (documentId, attachmentId)
+	fileType TEXT NOT NULL
 );

@@ -2,6 +2,7 @@ import db from "../db/db";
 import Document from "../components/document";
 import { DuplicateLinkError } from "../errors/documentError";
 import { Utility } from "../utilities";
+import { Express } from "express";
 
 class DocumentDAO {
   async createDocument(
@@ -95,7 +96,7 @@ class DocumentDAO {
       try {
         const sql = "INSERT INTO DocumentConnections VALUES (?,?,?)";
 
-        linkType=Utility.emptyFixer(linkType)
+        linkType = Utility.emptyFixer(linkType)
 
         db.run(sql, [documentId1, documentId2, linkType], (err: any) => {
           if (err) {
@@ -210,6 +211,73 @@ class DocumentDAO {
       else count--;
     }
     return count > 0;
+  }
+
+  async uploadResource(documentId: number, file: Express.Multer.File): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      try {
+        const checkDocumentSql = "SELECT 1 FROM Document WHERE documentId = ?";
+        const resourceIdSql = "SELECT MAX(resourceId) AS resourceId FROM Resource";
+        const insertResourceSql = "INSERT INTO Resource (resourceId, data) VALUES (?, ?)";
+        const insertDocResSql = "INSERT INTO DocumentResources (documentId, resourceId, fileType) VALUES (?, ?, ?)";
+
+        if (!file) return reject(new Error("No file uploaded"));
+
+        db.get(checkDocumentSql, [documentId], (err: Error | null, row: any) => {
+          if (err) return reject(err);
+          if (!row) return reject(new Error("Document not found"));
+          db.get(resourceIdSql, [], (err: Error | null, row: any) => {
+            if (err) return reject(err);
+            const resourceId = row.resourceId ? row.resourceId + 1 : 1;
+            db.run(insertResourceSql, [resourceId, file.buffer], (err: Error | null) => {
+              if (err) return reject(err);
+              db.run(insertDocResSql, [documentId, resourceId, file.mimetype], (err: Error | null) => {
+                if (err) return reject(err);
+                resolve({
+                  status: 201,
+                  resourceId: resourceId,
+                  message: "Resource uploaded successfully",
+                });
+              });
+            });
+          });
+        });
+      } catch (error) {
+        console.error("Unexpected error in uploadResource:", error);
+        reject(error);
+      }
+    });
+  }
+
+  async getResourceById(resourceId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const sql = `
+        SELECT Resource.data, DocumentResources.fileType
+        FROM Resource
+        JOIN DocumentResources ON Resource.resourceId = DocumentResources.resourceId
+        WHERE Resource.resourceId = ?
+      `;
+      db.get(sql, [resourceId], (err: Error | null, row: any) => {
+        if (err) return reject(err);
+        if (row) resolve(row);
+        else reject(new Error("Resource not found"));
+      });
+    });
+  }
+
+  async getResourcesByDocumentId(documentId: number): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `
+        SELECT Resource.resourceId, Resource.data, DocumentResources.fileType 
+        FROM Resource
+        JOIN DocumentResources ON Resource.resourceId = DocumentResources.resourceId
+        WHERE DocumentResources.documentId = ?
+      `;
+      db.all(sql, [documentId], (err: Error | null, rows: any[]) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
   }
 }
 
