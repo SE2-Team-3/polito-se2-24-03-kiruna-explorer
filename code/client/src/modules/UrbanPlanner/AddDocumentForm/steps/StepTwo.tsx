@@ -3,7 +3,7 @@ import StakeholderSelection from "../elements/StakeholderSelection";
 import ScaleSelection from "../elements/ScaleSelection";
 import NodeType from "../elements/NodeType";
 import DateSelection from "../elements/DateSelection";
-import GeoreferenceTypeSelection from "../elements/GeoreferenceTypeSelection";
+import GeoreferenceTypeSelection from "../elements/Georeference/GeoreferenceTypeSelection";
 import { Props } from "../interfaces/types";
 import { useToast } from "../../../ToastProvider";
 
