@@ -34,7 +34,7 @@ CREATE TABLE DocumentConnections (
 );
 
 CREATE TABLE Resource (
-	resourceId INTEGER PRIMARY KEY,
+	resourceId INTEGER PRIMARY KEY AUTOINCREMENT,
 	data LONGBLOB
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE DocumentResources (
 );
 
 CREATE TABLE Attachment (
-	attachmentId INTEGER PRIMARY KEY,
+	attachmentId INTEGER PRIMARY KEY AUTOINCREMENT,
 	data LONGBLOB
 );
 

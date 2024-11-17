@@ -67,9 +67,9 @@ class DocumentController {
     return this.documentDAO.georeferenceDocument(documentId, georeference);
   }
 
-  async uploadResource(documentId: number, file: Express.Multer.File): Promise<any> {
-    if (!file) throw new Error("No file uploaded");
-    return this.documentDAO.uploadResource(documentId, file);
+  async uploadResource(documentId: number, files: Express.Multer.File[]): Promise<any> {
+    if (!files || files.length === 0) throw new Error("No files uploaded");
+    return this.documentDAO.uploadResource(documentId, files);
   }
 
   async getResource(resourceId: number): Promise<any> {

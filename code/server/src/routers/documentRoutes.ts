@@ -150,11 +150,11 @@ class DocumentRoutes {
       param("documentId")
         .isInt()
         .custom((value) => value > 0),
-      upload.single("file"),
+      upload.array("files"),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
-          .uploadResource(req.params.documentId, req.file)
+          .uploadResource(req.params.documentId, req.files)
           .then((data: any) => res.status(201).json(data))
           .catch((error: any) => next(error))
     );
