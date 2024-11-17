@@ -737,3 +737,8 @@ LOGIN
 .pages-col {
   --bs-gutter-x: 0;
 }
+
+.drop-zone {
+  height: 200px;
+  border: solid;
+}
