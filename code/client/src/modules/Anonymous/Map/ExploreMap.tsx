@@ -103,58 +103,38 @@ const ExploreMap = () => {
         />
 
         <MarkerClusterGroup>
-          {documents.map((document) => {
-            if (!document) return null;
-            // No georeference (belong to municipality area)
-            if (!document.georeference)
+          {documents &&
+            documents.map((document) => {
+              if (!document) return null;
               return (
                 <Marker
                   key={document.documentId}
                   icon={logoIcon}
-                  position={kirunaPosition}
+                  position={
+                    // No georeference: belong to municipality area (to be modified in KX9)
+                    !document.georeference
+                      ? kirunaPosition
+                      : // With Georeference: belong to a specific location
+                      document.georeference.length === 1
+                      ? L.latLng(
+                          document.georeference[0][0],
+                          document.georeference[0][1]
+                        )
+                      : ([] as any)
+                  }
                 >
                   <Popup autoClose={true} closeButton={true}>
                     <div>
                       <h5>{document.title}</h5>
                       <p>Description: {document.description}</p>
-                      <p>scale: {document.scale}</p>
-                      <p>nodeType: {document.nodeType}</p>
-                      <p>issuanceDate: {document.issuanceDate}</p>
-                      {/*<p>documentType: {document.documentType}</p>
-                      <p>stakeholders: {document.stakeholders}</p>
-                      <p>language: {document.language}</p>
-                      <p>pages: {document.pages}</p>*/}
+                      <p>Scale: {document.scale}</p>
+                      <p>Type: {document.nodeType}</p>
+                      <p>Issuance Date: {document.issuanceDate}</p>
                     </div>
                   </Popup>
                 </Marker>
               );
-            // Georeference (belong to a specific area)
-            if (document.georeference.length === 1)
-              return (
-                <Marker
-                  key={document.documentId}
-                  icon={logoIcon}
-                  position={L.latLng(
-                    document.georeference[0][0],
-                    document.georeference[0][1]
-                  )}
-                >
-                  <Popup autoClose={true} closeButton={true}>
-                    <div>
-                      <h5>{document.title}</h5>
-                      <p>Description: {document.description}</p>
-                      <p>scale: {document.scale}</p>
-                      <p>nodeType: {document.nodeType}</p>
-                      <p>issuanceDate: {document.issuanceDate}</p>
-                      {/*<p>documentType: {document.documentType}</p>
-                      <p>stakeholders: {document.stakeholders}</p>
-                      <p>language: {document.language}</p>
-                      <p>pages: {document.pages}</p>*/}
-                    </div>
-                  </Popup>
-                </Marker>
-              );
-          })}
+            })}
         </MarkerClusterGroup>
       </MapContainer>
     </div>
