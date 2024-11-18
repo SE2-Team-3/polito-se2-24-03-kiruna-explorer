@@ -525,8 +525,9 @@ describe("POST /api/documents/resource/:resourceId", () => {
         return next();
       });
 
-    const response = await request(app)
-      .get(baseURL + "/documents/resource/" + resourceId);
+    const response = await request(app).get(
+      baseURL + "/documents/resource/" + resourceId
+    );
     expect(response.status).toBe(200);
     expect(DocumentController.prototype.getResource).toHaveBeenCalled();
   });
@@ -555,9 +556,43 @@ describe("POST /api/documents/resource/:resourceId", () => {
         return next();
       });
 
-    const response = await request(app)
-      .get(baseURL + "/documents/resource/" + resourceId);
+    const response = await request(app).get(
+      baseURL + "/documents/resource/" + resourceId
+    );
     expect(response.status).toBe(422);
     expect(DocumentController.prototype.getResource).toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/documents/:documentId/resources", () => {
+  test("It should return 200 if resources of the document found", async () => {
+    const documentId = 1;
+
+    jest
+      .spyOn(DocumentController.prototype, "getResources")
+      .mockResolvedValueOnce({ documentId } as any);
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app).get(
+      baseURL + "/documents/" + documentId + "/resources"
+    );
+    expect(response.status).toBe(200);
+    expect(DocumentController.prototype.getResources).toHaveBeenCalled();
   });
 });

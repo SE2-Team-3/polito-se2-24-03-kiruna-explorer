@@ -209,4 +209,36 @@ describe("Document Controller Unit Tests", () => {
       expect(response).toEqual(testFile);
     });
   });
+
+  describe("getResources", () => {
+    it("should return the resources", async () => {
+      const documentId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "getResourcesByDocumentId")
+        .mockResolvedValueOnce([testFile]);
+
+      const controller = new DocumentController();
+
+      const response = await controller.getResources(documentId);
+
+      expect(
+        DocumentDAO.prototype.getResourcesByDocumentId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        DocumentDAO.prototype.getResourcesByDocumentId
+      ).toHaveBeenCalledWith(documentId);
+      expect(response).toEqual([testFile]);
+    });
+  });
 });

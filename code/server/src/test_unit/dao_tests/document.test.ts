@@ -151,4 +151,42 @@ describe("DocumentDAO unit tests", () => {
       mockDBGet.mockRestore();
     });
   });
+
+  describe("getResourcesByDocumentId", () => {
+    it("should return the requested resources of a document", async () => {
+      const documentId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, [testFile]);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getResourcesByDocumentId(documentId);
+
+      expect(result).toBeDefined();
+      expect(result[0].fieldname).toBeDefined();
+      expect(result[0].originalname).toBeDefined();
+      expect(result[0].encoding).toBeDefined();
+      expect(result[0].mimetype).toBeDefined();
+      expect(result[0].buffer).toBeDefined();
+      expect(result[0].size).toBeDefined();
+      expect(result[0].destination).toBeDefined();
+      expect(result[0].filename).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
 });

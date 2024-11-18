@@ -197,4 +197,17 @@ describe("Document routes integration tests", () => {
       expect(response.body.data).toBeDefined();
     });
   });
+
+  describe("POST /api/documents/documentId/resources", () => {
+    test("It should return 200 with the requested resources of a document", async () => {
+      const documentId = 1;
+      let response = await request(app)
+        .get(`${routePath}/documents/${documentId}/resources`)
+        .set("Cookie", plannerCookie)
+        .expect(200);
+
+      expect(response.body).toBeDefined();
+      expect(response.body.length).toBeGreaterThan(0);
+    });
+  });
 });
