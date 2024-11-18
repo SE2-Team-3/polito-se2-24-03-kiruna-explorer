@@ -37,7 +37,6 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      return
       try {
         const u = await API.getUserInfo();
         console.log(u);
@@ -141,7 +140,6 @@ function App() {
                   loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
                 }
               />
-              <Route path="/res" element={<AddResourceForm />}/>
             </Routes>
           </UserContext.Provider>
         </SidebarProvider>

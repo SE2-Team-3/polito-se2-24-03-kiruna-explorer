@@ -739,6 +739,33 @@ LOGIN
 }
 
 .drop-zone {
-  height: 200px;
-  border: solid;
+  height: 20vh;
+  box-sizing: border-box;
+  background: #8697C4;
+  opacity: 0.5;
+  border: 2px dashed #3D52A0;
+  border-radius: 10px;
+  text-align: center;
+  padding: 5%;
+}
+
+.uploaded-doc-row {
+  background: #EDE8F5;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+}
+
+.uploaded-doc-col {
+  max-width:80%;
+}
+
+.uploaded-doc-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0;
+}
+
+.uploaded-doc-button {
+  text-align: end;
 }

@@ -124,23 +124,19 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
   );
 }
 
-async function uploadResource(resources:File[]) {
-  let i=1
+async function uploadResources(documentId:number,resources:File[]) {
   const data= new FormData()
   for (const res of resources) {
     console.log(res)
-    data.append("file"+i,res)
-    console.log(i++)
+    data.append("fileName:"+res.name,res)
   }
   console.log(data)
-    await fetch(baseURL+"documents/test", {
+    await fetch(baseURL+"documents/"+documentId+"upload-resource", {
       method:"POST",
-      //headers: {"content-type":"multipart/form-data"},
+      headers: {"content-type":"multipart/form-data"},
       credentials:"include",
       body: data
     })
-  console.log("cia")
-  return
 }
 
 const API = {
@@ -150,7 +146,7 @@ const API = {
   addDocument,
   linkDocuments,
   getDocuments,
-  uploadResource
+  uploadResources
 };
 
 export default API;

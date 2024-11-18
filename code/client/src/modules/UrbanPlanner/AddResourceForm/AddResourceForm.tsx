@@ -4,15 +4,17 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import "../../style.css"
+import Close from "../../../assets/icons/close.svg"
+import UploadDocument from "../../../assets/icons/upload document.svg"
 
-export default function AddResourceForm() {
+export default function AddResourceForm(props:any) {
   const navigate = useNavigate();
   const [resources, setResources] = useState<File[]>([]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (resources.length) {
-      API.uploadResource(resources).then(() => {
+      API.uploadResources(props.documentId,resources).then(() => {
         alert("Done")
         //navigate("/urban-planner");
       });
@@ -50,29 +52,32 @@ export default function AddResourceForm() {
         <Row>
             <Dropzone onDrop={(acceptedFiles:File[])=>handleSelect(acceptedFiles)}>
               {({getRootProps, getInputProps})=>(
-                  <div {...getRootProps()}>
+                  <div {...getRootProps()} className="drop-zone">
                     <input {...getInputProps()}/>
-                    <div className="drop-zone">Drag and drop or click to browse</div>
+                    <img src={UploadDocument}/>
+                    <div>Drag and drop or click to browse</div>
                   </div>
                 )}
             </Dropzone>
         </Row>
 
-        {
-        resources.length? (
-          resources.map((res)=>{
-            return (
-            <Row key={res.name}>
-              <Col>
-                <p>{res.name}</p>
-              </Col>
-              <Col>
-                <Button onClick={()=>handleRemove(res.name)}>Delete</Button>
-              </Col>
-            </Row>
-          )
-          })
-        ):null}
+        <div>
+          {
+          resources.length? (
+            resources.map((res)=>{
+              return (
+              <Row key={res.name} className="uploaded-doc-row">
+                <Col className="uploaded-doc-col">
+                  <p className="uploaded-doc-name">{res.name}</p>
+                </Col>
+                <Col onClick={()=>handleRemove(res.name)} role="button" className="uploaded-doc-button">
+                  <img src={Close}/>
+                </Col>
+              </Row>
+            )
+            })
+          ):null}
+        </div>
 
         <Row className="row-box-button">
           <Button onClick={handleCancel} className="button-white mt-3 me-3">
