@@ -65,5 +65,21 @@ class DocumentController {
     if (georeference == null) throw new InvalidCoordinatesError();
     return this.documentDAO.georeferenceDocument(documentId, georeference);
   }
+
+  async uploadResource(documentId: number, files: Express.Multer.File[]): Promise<any> {
+    if (!files || files.length === 0) throw new Error("No files uploaded");
+    return this.documentDAO.uploadResource(documentId, files);
+  }
+
+  async getResource(resourceId: number): Promise<any> {
+    return this.documentDAO.getResourceById(resourceId);
+  }
+
+  async getResources(documentId: number): Promise<any[]> {
+    if (!documentId || documentId <= 0) {
+      throw new Error("Invalid documentId");
+    }
+    return this.documentDAO.getResourcesByDocumentId(documentId);
+  }
 }
 export default DocumentController;
