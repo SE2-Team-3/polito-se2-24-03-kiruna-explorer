@@ -95,4 +95,98 @@ describe("DocumentDAO unit tests", () => {
       mockDBRun.mockRestore();
     });
   });
+
+  // KX7 (Add original resource)
+  describe("uploadResource", () => {
+    it("should throw an exception when no files provided", async () => {
+      const firstDocumentIntance = {
+        documentId: 1,
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      try {
+        await documentDAO.uploadResource(firstDocumentIntance.documentId, []);
+      } catch (error) {
+        expect(error).toBeDefined();
+        expect(error.message).toBe("No file uploaded");
+      }
+    });
+  });
+
+  describe("getResourceById", () => {
+    it("should return the requested resource", async () => {
+      const resourceId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBGet = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, testFile);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getResourceById(resourceId);
+
+      expect(result).toBeDefined();
+      expect(result.fieldname).toBeDefined();
+      expect(result.originalname).toBeDefined();
+      expect(result.encoding).toBeDefined();
+      expect(result.mimetype).toBeDefined();
+      expect(result.buffer).toBeDefined();
+      expect(result.size).toBeDefined();
+      expect(result.destination).toBeDefined();
+      expect(result.filename).toBeDefined();
+      mockDBGet.mockRestore();
+    });
+  });
+
+  describe("getResourcesByDocumentId", () => {
+    it("should return the requested resources of a document", async () => {
+      const documentId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, [testFile]);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getResourcesByDocumentId(documentId);
+
+      expect(result).toBeDefined();
+      expect(result[0].fieldname).toBeDefined();
+      expect(result[0].originalname).toBeDefined();
+      expect(result[0].encoding).toBeDefined();
+      expect(result[0].mimetype).toBeDefined();
+      expect(result[0].buffer).toBeDefined();
+      expect(result[0].size).toBeDefined();
+      expect(result[0].destination).toBeDefined();
+      expect(result[0].filename).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
 });

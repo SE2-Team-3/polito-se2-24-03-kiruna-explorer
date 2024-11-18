@@ -49,17 +49,17 @@ export default function LinkDocumentForm() {
     });
 
     // Use Promise.all to send multiple API requests concurrently
-    Promise.all(linkPromises).then(() => {
-      // Reset the form and show success message
-      resetForm();
-      showToast("Documents linked successfully!", "", false);
-      navigate("/urban-planner");
-    });
-    /*
+    Promise.all(linkPromises)
+      .then(() => {
+        // Reset the form and show success message
+        resetForm();
+        showToast("Documents linked successfully!", "", false);
+        navigate("/urban-planner");
+      })
       .catch((error) => {
         //console.error("Error linking documents", error);
         alert("An error occurred while linking the documents.");
-      });*/
+      });
   };
 
   const handleCancel = () => {
@@ -77,7 +77,7 @@ export default function LinkDocumentForm() {
     <div className="main-page">
       <div className="form-container">
         <Form className="document-form" onSubmit={handleSubmit} noValidate>
-          <Row className="big-bold-text">Link Documents</Row>
+          <Row className="form-title">Link Documents</Row>
           <DocumentSelector
             documents={documents}
             selectedDocument1={selectedDocument1}
@@ -88,14 +88,10 @@ export default function LinkDocumentForm() {
           <LinkTypeSelector linkType={linkType} setLinkType={setLinkType} />
           <Row className="row-box">
             <Col className="col-box">
-              <Button type="submit" className="button-white float-end ms-2">
+              <Button type="submit" className="button-blue ms-3 btn btn-primary float-end">
                 Submit
               </Button>
-              <Button
-                variant="primary"
-                className="button-white float-end"
-                onClick={handleCancel}
-              >
+              <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
                 Cancel
               </Button>
             </Col>

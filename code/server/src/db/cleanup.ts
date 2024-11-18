@@ -17,7 +17,13 @@ export function cleanup() {
           if (err) return reject(err);
           db.run("DELETE FROM DocumentConnections", (err) => {
             if (err) return reject(err);
-            resolve();
+            db.run("DELETE FROM Resource", (err) => {
+              if (err) return reject(err);
+              db.run("DELETE FROM DocumentResources", (err) => {
+                if (err) return reject(err);
+                resolve();
+              });
+            });
           });
         });
       });

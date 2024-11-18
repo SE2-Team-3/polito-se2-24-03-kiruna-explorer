@@ -29,16 +29,23 @@ const LeftSideBar = (props: { logout: () => void }) => {
     toggleSidebar();
   };
 
+  /*
   const handleNavigation1 = () => {
     navigate("/urban-planner/add-document"); // Redirects to /add-document
     toggleSidebar();
   };
+  */
   const handleNavigation2 = () => {
-    navigate("/urban-planner/link-documents"); // Redirects to /add-document
+    navigate("/urban-planner/link-documents"); // Redirects to /link-document
     toggleSidebar();
   };
+
   const handleNavigation3 = () => {
-    navigate("/explore-map");
+    navigate("/urban-planner/documents-list"); // Redirects to /documents-list
+    toggleSidebar();
+  };
+  const handleNavigation4 = () => {
+    navigate("/explore-map"); // Redirects to /explore-map
     toggleSidebar();
   };
 
@@ -49,7 +56,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
       </div>
       <div className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}>
         <Row className="top-side-box">
-          {user ? (
+          {user || true ? (
             <Col>
               <Row>
                 <div
@@ -69,29 +76,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span>Dashboard</span>
                 </div>
               </Row>
-              <Row>
-                <div
-                  className={`menu-text-container ${
-                    location.pathname === "/urban-planner/add-document"
-                      ? "highlighted"
-                      : ""
-                  }`}
-                  role="button"
-                  onClick={handleNavigation1}
-                >
-                  <span className="file-icon-box">
-                    {location.pathname === "/urban-planner/add-document" ? (
-                      <img
-                        src={NewDocumentSelected}
-                        alt="new document selected"
-                      />
-                    ) : (
-                      <img src={NewDocument} alt="new document" />
-                    )}
-                  </span>
-                  <span>New document</span>
-                </div>{" "}
-              </Row>
+
               <Row>
                 <div
                   className={`menu-text-container ${
@@ -112,22 +97,28 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span>Link documents</span>
                 </div>{" "}
               </Row>
+
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/explore-map" ? "highlighted" : ""
+                    location.pathname === "/urban-planner/documents-list"
+                      ? "highlighted"
+                      : ""
                   }`}
                   role="button"
                   onClick={handleNavigation3}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
+                    {location.pathname === "/urban-planner/documents-list" ? (
+                      <img
+                        src={NewDocumentSelected}
+                        alt="new document selected"
+                      />
                     ) : (
-                      <PiMapPinAreaLight />
+                      <img src={NewDocument} alt="new document" />
                     )}
                   </span>
-                  <span>View documents</span>
+                  <span>Documents List</span>
                 </div>{" "}
               </Row>
             </Col>
@@ -138,7 +129,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   location.pathname === "/explore-map" ? "highlighted" : ""
                 }`}
                 role="button"
-                onClick={handleNavigation3}
+                onClick={handleNavigation4}
               >
                 <span className="file-icon-box">
                   {location.pathname === "/explore-map" ? (
