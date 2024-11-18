@@ -795,6 +795,40 @@ LOGIN
   --bs-gutter-x: 0;
 }
 
+
+.drop-zone {
+  height: 20vh;
+  box-sizing: border-box;
+  background: #c4cadf;
+  border: 2px dashed #a8afd1;
+  border-radius: 10px;
+  text-align: center;
+  padding: 5%;
+}
+
+.uploaded-doc-row {
+  background: #EDE8F5;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.5rem;
+}
+
+.uploaded-doc-col {
+  max-width:80%;
+}
+
+.uploaded-doc-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0;
+}
+
+.uploaded-doc-button {
+  text-align: end;
+}
+
 /* DOCUMETS LIST CSS */
 
 /* Colori alternati */
@@ -920,3 +954,4 @@ button.btn-link:hover {
 .page-item .page-link {
   color: #3d52a0;
 }
+
