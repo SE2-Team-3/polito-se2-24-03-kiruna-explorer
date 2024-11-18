@@ -4,7 +4,12 @@ import "../../../../style.css";
 import { Props } from "../../interfaces/types";
 import MiniMapModal from "./MiniMapModal";
 
-const GeoreferenceSelection = (props: Props) => {
+const GeoreferenceSelection = (
+  props: Props & {
+    showMiniMap: boolean;
+    setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+) => {
   const [latitude, setLatitude] = useState(67.85572);
   const [longitude, setLongitude] = useState(20.22513);
 

@@ -123,7 +123,7 @@ function App() {
                   path="/"
                   element={
                     loggedIn ? (
-                      <Navigate to="/urban-planner" />
+                      <Navigate to="/explore-map" />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -180,7 +180,7 @@ function App() {
           </SidebarProvider>
         </Container>
       </ToastProvider>
-      {loggedIn && location.pathname == "/urban-planner" ? (
+      {loggedIn && location.pathname == "/explore-map" ? (
         <Button
           onClick={() => navigate("/urban-planner/add-document")}
           className="add-button"

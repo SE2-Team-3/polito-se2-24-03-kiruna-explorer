@@ -822,9 +822,17 @@ MAP
   transition: margin-left 0.3s ease;
 }
 
+.modal-title.h4 {
+  color: black;
+  font-size: 24px;
+}
+
 @media (max-width: 1024px) {
   .map-wrapper {
     left: 250px;
+  }
+  .modal-title.h4 {
+    font-size: 20px;
   }
 }
 
@@ -834,6 +842,9 @@ MAP
   }
   .map-wrapper {
     left: 0px;
+  }
+  .modal-title.h4 {
+    font-size: 16px;
   }
 }
 

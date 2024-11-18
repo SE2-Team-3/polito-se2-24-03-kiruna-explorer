@@ -121,6 +121,24 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span>Documents List</span>
                 </div>{" "}
               </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/explore-map" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation4}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/explore-map" ? (
+                      <PiMapPinAreaDuotone />
+                    ) : (
+                      <PiMapPinAreaLight />
+                    )}
+                  </span>
+                  <span>View documents</span>
+                </div>{" "}
+              </Row>
             </Col>
           ) : (
             <Row>

@@ -1,7 +1,10 @@
-import { LatLngBounds, LatLngExpression } from "leaflet";
+import { LatLngBounds, LatLngExpression, LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
+import L from "leaflet";
+import Logo from "../../../../../assets/icons/Kiruna Icon - 2.svg";
+import "../../../../style.css";
 
 interface Props {
   showMiniMap: boolean;
@@ -24,6 +27,14 @@ const MiniMapModal = ({
     [67.89, 20.268], // Northeast corner
   ]);
 
+  const [cursorPosition, setCursorPosition] = useState<LatLng | null>(null);
+  const logoIcon = new L.Icon({
+    iconUrl: Logo,
+    iconSize: [40, 40],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  });
+
   const handleClose = () => setShowMiniMap(false);
 
   const validateLocation = (lat: number, lon: number) => {
@@ -32,6 +43,9 @@ const MiniMapModal = ({
 
   const LocationMarker = () => {
     useMapEvents({
+      mousemove(e) {
+        setCursorPosition(e.latlng); // Update the cursor position
+      },
       click(e) {
         if (validateLocation(e.latlng.lat, e.latlng.lng)) {
           setLatitude(e.latlng.lat);
@@ -54,7 +68,7 @@ const MiniMapModal = ({
   return (
     <Modal show={showMiniMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Please Select a location on the map</Modal.Title>
+        <Modal.Title>Select a location on the map</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <MapContainer
@@ -72,6 +86,9 @@ const MiniMapModal = ({
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
           />
           <LocationMarker />
+          {cursorPosition && (
+            <Marker position={cursorPosition} icon={logoIcon} />
+          )}
         </MapContainer>
         {validationMessage && (
           <Alert variant="danger" className="mt-3">
@@ -80,7 +97,11 @@ const MiniMapModal = ({
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          className="button-small"
+          onClick={handleClose}
+        >
           Close
         </Button>
       </Modal.Footer>
