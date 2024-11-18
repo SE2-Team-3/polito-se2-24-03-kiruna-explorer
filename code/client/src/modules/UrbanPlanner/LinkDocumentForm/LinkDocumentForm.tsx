@@ -59,7 +59,7 @@ export default function LinkDocumentForm() {
       .catch((error) => {
         //console.error("Error linking documents", error);
         alert("An error occurred while linking the documents.");
-      });*/
+      });
   };
 
   const handleCancel = () => {
