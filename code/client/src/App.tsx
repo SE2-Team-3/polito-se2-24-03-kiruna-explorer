@@ -14,6 +14,7 @@ import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
+import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -22,6 +23,8 @@ function App() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -129,7 +132,23 @@ function App() {
                 />
                 <Route
                   path="/urban-planner/documents-list"
-                  element={loggedIn ? <DocumentsListTable /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? (
+                      <DocumentsListTable setUploadDocumentId={setUploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/urban-planner/add-resource"
+                  element={
+                    loggedIn ? (
+                      <AddResourceForm documentId={uploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
                 />
               </Routes>
             </UserContext.Provider>

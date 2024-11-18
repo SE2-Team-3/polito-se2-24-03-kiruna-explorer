@@ -6,6 +6,7 @@ import DocumentSelector from "./elements/DocumentsSelector";
 import LinkTypeSelector from "./elements/LinkTypeSelector";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../ToastProvider";
+import { useSidebar } from "../../../components/SidebarContext";
 
 export default function LinkDocumentForm() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function LinkDocumentForm() {
   const [selectedDocument1, setSelectedDocument1] = useState<number | null>();
   const [selectedDocument2, setSelectedDocument2] = useState<number | null>();
   const [linkType, setLinkType] = useState<string[]>([]);
-
+  const { isSidebarOpen } = useSidebar();
   const showToast = useToast();
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function LinkDocumentForm() {
   };
 
   return (
-    <div className="main-page">
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
         <Form className="document-form" onSubmit={handleSubmit} noValidate>
           <Row className="form-title">Link Documents</Row>
