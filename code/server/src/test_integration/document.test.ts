@@ -2,7 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import request from "supertest";
 import { app } from "../../index";
 import { cleanup } from "../../src/db/cleanup";
-import Document from "../../src/components/document";
+import db from "../../src/db/db";
 
 const routePath = "/api";
 
@@ -43,6 +43,17 @@ const postDocument = async (documentInfo: any, cookie: string) => {
     .expect(201);
 };
 
+const postResource = async () => {
+  const insertResource = `INSERT INTO Resource (resourceId, data) VALUES (1, "test content")`;
+  const insertDcocumentResources = `INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (1, 1, "text/plain", "test.txt")`;
+  db.run(insertResource, [], (err) => {
+    if (err) console.log(err);
+    db.run(insertDcocumentResources, [], (err) => {
+      if (err) console.log(err);
+    });
+  });
+};
+
 const login = async (userInfo: any) => {
   return new Promise<string>((resolve, reject) => {
     request(app)
@@ -63,6 +74,7 @@ beforeAll(async () => {
   await postUser(planner);
   plannerCookie = await login(planner);
 
+  await postResource();
   await postDocument(testDocument, plannerCookie);
 });
 
@@ -126,8 +138,8 @@ describe("Document routes integration tests", () => {
     });
   });
 
+  // KX7 (Add original resource)
   describe("POST /api/documents/:documentId/upload-resource", () => {
-    // KX7 (Add original resource)
     test("It should return 201 if all resources uploaded successfully", async () => {
       const documnetId = 1;
       const files: Express.Multer.File[] = [
@@ -168,6 +180,21 @@ describe("Document routes integration tests", () => {
       expect(response.body.status).toBeDefined();
       expect(response.body.resources).toBeDefined();
       expect(response.body.message).toBeDefined();
+    });
+  });
+
+  describe("POST /api/documents/resource/:resourceId", () => {
+    test("It should return 200 with the requested resource", async () => {
+      const resourceId = 1;
+      let response = await request(app)
+        .get(`${routePath}/documents/resource/${resourceId}`)
+        .set("Cookie", plannerCookie)
+        .expect(200);
+
+      expect(response.body).toBeDefined();
+      expect(response.body.fileName).toBeDefined();
+      expect(response.body.fileType).toBeDefined();
+      expect(response.body.data).toBeDefined();
     });
   });
 });

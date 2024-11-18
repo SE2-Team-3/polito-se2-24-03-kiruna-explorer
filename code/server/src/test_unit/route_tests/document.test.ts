@@ -499,3 +499,65 @@ describe("POST /api/documents/:documentId/upload-resource", () => {
     expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
   });
 });
+
+describe("POST /api/documents/resource/:resourceId", () => {
+  test("It should return 200 if the resource is found", async () => {
+    const resourceId = 1;
+
+    jest
+      .spyOn(DocumentController.prototype, "getResource")
+      .mockResolvedValueOnce({ resourceId });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .get(baseURL + "/documents/resource/" + resourceId);
+    expect(response.status).toBe(200);
+    expect(DocumentController.prototype.getResource).toHaveBeenCalled();
+  });
+
+  test("It should return 422 if the resourceId is invalid", async () => {
+    const resourceId = 0;
+
+    jest
+      .spyOn(DocumentController.prototype, "getResource")
+      .mockResolvedValueOnce({ resourceId });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .get(baseURL + "/documents/resource/" + resourceId);
+    expect(response.status).toBe(422);
+    expect(DocumentController.prototype.getResource).toHaveBeenCalled();
+  });
+});

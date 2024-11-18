@@ -122,8 +122,8 @@ describe("Document Controller Unit Tests", () => {
       });
     });
   });
+  // KX7 (Add Original Resources)
   describe("uploadResource", () => {
-    // KX7 (Add Original Resources)
     it("should return a message that the all resources were uploaded successfully with resources", async () => {
       const documentId = 1;
       const testFile: any = {
@@ -177,6 +177,36 @@ describe("Document Controller Unit Tests", () => {
       } catch (error) {
         expect(error.message).toBe("No files uploaded");
       }
+    });
+  });
+
+  describe("getResource", () => {
+    it("should return the requested resource", async () => {
+      const resourceId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "getResourceById")
+        .mockResolvedValueOnce(testFile);
+
+      const controller = new DocumentController();
+
+      const response = await controller.getResource(resourceId);
+
+      expect(DocumentDAO.prototype.getResourceById).toHaveBeenCalledTimes(1);
+      expect(DocumentDAO.prototype.getResourceById).toHaveBeenCalledWith(
+        resourceId
+      );
+      expect(response).toEqual(testFile);
     });
   });
 });
