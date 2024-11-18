@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import { SidebarProvider } from "./components/SidebarContext";
 import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
-import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
+import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentwithComponents";
 import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";

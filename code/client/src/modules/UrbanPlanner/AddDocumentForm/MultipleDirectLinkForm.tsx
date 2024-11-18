@@ -4,11 +4,11 @@ import "../../style.css";
 import { useNavigate } from "react-router-dom";
 import API from "../../../API/API";
 import { useToast } from "../../ToastProvider";
-import LinkTypeSelection from "./LinkTypeSelection";
+import LinkEntryForm from "./elements/LinkEntryForm";
 import Document from "../../../models/document";
-import { BsTrash, BsPlus } from "react-icons/bs";
+import { BsPlus } from "react-icons/bs";
 
-// Define a type for each entry in the linkEntries state
+// Define the type for each entry in the linkEntries state
 interface LinkEntry {
   documentId: number; // Use documentId for linking existing docs
   linkType: string[]; // Now an array of strings
@@ -20,12 +20,9 @@ interface MultipleLinkFormProps {
 
 const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   const navigate = useNavigate();
-
   const [errorMessage, setErrorMessage] = useState("");
   const [validated, setValidated] = useState(false);
   const [validatedSecondForm, setValidatedSecondForm] = useState(false); // Add validatedSecondForm state
-
-  // Store fetched documents from the DB
   const [documents, setDocuments] = useState<Document[]>([]);
   const [linkEntries, setLinkEntries] = useState<LinkEntry[]>([
     { documentId: 0, linkType: [] },
@@ -41,8 +38,8 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setValidated(true); // Mark the first form as validated
-    setValidatedSecondForm(true); // Mark the second form as validated
+    setValidated(true);
+    setValidatedSecondForm(true);
 
     // Validation checks for each entry
     const hasErrors = linkEntries.some(
@@ -84,24 +81,18 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   };
 
   const handleAddLink = () => {
-    // Initialize with an empty array for linkType
     setLinkEntries([...linkEntries, { documentId: 0, linkType: [] }]);
   };
 
-  const handleFieldChange = (
-    index: number,
-    field: "documentId" | "linkType",
-    value: string | number | string[]
-  ) => {
+  const handleDocumentChange = (index: number, value: number) => {
     const updatedEntries = [...linkEntries];
+    updatedEntries[index].documentId = value;
+    setLinkEntries(updatedEntries);
+  };
 
-    // Type check based on field
-    if (field === "documentId") {
-      updatedEntries[index].documentId = Number(value);
-    } else if (field === "linkType" && Array.isArray(value)) {
-      updatedEntries[index].linkType = value;
-    }
-
+  const handleLinkTypeChange = (index: number, value: string[]) => {
+    const updatedEntries = [...linkEntries];
+    updatedEntries[index].linkType = value;
     setLinkEntries(updatedEntries);
   };
 
@@ -141,67 +132,16 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
           );
 
           return (
-            <Row key={index} className="row-box-custom">
-              {/* Document Selector */}
-              <Col md={5} className="mb-3">
-                <Form.Label className="font-size-18">Document</Form.Label>
-                <Form.Select
-                  className={`font-size-16 ${
-                    entry.documentId === 0 && validatedSecondForm
-                      ? "is-invalid"
-                      : ""
-                  }`}
-                  value={entry.documentId}
-                  onChange={(e) =>
-                    handleFieldChange(
-                      index,
-                      "documentId",
-                      parseInt(e.target.value)
-                    )
-                  }
-                >
-                  <option value={0}>Select a document</option>
-                  {availableDocuments.map((doc) => (
-                    <option key={doc.documentId} value={doc.documentId}>
-                      {doc.title}
-                    </option>
-                  ))}
-                </Form.Select>
-                {entry.documentId === 0 && validatedSecondForm && (
-                  <Form.Control.Feedback type="invalid">
-                    Please select a document.
-                  </Form.Control.Feedback>
-                )}
-              </Col>
-
-              {/* Link Type Select */}
-              <Col md={6} className="mb-3">
-                <LinkTypeSelection
-                  linkType={entry.linkType}
-                  setLinkType={(selectedLinkTypes) =>
-                    handleFieldChange(index, "linkType", selectedLinkTypes)
-                  }
-                  validated={validatedSecondForm} // Pass validated flag here
-                />
-                {/* Display error if linkType is empty and form has been validated */}
-                {entry.linkType.length === 0 && validatedSecondForm && (
-                  <Form.Control.Feedback type="invalid">
-                    Please select at least one link type.
-                  </Form.Control.Feedback>
-                )}
-              </Col>
-
-              {/* Remove Link Button */}
-              <Col md={1} className="mb-3">
-                <BsTrash
-                  size={30}
-                  type="button"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleRemoveLink(index)}
-                  className="remove-link-button"
-                ></BsTrash>
-              </Col>
-            </Row>
+            <LinkEntryForm
+              key={index}
+              index={index}
+              linkEntry={entry}
+              availableDocuments={availableDocuments}
+              validatedSecondForm={validatedSecondForm}
+              onDocumentChange={handleDocumentChange}
+              onLinkTypeChange={handleLinkTypeChange}
+              onRemoveLink={handleRemoveLink}
+            />
           );
         })}
 
