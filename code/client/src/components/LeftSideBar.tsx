@@ -32,7 +32,12 @@ const LeftSideBar = (props: { logout: () => void }) => {
     toggleSidebar();
   };
   const handleNavigation2 = () => {
-    navigate("/urban-planner/link-documents"); // Redirects to /add-document
+    navigate("/urban-planner/link-documents"); // Redirects to /link-document
+    toggleSidebar();
+  };
+
+  const handleNavigation3 = () => {
+    navigate("/urban-planner/documents-list"); // Redirects to /documents-list
     toggleSidebar();
   };
 
@@ -66,24 +71,6 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/add-document" ? "highlighted" : ""
-                  }`}
-                  role="button"
-                  onClick={handleNavigation1}
-                >
-                  <span className="file-icon-box">
-                    {location.pathname === "/urban-planner/add-document" ? (
-                      <img src={NewDocumentSelected} alt="new document selected" />
-                    ) : (
-                      <img src={NewDocument} alt="new document" />
-                    )}
-                  </span>
-                  <span>New document</span>
-                </div>{" "}
-              </Row>
-              <Row>
-                <div
-                  className={`menu-text-container ${
                     location.pathname === "/urban-planner/link-documents" ? "highlighted" : ""
                   }`}
                   role="button"
@@ -97,6 +84,24 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     )}
                   </span>
                   <span>Link documents</span>
+                </div>{" "}
+              </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/documents-list" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation3}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/urban-planner/documents-list" ? (
+                      <img src={NewDocumentSelected} alt="new document selected" />
+                    ) : (
+                      <img src={NewDocument} alt="new document" />
+                    )}
+                  </span>
+                  <span>Documents List</span>
                 </div>{" "}
               </Row>
             </Col>
