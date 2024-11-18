@@ -41,7 +41,8 @@ CREATE TABLE Resource (
 CREATE TABLE DocumentResources (
 	resourceId INTEGER PRIMARY KEY,
 	documentId INTEGER,
-	fileType TEXT NOT NULL
+	fileType TEXT NOT NULL,
+	fileName TEXT NOT NULL
 );
 
 CREATE TABLE Attachment (
@@ -52,5 +53,6 @@ CREATE TABLE Attachment (
 CREATE TABLE DocumentAttachments (
 	attachmentId INTEGER PRIMARY KEY,
 	documentId INTEGER,
-	fileType TEXT NOT NULL
+	fileType TEXT NOT NULL,
+	fileName TEXT NOT NULL
 );

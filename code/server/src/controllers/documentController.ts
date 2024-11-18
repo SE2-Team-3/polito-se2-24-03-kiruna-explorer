@@ -2,7 +2,6 @@ import { InvalidCoordinatesError } from "../errors/georeferenceError";
 import DocumentDAO from "../dao/documentDAO";
 import { InvalidLinkError } from "../errors/documentError";
 import { Utility } from "../utilities";
-import { Express } from "express";
 
 /**
  * Represents a controller for managing documents.

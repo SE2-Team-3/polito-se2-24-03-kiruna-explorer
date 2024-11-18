@@ -1,8 +1,6 @@
 import db from "../db/db";
-import Document from "../components/document";
 import { DuplicateLinkError } from "../errors/documentError";
 import { Utility } from "../utilities";
-import { Express } from "express";
 
 class DocumentDAO {
   async createDocument(
@@ -218,7 +216,7 @@ class DocumentDAO {
       try {
         const checkDocumentSql = "SELECT 1 FROM Document WHERE documentId = ?";
         const insertResourceSql = "INSERT INTO Resource (data) VALUES (?)";
-        const insertDocResSql = "INSERT INTO DocumentResources (documentId, resourceId, fileType) VALUES (?, ?, ?)";
+        const insertDocResSql = "INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (?, ?, ?, ?)";
 
         if (!files || files.length === 0) return reject(new Error("No file uploaded"));
 
@@ -231,10 +229,12 @@ class DocumentDAO {
               db.run(insertResourceSql, [file.buffer], function (err: Error | null) {
                 if (err) return rej(err);
                 const resourceId = this.lastID;
-                db.run(insertDocResSql, [documentId, resourceId, file.mimetype], (err: Error | null) => {
+                db.run(insertDocResSql, [documentId, resourceId, file.mimetype, file.originalname], (err: Error | null) => {
                   if (err) return rej(err);
                   res({
                     resourceId: resourceId,
+                    fileName: file.originalname,
+                    fileType: file.mimetype,
                     message: "Resource uploaded successfully",
                   });
                 });
@@ -261,7 +261,7 @@ class DocumentDAO {
   async getResourceById(resourceId: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       const sql = `
-        SELECT Resource.data, DocumentResources.fileType
+        SELECT DocumentResources.fileName, DocumentResources.fileType, Resource.data
         FROM Resource
         JOIN DocumentResources ON Resource.resourceId = DocumentResources.resourceId
         WHERE Resource.resourceId = ?
@@ -277,7 +277,7 @@ class DocumentDAO {
   async getResourcesByDocumentId(documentId: number): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
       const sql = `
-        SELECT Resource.resourceId, Resource.data, DocumentResources.fileType 
+        SELECT Resource.resourceId, DocumentResources.fileType, DocumentResources.fileName, Resource.data
         FROM Resource
         JOIN DocumentResources ON Resource.resourceId = DocumentResources.resourceId
         WHERE DocumentResources.documentId = ?
