@@ -11,10 +11,11 @@ export interface NewDocument {
   language: string;
   pages: string;
   //Connections: number;
-  georeference: number[][];
+  georeference: number[][] | null;
 }
 
 export interface Props {
   document: NewDocument;
+  //newDocID?: number; // Add this to allow newDocID to be passed
   setDocument: React.Dispatch<React.SetStateAction<NewDocument>>;
 }

@@ -1,19 +1,19 @@
-import { Container } from "react-bootstrap";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Button, Container } from "react-bootstrap";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import { SidebarProvider } from "./components/SidebarContext";
 import UrbanPlanner from "./modules/UrbanPlanner/UrbanPlannerDashboard";
-import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentForm";
+import AddDocumentForm from "./modules/UrbanPlanner/AddDocumentForm/AddDocumentwithComponents";
 import { NewDocument } from "./modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import { User, UserContext } from "./components/UserContext";
 import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
-import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
+import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -21,6 +21,7 @@ function App() {
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -68,10 +69,10 @@ function App() {
           err.error
             ? err.error
             : err.message
-              ? err.message
-              : typeof err === "string"
-                ? err
-                : "An error occurred"
+            ? err.message
+            : typeof err === "string"
+            ? err
+            : "An error occurred"
         );
       });
   };
@@ -85,66 +86,62 @@ function App() {
   };
 
   return (
-    <ToastProvider>
-      <Container>
-        <SidebarProvider>
-          <UserContext.Provider value={user}>
-            <NavBar />
-            <LeftSideBar logout={doLogOut} />
-            <Routes>
-              {/* default page is login page */}
-              <Route
-                path="/"
-                element={
-                  loggedIn ? (
-                    <Navigate to="/urban-planner" />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              {/* login page */}
-              <Route
-                path="/login"
-                element={
-                  <Login
-                    login={doLogin}
-                    message={loginMessage}
-                    setMessage={setLoginMessage}
-                  />
-                }
-              />
-              {/* no login required */}
-              <Route path="/home" element={<Home />} />
-              {/* urban-planner login required */}
-              <Route
-                path="/urban-planner"
-                element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
-              />
-              <Route
-                path="/urban-planner/add-document"
-                element={
-                  loggedIn ? (
-                    <AddDocumentForm
-                      document={newDocument}
-                      setDocument={setNewDocument}
-                    />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path="/urban-planner/link-documents"
-                element={
-                  loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
-                }
-              />
-            </Routes>
-          </UserContext.Provider>
-        </SidebarProvider>
-      </Container>
-    </ToastProvider>
+    <>
+      <ToastProvider>
+        <Container>
+          <SidebarProvider>
+            <UserContext.Provider value={user}>
+              <NavBar />
+              <LeftSideBar logout={doLogOut} />
+              <Routes>
+                {/* default page is login page */}
+                <Route
+                  path="/"
+                  element={loggedIn ? <Navigate to="/urban-planner" /> : <Navigate to="/login" />}
+                />
+                {/* login page */}
+                <Route
+                  path="/login"
+                  element={
+                    <Login login={doLogin} message={loginMessage} setMessage={setLoginMessage} />
+                  }
+                />
+                {/* no login required */}
+                <Route path="/home" element={<Home />} />
+                {/* urban-planner login required */}
+                <Route
+                  path="/urban-planner"
+                  element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
+                />
+                <Route
+                  path="/urban-planner/add-document"
+                  element={
+                    loggedIn ? (
+                      <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/urban-planner/link-documents"
+                  element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
+                />
+                <Route
+                  path="/urban-planner/documents-list"
+                  element={loggedIn ? <DocumentsListTable /> : <Navigate to="/login" />}
+                />
+              </Routes>
+            </UserContext.Provider>
+          </SidebarProvider>
+        </Container>
+      </ToastProvider>
+      {loggedIn && location.pathname == "/urban-planner" ? (
+        <Button onClick={() => navigate("/urban-planner/add-document")} className="add-button">
+          +
+        </Button>
+      ) : null}
+    </>
   );
 }
 

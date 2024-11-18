@@ -6,7 +6,9 @@ const UrbanPlanner: React.FC = () => {
   const { isSidebarOpen } = useSidebar();
 
   return (
-    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}></div>
+    <>
+      <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}></div>
+    </>
   );
 };
 

@@ -16,10 +16,7 @@ PAGE STYLE
   transition: margin-left 0.3s ease;
 }
 
-/*
-FORM STYLE
-*/
-.document-form {
+.form-container {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -30,10 +27,26 @@ FORM STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 40px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
-    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
+
+.row-box-custom {
+  border: 2px solid #adbbba;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  padding-top: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a soft shadow */
+}
+
+/*
+FORM STYLE
+*/
+.document-form {
+  padding: 20px;
+}
+
 
 .row-box {
   margin-left: 10px;
@@ -113,6 +126,14 @@ GENERAL TEXT STYLE
   font-size: 18px;
 }
 
+.description-container {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+}
+
 /*
 BUTTON STYLE
 */
@@ -144,18 +165,21 @@ BUTTON STYLE
   border-color: #3d52a0;
 }
 
-.button-blue:hover {
+.button-blue:hover,
+.add-link-button:hover {
   background-color: #3d52a0;
   color: white;
   border-color: #3d52a0;
 }
 
 .button-white:hover,
-.button-blue:hover {
+.button-blue:hover,
+.add-link-button:hover {
   transform: scale(1.075);
 }
 .button-white:active,
-.button-blue:active {
+.button-blue:active,
+.add-link-button:active {
   transform: scale(0.95);
 }
 
@@ -170,6 +194,30 @@ BUTTON STYLE
   background-color: #3d52a0;
   border-color: #3d52a0;
   color: white;
+}
+
+.add-link-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  background-color: #3d52a0;
+  box-shadow: "0px 2px 5px rgba(0, 0, 0, 0.2)";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.remove-link-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  color: red;
+  margin-top: 5px;
 }
 
 /*
@@ -263,7 +311,6 @@ TOAST
   justify-content: center;
   width: 75px;
   height: 75px;
-  background-color: #28a745;
   border-radius: 50%;
   color: white;
 }
@@ -300,6 +347,9 @@ DROPDOWN STYLE
   border: 1px solid #ccc;
   box-shadow: none;
   text-align: left;
+  width: 100%;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
 }
 .dropdown-toggle:hover {
   background-color: white;
@@ -349,6 +399,9 @@ DROPDOWN STYLE
   cursor: pointer;
 }
 
+.form-check-label {
+  color: black !important;
+}
 /*
 SMALL LAPTOP RESPONSIVE PAGE
 */
@@ -487,6 +540,16 @@ TABLET RESPONSIVE PAGE
   .solid-line {
     height: 3px;
   }
+
+  .add-link-button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .remove-link-button {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 /*
@@ -516,19 +579,17 @@ MOBILE RESPONSIVE PAGE
     margin-left: 0px;
   }
 
-  .step-indicator-row {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
-
-  .step-col {
-    margin-left: -10px;
-    margin-right: -10px;
-  }
-
   .row-box {
     margin-left: -15px;
     margin-right: -15px;
+  }
+
+  .add-link-button {
+    margin-left: 10px;
+  }
+
+  .description-container {
+    margin-left: -5px;
   }
 }
 
@@ -593,12 +654,7 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(
-    to right,
-    #7091e6 0%,
-    #636fa4 51%,
-    #7091e6 100%
-  );
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
 }
 .loginBtn {
   border: none;
@@ -683,6 +739,7 @@ LOGIN
 
 @media (max-width: 768px) {
   /* Full-width layout for small screens */
+
   .loginContainer {
     padding: 20px;
   }
@@ -738,6 +795,7 @@ LOGIN
   --bs-gutter-x: 0;
 }
 
+
 .drop-zone {
   height: 20vh;
   box-sizing: border-box;
@@ -770,3 +828,130 @@ LOGIN
 .uploaded-doc-button {
   text-align: end;
 }
+
+/* DOCUMETS LIST CSS */
+
+/* Colori alternati */
+.even-row {
+  background-color: #f9f9f9 !important; /* Light grey */
+}
+
+.odd-row {
+  background-color: white; /* White */
+}
+
+/* Hover */
+/*.table-hover tbody tr:hover {
+  background-color: #f7f7f7 !important;
+}
+*/
+
+/* Altri stili esistenti */
+.table {
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Spaziatura tra le righe */
+}
+
+.table thead {
+  background-color: white;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.table thead th {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 550;
+  color: #202020;
+  font-size: 0.9rem;
+  padding-bottom: 12px;
+}
+
+.table tbody td {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  vertical-align: middle;
+  border: none;
+  padding: 12px 16px;
+}
+
+.table tbody tr td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.table tbody tr td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Badge per le icone colorate */
+.badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 10px;
+}
+
+/* Badge per le icone colorate */
+
+.badge-text {
+  background-color: #f9837c !important;
+}
+
+.badge-plan {
+  background-color: #3d52a0 !important;
+}
+
+.badge-concept {
+  background-color: #adbbda !important;
+}
+
+.badge-actions {
+  background-color: #0cce6b !important;
+}
+
+/* Pulsanti di azione */
+button.btn-link {
+  color: #8c8c8c;
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+
+button.btn-link:hover {
+  color: #333;
+}
+
+/* Tooltip personalizzato */
+.tooltip-inner {
+  background-color: #333;
+  color: white;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.items-per-page-span {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  margin-left: 7px;
+  color: #898989;
+}
+
+.pagination {
+  margin-top: 15px;
+}
+
+.page-item.active .page-link {
+  background-color: #3d52a0 !important;
+  border-color: #3d52a0 !important;
+  color: white;
+}
+.page-item .page-link {
+  color: #3d52a0;
+}
+

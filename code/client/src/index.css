@@ -245,3 +245,27 @@ body {
     margin-left: 15px;
   }
 }
+
+.add-button {
+  position: fixed; /* Fisso in un punto dello schermo */
+  bottom: 40px; /* Distanza dal fondo dello schermo */
+  right: 40px; /* Distanza dal lato destro dello schermo */
+  width: 80px; /* Dimensioni del bottone */
+  height: 80px;
+  background-color: #3d52a0; /* Colore di sfondo (personalizzabile) */
+  color: white; /* Colore dell'icona */
+  border: none; /* Rimuove il bordo */
+  border-radius: 50%; /* Rende il bottone circolare */
+  display: flex; /* Centra l'icona */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Aggiunge ombra */
+  cursor: pointer; /* Cambia il cursore a mano */
+  z-index: 1000; /* Si assicura che sia sopra altri elementi */
+  transition: background-color 0.3s ease;
+  font-size: 30px;
+}
+
+.add-button:hover {
+  background-color: #2c3f7f !important; /* Cambia il colore al passaggio del mouse */
+}
