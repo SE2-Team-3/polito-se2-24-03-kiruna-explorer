@@ -122,4 +122,61 @@ describe("Document Controller Unit Tests", () => {
       });
     });
   });
+  describe("uploadResource", () => {
+    // KX7 (Add Original Resources)
+    it("should return a message that the all resources were uploaded successfully with resources", async () => {
+      const documentId = 1;
+      const testFile: any = {
+        fieldname: "file",
+        originalname: "test.pdf",
+        encoding: "7bit",
+        mimetype: "application/pdf",
+        buffer: Buffer.from("test", "utf-8"),
+        size: 4,
+        destination: "",
+        filename: "",
+        path: "",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "uploadResource")
+        .mockResolvedValueOnce({
+          resources: [testFile],
+          message: "All resources uploaded successfully",
+          status: 201,
+        });
+
+      const controller = new DocumentController();
+      const response = await controller.uploadResource(documentId, [testFile]);
+
+      expect(DocumentDAO.prototype.uploadResource).toHaveBeenCalledTimes(1);
+      expect(DocumentDAO.prototype.uploadResource).toHaveBeenCalledWith(
+        documentId,
+        [testFile]
+      );
+      expect(response).toEqual({
+        resources: [testFile],
+        message: "All resources uploaded successfully",
+        status: 201,
+      });
+    });
+    it("should throw an exception if the files are not included", async () => {
+      const documentId = 1;
+
+      jest
+        .spyOn(DocumentDAO.prototype, "uploadResource")
+        .mockResolvedValueOnce({
+          resources: [],
+          message: "All resources uploaded successfully",
+          status: 201,
+        });
+
+      const controller = new DocumentController();
+      try {
+        await controller.uploadResource(documentId, []);
+      } catch (error) {
+        expect(error.message).toBe("No files uploaded");
+      }
+    });
+  });
 });

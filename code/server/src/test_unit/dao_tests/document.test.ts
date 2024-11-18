@@ -95,4 +95,22 @@ describe("DocumentDAO unit tests", () => {
       mockDBRun.mockRestore();
     });
   });
+
+  // KX7 (Add original resource)
+  describe("uploadResource", () => {
+    it("should throw an exception when no files provided", async () => {
+      const firstDocumentIntance = {
+        documentId: 1,
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      try {
+        await documentDAO.uploadResource(firstDocumentIntance.documentId, []);
+      } catch (error) {
+        expect(error).toBeDefined();
+        expect(error.message).toBe("No file uploaded");
+      }
+    });
+  });
 });

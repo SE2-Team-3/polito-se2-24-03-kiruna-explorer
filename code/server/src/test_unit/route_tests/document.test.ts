@@ -11,8 +11,8 @@ jest.mock("../../../src/controllers/documentController");
 jest.mock("../../../src/routers/auth");
 
 describe("DocumentRoute unit tests", () => {
-  describe("GET /api/documents", () => {
-    // KX1
+  // KX1 (Add a new doc)
+  describe("POST /api/documents", () => {
     test("It returns 201 is new instance of document created successfully", async () => {
       const reqInnput: any = {
         title: "doc-1",
@@ -266,7 +266,7 @@ describe("DocumentRoute unit tests", () => {
     expect(DocumentController.prototype.createDocument).toHaveBeenCalled();
   });
 
-  // KX3
+  // KX3 (georeference a doc)
   test("It returns 201 if we consider the georeference in our input with a new instance of  successfully created document  ", async () => {
     const reqInnput: any = {
       title: "doc-1",
@@ -364,7 +364,7 @@ describe("DocumentRoute unit tests", () => {
       issuanceDate: "2024-11-06",
       language: "English",
       pages: "1",
-      georeference: null,
+      georeference: 123,
     };
 
     jest
@@ -395,5 +395,107 @@ describe("DocumentRoute unit tests", () => {
     expect(response.status).toBe(422);
     expect(DocumentController.prototype.createDocument).toHaveBeenCalled();
   });
+});
 
+// KX7 (Add Original Resources)
+describe("POST /api/documents/:documentId/upload-resource", () => {
+  test("It returns 201  if the resource successfully uploaded  ", async () => {
+    const documentId = 1;
+    const reqInnput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadResource")
+      .mockResolvedValueOnce({ documentId, reqInnput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-resource")
+      .send(reqInnput);
+    expect(response.status).toBe(201);
+    expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
+  });
+  test("It returns 422  if documentId is not valid  ", async () => {
+    const documentId = 0;
+    const reqInnput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadResource")
+      .mockResolvedValueOnce({ documentId, reqInnput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-resource")
+      .send(reqInnput);
+    expect(response.status).toBe(422);
+    expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
+  });
+  test("It returns 422  if documentId is not valid  ", async () => {
+    const documentId = true;
+    const reqInnput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadResource")
+      .mockResolvedValueOnce({ documentId, reqInnput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-resource")
+      .send(reqInnput);
+    expect(response.status).toBe(422);
+    expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
+  });
 });
