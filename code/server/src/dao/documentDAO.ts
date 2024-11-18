@@ -111,7 +111,7 @@ class DocumentDAO {
   getDocuments(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       try {
-        const sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, D.georeferenceId, coordinates FROM Document
+        const sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, D.georeferenceId, coordinates FROM Document D
         LEFT JOIN Georeference G ON D.georeferenceId=G.georeferenceId`;
         db.all(sql, (err: Error | null, rows: any) => {
           if (err) return reject(err);
