@@ -3,7 +3,6 @@ import DocumentController from "../controllers/documentController";
 import { body, param } from "express-validator";
 import ErrorHandler from "../helper";
 import Authenticator from "./auth";
-const fileUpload=require("express-fileupload")
 
 class DocumentRoutes {
   private router: Router;
@@ -16,7 +15,6 @@ class DocumentRoutes {
     this.errorHandler = new ErrorHandler();
     this.controller = new DocumentController();
     this.authenticator = authenticator;
-    this.router.use(fileUpload())
     this.initRoutes();
   }
 
@@ -142,15 +140,6 @@ class DocumentRoutes {
       }
     );
 
-    this.router.post(
-      "/test",
-      fileUpload,
-      (req,res,next)=>{
-        console.log(req.files)
-        //db.run("INSERT INTO Resources VALUES (1,?)",[req.body])
-        res.status(1).send("asd")
-      }
-    )
   }
 }
 

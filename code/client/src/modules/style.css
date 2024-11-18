@@ -741,9 +741,8 @@ LOGIN
 .drop-zone {
   height: 20vh;
   box-sizing: border-box;
-  background: #8697C4;
-  opacity: 0.5;
-  border: 2px dashed #3D52A0;
+  background: #c4cadf;
+  border: 2px dashed #a8afd1;
   border-radius: 10px;
   text-align: center;
   padding: 5%;
@@ -753,6 +752,8 @@ LOGIN
   background: #EDE8F5;
   border-radius: 10px;
   margin-top: 0.5rem;
+  margin-left: 0;
+  margin-right: 0;
   padding: 0.5rem;
 }
 

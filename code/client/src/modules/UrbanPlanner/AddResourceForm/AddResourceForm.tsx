@@ -3,14 +3,17 @@ import API from "../../../API/API";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
+import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css"
 import Close from "../../../assets/icons/close.svg"
+import Tick from "../../../assets/icons/single tick.svg"
 import UploadDocument from "../../../assets/icons/upload document.svg"
 
 export default function AddResourceForm(props:any) {
   const navigate = useNavigate();
   const [resources, setResources] = useState<File[]>([]);
-
+  const { isSidebarOpen } = useSidebar();
+  
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (resources.length) {
@@ -46,16 +49,16 @@ export default function AddResourceForm(props:any) {
   }
 
   return (
-    <div className="main-page">
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Form className="document-form" onSubmit={handleSubmit} noValidate>
         <Row className="form-title">Upload resources</Row>
-        <Row>
+        <Row style={{margin:0}}>
             <Dropzone onDrop={(acceptedFiles:File[])=>handleSelect(acceptedFiles)}>
               {({getRootProps, getInputProps})=>(
                   <div {...getRootProps()} className="drop-zone">
                     <input {...getInputProps()}/>
                     <img src={UploadDocument}/>
-                    <div>Drag and drop or click to browse</div>
+                    <div>Drag and Drop or <u>Choose file</u></div>
                   </div>
                 )}
             </Dropzone>
@@ -67,11 +70,14 @@ export default function AddResourceForm(props:any) {
             resources.map((res)=>{
               return (
               <Row key={res.name} className="uploaded-doc-row">
+                <Col>
+                  <img src={Tick}/>
+                </Col>
                 <Col className="uploaded-doc-col">
                   <p className="uploaded-doc-name">{res.name}</p>
                 </Col>
-                <Col onClick={()=>handleRemove(res.name)} role="button" className="uploaded-doc-button">
-                  <img src={Close}/>
+                <Col className="uploaded-doc-button">
+                  <img src={Close} onClick={()=>handleRemove(res.name)} role="button"/>
                 </Col>
               </Row>
             )
