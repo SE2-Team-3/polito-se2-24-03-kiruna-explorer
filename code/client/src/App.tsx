@@ -157,9 +157,7 @@ function App() {
                   path="/urban-planner/documents-list"
                   element={
                     loggedIn ? (
-                      <DocumentsListTable
-                        setUploadDocumentId={setUploadDocumentId}
-                      />
+                      <DocumentsListTable setUploadDocumentId={setUploadDocumentId} />
                     ) : (
                       <Navigate to="/login" />
                     )
