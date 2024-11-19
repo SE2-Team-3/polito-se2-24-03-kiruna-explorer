@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Document from "../../../models/document";
 import API from "../../../API/API";
+import "../../style.css";
 import {
   Badge,
   Button,
@@ -59,7 +60,9 @@ export default function DocumentsListTable(props: any) {
   // Funzione per calcolare il numero totale di pagine
   const totalPages = Math.ceil(documents.length / itemsPerPage);
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reset alla prima pagina
   };
@@ -72,7 +75,11 @@ export default function DocumentsListTable(props: any) {
     const items = [];
     for (let i = 1; i <= totalPages; i++) {
       items.push(
-        <Pagination.Item key={i} active={i === currentPage} onClick={() => handlePageChange(i)}>
+        <Pagination.Item
+          key={i}
+          active={i === currentPage}
+          onClick={() => handlePageChange(i)}
+        >
           {i}
         </Pagination.Item>
       );
@@ -97,7 +104,10 @@ export default function DocumentsListTable(props: any) {
               </thead>
               <tbody>
                 {getPaginatedData().map((item, index) => (
-                  <tr key={item.documentId} className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                  <tr
+                    key={item.documentId}
+                    className={index % 2 === 0 ? "even-row" : "odd-row"}
+                  >
                     <td>
                       <Badge className={`${getBadgeClass(item.documentType)}`}>
                         {item.documentType.charAt(0).toUpperCase()}
@@ -108,10 +118,15 @@ export default function DocumentsListTable(props: any) {
                     <td>{item.language}</td>
                     <td>{item.pages}</td>
                     <td>
-                      <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Link</Tooltip>}
+                      >
                         <Button
                           variant="link"
-                          onClick={() => navigate("/urban-planner/link-documents")}
+                          onClick={() =>
+                            navigate("/urban-planner/link-documents")
+                          }
                         >
                           <img src={LinkDocument} alt="link document" />
                         </Button>
@@ -131,7 +146,10 @@ export default function DocumentsListTable(props: any) {
         <Row>
           {/* Controlli per selezionare gli elementi per pagina */}
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
+            <Form.Group
+              controlId="itemsPerPage"
+              className="d-flex align-items-center"
+            >
               <Form.Label className="me-2 mb-0">Showing</Form.Label>
               <Form.Select
                 value={itemsPerPage}

@@ -71,7 +71,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       <PiMapPinAreaLight />
                     )}
                   </span>
-                  <span className="text-box">View documents</span>
+                  <span className="text-box">Dashboard</span>
                 </div>
               </Row>
               <Row>
@@ -118,6 +118,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="text-box">Documents List</span>
                 </div>
               </Row>
+
               <Row>
                 <div
                   className={`menu-text-container ${
@@ -133,8 +134,8 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       <PiMapPinAreaLight />
                     )}
                   </span>
-                  <span>View documents</span>
-                </div>{" "}
+                  <span className="text-box">View documents</span>
+                </div>
               </Row>
             </Col>
           ) : (
@@ -153,15 +154,14 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     <PiMapPinAreaLight />
                   )}
                 </span>
-                <span>View documents</span>
-              </div>{" "}
+                <span className="text-box">View documents</span>
+              </div>
             </Row>
           )}
         </Row>
         <Row className="bottom-side-box">
           <Col>
             {user ? (
-              //  Logout
               <div className="user-text">
                 <span className="login-icon-box">
                   <i className="bi bi-person white-icon"></i>
@@ -172,23 +172,14 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
                     500,700,900');
                   </style>
-                  <span className="user-name">
-                    {user ? user.name : "Username"}
-                  </span>
-                  <span className="user-role">
-                    {user ? "Urban Planner" : "Role here"}
-                  </span>
+                  <span className="user-name">{user.name || "Username"}</span>
+                  <span className="user-role">Urban Planner</span>
                 </Row>
                 <span className="logout-icon-box" onClick={props.logout}>
-                  {user ? (
-                    <i className="bi bi-box-arrow-right blue-icon"></i>
-                  ) : (
-                    <i className="bi bi-box-arrow-in-right blue-icon"></i>
-                  )}
+                  <i className="bi bi-box-arrow-right blue-icon"></i>
                 </span>
               </div>
             ) : (
-              // Login
               <div className="user-text">
                 <span className="login-icon-box">
                   <i className="bi bi-person white-icon"></i>
