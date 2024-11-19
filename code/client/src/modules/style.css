@@ -8,7 +8,7 @@ PAGE STYLE
   padding: 20px;
   overflow-y: auto;
   /*width: calc(100vh - 350px);*/
-  margin-left: 350px;
+  margin-left: 75px;
   margin-top: 100px;
   display: flex;
   align-items: center;
@@ -16,12 +16,20 @@ PAGE STYLE
   transition: margin-left 0.3s ease;
 }
 
+.sidebar-container.open ~ .main-page {
+  margin-left: 75px;
+}
+
+.sidebar-container:hover ~ .main-page {
+  margin-left: 350px;
+}
+
 .form-container {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   padding: 10px;
   box-sizing: border-box;
   max-height: calc(100vh - 130px);
@@ -406,8 +414,11 @@ DROPDOWN STYLE
 SMALL LAPTOP RESPONSIVE PAGE
 */
 @media (max-width: 1024px) {
-  .main-page {
-    margin-left: 250px;
+  .sidebar-container.open ~ .main-page {
+    margin-left: 70px;
+  }
+  .sidebar-container:hover ~ .main-page {
+    margin-left: 300px;
   }
 
   .document-form {
@@ -478,13 +489,14 @@ LAPTOP RESPONSIVE PAGE
 TABLET RESPONSIVE PAGE
 */
 @media (max-width: 768px) {
-  .main-page.sidebar-open {
-    display: none; /* Hide main page content when sidebar is open on small screens */
-  }
-
   .main-page {
-    margin-left: 0;
-    margin-top: 100px;
+    margin-left: 0px;
+  }
+  .sidebar-container.open ~ .main-page {
+    margin-left: 60px;
+  }
+  .sidebar-container:hover ~ .main-page {
+    margin-left: 300px;
   }
 
   .document-form {
