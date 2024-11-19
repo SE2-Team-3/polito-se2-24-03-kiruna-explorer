@@ -98,3 +98,18 @@
 .node-form button:hover {
   background-color: #0056b3;
 }
+
+.header-trans {
+  translate: 10px 10px;
+  position: absolute;
+}
+
+.sidebar-trans {
+  translate: 10px 10px;
+  position: absolute;
+}
+
+.point-trans {
+  translate: 0px 0px;
+  position: absolute;
+}

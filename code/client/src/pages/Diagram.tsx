@@ -188,9 +188,9 @@ const Diagram = () => {
       }}
     >
       <div style={{ display: "flex", marginTop: "15px" }}>
-        <Sidebar doctype={doctype} />
+        <Sidebar doctype={doctype} classname={null} />
         <div className="scroll-container">
-          <Header generateYears={generateYears} />
+          <Header generateYears={generateYears} classname={null}/>
           <DiagramArea
             nodes={nodes}
             edges={edges}
