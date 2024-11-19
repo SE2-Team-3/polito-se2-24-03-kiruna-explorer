@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
+import Dashboard from "../assets/icons/dashboard notselected.svg";
+import DashboardSelected from "../assets/icons/dashboard selected.svg";
 import NewDocument from "../assets/icons/document notselected.svg";
 <<<<<<< HEAD
 import { TiDocumentAdd } from "react-icons/ti";
@@ -15,10 +17,6 @@ import { HiDocumentAdd } from "react-icons/hi";
 import NewDocumentSelected from "../assets/icons/document selected.svg";
 import NewLinkSelected from "../assets/icons/link selected.svg";
 import NewLink from "../assets/icons/link notselected.svg";
-import { PiMapPinAreaDuotone, PiMapPinAreaLight } from "react-icons/pi";
-import { TiDocumentAdd } from "react-icons/ti";
-import { HiDocumentAdd } from "react-icons/hi";
-import { CiLogin } from "react-icons/ci";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();
@@ -30,6 +28,11 @@ const LeftSideBar = (props: { logout: () => void }) => {
   if (isLoginPage) {
     return null;
   }
+
+  const handleNavigation0 = () => {
+    navigate("/urban-planner");
+    toggleSidebar();
+  };
 
   const handleNavigation1 = () => {
 <<<<<<< HEAD
@@ -56,11 +59,6 @@ const LeftSideBar = (props: { logout: () => void }) => {
     toggleSidebar();
   };
 
-  const handleNavigation4 = () => {
-    navigate("/explore-map");
-    toggleSidebar();
-  };
-
   return (
     <>
       <div className="menu-icon" onClick={toggleSidebar}>
@@ -68,58 +66,30 @@ const LeftSideBar = (props: { logout: () => void }) => {
       </div>
       <div className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}>
         <Row className="top-side-box">
-          {user ? (
-          {user ? (
+          {user || true ? (
             <Col>
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/explore-map" ? "highlighted" : ""
-                    location.pathname === "/explore-map" ? "highlighted" : ""
+                    location.pathname === "/urban-planner" ? "highlighted" : ""
                   }`}
                   role="button"
-                  onClick={handleNavigation4}
-                  onClick={handleNavigation4}
+                  onClick={handleNavigation0}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
-                    {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
+                    {location.pathname === "/urban-planner" ? (
+                      <img src={DashboardSelected} alt="dashboard selected" />
                     ) : (
-                      <PiMapPinAreaLight />
-                      <PiMapPinAreaLight />
+                      <img src={Dashboard} alt="dashboard" />
                     )}
                   </span>
-                  <span className="text-box">View documents</span>
+                  <span>Dashboard</span>
                 </div>
               </Row>
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/add-document"
-                      ? "highlighted"
-                      : ""
-                  }`}
-                  role="button"
-                  onClick={handleNavigation1}
-                >
-                  <span className="file-icon-box">
-                    {location.pathname === "/urban-planner/add-document" ? (
-                      <HiDocumentAdd />
-                    ) : (
-                      <TiDocumentAdd />
-                    )}
-                  </span>
-                  <span className="text-box">New document</span>
-                </div>{" "}
-              </Row>
-              <Row>
-                <div
-                  className={`menu-text-container ${
-                    location.pathname === "/urban-planner/link-documents"
-                      ? "highlighted"
-                      : ""
+                    location.pathname === "/urban-planner/link-documents" ? "highlighted" : ""
                   }`}
                   role="button"
                   onClick={handleNavigation2}
@@ -138,19 +108,14 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/documents-list"
-                      ? "highlighted"
-                      : ""
+                    location.pathname === "/urban-planner/documents-list" ? "highlighted" : ""
                   }`}
                   role="button"
                   onClick={handleNavigation3}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/documents-list" ? (
-                      <img
-                        src={NewDocumentSelected}
-                        alt="new document selected"
-                      />
+                      <img src={NewDocumentSelected} alt="new document selected" />
                     ) : (
                       <img src={NewDocument} alt="new document" />
                     )}
@@ -160,68 +125,31 @@ const LeftSideBar = (props: { logout: () => void }) => {
               </Row>
             </Col>
           ) : (
-            <Row>
-              <div
-                className={`menu-text-container ${
-                  location.pathname === "/explore-map" ? "highlighted" : ""
-                }`}
-                role="button"
-                onClick={handleNavigation4}
-              >
-                <span className="file-icon-box">
-                  {location.pathname === "/explore-map" ? (
-                    <PiMapPinAreaDuotone />
-                  ) : (
-                    <PiMapPinAreaLight />
-                  )}
-                </span>
-                <span className="text-box">View documents</span>
-              </div>
-            </Row>
+            <></>
           )}
         </Row>
         <Row className="bottom-side-box">
           <Col>
-            {user ? (
-              <div className="user-text">
-                <span className="login-icon-box">
-                  <i className="bi bi-person white-icon"></i>
-                </span>
-                <Row>
-                  <style>
-                    @import
-                    url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
-                    500,700,900');
-                  </style>
-                  <span className="user-name">{user.name || "Username"}</span>
-                  <span className="user-role">Urban Planner</span>
-                </Row>
-                <span className="logout-icon-box" onClick={props.logout}>
+            <div className="user-text">
+              <span className="login-icon-box">
+                <i className="bi bi-person white-icon"></i>
+              </span>
+              <Row>
+                <style>
+                  @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
+                  500,700,900');
+                </style>
+                <span className="user-name">{user ? user.name : "Username"}</span>
+                <span className="user-role">{user ? "Urban Planner" : "Role here"}</span>
+              </Row>
+              <span className="logout-icon-box" onClick={props.logout}>
+                {user ? (
                   <i className="bi bi-box-arrow-right blue-icon"></i>
-                </span>
-              </div>
-            ) : (
-              <div className="user-text">
-                <span className="login-icon-box">
-                  <i className="bi bi-person white-icon"></i>
-                </span>
-                <Row>
-                  <style>
-                    @import
-                    url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
-                    500,700,900');
-                  </style>
-                  <span className="user-name">Guest</span>
-                  <span className="user-role">Visitor</span>
-                </Row>
-                <span
-                  className="logout-icon-box"
-                  onClick={() => navigate("/login")}
-                >
-                  <CiLogin />
-                </span>
-              </div>
-            )}
+                ) : (
+                  <i className="bi bi-box-arrow-in-right blue-icon"></i>
+                )}
+              </span>
+            </div>
           </Col>
         </Row>
       </div>
