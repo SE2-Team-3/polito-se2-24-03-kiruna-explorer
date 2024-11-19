@@ -5,7 +5,6 @@ import { app } from "../../../index";
 import DocumentController from "../../../src/controllers/documentController";
 import Authenticator from "../../../src/routers/auth";
 import ErrorHandler from "../../../src/helper";
-import { link } from "fs";
 const baseURL = "/api";
 
 jest.mock("../../../src/controllers/documentController");

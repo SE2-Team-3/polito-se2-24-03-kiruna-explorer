@@ -5,7 +5,7 @@ class Document {
     documentType: string
     scale: string
     nodeType: string
-    stakeholders: [string]
+    stakeholders: string[]
     issuanceDate: string | null
     language: string | null
     pages: string | null
@@ -18,7 +18,7 @@ class Document {
         documentType: string,
         scale: string,
         nodeType: string,
-        stakeholders: [string],
+        stakeholders: string[],
         issuanceDate: string | null,
         language: string | null,
         pages: string | null,
