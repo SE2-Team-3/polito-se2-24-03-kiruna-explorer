@@ -30,9 +30,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
-    undefined
-  );
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
