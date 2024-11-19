@@ -101,7 +101,7 @@ const ExploreMap = () => {
             <p>Type: {document.nodeType}</p>
             <p>Issuance Date: {document.issuanceDate}</p>
             {user && (
-            <button onClick={toggleDraggable}>
+            <button className="draggable-toggle-btn" onClick={toggleDraggable}>
               {draggable ? "Stop Moving" : "Move"}
             </button>
             )}

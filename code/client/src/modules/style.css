@@ -1058,3 +1058,20 @@ button.btn-link:hover {
 .page-item .page-link {
   color: #3d52a0;
 }
+
+/* Move document on map button */
+
+.draggable-toggle-btn {
+  margin-top: 12px;
+  font-size: 1rem;
+  padding: 8px 16px;
+  background-color: #3d52a0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.draggable-toggle-btn:hover {
+  background-color: #3d52a0;
+}
