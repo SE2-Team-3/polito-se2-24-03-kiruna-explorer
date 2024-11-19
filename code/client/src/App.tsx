@@ -19,18 +19,21 @@ import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
-import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
-import { FaPlus } from "react-icons/fa";
+import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loggedIn, setLoggedIn] = useState<boolean>(true);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
+    undefined
+  );
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -174,7 +177,23 @@ function App() {
                 <Route
                   path="/urban-planner/documents-list"
                   element={
-                    loggedIn ? <DocumentsListTable /> : <Navigate to="/login" />
+                    loggedIn ? (
+                      <DocumentsListTable
+                        setUploadDocumentId={setUploadDocumentId}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/urban-planner/add-resource"
+                  element={
+                    loggedIn ? (
+                      <AddResourceForm documentId={uploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
                   }
                 />
               </Routes>
@@ -182,12 +201,12 @@ function App() {
           </SidebarProvider>
         </Container>
       </ToastProvider>
-      {loggedIn && location.pathname == "/explore-map" ? (
+      {loggedIn && location.pathname == "/urban-planner" ? (
         <Button
           onClick={() => navigate("/urban-planner/add-document")}
           className="add-button"
         >
-          <FaPlus color="white" size={25} />
+          +
         </Button>
       ) : null}
     </>
