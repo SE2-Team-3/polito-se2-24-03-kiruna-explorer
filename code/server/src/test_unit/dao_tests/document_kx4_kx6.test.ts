@@ -11,11 +11,12 @@ const mockRows = [
         documentType: "Text",
         scale: "Text",
         nodeType: "Design doc.",
-        stakeholders: `[Municipality, Architectural firm]`,
+        stakeholders: `["Municipality", "Architectural firm"]`,
         issuanceDate: "2023-11-13",
         language: "English",
         pages: "100",
-        georeferenceId: 101
+        georeferenceId: 101,
+        coordinates: "[1.1, 2.2]"
     },
     {
         documentId: 2,
@@ -28,7 +29,8 @@ const mockRows = [
         issuanceDate: "2023-11-13",
         language: "Swedish",
         pages: "1-100",
-        georeferenceId: 151
+        georeferenceId: 151,
+        coordinates: "[1.1, 2.2]"
     }
 ];
 
