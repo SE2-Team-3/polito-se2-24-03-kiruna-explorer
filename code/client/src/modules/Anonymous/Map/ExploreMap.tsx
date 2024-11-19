@@ -1,82 +1,22 @@
 import { LatLngExpression } from "leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import L from "leaflet";
 import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css";
+import API from "../../../API/API";
+import Document from "../../../models/document";
 
 const ExploreMap = () => {
   const { isSidebarOpen } = useSidebar();
+  const [documents, setDocuments] = useState<Document[]>([]);
 
-  const [documents, setDocuments] = useState([
-    {
-      documentId: 1,
-      title: "Kiruna Masterplan",
-      description: "The masterplan for the city of Kiruna",
-      documentType: "Text",
-      scale: "Text",
-      nodeType: "Design document.",
-      stakeholders: ["Municipality", "Architecture firms"],
-      issuanceDate: "2021-01-01",
-      language: "English",
-      pages: "1-42",
-      georeference: [[67.8557, 20.2253]],
-    },
-    {
-      documentId: 2,
-      title: "Kiruna Church",
-      description: "The church of Kiruna",
-      documentType: "Plan",
-      scale: "1:5000",
-      nodeType: "Design document.",
-      stakeholders: ["Others"],
-      issuanceDate: "2023-01-01",
-      language: "Swedish",
-      pages: "1",
-      georeference: null,
-    },
-    {
-      documentId: 3,
-      title: "document-3",
-      description: "document-3",
-      documentType: "Text",
-      scale: "Text",
-      nodeType: "Prescriptive document",
-      stakeholders: ["Others"],
-      issuanceDate: "2022-01-01",
-      language: "English",
-      pages: "1",
-      georeference: [[67.868, 20.2252]],
-    },
-    {
-      documentId: 4,
-      title: "document-4",
-      description: "document-4",
-      documentType: "Text",
-      scale: "Text",
-      nodeType: "Prescriptive document",
-      stakeholders: ["Others"],
-      issuanceDate: "2024-01-01",
-      language: "English",
-      pages: "1",
-      georeference: [[67.856, 20.25]],
-    },
-    {
-      documentId: 5,
-      title: "document-5",
-      description: "document-5",
-      documentType: "Text",
-      scale: "Text",
-      nodeType: "Prescriptive document",
-      stakeholders: ["Architecture firms"],
-      issuanceDate: "2024-02-01",
-      language: "English",
-      pages: "1",
-      georeference: [[67.85, 20.22]],
-    },
-  ]);
+  useEffect(() => {
+    API.getDocuments().then((docs) => setDocuments(docs));
+  }, []);
+
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
   const logoIcon = new L.Icon({
     iconUrl: Logo,
@@ -112,13 +52,13 @@ const ExploreMap = () => {
                   icon={logoIcon}
                   position={
                     // No georeference: belong to municipality area (to be modified in KX9)
-                    !document.georeference
+                    !document.coordinates
                       ? kirunaPosition
                       : // With Georeference: belong to a specific location
-                      document.georeference.length === 1
+                      JSON.parse(document.coordinates).length === 1
                       ? L.latLng(
-                          document.georeference[0][0],
-                          document.georeference[0][1]
+                          JSON.parse(document.coordinates)[0][0],
+                          JSON.parse(document.coordinates)[0][1]
                         )
                       : ([] as any)
                   }
