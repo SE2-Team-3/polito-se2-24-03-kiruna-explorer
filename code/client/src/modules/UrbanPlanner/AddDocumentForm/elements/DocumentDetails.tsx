@@ -1,7 +1,7 @@
 import { Row, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const DocumentDetails = (props: Props) => {
   const [title, setTitle] = useState(
@@ -26,7 +26,6 @@ const DocumentDetails = (props: Props) => {
       <Row className="row-box">
         <Form.Label className="black-text">Title *</Form.Label>
         <Form.Control
-          required
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
@@ -40,7 +39,6 @@ const DocumentDetails = (props: Props) => {
       <Row className="row-box">
         <Form.Label className="black-text">Description *</Form.Label>
         <Form.Control
-          required
           as="textarea"
           rows={3}
           value={description}

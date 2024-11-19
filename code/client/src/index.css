@@ -2,15 +2,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-image: url("./assets/Kiruna_square.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  /*background-image: url("./assets/Kiruna_square.jpg");*/
+  background-color: #ede8f5;
 }
 
 .navbar-container {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: white;
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100px;
@@ -23,7 +20,7 @@ body {
 }
 
 .sidebar-container {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: white;
   backdrop-filter: blur(10px);
   position: fixed;
   top: 100px;
@@ -36,6 +33,7 @@ body {
   justify-content: space-between;
   transition: transform 0.3s ease;
   transform: translateX(0);
+  box-shadow: 4px 0 8px -4px rgba(0, 0, 0, 0.1); /* Ombra solo a destra */
 }
 
 .sidebar-container.open {
@@ -46,10 +44,26 @@ body {
   display: none;
 }
 
-.title-text {
-  font-family: "Open Sans", sans-serif;
-  font-size: 50px;
-  color: #1e1e1e;
+.navbar-row {
+  --bs-gutter-x: 0.5rem;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+.title-kiruna {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  color: #3d52a0;
+  font-weight: bold;
+}
+.title-explorer {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  color: black;
+  font-weight: 250;
+  font-style: italic;
 }
 
 .bold-text {
@@ -57,13 +71,24 @@ body {
   font-style: italic;
 }
 
-.menu-text {
+.menu-text-container {
   font-family: "Open Sans", sans-serif;
-  font-size: 28px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   color: #3d52a0;
   min-width: 210px;
+  padding: 8px;
+  padding-inline: 10%;
+}
+
+.menu-text-container.hover,
+.highlighted {
+  background-color: rgba(61, 82, 160, 0.12);
+  border-radius: 10px;
+  margin-inline: 15px; /* Aggiungi un margine orizzontale per creare il rientro */
+  width: calc(100% - 30px); /* Riduce la larghezza per lasciare spazio ai margini */
+  font-weight: bold;
 }
 
 .user-text {
@@ -71,7 +96,7 @@ body {
   font-size: 28px;
   display: flex;
   align-items: center;
-  color: #1e1e1e;
+  color: #3d52a0;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
@@ -90,18 +115,28 @@ body {
   padding: 8px;
   font-size: 30px;
   margin-right: 8px;
+  color: #8697c4;
 }
 
-.file-icon-box,
-.arrow-icon-box,
-.logout-icon-box {
+.file-icon-box:hover {
   color: #3d52a0;
 }
 
 .arrow-icon-box:hover,
 .logout-icon-box:hover {
-  color: white;
   cursor: pointer;
+}
+
+.user-name {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 550;
+  color: black;
+}
+.user-role {
+  font-size: 15px;
+  font-weight: 300;
+  color: #3d52a0;
 }
 
 .login-icon-box {
@@ -131,12 +166,8 @@ body {
     max-width: 250px;
   }
 
-  .title-text {
-    font-size: 35px;
-  }
-
-  .menu-text {
-    font-size: 18px;
+  .menu-text-container {
+    font-size: 20px;
     min-width: 150px;
   }
 
@@ -148,8 +179,8 @@ body {
   }
 
   .bottom-side-box {
-    display: flex; /* Ensure it displays flexibly */
-    margin-top: auto; /* Always at the bottom */
+    display: flex;
+    margin-top: auto;
   }
 
   .text-24 {
@@ -187,11 +218,7 @@ body {
     transform: translateX(0);
   }
 
-  .title-text {
-    font-size: 30px;
-  }
-
-  .menu-text {
+  .menu-text-container {
     font-size: 20px;
     min-width: 180px;
   }
@@ -204,8 +231,8 @@ body {
   }
 
   .bottom-side-box {
-    display: flex; /* Ensure it displays flexibly */
-    margin-top: auto; /* Always at the bottom */
+    display: flex;
+    margin-top: auto;
   }
 
   .text-24 {
@@ -217,4 +244,28 @@ body {
     font-size: 24px;
     margin-left: 15px;
   }
+}
+
+.add-button {
+  position: fixed; /* Fisso in un punto dello schermo */
+  bottom: 40px; /* Distanza dal fondo dello schermo */
+  right: 40px; /* Distanza dal lato destro dello schermo */
+  width: 80px; /* Dimensioni del bottone */
+  height: 80px;
+  background-color: #3d52a0; /* Colore di sfondo (personalizzabile) */
+  color: white; /* Colore dell'icona */
+  border: none; /* Rimuove il bordo */
+  border-radius: 50%; /* Rende il bottone circolare */
+  display: flex; /* Centra l'icona */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Aggiunge ombra */
+  cursor: pointer; /* Cambia il cursore a mano */
+  z-index: 1000; /* Si assicura che sia sopra altri elementi */
+  transition: background-color 0.3s ease;
+  font-size: 30px;
+}
+
+.add-button:hover {
+  background-color: #2c3f7f !important; /* Cambia il colore al passaggio del mouse */
 }

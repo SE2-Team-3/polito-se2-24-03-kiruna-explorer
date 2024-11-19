@@ -1,7 +1,7 @@
-import { Col, Form, InputGroup, Alert } from "react-bootstrap";
+import { Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const ScaleSelection = (props: Props) => {
   const [documentType, setDocumentType] = useState(
@@ -10,36 +10,23 @@ const ScaleSelection = (props: Props) => {
   const [scale, setScale] = useState(
     props.document ? props.document.scale : ""
   );
-  const [scaleError, setScaleError] = useState("");
 
   const handleTypeChange = (value: string) => {
     setDocumentType(value);
     setScale(value === "Plan" ? "" : value);
   };
 
-  const validateScale = (scaleValue: string) => {
-    if (scaleValue === "") {
-      setScaleError("");
-      return true;
-    }
-    const scaleRegex = /^1:\d+$/;
-    if (!scaleRegex.test(scaleValue) && documentType === "Plan") {
-      setScaleError(
-        "Scale must be in the format '1:x' where x is a positive number."
-      );
-      return false;
-    }
-    setScaleError("");
-    return true;
-  };
-
   const handleScaleChange = (value: string) => {
-    setScale(value);
-    validateScale(value);
+    // Concatenate "1:" to the value which is a number and then set it
+    if (value) {
+      setScale(`1:${value}`);
+    } else {
+      setScale(""); // Reset if input is empty
+    }
   };
 
   useEffect(() => {
-    if (props.setDocument && validateScale(scale)) {
+    if (props.setDocument) {
       props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
         documentType: documentType,
@@ -55,6 +42,7 @@ const ScaleSelection = (props: Props) => {
         <Form.Select
           required
           value={documentType}
+          style={{ width: "50%" }}
           onChange={(event) => handleTypeChange(event.target.value)}
           className="font-size-20"
         >
@@ -65,21 +53,26 @@ const ScaleSelection = (props: Props) => {
           <option value="Actions">Blueprints/actions</option>
         </Form.Select>
         {documentType === "Plan" && (
-          <Form.Control
-            required
-            type="text"
-            placeholder="1:XXXX"
-            value={scale}
-            style={{ width: "10%" }}
-            onChange={(event) => handleScaleChange(event.target.value)}
-            className="mt-0 font-size-20"
-            isInvalid={!!scaleError}
-          />
-        )}
-        {scaleError && (
-          <Alert variant="danger" className="my-2">
-            {scaleError}
-          </Alert>
+          <>
+            <Form.Control
+              type="text"
+              placeholder="1:"
+              value="1:"
+              disabled
+              style={{ width: "15%", textAlign: "right" }}
+              className="mt-0 font-size-20"
+            />
+
+            <Form.Control
+              required
+              type="number"
+              placeholder="XXXX"
+              value={scale ? scale.split(":")[1] : ""}
+              onChange={(event) => handleScaleChange(event.target.value)}
+              className="mt-0 font-size-20"
+              style={{ width: "30%", textAlign: "left" }}
+            />
+          </>
         )}
       </InputGroup>
     </Form.Group>

@@ -1,8 +1,14 @@
 import { Form, Row } from "react-bootstrap";
-import Document from "../../../models/document";
+import Document from "../../../../models/document";
 
 export default function DocumentSelector(props: any) {
-  const { documents, selectedDocument1, selectedDocument2, setSelectedDocument1, setSelectedDocument2 } = props;
+  const {
+    documents,
+    selectedDocument1,
+    selectedDocument2,
+    setSelectedDocument1,
+    setSelectedDocument2,
+  } = props;
 
   return (
     <>
@@ -17,7 +23,9 @@ export default function DocumentSelector(props: any) {
         >
           <option value="">Select document</option>
           {documents
-            .filter((document: Document) => document.documentId != selectedDocument2)
+            .filter(
+              (document: Document) => document.documentId != selectedDocument2
+            )
             .map((document: Document) => (
               <option key={document.documentId} value={document.documentId}>
                 {document.title}
@@ -36,7 +44,9 @@ export default function DocumentSelector(props: any) {
         >
           <option value="">Select document</option>
           {documents
-            .filter((document: Document) => document.documentId != selectedDocument1)
+            .filter(
+              (document: Document) => document.documentId != selectedDocument1
+            )
             .map((document: Document) => (
               <option key={document.documentId} value={document.documentId}>
                 {document.title}

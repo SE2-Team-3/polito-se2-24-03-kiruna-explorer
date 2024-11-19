@@ -3,6 +3,10 @@ import DocumentController from "../controllers/documentController";
 import { body, param } from "express-validator";
 import ErrorHandler from "../helper";
 import Authenticator from "./auth";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 class DocumentRoutes {
   private router: Router;
@@ -35,7 +39,7 @@ class DocumentRoutes {
       body("issuanceDate").optional().isString(),
       body("language").optional().isString(),
       body("pages").optional().isString(),
-      body("georeference").optional().isArray(),
+      body("georeference").optional({ nullable: true }).isArray(),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
@@ -138,6 +142,45 @@ class DocumentRoutes {
             next(err);
           });
       }
+    );
+
+    this.router.post(
+      "/:documentId/upload-resource",
+      this.authenticator.isLoggedIn,
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      upload.array("files"),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .uploadResource(req.params.documentId, req.files)
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/resource/:resourceId",
+      param("resourceId").isInt().custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getResource(parseInt(req.params.resourceId, 10))
+          .then((resource) => res.status(200).json(resource))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/:documentId/resources",
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getResources(parseInt(req.params.documentId, 10))
+          .then((resources) => res.status(200).json(resources))
+          .catch((error: any) => next(error))
     );
   }
 }

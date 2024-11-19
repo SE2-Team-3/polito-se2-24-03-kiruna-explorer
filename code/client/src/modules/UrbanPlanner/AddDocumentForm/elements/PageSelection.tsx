@@ -1,7 +1,7 @@
 import { Col, Form, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const PageSelection = (props: Props) => {
   const [pages, setPages] = useState(
@@ -43,7 +43,7 @@ const PageSelection = (props: Props) => {
   }, [pages, props.setDocument]);
 
   return (
-    <Form.Group as={Col} controlId="formGridPages">
+    <Form.Group as={Col} controlId="formGridPages" className="pages-col">
       <Form.Label className="black-text">Pages</Form.Label>
       <Form.Control
         type="text"

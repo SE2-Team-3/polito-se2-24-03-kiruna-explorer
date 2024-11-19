@@ -124,6 +124,20 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
   );
 }
 
+async function uploadResources(documentId: number, resources: File[]) {
+  const data = new FormData();
+  for (const res of resources) {
+    console.log(res);
+    data.append("files", res);
+  }
+  console.log(data);
+  await fetch(baseURL + "documents/" + documentId + "/upload-resource", {
+    method: "POST",
+    credentials: "include",
+    body: data,
+  });
+}
+
 const API = {
   login,
   logOut,
@@ -131,6 +145,7 @@ const API = {
   addDocument,
   linkDocuments,
   getDocuments,
+  uploadResources,
 };
 
 export default API;

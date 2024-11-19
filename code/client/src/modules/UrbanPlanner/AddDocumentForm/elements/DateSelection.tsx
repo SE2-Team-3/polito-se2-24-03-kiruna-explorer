@@ -1,10 +1,9 @@
 import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../style.css";
-import { Props, NewDocument } from "./interfaces/types";
+import "../../../style.css";
+import { Props, NewDocument } from "../interfaces/types";
 
 const DateSelection = (props: Props) => {
-
   function validateDate(day: string, month: string, year: string): boolean {
     const dayNum = day !== "" ? Number(day) : null;
     const monthNum = month !== "" ? Number(month) : null;
@@ -48,7 +47,7 @@ const DateSelection = (props: Props) => {
 
     setDateError("Date must be in format yyyy or mm/yyyy or dd/mm/yyyy");
     return false;
-  };
+  }
 
   const formatDate = (day: string, month: string, year: string) => {
     if (day === "" && month === "" && year === "") {
@@ -109,12 +108,12 @@ const DateSelection = (props: Props) => {
 
       <Row>
         <Col md={4}>
-          <Form.Label>Year</Form.Label>
+          <Form.Label className="font-size-18">Year</Form.Label>
           <Form.Select
             required
             value={year}
             onChange={(event) => handleYearChange(event.target.value)}
-            className="font-size-20"
+            className="font-size-18"
             isInvalid={!!dateError}
           >
             <option value="">yyyy</option>
@@ -126,14 +125,13 @@ const DateSelection = (props: Props) => {
           </Form.Select>
         </Col>
 
-        {
-          year !== "" &&
+        {year !== "" && (
           <Col md={3}>
-            <Form.Label>Month</Form.Label>
+            <Form.Label className="font-size-18">Month</Form.Label>
             <Form.Select
               value={month}
               onChange={(event) => handleMonthChange(event.target.value)}
-              className="font-size-20"
+              className="font-size-18"
               isInvalid={!!dateError}
             >
               <option value="">mm</option>
@@ -144,16 +142,15 @@ const DateSelection = (props: Props) => {
               ))}
             </Form.Select>
           </Col>
-        }
+        )}
 
-        {
-          year !== "" && month !== "" &&
+        {year !== "" && month !== "" && (
           <Col md={3}>
-            <Form.Label>Day</Form.Label>
+            <Form.Label className="font-size-18">Day</Form.Label>
             <Form.Select
               value={day}
               onChange={(event) => handleDayChange(event.target.value)}
-              className="font-size-20"
+              className="font-size-18"
               isInvalid={!!dateError}
             >
               <option value="">dd</option>
@@ -164,9 +161,8 @@ const DateSelection = (props: Props) => {
               ))}
             </Form.Select>
           </Col>
-        }
+        )}
       </Row>
-
     </Form.Group>
   );
 };
