@@ -1,18 +1,23 @@
 import { Col, Row } from "react-bootstrap";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
 import NewDocument from "../assets/icons/document notselected.svg";
+<<<<<<< HEAD
 import { TiDocumentAdd } from "react-icons/ti";
 import { HiDocumentAdd } from "react-icons/hi";
 import { TiDocumentAdd } from "react-icons/ti";
 import { HiDocumentAdd } from "react-icons/hi";
+=======
+>>>>>>> 52d7a04 (Resolved conflicts)
 import NewDocumentSelected from "../assets/icons/document selected.svg";
 import NewLinkSelected from "../assets/icons/link selected.svg";
 import NewLink from "../assets/icons/link notselected.svg";
 import { PiMapPinAreaDuotone, PiMapPinAreaLight } from "react-icons/pi";
+import { TiDocumentAdd } from "react-icons/ti";
+import { HiDocumentAdd } from "react-icons/hi";
 import { CiLogin } from "react-icons/ci";
 
 const LeftSideBar = (props: { logout: () => void }) => {
@@ -26,29 +31,32 @@ const LeftSideBar = (props: { logout: () => void }) => {
     return null;
   }
 
-  const handleNavigation0 = () => {
-    navigate("/urban-planner");
-    toggleSidebar();
-  };
-
-  /*
   const handleNavigation1 = () => {
+<<<<<<< HEAD
     navigate("/urban-planner/add-document");
     navigate("/urban-planner/add-document");
+=======
+    navigate("/urban-planner/add-document"); // Redirects to /add-document
+>>>>>>> 52d7a04 (Resolved conflicts)
     toggleSidebar();
   };
 
   const handleNavigation2 = () => {
+<<<<<<< HEAD
     navigate("/urban-planner/link-documents");
     navigate("/urban-planner/link-documents");
+=======
+    navigate("/urban-planner/link-documents"); // Redirects to /link-document
+>>>>>>> 52d7a04 (Resolved conflicts)
     toggleSidebar();
   };
 
   const handleNavigation3 = () => {
-    navigate("/urban-planner/documents-list");
+    navigate("/urban-planner/documents-list"); // Redirects to /documents-list
     toggleSidebar();
   };
-  const handleNavigation3 = () => {
+
+  const handleNavigation4 = () => {
     navigate("/explore-map");
     toggleSidebar();
   };
@@ -89,6 +97,26 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
+                    location.pathname === "/urban-planner/add-document"
+                      ? "highlighted"
+                      : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation1}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/urban-planner/add-document" ? (
+                      <HiDocumentAdd />
+                    ) : (
+                      <TiDocumentAdd />
+                    )}
+                  </span>
+                  <span className="text-box">New document</span>
+                </div>{" "}
+              </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
                     location.pathname === "/urban-planner/link-documents"
                       ? "highlighted"
                       : ""
@@ -103,8 +131,8 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       <img src={NewLink} alt="new document" />
                     )}
                   </span>
-                  <span className="text-box">Link documents</span>
-                </div>
+                  <span>Link documents</span>
+                </div>{" "}
               </Row>
 
               <Row>
@@ -127,8 +155,8 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       <img src={NewDocument} alt="new document" />
                     )}
                   </span>
-                  <span className="text-box">Documents List</span>
-                </div>
+                  <span>Documents List</span>
+                </div>{" "}
               </Row>
             </Col>
           ) : (
@@ -138,7 +166,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   location.pathname === "/explore-map" ? "highlighted" : ""
                 }`}
                 role="button"
-                onClick={handleNavigation3}
+                onClick={handleNavigation4}
               >
                 <span className="file-icon-box">
                   {location.pathname === "/explore-map" ? (
