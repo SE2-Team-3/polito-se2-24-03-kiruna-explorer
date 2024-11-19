@@ -136,6 +136,7 @@ function App() {
                   element={
                     <Login
                       login={doLogin}
+                      loginAsAnonymous={doLoginAsAnonymous}
                       message={loginMessage}
                       setMessage={setLoginMessage}
                     />

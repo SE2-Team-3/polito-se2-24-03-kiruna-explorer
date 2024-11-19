@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
-import Dashboard from "../assets/icons/dashboard notselected.svg";
-import DashboardSelected from "../assets/icons/dashboard selected.svg";
 import NewDocument from "../assets/icons/document notselected.svg";
+import { TiDocumentAdd } from "react-icons/ti";
+import { HiDocumentAdd } from "react-icons/hi";
 import NewDocumentSelected from "../assets/icons/document selected.svg";
 import NewLinkSelected from "../assets/icons/link selected.svg";
 import NewLink from "../assets/icons/link notselected.svg";
@@ -24,28 +24,22 @@ const LeftSideBar = (props: { logout: () => void }) => {
     return null;
   }
 
-  const handleNavigation0 = () => {
-    navigate("/urban-planner");
+  const handleNavigation1 = () => {
+    navigate("/urban-planner/add-document");
     toggleSidebar();
   };
 
-  /*
-  const handleNavigation1 = () => {
-    navigate("/urban-planner/add-document"); // Redirects to /add-document
-    toggleSidebar();
-  };
-  */
   const handleNavigation2 = () => {
-    navigate("/urban-planner/link-documents"); // Redirects to /link-document
+    navigate("/urban-planner/link-documents");
     toggleSidebar();
   };
 
   const handleNavigation3 = () => {
-    navigate("/urban-planner/documents-list"); // Redirects to /documents-list
+    navigate("/urban-planner/documents-list");
     toggleSidebar();
   };
   const handleNavigation4 = () => {
-    navigate("/explore-map"); // Redirects to /explore-map
+    navigate("/explore-map");
     toggleSidebar();
   };
 
@@ -56,25 +50,45 @@ const LeftSideBar = (props: { logout: () => void }) => {
       </div>
       <div className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}>
         <Row className="top-side-box">
-          {user || true ? (
+          {user ? (
             <Col>
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner" ? "highlighted" : ""
+                    location.pathname === "/explore-map" ? "highlighted" : ""
                   }`}
                   role="button"
-                  onClick={handleNavigation0}
+                  onClick={handleNavigation4}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/urban-planner" ? (
-                      <img src={DashboardSelected} alt="dashboard selected" />
+                    {location.pathname === "/explore-map" ? (
+                      <PiMapPinAreaDuotone />
                     ) : (
-                      <img src={Dashboard} alt="dashboard" />
+                      <PiMapPinAreaLight />
                     )}
                   </span>
-                  <span className="text-box">Dashboard</span>
+                  <span className="text-box">View documents</span>
                 </div>
+              </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/urban-planner/add-document"
+                      ? "highlighted"
+                      : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation1}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/urban-planner/add-document" ? (
+                      <HiDocumentAdd />
+                    ) : (
+                      <TiDocumentAdd />
+                    )}
+                  </span>
+                  <span className="text-box">New document</span>
+                </div>{" "}
               </Row>
 
               <Row>
@@ -119,25 +133,6 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     )}
                   </span>
                   <span className="text-box">Documents List</span>
-                </div>
-              </Row>
-
-              <Row>
-                <div
-                  className={`menu-text-container ${
-                    location.pathname === "/explore-map" ? "highlighted" : ""
-                  }`}
-                  role="button"
-                  onClick={handleNavigation4}
-                >
-                  <span className="file-icon-box">
-                    {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
-                    ) : (
-                      <PiMapPinAreaLight />
-                    )}
-                  </span>
-                  <span className="text-box">View documents</span>
                 </div>
               </Row>
             </Col>
