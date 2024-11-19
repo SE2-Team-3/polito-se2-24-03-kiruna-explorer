@@ -27,7 +27,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState<Boolean>(true);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -93,14 +92,6 @@ function App() {
             : "An error occurred"
         );
       });
-  };
-
-  // Added for resident | visitor users (anonymous)
-  const doLoginAsAnonymous = function () {
-    setIsAnonymous(true);
-    setLoggedIn(false);
-    setUser(undefined);
-    navigate("/explore-map");
   };
 
   const doLogOut = async () => {
