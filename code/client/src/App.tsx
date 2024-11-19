@@ -24,10 +24,10 @@ import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceF
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loggedIn, setLoggedIn] = useState<boolean>(true);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
 
