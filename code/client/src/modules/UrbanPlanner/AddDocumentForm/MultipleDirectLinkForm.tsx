@@ -63,7 +63,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
       Promise.all(linkPromises)
         .then(() => {
           showToast("Documents linked successfully!", "", false);
-          navigate("/urban-planner");
+          navigate("/explore-map");
         })
         .catch((error) => {
           console.error(error.error);
@@ -77,7 +77,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   };
 
   const handleCancel = () => {
-    navigate("/urban-planner");
+    navigate("/explore-map");
   };
 
   const handleAddLink = () => {
