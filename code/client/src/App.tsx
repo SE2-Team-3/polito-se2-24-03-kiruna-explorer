@@ -1,5 +1,11 @@
 import { Button, Container } from "react-bootstrap";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
@@ -15,16 +21,21 @@ import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocume
 import { ToastProvider } from "./modules/ToastProvider";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
 import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
+import { FaPlus } from "react-icons/fa";
+import ExploreMap from "./modules/AnonymousUser/Map/ExploreMap";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [loggedIn, setLoggedIn] = useState<Boolean>(true);
+  const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
+    undefined
+  );
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -41,17 +52,25 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const u = await API.getUserInfo();
-        console.log(u);
-        setUser(new User(u.username, u.name, u.surname));
-        setLoggedIn(true);
-        setIsLoaded(true);
-        navigate("/");
-      } catch {
+      if (isAnonymous) {
+        // Not authenticated
         setLoggedIn(false);
         setUser(undefined);
         setIsLoaded(true);
+        navigate("/explore-map");
+      } else {
+        // authenticated
+        try {
+          const u = await API.getUserInfo();
+          setUser(new User(u.username, u.name, u.surname));
+          setLoggedIn(true);
+          setIsLoaded(true);
+          navigate("/");
+        } catch {
+          setLoggedIn(false);
+          setUser(undefined);
+          setIsLoaded(true);
+        }
       }
     };
 
@@ -80,6 +99,14 @@ function App() {
       });
   };
 
+  // Added for resident | visitor users (anonymous)
+  const doLoginAsAnonymous = function () {
+    setIsAnonymous(true);
+    setLoggedIn(false);
+    setUser(undefined);
+    navigate("/explore-map");
+  };
+
   const doLogOut = async () => {
     await API.logOut();
     setLoggedIn(false);
@@ -100,27 +127,44 @@ function App() {
                 {/* default page is login page */}
                 <Route
                   path="/"
-                  element={loggedIn ? <Navigate to="/urban-planner" /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? (
+                      <Navigate to="/explore-map" />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
                 />
                 {/* login page */}
                 <Route
                   path="/login"
                   element={
-                    <Login login={doLogin} message={loginMessage} setMessage={setLoginMessage} />
+                    <Login
+                      login={doLogin}
+                      loginAsAnonymous={doLoginAsAnonymous}
+                      message={loginMessage}
+                      setMessage={setLoginMessage}
+                    />
                   }
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
+                <Route path="/explore-map" element={<ExploreMap />} />
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"
-                  element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />
+                  }
                 />
                 <Route
                   path="/urban-planner/add-document"
                   element={
                     loggedIn ? (
-                      <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
+                      <AddDocumentForm
+                        document={newDocument}
+                        setDocument={setNewDocument}
+                      />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -128,13 +172,17 @@ function App() {
                 />
                 <Route
                   path="/urban-planner/link-documents"
-                  element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
+                  }
                 />
                 <Route
                   path="/urban-planner/documents-list"
                   element={
                     loggedIn ? (
-                      <DocumentsListTable setUploadDocumentId={setUploadDocumentId} />
+                      <DocumentsListTable
+                        setUploadDocumentId={setUploadDocumentId}
+                      />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -155,9 +203,12 @@ function App() {
           </SidebarProvider>
         </Container>
       </ToastProvider>
-      {loggedIn && location.pathname == "/urban-planner" ? (
-        <Button onClick={() => navigate("/urban-planner/add-document")} className="add-button">
-          +
+      {loggedIn && location.pathname == "/explore-map" ? (
+        <Button
+          onClick={() => navigate("/urban-planner/add-document")}
+          className="add-button"
+        >
+          <FaPlus color="white" size={25} />
         </Button>
       ) : null}
     </>

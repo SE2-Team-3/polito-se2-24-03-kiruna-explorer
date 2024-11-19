@@ -75,6 +75,13 @@ export default function Login(props: any) {
             <Button type="submit" className="loginBtn" onClick={handleSubmit}>
               Login
             </Button>
+            <Button
+              variant="link"
+              className="mt-2 small"
+              onClick={props.loginAsAnonymous}
+            >
+              Continue as resident | visitor
+            </Button>
           </Row>
         </Col>
 

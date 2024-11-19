@@ -27,7 +27,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -46,7 +47,6 @@ FORM STYLE
 .document-form {
   padding: 20px;
 }
-
 
 .row-box {
   margin-left: 10px;
@@ -654,7 +654,12 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
@@ -795,7 +800,6 @@ LOGIN
   --bs-gutter-x: 0;
 }
 
-
 .drop-zone {
   height: 20vh;
   box-sizing: border-box;
@@ -807,7 +811,7 @@ LOGIN
 }
 
 .uploaded-doc-row {
-  background: #EDE8F5;
+  background: #ede8f5;
   border-radius: 10px;
   margin-top: 0.5rem;
   margin-left: 0;
@@ -816,7 +820,7 @@ LOGIN
 }
 
 .uploaded-doc-col {
-  max-width:80%;
+  max-width: 80%;
 }
 
 .uploaded-doc-name {
@@ -955,3 +959,89 @@ button.btn-link:hover {
   color: #3d52a0;
 }
 
+/*
+MAP
+*/
+.map-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.map-wrapper {
+  position: absolute;
+  min-height: calc(100vh - 100px);
+  left: 75px;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-container.open ~ .map-wrapper {
+  left: 75px;
+}
+.sidebar-container:hover ~ .map-wrapper {
+  left: 350px;
+}
+
+.modal-title.h4 {
+  color: black;
+  font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+  .modal-title.h4 {
+    font-size: 20px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper {
+    left: 70px;
+  }
+  .sidebar-container:hover ~ .map-wrapper {
+    left: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-wrapper {
+    left: 0;
+  }
+  .modal-title.h4 {
+    font-size: 16px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper {
+    left: 60px;
+  }
+  .sidebar-container:hover ~ .map-wrapper {
+    left: 300px;
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: white;
+  border-radius: 10px;
+  min-width: 250px;
+}
+
+.leaflet-popup-content p {
+  font-size: 16px;
+  color: #3d52a0;
+  margin: 0;
+  padding: 2px;
+}
+
+.leaflet-popup-content h5 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3d52a0;
+}
+
+.leaflet-popup-close-button span {
+  color: black;
+  font-size: 20px;
+}

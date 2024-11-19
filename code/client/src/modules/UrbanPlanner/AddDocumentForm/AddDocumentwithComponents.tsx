@@ -94,7 +94,7 @@ const AddDocumentForm = (props: Props) => {
     };
 
     props.setDocument(resetDoc);
-    navigate("/urban-planner");
+    navigate("/explore-map");
   };
 
   // Render function for step circles
