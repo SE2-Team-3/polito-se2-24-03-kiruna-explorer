@@ -1,35 +1,36 @@
 import { test, expect, jest, describe } from "@jest/globals";
 import DocumentController from "../../controllers/documentController";
 import DocumentDAO from "../../dao/documentDAO";
-import Document from "../../components/document";
 
-const documents: Document[] = [
-    new Document(
-        1,
-        "Titolo Documento 1",
-        "Descrizione del documento 1",
-        "Tipo 1",
-        "Scala 1:1000",
-        "Nodo 1",
-        ["Stakeholder 1", "Stakeholder 2"],
-        "2023-11-13",
-        "IT",
-        "100",
-        101
-    ),
-    new Document(
-        2,
-        "Titolo Documento 2",
-        "Descrizione del documento 2",
-        "Tipo 2",
-        "Scala 1:500",
-        "Nodo 2",
-        ["Stakeholder 3"],
-        null,
-        "EN",
-        "50",
-        null
-    )
+const documents = [
+    {
+        documentId: 1,
+        title: "Test Title 1",
+        description: "Test Description 1",
+        documentType: "Text",
+        scale: "Text",
+        nodeType: "Design doc.",
+        stakeholders: `["Municipality", "Architectural firm"]`,
+        issuanceDate: "2023-11-13",
+        language: "English",
+        pages: "100",
+        georeferenceId: 101,
+        coordinates: "[1.1, 2.2]"
+    },
+    {
+        documentId: 2,
+        title: "Test Title 2",
+        description: "Test Description 2",
+        documentType: "Architectural plan",
+        scale: "1:500",
+        nodeType: "Design doc.",
+        stakeholders: `["Municipality"]`,
+        issuanceDate: "2023-11-13",
+        language: "Swedish",
+        pages: "1-100",
+        georeferenceId: 151,
+        coordinates: "[1.1, 2.2]"
+    }
 ];
 
 describe("Document Controller kx4 & kx6", () => {
