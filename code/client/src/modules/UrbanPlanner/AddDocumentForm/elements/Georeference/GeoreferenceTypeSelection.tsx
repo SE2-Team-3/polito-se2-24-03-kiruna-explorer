@@ -1,11 +1,12 @@
 import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../../style.css";
-import { Props } from "../interfaces/types";
+import "../../../../style.css";
+import { Props } from "../../interfaces/types";
 import GeoreferenceSelection from "./GeoreferenceSelection";
 
 const GeoreferenceTypeSelection = (props: Props) => {
   const [geoType, setGeoType] = useState("Municipality");
+  const [showMiniMap, setShowMiniMap] = useState(true);
 
   useEffect(() => {
     if (geoType === "Municipality") {
@@ -15,6 +16,11 @@ const GeoreferenceTypeSelection = (props: Props) => {
       });
     }
   }, [geoType]);
+
+  const handleGeoSelection = (value: string) => {
+    setGeoType(value);
+    setShowMiniMap(true);
+  };
 
   return (
     <>
@@ -41,12 +47,21 @@ const GeoreferenceTypeSelection = (props: Props) => {
               name="georeference"
               value="Point"
               checked={geoType === "Point"}
-              onChange={(e) => setGeoType(e.target.value)}
+              onChange={(e) => handleGeoSelection(e.target.value)}
+              onClick={(e: React.MouseEvent<HTMLInputElement>) =>
+                handleGeoSelection((e.target as HTMLInputElement).value)
+              }
               className="font-size-20"
             />
           </Col>
         </Row>
-        {geoType === "Point" && <GeoreferenceSelection {...props} />}
+        {geoType === "Point" && (
+          <GeoreferenceSelection
+            {...props}
+            showMiniMap={showMiniMap}
+            setShowMiniMap={setShowMiniMap}
+          />
+        )}
       </Form.Group>
     </>
   );
