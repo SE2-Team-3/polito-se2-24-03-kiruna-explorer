@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Document from "../../../models/document";
 import API from "../../../API/API";
-import "../../style.css";
 import {
   Badge,
   Button,
@@ -16,12 +15,13 @@ import {
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
 import { useNavigate } from "react-router-dom";
+import { useSidebar } from "../../../components/SidebarContext";
 
-export default function DocumentsListTable() {
+export default function DocumentsListTable(props: any) {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
-
+  const { isSidebarOpen } = useSidebar();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,12 +51,15 @@ export default function DocumentsListTable() {
     return documents.slice(startIndex, endIndex);
   };
 
+  const handleClickUpload = (documentId: number) => {
+    props.setUploadDocumentId(documentId);
+    navigate("/urban-planner/add-resource");
+  };
+
   // Funzione per calcolare il numero totale di pagine
   const totalPages = Math.ceil(documents.length / itemsPerPage);
 
-  const handleItemsPerPageChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reset alla prima pagina
   };
@@ -69,11 +72,7 @@ export default function DocumentsListTable() {
     const items = [];
     for (let i = 1; i <= totalPages; i++) {
       items.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageChange(i)}
-        >
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => handlePageChange(i)}>
           {i}
         </Pagination.Item>
       );
@@ -82,7 +81,7 @@ export default function DocumentsListTable() {
   };
 
   return (
-    <div className="main-page">
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Col>
         <Row>
           <div className="form-container">
@@ -98,10 +97,7 @@ export default function DocumentsListTable() {
               </thead>
               <tbody>
                 {getPaginatedData().map((item, index) => (
-                  <tr
-                    key={item.documentId}
-                    className={index % 2 === 0 ? "even-row" : "odd-row"}
-                  >
+                  <tr key={item.documentId} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                     <td>
                       <Badge className={`${getBadgeClass(item.documentType)}`}>
                         {item.documentType.charAt(0).toUpperCase()}
@@ -112,24 +108,16 @@ export default function DocumentsListTable() {
                     <td>{item.language}</td>
                     <td>{item.pages}</td>
                     <td>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Link</Tooltip>}
-                      >
+                      <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
                         <Button
                           variant="link"
-                          onClick={() =>
-                            navigate("/urban-planner/link-documents")
-                          }
+                          onClick={() => navigate("/urban-planner/link-documents")}
                         >
                           <img src={LinkDocument} alt="link document" />
                         </Button>
                       </OverlayTrigger>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Upload</Tooltip>}
-                      >
-                        <Button variant="link">
+                      <OverlayTrigger placement="top" overlay={<Tooltip>Upload</Tooltip>}>
+                        <Button variant="link" onClick={() => handleClickUpload(item.documentId)}>
                           <img src={UploadDocument} alt="upload resource" />
                         </Button>
                       </OverlayTrigger>
@@ -143,10 +131,7 @@ export default function DocumentsListTable() {
         <Row>
           {/* Controlli per selezionare gli elementi per pagina */}
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <Form.Group
-              controlId="itemsPerPage"
-              className="d-flex align-items-center"
-            >
+            <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
               <Form.Label className="me-2 mb-0">Showing</Form.Label>
               <Form.Select
                 value={itemsPerPage}

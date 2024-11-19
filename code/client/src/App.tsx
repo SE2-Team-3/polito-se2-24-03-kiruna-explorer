@@ -27,7 +27,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState<Boolean>(true);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,25 +49,17 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (isAnonymous) {
-        // Not authenticated
+      try {
+        const u = await API.getUserInfo();
+        console.log(u);
+        setUser(new User(u.username, u.name, u.surname));
+        setLoggedIn(true);
+        setIsLoaded(true);
+        navigate("/");
+      } catch {
         setLoggedIn(false);
         setUser(undefined);
         setIsLoaded(true);
-        navigate("/explore-map");
-      } else {
-        // authenticated
-        try {
-          const u = await API.getUserInfo();
-          setUser(new User(u.username, u.name, u.surname));
-          setLoggedIn(true);
-          setIsLoaded(true);
-          navigate("/");
-        } catch {
-          setLoggedIn(false);
-          setUser(undefined);
-          setIsLoaded(true);
-        }
       }
     };
 
@@ -97,14 +88,6 @@ function App() {
       });
   };
 
-  // Added for resident | visitor users (anonymous)
-  const doLoginAsAnonymous = function () {
-    setIsAnonymous(true);
-    setLoggedIn(false);
-    setUser(undefined);
-    navigate("/explore-map");
-  };
-
   const doLogOut = async () => {
     await API.logOut();
     setLoggedIn(false);
@@ -127,7 +110,7 @@ function App() {
                   path="/"
                   element={
                     loggedIn ? (
-                      <Navigate to="/explore-map" />
+                      <Navigate to="/urban-planner" />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -139,7 +122,6 @@ function App() {
                   element={
                     <Login
                       login={doLogin}
-                      loginAsAnonymous={doLoginAsAnonymous}
                       message={loginMessage}
                       setMessage={setLoginMessage}
                     />
@@ -147,7 +129,6 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route path="/explore-map" element={<ExploreMap />} />
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"
