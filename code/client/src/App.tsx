@@ -21,6 +21,7 @@ import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocume
 import { ToastProvider } from "./modules/ToastProvider";
 import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
+import { FaPlus } from "react-icons/fa";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -185,7 +186,7 @@ function App() {
           onClick={() => navigate("/urban-planner/add-document")}
           className="add-button"
         >
-          +
+          <FaPlus color="white" size={25} />
         </Button>
       ) : null}
     </>
