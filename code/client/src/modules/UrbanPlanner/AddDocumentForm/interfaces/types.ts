@@ -15,6 +15,4 @@ export interface NewDocument {
 export interface Props {
   document: NewDocument;
   setDocument: React.Dispatch<React.SetStateAction<NewDocument>>;
-  //showMiniMap: boolean;
-  //setShowMiniMap: (show: boolean) => void;
 }
