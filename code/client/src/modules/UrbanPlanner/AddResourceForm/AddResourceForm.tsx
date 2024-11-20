@@ -50,7 +50,7 @@ export default function AddResourceForm(props: any) {
   console.log(props.documentId);
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Form className="document-form" onSubmit={handleSubmit} noValidate>
+      <Form className="form-container document-form" onSubmit={handleSubmit} noValidate>
         <Row className="form-title">Upload resources</Row>
         <Row style={{ margin: 0 }}>
           <Dropzone onDrop={(acceptedFiles: File[]) => handleSelect(acceptedFiles)}>

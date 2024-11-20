@@ -72,18 +72,16 @@ export default function Login(props: any) {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </Form.Group>
-            <div className="d-flex flex-column align-items-center mt-3">
-              <Button type="submit" className="loginBtn" onClick={handleSubmit}>
-                Login
-              </Button>
-              <Button
-                variant="link"
-                className="mt-2 small"
-                onClick={props.loginAsAnonymous}
-              >
-                Continue as resident | visitor
-              </Button>
-            </div>
+            <Button type="submit" className="loginBtn" onClick={handleSubmit}>
+              Login
+            </Button>
+            <Button
+              variant="link"
+              className="mt-2 small"
+              onClick={props.loginAsGuest}
+            >
+              Continue as resident | visitor
+            </Button>
           </Row>
         </Col>
 

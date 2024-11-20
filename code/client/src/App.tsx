@@ -27,7 +27,6 @@ import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [loggedIn, setLoggedIn] = useState<Boolean>(true);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -52,13 +51,7 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (isAnonymous) {
-        // Not authenticated
-        setLoggedIn(false);
-        setUser(undefined);
-        setIsLoaded(true);
-        navigate("/explore-map");
-      } else {
+      if (loggedIn) {
         // authenticated
         try {
           const u = await API.getUserInfo();
@@ -71,6 +64,12 @@ function App() {
           setUser(undefined);
           setIsLoaded(true);
         }
+      } else {
+        // Not authenticated
+        setLoggedIn(false);
+        setUser(undefined);
+        setIsLoaded(true);
+        navigate("/login");
       }
     };
 
@@ -99,9 +98,8 @@ function App() {
       });
   };
 
-  // Added for resident | visitor users (anonymous)
-  const doLoginAsAnonymous = function () {
-    setIsAnonymous(true);
+  // Added for resident | visitor users (guest)
+  const doLoginAsGuest = function () {
     setLoggedIn(false);
     setUser(undefined);
     navigate("/explore-map");
@@ -141,7 +139,7 @@ function App() {
                   element={
                     <Login
                       login={doLogin}
-                      loginAsAnonymous={doLoginAsAnonymous}
+                      loginAsGuest={doLoginAsGuest}
                       message={loginMessage}
                       setMessage={setLoginMessage}
                     />
