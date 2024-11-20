@@ -88,4 +88,4 @@ If you are using docker environment, please make sure that you have the followin
 
 # License
 
-Kiruna Explorer is licensed under the [GNU GPL v3.0 License](LICENSE.md). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL.
+Kiruna Explorer is licensed under the [GNU GPL v3.0 License](LICENSE). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL.
