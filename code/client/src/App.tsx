@@ -22,7 +22,7 @@ import { ToastProvider } from "./modules/ToastProvider";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
 import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 import { FaPlus } from "react-icons/fa";
-import ExploreMap from "./modules/AnonymousUser/Map/ExploreMap";
+import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);

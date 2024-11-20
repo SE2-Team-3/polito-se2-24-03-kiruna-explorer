@@ -18,4 +18,6 @@ export interface Props {
   document: NewDocument;
   //newDocID?: number; // Add this to allow newDocID to be passed
   setDocument: React.Dispatch<React.SetStateAction<NewDocument>>;
+  //showMiniMap: boolean;
+  //setShowMiniMap: (show: boolean) => void;
 }

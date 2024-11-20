@@ -53,29 +53,27 @@ async function getUserInfo() {
  * A utility function for parsing the HTTP response.
  */
 function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
-  // server API always return JSON, in case of error the format is the following { error: <message> }
   return new Promise((resolve, reject) => {
     httpResponsePromise
       .then((response: Response) => {
         if (response.ok) {
-          // the server always returns a JSON, even empty {}. Never null or non json, otherwise the method will fail
           response
             .json()
             .then((json: any) => resolve(json))
             .catch((err: any) => reject({ error: "Cannot parse server response" }));
         } else {
-          // analyzing the cause of error
           response
             .json()
-            .then((obj: any) => reject(obj)) // error msg in the response body
-            .catch((err: any) => reject({ error: "Cannot parse server response" })); // something else
+            .then((obj: any) => reject(obj))
+            .catch((err: any) => reject({ error: "Cannot parse server response" }));
         }
       })
-      .catch((err: any) => reject({ error: "Cannot communicate" })); // connection error
+      .catch((err: any) => reject({ error: "Cannot communicate" }));
   });
 }
+
 /**
- * This funciton adds a new page in db.
+ * This function adds a new page in db.
  */
 function addDocument(document: NewDocument) {
   return getJson(
@@ -104,8 +102,9 @@ async function getDocuments() {
     throw new Error("Error. Please reload the page");
   }
 }
+
 /**
- * This funciton create a link beetween 2 documents in db.
+ * This function creates a link between 2 documents in db.
  */
 function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
   return getJson(
@@ -123,6 +122,28 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
     })
   );
 }
+
+/**
+ * This function updates the georeference of a document in the database.
+ */
+function updateDocumentGeoreference(documentId: number, georeference: [number, number]) {
+  console.log("Updating document", documentId, "with georeference", georeference);
+  return fetch(`${baseURL}documents/${documentId}`, {
+    
+    method: "PATCH", // Correct HTTP method
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ georeference }), // Use "georeference" as per the expected payload
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to update georeference");
+    }
+    return response.json();
+  });
+}
+
 
 async function uploadResources(documentId: number, resources: File[]) {
   const data = new FormData();
@@ -146,6 +167,7 @@ const API = {
   linkDocuments,
   getDocuments,
   uploadResources,
+  updateDocumentGeoreference, // Added the new function here
 };
 
 export default API;

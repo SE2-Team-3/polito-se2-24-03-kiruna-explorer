@@ -29,6 +29,12 @@ const LeftSideBar = (props: { logout: () => void }) => {
     toggleSidebar();
   };
 
+  /*
+  const handleNavigation1 = () => {
+    navigate("/urban-planner/add-document"); // Redirects to /add-document
+    toggleSidebar();
+  };
+  */
   const handleNavigation2 = () => {
     navigate("/urban-planner/link-documents");
     toggleSidebar();
@@ -70,6 +76,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="text-box">View documents</span>
                 </div>
               </Row>
+
               <Row>
                 <div
                   className={`menu-text-container ${
@@ -110,6 +117,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="text-box">Link documents</span>
                 </div>{" "}
               </Row>
+
               <Row>
                 <div
                   className={`menu-text-container ${
