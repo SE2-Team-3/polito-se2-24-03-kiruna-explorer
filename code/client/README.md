@@ -13,16 +13,14 @@ This document lists all components and routes that compose the Kiruna Explorer a
     - [User Context](#user-context)
     - [Sidebar Provider](#sidebar-provider)
     - [Toast Provider](#toast-provider)
-  - [2. Anonymous User - Map](#2-anonymous-user---map)
-    - [ExploreMap](#exploremap)
-  - [3. General Pages](#3-general-pages)
-    - [3.1. Map](#31-map)
+  - [2. General Pages](#2-general-pages)
+    - [2.1. Map](#21-map)
       - [Draggable Marker](#draggable-marker)
       - [Explore Map](#explore-map)
     - [Home](#home)
     - [Login](#login)
-  - [4. Urban Planner](#4-urban-planner)
-    - [4.1. Add Document Form](#41-add-document-form)
+  - [3. Urban Planner](#4-urban-planner)
+    - [3.1. Add Document Form](#31-add-document-form)
       - [Data Selection](#data-selection)
       - [Document Details](#document-details)
       - [Language Selection](#language-selection)
@@ -37,17 +35,17 @@ This document lists all components and routes that compose the Kiruna Explorer a
       - [Step Three](#step-three)
       - [Add Document With Component](#add-document-with-component)
       - [Multiple Direct Link Form](#multiple-direct-link-form)
-        - [4.1.1. Georeference](#411-georeference)
+        - [3.1.1. Georeference](#311-georeference)
           - [Georeference Selection](#georeference-selection)
           - [Georeference Type Selection](#georeference-type-selection)
           - [Mini Map Modal](#mini-map-modal)
-    - [4.2. Link Document Form](#42-link-document-form)
+    - [3.2. Link Document Form](#32-link-document-form)
       - [Document Selector](#document-selector)
       - [Link Type Selector](#link-type-selector)
       - [Link Document Form](#link-document-form)
-    - [4.3. Urban Planner Dashboard](#43-urban-planner-dashboard)
-    - [4.4. Documents List](#44-documents-lists)
-    - [4.5. Add Resource Form](#45-add-resource-form)
+    - [3.3. Urban Planner Dashboard](#33-urban-planner-dashboard)
+    - [3.4. Documents List](#34-documents-lists)
+    - [3.5. Add Resource Form](#35-add-resource-form)
 
 # React + TypeScript + Vite
 
@@ -222,9 +220,9 @@ This component allows any component in the application to show toast notificatio
 
 ---
 
-## 3. General Pages
+## 2. General Pages
 
-### 3.1. Map
+### 2.1. Map
 This folder contains components for Georeferencing documents:
 
 ### Draggable Marker
@@ -251,9 +249,9 @@ This component provides a login interface for users, allowing them to input thei
 
 ---
 
-## 4. Urban Planner
+## 3. Urban Planner
 
-### 4.1. Add Document Form
+### 3.1. Add Document Form
 This folder contains components for adding a new document:
 
    ### Data Selection
@@ -335,7 +333,7 @@ This component allows users to link multiple existing documents to a newly creat
 The form allows users to select multiple documents and link them to a newly created document by choosing a document and one or more link types. The form is dynamic, allowing the user to add or remove link entries.
 
 ---
-### 4.1.1. Georeference
+### 3.1.1. Georeference
 This folder contains components for georeferencing the document:
 
    ### Georeference Selection
@@ -353,7 +351,7 @@ This component is used for selecting a georeference type for a document.
 This component shows a mini map where the user can choose/point a location (lat, long) for the new document.
 
 ---
-### 4.2. Link Document Form
+### 3.2. Link Document Form
 This folder contains components for linking existing documents:
    
    ### Document Selector
@@ -372,17 +370,17 @@ The component allows users to select multiple link types for the documents they 
 This component allows users to link two documents by selecting them from a list of available documents and specifying the type(s) of link between them.
 
 ---
-### 4.3. Urban Planner Dashboard
+### 3.3. Urban Planner Dashboard
 **File**: `modules/UrbanPlanner/UrbanPlannerDashboard.tsx`  
 This component provides urban planner module to intract with the application.
 
 ---
-### 4.4. Documents List
+### 3.4. Documents List
 **File**: `modules/UrbanPlanner/DocumentsLists/DocumentsListTable.tsx`  
 This component allows users to view, navigate, and interact with document-related actions.
 
 ---
-### 4.5. Add resource Form
+### 3.5. Add resource Form
 **File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
 This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
 
