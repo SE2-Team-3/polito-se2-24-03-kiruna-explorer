@@ -32,7 +32,7 @@ export default function DocumentsListTable(props: any) {
   // Funzione per determinare la classe del badge
   const getBadgeClass = (documentType: string) => {
     const docType = documentType;
-    console.log(docType);
+    //console.log(docType);
     switch (docType) {
       case "Text":
         return "badge-text";
@@ -131,8 +131,14 @@ export default function DocumentsListTable(props: any) {
                           <img src={LinkDocument} alt="link document" />
                         </Button>
                       </OverlayTrigger>
-                      <OverlayTrigger placement="top" overlay={<Tooltip>Upload</Tooltip>}>
-                        <Button variant="link" onClick={() => handleClickUpload(item.documentId)}>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Upload</Tooltip>}
+                      >
+                        <Button
+                          variant="link"
+                          onClick={() => handleClickUpload(item.documentId)}
+                        >
                           <img src={UploadDocument} alt="upload resource" />
                         </Button>
                       </OverlayTrigger>
