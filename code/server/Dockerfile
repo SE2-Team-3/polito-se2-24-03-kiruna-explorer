@@ -1,5 +1,5 @@
 # base image
-FROM node:18
+FROM node:14
 
 # working directory
 WORKDIR /app
@@ -13,4 +13,4 @@ RUN npm install
 EXPOSE 3001
 
 # Let's start!
-CMD ["npm", "test"]
+CMD ["npm", "start"]

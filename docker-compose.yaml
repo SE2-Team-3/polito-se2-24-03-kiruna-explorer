@@ -1,16 +1,17 @@
-version: "1"
+version: "3"
 
 services:
   client:
     build:
       context: ./code/client
     ports:
-      - "3000:3000"
+      - "5173:5173"
     networks:
       - kiruna-explorer-net
   server:
     build:
       context: ./code/server
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     volumes:

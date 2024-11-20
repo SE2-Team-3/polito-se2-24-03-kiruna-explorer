@@ -10,7 +10,7 @@ COPY . .
 RUN npm install
 
 # expose the port to outside
-EXPOSE 3000
+EXPOSE 5173
 
 # Let's start!
 CMD ["npm", "run", "dev"]
