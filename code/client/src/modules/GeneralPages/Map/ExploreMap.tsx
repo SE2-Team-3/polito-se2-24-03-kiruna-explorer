@@ -6,7 +6,7 @@ import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css";
 import API from "../../../API/API";
 import Document from "../../../models/document";
-import DraggableMarker from "../../UrbanPlanner/MapFeatures/DraggableMarker";
+import DraggableMarker from "./DraggableMarker";
 
 const ExploreMap = () => {
   const { isSidebarOpen } = useSidebar();
@@ -26,7 +26,7 @@ const ExploreMap = () => {
       <MapContainer
         attributionControl={false}
         center={kirunaPosition}
-        zoom={13}
+        zoom={14}
         minZoom={12}
         zoomControl={true}
         scrollWheelZoom={true}
