@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useContext } from "react";
+import { useMemo, useState, useRef, useContext, useEffect } from "react";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { UserContext } from "../../../components/UserContext";
@@ -24,22 +24,16 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
   const user = useContext(UserContext);
 
   const initialPosition = useMemo<[number, number]>(() => {
-    if (!document.coordinates) return kirunaPosition;
-
-    try {
-      const coords =
-        typeof document.coordinates === "string"
-          ? JSON.parse(document.coordinates)
-          : document.coordinates;
-
-      if (Array.isArray(coords) && coords.length === 2) {
-        return coords as [number, number];
-      }
-    } catch (e) {
-      //console.error("Error parsing coordinates:", e);
-    }
-
-    return kirunaPosition;
+    // No georeference: belong to municipality area (to be modified in KX9)
+    return !document.coordinates
+      ? kirunaPosition
+      : // With Georeference: belong to a specific location
+      JSON.parse(document.coordinates).length === 1
+      ? L.latLng(
+          JSON.parse(document.coordinates)[0][0],
+          JSON.parse(document.coordinates)[0][1]
+        )
+      : (kirunaPosition as any); // to be midified in KX9
   }, [document.coordinates]);
 
   const [position, setPosition] = useState<[number, number]>(initialPosition);
@@ -47,15 +41,8 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
   const markerRef = useRef<L.Marker>(null);
 
   const handleMoveDocument = (newCoordinates: [number, number]) => {
-    console.log(
-      "Calling API to update document",
-      document.documentId,
-      "with coordinates",
-      newCoordinates
-    );
-    API.updateDocumentGeoreference(document.documentId, newCoordinates).then(
+    API.updateDocumentGeoreference(document.documentId, [newCoordinates]).then(
       () => {
-        console.log("Coordinates updated successfully");
         setDocuments((prevDocuments) =>
           prevDocuments.map((doc) =>
             doc.documentId === document.documentId

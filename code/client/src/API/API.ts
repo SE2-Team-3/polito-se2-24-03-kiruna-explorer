@@ -60,12 +60,16 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
           response
             .json()
             .then((json: any) => resolve(json))
-            .catch((err: any) => reject({ error: "Cannot parse server response" }));
+            .catch((err: any) =>
+              reject({ error: "Cannot parse server response" })
+            );
         } else {
           response
             .json()
             .then((obj: any) => reject(obj))
-            .catch((err: any) => reject({ error: "Cannot parse server response" }));
+            .catch((err: any) =>
+              reject({ error: "Cannot parse server response" })
+            );
         }
       })
       .catch((err: any) => reject({ error: "Cannot communicate" }));
@@ -106,7 +110,11 @@ async function getDocuments() {
 /**
  * This function creates a link between 2 documents in db.
  */
-function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
+function linkDocuments(
+  documentId1: number,
+  documentId2: number,
+  linkType: string
+) {
   return getJson(
     fetch(baseURL + "documents/link", {
       method: "POST",
@@ -126,10 +134,11 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
 /**
  * This function updates the georeference of a document in the database.
  */
-function updateDocumentGeoreference(documentId: number, georeference: [number, number]) {
-  console.log("Updating document", documentId, "with georeference", georeference);
+function updateDocumentGeoreference(
+  documentId: number,
+  georeference: [[number, number]]
+) {
   return fetch(`${baseURL}documents/${documentId}`, {
-    
     method: "PATCH", // Correct HTTP method
     headers: {
       "Content-Type": "application/json",
@@ -144,14 +153,11 @@ function updateDocumentGeoreference(documentId: number, georeference: [number, n
   });
 }
 
-
 async function uploadResources(documentId: number, resources: File[]) {
   const data = new FormData();
   for (const res of resources) {
-    console.log(res);
     data.append("files", res);
   }
-  console.log(data);
   await fetch(baseURL + "documents/" + documentId + "/upload-resource", {
     method: "POST",
     credentials: "include",
