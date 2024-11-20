@@ -16,12 +16,13 @@ import {
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
 import { useNavigate } from "react-router-dom";
+import { useSidebar } from "../../../components/SidebarContext";
 
-export default function DocumentsListTable() {
+export default function DocumentsListTable(props: any) {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
-
+  const { isSidebarOpen } = useSidebar();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,6 +50,11 @@ export default function DocumentsListTable() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return documents.slice(startIndex, endIndex);
+  };
+
+  const handleClickUpload = (documentId: number) => {
+    props.setUploadDocumentId(documentId);
+    navigate("/urban-planner/add-resource");
   };
 
   // Funzione per calcolare il numero totale di pagine
@@ -82,7 +88,7 @@ export default function DocumentsListTable() {
   };
 
   return (
-    <div className="main-page">
+    <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Col>
         <Row>
           <div className="form-container">
@@ -125,11 +131,8 @@ export default function DocumentsListTable() {
                           <img src={LinkDocument} alt="link document" />
                         </Button>
                       </OverlayTrigger>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Upload</Tooltip>}
-                      >
-                        <Button variant="link">
+                      <OverlayTrigger placement="top" overlay={<Tooltip>Upload</Tooltip>}>
+                        <Button variant="link" onClick={() => handleClickUpload(item.documentId)}>
                           <img src={UploadDocument} alt="upload resource" />
                         </Button>
                       </OverlayTrigger>

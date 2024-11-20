@@ -19,18 +19,23 @@ import API from "./API/API";
 import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
-import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
+import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 import { FaPlus } from "react-icons/fa";
+import ExploreMap from "./modules/Anonymous/Map/ExploreMap";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loggedIn, setLoggedIn] = useState<boolean>(true);
-  const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
+  const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
+    undefined
+  );
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -136,6 +141,7 @@ function App() {
                   element={
                     <Login
                       login={doLogin}
+                      loginAsAnonymous={doLoginAsAnonymous}
                       message={loginMessage}
                       setMessage={setLoginMessage}
                     />
@@ -173,7 +179,23 @@ function App() {
                 <Route
                   path="/urban-planner/documents-list"
                   element={
-                    loggedIn ? <DocumentsListTable /> : <Navigate to="/login" />
+                    loggedIn ? (
+                      <DocumentsListTable
+                        setUploadDocumentId={setUploadDocumentId}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/urban-planner/add-resource"
+                  element={
+                    loggedIn ? (
+                      <AddResourceForm documentId={uploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
                   }
                 />
               </Routes>

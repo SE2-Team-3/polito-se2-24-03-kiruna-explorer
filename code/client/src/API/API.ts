@@ -149,12 +149,11 @@ async function uploadResources(documentId: number, resources: File[]) {
   const data = new FormData();
   for (const res of resources) {
     console.log(res);
-    data.append("fileName:" + res.name, res);
+    data.append("files", res);
   }
   console.log(data);
-  await fetch(`${baseURL}documents/${documentId}upload-resource`, {
+  await fetch(baseURL + "documents/" + documentId + "/upload-resource", {
     method: "POST",
-    headers: { "content-type": "multipart/form-data" },
     credentials: "include",
     body: data,
   });
