@@ -1,3 +1,4 @@
+
 # kiruna-explorer
 This document lists all APIs and database scheme that compose the Kiruna Explorer application.
 # Table of Contents
@@ -43,3 +44,4 @@ This document lists all APIs and database scheme that compose the Kiruna Explore
 | DocumentResources | documentId, resourceId, fileType |
 | Attachment | attachmentId, data|
 | DocumentAttachments | documentId, attachmentId, fileType|
+
