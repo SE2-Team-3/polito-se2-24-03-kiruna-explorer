@@ -78,7 +78,7 @@ export default function Login(props: any) {
             <Button
               variant="link"
               className="mt-2 small"
-              onClick={props.loginAsAnonymous}
+              onClick={props.loginAsGuest}
             >
               Continue as resident | visitor
             </Button>
