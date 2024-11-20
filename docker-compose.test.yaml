@@ -1,0 +1,13 @@
+version: "1"
+
+services:
+  server-tests:
+    build:
+      context: ./code/server
+      dockerfile: Dockerfile.test
+    networks:
+      - kiruna-explorer-net
+
+networks:
+  kiruna-explorer-net:
+    driver: bridge
