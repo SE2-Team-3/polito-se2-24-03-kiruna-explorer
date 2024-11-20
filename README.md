@@ -9,9 +9,10 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
 Make sure you have the following installed on your machine:
 
 - [Node.js](https://nodejs.org/) (version 14 or higher)
-If you are using docker environment, please make sure that you have the following, also:
+
+If you are using docker environment, please make sure that you have the following installed, also:
+
 - [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Running the Application (local machine)
 
@@ -42,8 +43,6 @@ If you are using docker environment, please make sure that you have the followin
    docker-compose up --build
    ```
    Happy coding!
-
-
 
 ## Features
 
