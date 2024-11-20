@@ -40,5 +40,5 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
    Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
 # License
-Kiruna Explorer is licensed under the [GNU GPL v3.0 License](LICENSE.md). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL. 
+Kiruna Explorer is licensed under the [GNU GPL v3.0 License](LICENSE). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL. 
 
