@@ -5,6 +5,7 @@ import { UserContext } from "../../../components/UserContext";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import API from "../../../API/API";
 import Document from "../../../models/document";
+import { useToast } from "../../ToastProvider";
 
 const logoIcon = new L.Icon({
   iconUrl: Logo,
@@ -22,6 +23,7 @@ interface DraggableMarkerProps {
 
 const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
   const user = useContext(UserContext);
+  const showToast = useToast();
 
   const initialPosition = useMemo<[number, number]>(() => {
     // No georeference: belong to municipality area (to be modified in KX9)
@@ -41,8 +43,16 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
   const markerRef = useRef<L.Marker>(null);
 
   const handleMoveDocument = (newCoordinates: [number, number]) => {
-    API.updateDocumentGeoreference(document.documentId, [newCoordinates]).then(
-      () => {
+    if (
+      newCoordinates[0] >= 67.82 &&
+      newCoordinates[0] <= 67.89 &&
+      newCoordinates[1] >= 20.1 &&
+      newCoordinates[1] <= 20.35
+    ) {
+      API.updateDocumentGeoreference(document.documentId, [
+        newCoordinates,
+      ]).then((response) => {
+        const { message } = response;
         setDocuments((prevDocuments) =>
           prevDocuments.map((doc) =>
             doc.documentId === document.documentId
@@ -55,8 +65,15 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
               : doc
           )
         );
-      }
-    );
+        showToast("Success!", "Georeference updated successfully", false);
+      });
+    } else {
+      showToast(
+        "Cannot update coordinates",
+        "Please choose coordinates within Kiruna area",
+        true
+      );
+    }
     //.catch((err) => console.error("Error updating coordinates:", err));
   };
 
@@ -97,7 +114,7 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
           <p>Issuance Date: {document.issuanceDate}</p>
           {user && (
             <button className="draggable-toggle-btn" onClick={toggleDraggable}>
-              {draggable ? "Stop Moving" : "Move"}
+              {draggable ? "Stop Moving" : "Update georeference"}
             </button>
           )}
         </div>
