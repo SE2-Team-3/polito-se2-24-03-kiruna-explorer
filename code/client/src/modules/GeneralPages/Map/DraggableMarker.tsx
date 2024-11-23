@@ -65,7 +65,7 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
               : doc
           )
         );
-        showToast(message, "", false);
+        showToast("Success!", "Georeference updated successfully", false);
       });
     } else {
       showToast(
