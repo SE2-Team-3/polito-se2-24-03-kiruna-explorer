@@ -26,7 +26,7 @@ import ExploreMap from "./modules/GeneralPages/Map/ExploreMap";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [loggedIn, setLoggedIn] = useState<Boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<Boolean>(false);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
