@@ -23,10 +23,12 @@ If you are using docker environment, please make sure that you have the followin
    ```
 2. **Run the client-side server**:
    ```
+   cd code/client/
    npm run dev
    ```
 3. **Run the server-side server**:
    ```
+   cd code/server/
    npm start
    ```
    Happy coding!
