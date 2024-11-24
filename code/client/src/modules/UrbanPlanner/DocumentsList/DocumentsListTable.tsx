@@ -133,7 +133,7 @@ export default function DocumentsListTable(props: any) {
                       </OverlayTrigger>
                       <OverlayTrigger
                         placement="top"
-                        overlay={<Tooltip>Upload</Tooltip>}
+                        overlay={<Tooltip>{"Upload resource(s)"}</Tooltip>}
                       >
                         <Button
                           variant="link"
