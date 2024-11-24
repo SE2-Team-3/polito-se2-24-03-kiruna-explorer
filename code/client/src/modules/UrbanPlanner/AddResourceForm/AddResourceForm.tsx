@@ -25,7 +25,7 @@ export default function AddResourceForm(props: any) {
         showToast("Resource(s) uploaded successfully", "", false);
       });
     } else {
-      alert("Upload at least one resource");
+      showToast("Upload at least one resource", "", true);
     }
   };
 
@@ -40,7 +40,7 @@ export default function AddResourceForm(props: any) {
     for (const v of val) {
       //implement better search for duplicates, this doesn't account for different files with same name
       if (resources.find((r) => r.name == v.name)) {
-        alert("One of the files is already present in the selected ones");
+        showToast("One of the files is already present in the selected ones", "", true);
         return;
       }
     }
