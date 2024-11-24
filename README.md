@@ -18,7 +18,7 @@ If you are using docker environment, please make sure that you have the followin
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/kiruna-explorer.git
+   git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
 2. **Run the client-side server**:
@@ -35,7 +35,7 @@ If you are using docker environment, please make sure that you have the followin
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/kiruna-explorer.git
+   git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
 2. **Run the container**:
