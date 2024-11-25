@@ -23,33 +23,31 @@
 }
 
 .header-table {
-  width: 3080px;
-  height: 30px;
+  min-width: 4200px;
+  height: 50px;
 }
 
 .header-cell {
+  border-top: 1px solid #333;
   border-left: 1px solid #333;
-  border-top: none;
-  border-right: none;
-  border-bottom: none;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
   text-align: left;
   font-weight: bold;
-  padding-left: 5px;
-  width: 140px;
+  width: 200px;
 }
 
 .side-table {
-  width: 150px;
-  height: 595px;
-  margin-top: 30px;
+  width: 200px;
 }
 
 .side-cell {
   border-top: 1px solid #333;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  height: 85px;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  height: 100px;
+  width: 100%;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -100,16 +98,21 @@
 }
 
 .header-trans {
-  translate: 10px 10px;
+  translate: 200px 00px;
   position: absolute;
 }
 
 .sidebar-trans {
-  translate: 10px 10px;
+  translate: 0px 50px;
   position: absolute;
 }
 
 .point-trans {
-  translate: 0px 0px;
+  translate: 200px 50px;
+  position: absolute;
+}
+
+svg{
+  overflow: visible;
   position: absolute;
 }

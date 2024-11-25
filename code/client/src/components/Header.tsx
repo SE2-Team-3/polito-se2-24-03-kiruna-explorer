@@ -7,16 +7,16 @@ const Header = ({ generateYears, classname }: {generateYears:any,classname:any})
   }
 
   return (
-    <table className={"header-table "+classname?classname:""}>
-      <tbody>
+    <table className={`header-table ${classname?classname:""}`}>
+      <thead>
         <tr>
           {generateYears().map((year: any) => (
-            <td key={year} className="header-cell">
+            <th key={year} className="header-cell">
               {year}
-            </td>
+            </th>
           ))}
-        </tr>
-      </tbody>
+          </tr>
+      </thead>
     </table>
   );
 };

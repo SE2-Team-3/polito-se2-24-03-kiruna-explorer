@@ -13,12 +13,12 @@ const Sidebar = ({ doctype, classname }:{doctype:any,classname:any}) => {
   }
 
   return (
-    <div className={"diagram-sidebar "+classname?classname:""}>
+    <div className={`diagram-sidebar ${classname?classname:""}`}>
       <table className="side-table">
         <tbody>
           {doctype.map((type: any) => (
             <tr key={type} className="side-cell">
-              {type}
+              <td>{type}</td>
             </tr>
           ))}
         </tbody>
