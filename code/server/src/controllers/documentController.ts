@@ -81,5 +81,16 @@ class DocumentController {
     }
     return this.documentDAO.getResourcesByDocumentId(documentId);
   }
+
+  async getFilteredDocuments(filters: {
+    title?: string;
+    documentType?: string;
+    nodeType?: string;
+    stakeholders?: string[];
+    issuanceDate?: string;
+    language?: string;
+  }): Promise<any[]> {
+    return this.documentDAO.getFilteredDocuments(filters);
+  }
 }
 export default DocumentController;

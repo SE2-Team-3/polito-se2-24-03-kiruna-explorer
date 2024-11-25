@@ -289,6 +289,56 @@ class DocumentDAO {
       });
     });
   }
+
+  async getFilteredDocuments(filters: {
+    title?: string;
+    documentType?: string;
+    nodeType?: string;
+    stakeholders?: string[];
+    issuanceDate?: string;
+    language?: string;
+  }): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      try {
+        let sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, D.georeferenceId, coordinates FROM Document D
+                   LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId WHERE 1=1`;
+        const params: any[] = [];
+
+        if (filters.title) {
+          sql += ` AND title LIKE ?`;
+          params.push(`%${filters.title}%`);
+        }
+        if (filters.documentType) {
+          sql += ` AND documentType = ?`;
+          params.push(filters.documentType);
+        }
+        if (filters.nodeType) {
+          sql += ` AND nodeType = ?`;
+          params.push(filters.nodeType);
+        }
+        if (filters.language) {
+          sql += ` AND language = ?`;
+          params.push(filters.language);
+        }
+        if (filters.issuanceDate) {
+          sql += ` AND issuanceDate LIKE ?`;
+          params.push(`${filters.issuanceDate}%`);
+        }
+        if (filters.stakeholders && filters.stakeholders.length > 0) {
+          const stakeholderConditions = filters.stakeholders.map(() => `stakeholders LIKE ?`).join(' AND ');
+          sql += ` AND (${stakeholderConditions})`;
+          filters.stakeholders.forEach(s => params.push(`%${s}%`));
+        }
+
+        db.all(sql, params, (err: Error | null, rows: any[]) => {
+          if (err) return reject(err);
+          resolve(rows);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
 
 export default DocumentDAO;
