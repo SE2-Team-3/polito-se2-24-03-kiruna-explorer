@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import DocumentController from "../controllers/documentController";
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 import ErrorHandler from "../helper";
 import Authenticator from "./auth";
 import multer from "multer";
@@ -181,6 +181,56 @@ class DocumentRoutes {
           .getResources(parseInt(req.params.documentId, 10))
           .then((resources) => res.status(200).json(resources))
           .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/filtered",
+      query("title").optional().isString(),
+      query("documentType").optional().isString().isIn([
+        "Text",
+        "Concept",
+        "Architectural plan",
+        "Blueprints/actions"
+      ]),
+      query("nodeType").optional().isString().isIn([
+        "Design document",
+        "Informative document",
+        "Prescriptive document",
+        "Technical document",
+        "Agreement",
+        "Conflict",
+        "Consultation",
+        "Action"
+      ]),
+      query("stakeholders")
+        .optional()
+        .customSanitizer((value) => {
+          if (Array.isArray(value)) {
+            return value;
+          }
+          return [value];
+        })
+        .isArray(),
+      query("issuanceDate").optional().matches(/^\d{4}(-\d{1,2}){0,2}$/),
+      query("language").optional().isString().isIn([
+        "English",
+        "Swedish"
+      ]),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) => {
+        const filters = {
+          title: req.query.title,
+          documentType: req.query.documentType,
+          nodeType: req.query.nodeType,
+          stakeholders: req.query.stakeholders,
+          issuanceDate: req.query.issuanceDate,
+          language: req.query.language,
+        };
+        this.controller
+          .getFilteredDocuments(filters)
+          .then((documents) => res.status(200).json(documents))
+          .catch((err) => next(err));
+      }
     );
   }
 }
