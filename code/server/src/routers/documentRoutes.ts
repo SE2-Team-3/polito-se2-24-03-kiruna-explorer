@@ -186,8 +186,22 @@ class DocumentRoutes {
     this.router.get(
       "/filtered",
       query("title").optional().isString(),
-      query("documentType").optional().isString(),
-      query("nodeType").optional().isString(),
+      query("documentType").optional().isString().isIn([
+        "Text",
+        "Concept",
+        "Architectural plan",
+        "Blueprints/actions"
+      ]),
+      query("nodeType").optional().isString().isIn([
+        "Design document",
+        "Informative document",
+        "Prescriptive document",
+        "Technical document",
+        "Agreement",
+        "Conflict",
+        "Consultation",
+        "Action"
+      ]),
       query("stakeholders")
         .optional()
         .customSanitizer((value) => {
@@ -198,7 +212,10 @@ class DocumentRoutes {
         })
         .isArray(),
       query("issuanceDate").optional().matches(/^\d{4}(-\d{1,2}){0,2}$/),
-      query("language").optional().isString(),
+      query("language").optional().isString().isIn([
+        "English",
+        "Swedish"
+      ]),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) => {
         const filters = {
