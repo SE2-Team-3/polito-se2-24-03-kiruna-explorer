@@ -82,56 +82,6 @@ const NavBar: FC<NavBarProps> = (props) => {
               </button>
             </div>
           </Col>
-          {/*
-          <Col>
-            <div className="dropdown-container">
-              <select className="custom-dropdown">
-                <option value="all">Type</option>
-                <option value="Consequence">Consequence</option>
-                <option value="Collateral">Collateral</option>
-                <option value="Type 03">Type 03</option>
-                <option value="Type 04">Type 04</option>
-              </select>
-              <svg
-                className="dropdown-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 9l6 6 6-6"></path>
-              </svg>
-            </div>
-          </Col>
-          <Col>
-            <div className="dropdown-container">
-              <select className="custom-dropdown">
-                <option value="all">Language</option>
-                <option value="Swedish">Swedish</option>
-                <option value="English">English</option>
-              </select>
-              <svg
-                className="dropdown-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 9l6 6 6-6"></path>
-              </svg>
-            </div>
-          </Col>
-          */}
           <Col>
             <button className="search-button" onClick={handleChange}>
               Search
