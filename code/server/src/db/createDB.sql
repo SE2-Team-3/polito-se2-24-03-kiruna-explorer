@@ -23,7 +23,9 @@ CREATE TABLE Document (
 
 CREATE TABLE Georeference (
 	georeferenceId INTEGER PRIMARY KEY,
-	coordinates TEXT NOT NULL
+	coordinates TEXT NOT NULL,
+	georeferenceName TEXT NOT NULL,
+	isArea BOOLEAN NOT NULL
 );
 
 CREATE TABLE DocumentConnections (
