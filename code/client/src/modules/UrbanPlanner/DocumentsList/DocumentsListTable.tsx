@@ -20,14 +20,27 @@ import { useSidebar } from "../../../components/SidebarContext";
 
 export default function DocumentsListTable(props: any) {
   const [documents, setDocuments] = useState<Document[]>([]);
+  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
   const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
   const { isSidebarOpen } = useSidebar();
   const navigate = useNavigate();
 
   useEffect(() => {
-    API.getDocuments().then((documents) => setDocuments(documents));
+    API.getDocuments().then((docs) => {
+      setDocuments(docs);
+      setFilteredDocuments(docs); // Inizializza con tutti i documenti
+    });
   }, []);
+
+  // update documents list based on searchTitle
+  useEffect(() => {
+    const filtered = documents.filter((doc) =>
+      doc.title.toLowerCase().startsWith(props.searchTitle.toLowerCase())
+    );
+    setFilteredDocuments(filtered);
+    setCurrentPage(1); // Torna alla prima pagina dopo un filtro
+  }, [props.searchTitle, documents]);
 
   // Funzione per determinare la classe del badge
   const getBadgeClass = (documentType: string) => {
@@ -49,7 +62,7 @@ export default function DocumentsListTable(props: any) {
   const getPaginatedData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return documents.slice(startIndex, endIndex);
+    return filteredDocuments.slice(startIndex, endIndex);
   };
 
   const handleClickUpload = (documentId: number) => {
@@ -58,11 +71,9 @@ export default function DocumentsListTable(props: any) {
   };
 
   // Funzione per calcolare il numero totale di pagine
-  const totalPages = Math.ceil(documents.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
 
-  const handleItemsPerPageChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reset alla prima pagina
   };
@@ -75,11 +86,7 @@ export default function DocumentsListTable(props: any) {
     const items = [];
     for (let i = 1; i <= totalPages; i++) {
       items.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageChange(i)}
-        >
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => handlePageChange(i)}>
           {i}
         </Pagination.Item>
       );
@@ -104,29 +111,21 @@ export default function DocumentsListTable(props: any) {
               </thead>
               <tbody>
                 {getPaginatedData().map((item, index) => (
-                  <tr
-                    key={item.documentId}
-                    className={index % 2 === 0 ? "even-row" : "odd-row"}
-                  >
-                    <td>
+                  <tr key={item.documentId} className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                    <td data-label="Title">
                       <Badge className={`${getBadgeClass(item.documentType)}`}>
                         {item.documentType.charAt(0).toUpperCase()}
                       </Badge>
                       {item.title}
                     </td>
-                    <td>{item.issuanceDate}</td>
-                    <td>{item.language}</td>
-                    <td>{item.pages}</td>
-                    <td>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Link</Tooltip>}
-                      >
+                    <td data-label="Issuance Date">{item.issuanceDate}</td>
+                    <td data-label="Language">{item.language}</td>
+                    <td data-label="Pages">{item.pages}</td>
+                    <td data-label="Actions">
+                      <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
                         <Button
                           variant="link"
-                          onClick={() =>
-                            navigate("/urban-planner/link-documents")
-                          }
+                          onClick={() => navigate("/urban-planner/link-documents")}
                         >
                           <img src={LinkDocument} alt="link document" />
                         </Button>
@@ -135,10 +134,7 @@ export default function DocumentsListTable(props: any) {
                         placement="top"
                         overlay={<Tooltip>{"Upload resource(s)"}</Tooltip>}
                       >
-                        <Button
-                          variant="link"
-                          onClick={() => handleClickUpload(item.documentId)}
-                        >
+                        <Button variant="link" onClick={() => handleClickUpload(item.documentId)}>
                           <img src={UploadDocument} alt="upload resource" />
                         </Button>
                       </OverlayTrigger>
@@ -152,10 +148,7 @@ export default function DocumentsListTable(props: any) {
         <Row>
           {/* Controlli per selezionare gli elementi per pagina */}
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <Form.Group
-              controlId="itemsPerPage"
-              className="d-flex align-items-center"
-            >
+            <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
               <Form.Label className="me-2 mb-0">Showing</Form.Label>
               <Form.Select
                 value={itemsPerPage}
