@@ -40,6 +40,7 @@ class DocumentRoutes {
       body("language").optional().isString(),
       body("pages").optional().isString(),
       body("georeference").optional({ nullable: true }).isArray(),
+      body("georeferenceName").optional().isString(),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
@@ -53,7 +54,8 @@ class DocumentRoutes {
             req.body.issuanceDate,
             req.body.language,
             req.body.pages,
-            req.body.georeference
+            req.body.georeference,
+            req.body.georeferenceName
           )
           .then((data: any) => res.status(201).json(data))
           .catch((error: any) => next(error))
@@ -231,6 +233,90 @@ class DocumentRoutes {
           .then((documents) => res.status(200).json(documents))
           .catch((err) => next(err));
       }
+    );
+
+    this.router.get("/connections", (req: any, res: any, next: any) => {
+      this.controller
+        .getConnections()
+        .then((connections) => res.status(200).json(connections))
+        .catch((err) => next(err));
+    });
+
+    this.router.get(
+      "/connections/:documentId",
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getConnectionsById(parseInt(req.params.documentId, 10))
+          .then((connections) => res.status(200).json(connections))
+          .catch((error: any) => next(error))
+    );
+
+    /*
+    this.router.get("/georeferences", (req: any, res: any, next: any) => {
+      this.controller
+        .getGeoreferences()
+        .then((georeferences) => res.status(200).json(georeferences))
+        .catch((err) => next(err));
+    });
+    */
+
+    this.router.get(
+      "/georeferences",
+      query("isArea")
+        .optional()
+        .isBoolean()
+        .withMessage("isArea must be a boolean"),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) => {
+        const isArea = req.query.isArea !== undefined ? req.query.isArea === 'true' : undefined;
+        if (isArea === undefined) {
+          this.controller
+            .getGeoreferences()
+            .then((georeferences) => res.status(200).json(georeferences))
+            .catch((error: any) => next(error));
+        } else {
+          this.controller
+            .getGeoreferencesByIsArea(isArea)
+            .then((georeferences) => res.status(200).json(georeferences))
+            .catch((error: any) => next(error));
+        }
+      }
+    );
+
+    this.router.post(
+      "/with-existing-georeference",
+      this.authenticator.isLoggedIn,
+      body("title").notEmpty().isString(),
+      body("description").notEmpty().isString(),
+      body("documentType").notEmpty().isString(),
+      body("scale").notEmpty().isString(),
+      body("nodeType").notEmpty().isString(),
+      body("stakeholders").notEmpty().isArray(),
+      body("issuanceDate").optional().isString(),
+      body("language").optional().isString(),
+      body("pages").optional().isString(),
+      body("georeferenceId").optional({ nullable: true }).isInt().custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .createDocumentWithExistingGeoreference(
+            req.body.title,
+            req.body.description,
+            req.body.documentType,
+            req.body.scale,
+            req.body.nodeType,
+            req.body.stakeholders,
+            req.body.issuanceDate,
+            req.body.language,
+            req.body.pages,
+            req.body.georeferenceId,
+          )
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
     );
   }
 }

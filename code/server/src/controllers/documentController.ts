@@ -24,7 +24,8 @@ class DocumentController {
     issuanceDate: string | null,
     language: string | null,
     pages: string | null,
-    georeference: string[] | null
+    georeference: string[] | null,
+    georeferenceName: string | null
   ): Promise<any> {
 
     issuanceDate=Utility.emptyFixer(issuanceDate)
@@ -41,7 +42,8 @@ class DocumentController {
       issuanceDate,
       language,
       pages,
-      georeference
+      georeference,
+      georeferenceName
     );
   }
 
@@ -91,6 +93,53 @@ class DocumentController {
     language?: string;
   }): Promise<any[]> {
     return this.documentDAO.getFilteredDocuments(filters);
+  }
+
+  async getConnections(): Promise<any> {
+    return this.documentDAO.getConnections();
+  }
+
+  async getConnectionsById(documentId: number): Promise<any[]> {
+    return this.documentDAO.getConnectionsById(documentId);
+  }
+
+  async getGeoreferences(): Promise<any> {
+    return this.documentDAO.getGeoreferences();
+  }
+
+  async getGeoreferencesByIsArea(isArea: boolean): Promise<any[]> {
+    return this.documentDAO.getGeoreferencesByIsArea(isArea);
+  }
+
+  async createDocumentWithExistingGeoreference(
+    title: string,
+    description: string,
+    documentType: string,
+    scale: string,
+    nodeType: string,
+    stakeholders: string[],
+    issuanceDate: string | null,
+    language: string | null,
+    pages: string | null,
+    georeferenceId: number | null
+  ): Promise<any> {
+
+    issuanceDate=Utility.emptyFixer(issuanceDate)
+    language=Utility.emptyFixer(language)
+    pages=Utility.emptyFixer(pages)
+
+    return this.documentDAO.createDocumentWithExistingGeoreference(
+      title,
+      description,
+      documentType,
+      scale,
+      nodeType,
+      stakeholders,
+      issuanceDate,
+      language,
+      pages,
+      georeferenceId
+    );
   }
 }
 export default DocumentController;
