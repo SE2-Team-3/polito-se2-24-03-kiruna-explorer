@@ -1,8 +1,10 @@
 import { ReactFlow, Node, Edge, Position } from "@xyflow/react"
 import { ViewportPortal } from "@xyflow/react";
-import Header from "../components/Header";
 
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import BGTable from "../components/BGTable";
+
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
@@ -10,7 +12,12 @@ import FunctionIcon from "../components/Icon";
 import { addEdge } from "@xyflow/react";
 import '@xyflow/react/dist/style.css';
 
-const xPosCalculator=(date:string)=>{
+import Document from "../models/document";
+import { getDocuments, getConnections } from "../API/API";
+import Connection from "../models/Connection";
+
+const xPosCalculator=(date:string|null)=>{
+    if (date==null) return 0
     let month=0, day=0
     const year=parseInt(date.slice(0,4))-2004
     if (date.length>=6) month=parseInt(date.split('-')[1])-1
@@ -38,39 +45,45 @@ const yPosCalculator=(scale:string)=>{
 
 const nodeTypes = { icon: FunctionIcon }
 
-const initialNodes:Node[]=[
-    {
-        id:"n1",
-        data: {label:"1",showEdges:true},
-        width:30,
-        position: {x:xPosCalculator("2004"),y:yPosCalculator("Text")},
-    },
-    {
-        id:"n2",
-        data: {label:"2",showEdges:true},
-        width:30,
-        position: {x:xPosCalculator("2012-07"),y:yPosCalculator("4000")}
-    },
-    {
-        id:"n3",
-        data: {label:"3",showEdges:true},
-        width:30,
-        position: {x:xPosCalculator("2009-03-28"),y:yPosCalculator("Concept")}
-    },
-]
-
-const initialEdges:Edge[]=[
-    {
-        id:"e-n1-n2",
-        source: "n1",
-        target: "n2"
-    }
-]
-
 const Diagram2=()=> {
-
-    const [nodes,setNodes]=useState<Node[]>(initialNodes)
-    const [edges,setEdges]=useState<Edge[]>(initialEdges)
+    
+    const [nodes,setNodes]=useState<Node[]>([])
+    const [edges,setEdges]=useState<Edge[]>([])
+    
+    useEffect(()=>{
+        async function getDocs() {
+            const initialDocs:Document[]=await getDocuments()
+            const initialConnections:Connection[]=await getConnections()
+            if (initialDocs.length) {
+                let newNodes:Node[]=[]
+                for (const d of initialDocs) {
+                    newNodes.push({
+                        id:d.documentId.toString(),
+                        data:{label:d.title,showEdges:true},
+                        width:30,
+                        position: {x:xPosCalculator(d.issuanceDate),y:yPosCalculator(d.scale)},
+                        zIndex:5
+                    })
+                }
+                setNodes(newNodes)
+            }
+            if (initialConnections.length){
+                let newEdges:Edge[]=[]
+                for (const c of initialConnections) {
+                    newEdges.push({
+                        id:`${c.documentId1}-${c.documentId2}`,
+                        source: c.documentId1.toString(),
+                        target: c.documentId2.toString(),
+                        //type: c.connection, //uncomment when custom edges implemented
+                        zIndex:4
+                    })
+                }
+                setEdges(newEdges)
+            }
+        }
+        if (!nodes.length)
+            getDocs()
+    },[])
 
     const onNodesChange = useCallback(
         (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -90,7 +103,7 @@ const Diagram2=()=> {
     return(
         <>
             <h1>Sopra diagramma</h1>
-            <div style={{width:"100vw",height:"50vh",border:"solid 1px green"}}>
+            <div style={{width:"100vw",height:"750px",border:"solid 1px green"}}>
                 <div style={{height:"100%"}}>
                     <ReactFlow
                     nodes={nodes}
@@ -105,16 +118,18 @@ const Diagram2=()=> {
                     onConnect={onConnect}
                     translateExtent={[
                         [0,0],
-                        [5000,800]
+                        [5000,748]
                     ]}
                     minZoom={1}
                     >                    
                         <ViewportPortal>
+
+                            {/*It's 3 different tables, it's most likely better to just use one single table, will do in future maybe*/}
                             <Header generateYears={null} classname="header-trans"/>
                             <Sidebar doctype={null} classname="sidebar-trans"/>
+                            <BGTable/>
 
                             <h1 className="point-trans">T</h1>
-                            <h2 style={{transform:`translate(${xPosCalculator("2004-06")}px,${yPosCalculator("Blueprint")}px)`,position:"absolute"}}>Prova</h2>
                         </ViewportPortal>
                     </ReactFlow>
                 
