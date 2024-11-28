@@ -103,12 +103,8 @@ class DocumentController {
     return this.documentDAO.getConnectionsById(documentId);
   }
 
-  async getGeoreferences(): Promise<any> {
-    return this.documentDAO.getGeoreferences();
-  }
-
-  async getGeoreferencesByIsArea(isArea: boolean): Promise<any[]> {
-    return this.documentDAO.getGeoreferencesByIsArea(isArea);
+  async getGeoreferences(isArea?: boolean): Promise<any[]> {
+    return this.documentDAO.getGeoreferences(isArea);
   }
 
   async createDocumentWithExistingGeoreference(

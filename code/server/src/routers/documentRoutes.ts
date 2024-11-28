@@ -243,7 +243,7 @@ class DocumentRoutes {
     });
 
     this.router.get(
-      "/connections/:documentId",
+      "/:documentId/connections",
       param("documentId")
         .isInt()
         .custom((value) => value > 0),
@@ -255,15 +255,6 @@ class DocumentRoutes {
           .catch((error: any) => next(error))
     );
 
-    /*
-    this.router.get("/georeferences", (req: any, res: any, next: any) => {
-      this.controller
-        .getGeoreferences()
-        .then((georeferences) => res.status(200).json(georeferences))
-        .catch((err) => next(err));
-    });
-    */
-
     this.router.get(
       "/georeferences",
       query("isArea")
@@ -273,17 +264,10 @@ class DocumentRoutes {
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) => {
         const isArea = req.query.isArea !== undefined ? req.query.isArea === 'true' : undefined;
-        if (isArea === undefined) {
-          this.controller
-            .getGeoreferences()
-            .then((georeferences) => res.status(200).json(georeferences))
-            .catch((error: any) => next(error));
-        } else {
-          this.controller
-            .getGeoreferencesByIsArea(isArea)
-            .then((georeferences) => res.status(200).json(georeferences))
-            .catch((error: any) => next(error));
-        }
+        this.controller
+          .getGeoreferences(isArea)
+          .then((georeferences) => res.status(200).json(georeferences))
+          .catch((error: any) => next(error));
       }
     );
 

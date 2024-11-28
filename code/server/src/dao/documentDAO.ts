@@ -377,33 +377,29 @@ class DocumentDAO {
     });
   }
 
-  async getGeoreferences(): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      try {
-        const sql = `SELECT georeferenceId, coordinates, georeferenceName, isArea FROM Georeference`;
-        db.all(sql, (err: Error | null, rows: any) => {
-          if (err) return reject(err);
+  async getGeoreferences(isArea?: boolean): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+
+      let sql = `SELECT georeferenceId, coordinates, georeferenceName, isArea FROM Georeference`;
+
+      if (isArea === undefined) {
+        try {
+          db.all(sql, (err: Error | null, rows: any) => {
+            if (err) return reject(err);
+            resolve(rows);
+          });
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        sql += ` WHERE isArea = ?`;
+        db.all(sql, [isArea ? 1 : 0], (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
           resolve(rows);
         });
-      } catch (error) {
-        reject(error);
       }
-    });
-  }
-
-  async getGeoreferencesByIsArea(isArea: boolean): Promise<any[]> {
-    return new Promise<any[]>((resolve, reject) => {
-      const sql = `
-        SELECT georeferenceId, coordinates, georeferenceName, isArea
-        FROM Georeference
-        WHERE isArea = ?
-      `;
-      db.all(sql, [isArea ? 1 : 0], (err: Error | null, rows: any[]) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(rows);
-      });
     });
   }
 
