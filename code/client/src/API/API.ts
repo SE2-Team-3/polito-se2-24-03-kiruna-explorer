@@ -155,7 +155,6 @@ async function uploadResources(documentId: number, resources: File[]) {
 }
 
 function getFilteredDocuments(filters: {
-  title?: string;
   documentType?: string;
   nodeType?: string;
   stakeholders?: string | string[];
@@ -164,7 +163,7 @@ function getFilteredDocuments(filters: {
 }) {
   const queryParams = new URLSearchParams();
   for (const [key, value] of Object.entries(filters)) {
-    if (value !== undefined && value !== null) {
+    if (value !== undefined && value !== null && value !== "") {
       // Gestisce valori multipli come array (es. stakeholders)
       if (Array.isArray(value)) {
         value.forEach((v) => queryParams.append(key, v));
@@ -173,6 +172,7 @@ function getFilteredDocuments(filters: {
       }
     }
   }
+  console.log(queryParams.toString());
 
   // Effettua la richiesta GET
   return fetch(`http://localhost:3001/documents/filtered?${queryParams.toString()}`, {

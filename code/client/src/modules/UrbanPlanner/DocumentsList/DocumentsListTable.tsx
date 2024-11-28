@@ -193,11 +193,7 @@ export default function DocumentsListTable(props: any) {
         </Col>
         {visibleFilterTable ? (
           <Col md={3}>
-            <FilterTable
-              onFilterApply={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-            ></FilterTable>
+            <FilterTable setFilteredDocuments={setFilteredDocuments}></FilterTable>
           </Col>
         ) : null}
       </Row>
