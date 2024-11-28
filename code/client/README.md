@@ -158,6 +158,14 @@ The `App` component defines a set of routes to handle navigation between differe
     - [2.1. Map](#21-map)
       - [Draggable Marker](#draggable-marker)
       - [Explore Map](#explore-map)
+    - [2.2. Diagram](#22-diagram)
+      - [BG Table](#bg-table)
+      - [Diagram Area](#diagram-area)
+      - [Header](#header)
+      - [Icon](#icon)
+      - [Node Form](#node-form)
+      - [Sidebar](#sidebar)
+      - [Zoom Slider](#zoom-slider)
     - [Home](#home)
     - [Login](#login)
   - [3. Urban Planner](#4-urban-planner)
@@ -225,7 +233,7 @@ This component allows any component in the application to show toast notificatio
 ## 2. General Pages
 
 ### 2.1. Map
-This folder contains components for Georeferencing documents:
+This folder contains components for Georeferencing documents on map:
 
 ### Draggable Marker
 **File**: `modules/GeneralPagaes/Map/DraggableMarker.tsx`  
@@ -236,6 +244,48 @@ This components is used by the logged in user to assign a new (lat, long) to the
 ### Explore Map
 **File**: `modules/GeneralPagaes/Map/ExploreMap.tsx`  
 The component  provides functionality for displaying documents as markers on a clustered map and integrates with draggable markers for user interaction
+
+---
+### 2.2. Diagram
+This folder contains components for Georeferencing documents on diagram:
+
+### BG Table 
+**File**: `undefined now`  
+This component renders a large HTML table with a predefined structure.
+
+---
+
+### Diagram Area 
+**File**: `undefined now`  
+The component is  designed to render an interactive diagram.
+
+---
+
+### Header  
+**File**: `undefined now`  
+The component is  designed to render a table header containing a list of years.
+
+---
+
+### Icon 
+**File**: `undefined now`
+This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
+
+---
+
+### Node Form 
+**File**: `undefined now`
+The component is designed to provide a form interface for adding a new node to diagram. It allows users to input the necessary data for a new node, such as its ID, label, and position coordinates (X and Y), and then submit this data.
+
+---
+### Sidebar  
+**File**: `undefined now`
+This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
+
+---
+### Zoom Slider  
+**File**: `undefined now`
+The component is designed to control and display the zoom level of a viewport in the diagram. 
 
 ---
 
