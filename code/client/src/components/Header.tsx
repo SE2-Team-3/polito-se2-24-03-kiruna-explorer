@@ -11,7 +11,7 @@ const Header = ({ generateYears, classname }: {generateYears:any,classname:any})
       <thead>
         <tr>
           {generateYears().map((year: any) => (
-            <th key={year} className="header-cell">
+            <th key={year} id={`head-${year}`} className="header-cell">
               {year}
             </th>
           ))}

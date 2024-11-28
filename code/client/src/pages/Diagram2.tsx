@@ -17,12 +17,25 @@ import { getDocuments, getConnections } from "../API/API";
 import Connection from "../models/Connection";
 
 const xPosCalculator=(date:string|null)=>{
-    if (date==null) return 0
-    let month=0, day=0
-    const year=parseInt(date.slice(0,4))-2004
-    if (date.length>=6) month=parseInt(date.split('-')[1])-1
-    if (date.length>=8) day=parseInt(date.split('-')[2])-1
-    return 200+year*200+(month*200/12)+(day*200/12/30)
+    if (date==null) return 200
+    let month=0, day=0, x=200, y=2004, temp
+    const year=parseInt(date.slice(0,4))
+    while (y<year) {
+        temp=document.getElementById(`head-${y}`)?.offsetWidth
+        if (temp) x=x+temp
+        y++
+    }
+    if (date.length>=6) {
+        month=parseInt(date.split('-')[1])-1
+        temp=document.getElementById(`head-${year}`)?.offsetWidth
+        if (temp) x=x+month*temp/12
+    }
+    if (date.length>=8) {
+        day=parseInt(date.split('-')[2])-1
+        temp=document.getElementById(`head-${year}`)?.offsetWidth
+        if (temp) x=x+day*temp/12/30
+    }
+    return x
 }
 
 const yPosCalculator=(scale:string)=>{
@@ -64,6 +77,19 @@ const Diagram2=()=> {
                         position: {x:xPosCalculator(d.issuanceDate),y:yPosCalculator(d.scale)},
                         zIndex:5
                     })
+                }
+                
+                const years=[2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+                const counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                for (const d of initialDocs) {
+                    if (d.issuanceDate) {
+                            const year=parseInt(d.issuanceDate.slice(0,4))
+                            counts[year-2004]++
+                        }
+                    }
+                for (const y of years) {
+                    let e=document.getElementById(`head-${y}`)
+                    e?.style.setProperty('width',(50+counts[y-2004]*50)+"px")
                 }
                 setNodes(newNodes)
             }
