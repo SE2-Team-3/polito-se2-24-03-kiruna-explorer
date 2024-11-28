@@ -1,27 +1,30 @@
-import React, { useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import Document from "../../../models/document";
 import "./FilterPopup.css";
+import API from "../../../API/API";
 
 interface FilterProps {
-  onFilterApply: (filters: Record<string, any>) => void;
+  setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
 }
 
-const FilterTable: React.FC<FilterProps> = ({ onFilterApply }) => {
-  const [filters, setFilters] = useState({
-    typeDocument: [],
+const FilterTable: FC<FilterProps> = (props) => {
+  const [filters, setFilters] = useState<Filters>({
+    documentType: "",
     stakeholders: [],
     connection: "",
     pages: "",
     startDate: "",
     endDate: "",
   });
+  console.log(filters);
 
   interface Filters {
-    typeDocument: string[];
-    stakeholders: string[];
-    connection: string;
-    pages: string;
-    startDate: string;
-    endDate: string;
+    documentType?: string;
+    stakeholders?: string | string[];
+    connection?: string;
+    pages?: string;
+    startDate?: string;
+    endDate?: string;
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -44,7 +47,10 @@ const FilterTable: React.FC<FilterProps> = ({ onFilterApply }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onFilterApply(filters); // Applica i filtri passando i dati al componente padre
+    //onFilterApply(filters); // Applica i filtri passando i dati al componente padre
+    API.getFilteredDocuments(filters).then((docs) => {
+      props.setFilteredDocuments(docs);
+    });
   };
 
   return (
@@ -56,17 +62,17 @@ const FilterTable: React.FC<FilterProps> = ({ onFilterApply }) => {
           <label>Scale</label>
           <div>
             <label>
-              <input type="checkbox" name="typeDocument" value="Text" onChange={handleChange} />
+              <input type="checkbox" name="documentType" value="Text" onChange={handleChange} />
               Text
             </label>
             <label>
-              <input type="checkbox" name="typeDocument" value="Concept" onChange={handleChange} />
+              <input type="checkbox" name="documentType" value="Concept" onChange={handleChange} />
               Concept
             </label>
             <label>
               <input
                 type="checkbox"
-                name="typeDocument"
+                name="documentType"
                 value="Architectural plan"
                 onChange={handleChange}
               />
@@ -75,11 +81,11 @@ const FilterTable: React.FC<FilterProps> = ({ onFilterApply }) => {
             <label>
               <input
                 type="checkbox"
-                name="typeDocument"
-                value="Blueprints"
+                name="documentType"
+                value="Blueprints/actions"
                 onChange={handleChange}
               />
-              Blueprints
+              Blueprints/actions
             </label>
           </div>
         </div>
