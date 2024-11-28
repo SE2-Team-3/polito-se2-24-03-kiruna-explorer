@@ -175,7 +175,7 @@ function getFilteredDocuments(filters: {
   console.log(queryParams.toString());
 
   // Effettua la richiesta GET
-  return fetch(`http://localhost:3001/documents/filtered?${queryParams.toString()}`, {
+  return fetch(`${baseURL}documents/filtered?${queryParams.toString()}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
