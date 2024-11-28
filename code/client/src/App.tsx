@@ -133,7 +133,7 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route path="/explore-map" element={<ExploreMap />} />
+                <Route path="/explore-map" element={<ExploreMap searchTitle={searchTitle} />} />
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"

@@ -31,8 +31,16 @@ const FilterTable: FC<FilterProps> = (props) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
 
     setFilters((prevFilters) => {
+      if (type === "checkbox" && name === "documentType") {
+        // Permetti una sola selezione per le checkbox di "documentType"
+        return {
+          ...prevFilters,
+          documentType: checked ? value : "",
+        };
+      }
+
+      const key = name as keyof Filters;
       if (type === "checkbox") {
-        const key = name as keyof Filters; // Specifica esplicitamente la chiave
         const updatedList = checked
           ? [...(prevFilters[key] as string[]), value]
           : (prevFilters[key] as string[]).filter((item) => item !== value);
@@ -40,7 +48,6 @@ const FilterTable: FC<FilterProps> = (props) => {
         return { ...prevFilters, [key]: updatedList };
       }
 
-      const key = name as keyof Filters; // Specifica esplicitamente la chiave
       return { ...prevFilters, [key]: value };
     });
   };
@@ -62,11 +69,23 @@ const FilterTable: FC<FilterProps> = (props) => {
           <label>Scale</label>
           <div>
             <label>
-              <input type="checkbox" name="documentType" value="Text" onChange={handleChange} />
+              <input
+                type="checkbox"
+                name="documentType"
+                value="Text"
+                checked={filters.documentType === "Text"}
+                onChange={handleChange}
+              />
               Text
             </label>
             <label>
-              <input type="checkbox" name="documentType" value="Concept" onChange={handleChange} />
+              <input
+                type="checkbox"
+                name="documentType"
+                value="Concept"
+                checked={filters.documentType === "Concept"}
+                onChange={handleChange}
+              />
               Concept
             </label>
             <label>
@@ -74,6 +93,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                 type="checkbox"
                 name="documentType"
                 value="Architectural plan"
+                checked={filters.documentType === "Architectural plan"}
                 onChange={handleChange}
               />
               Architectural plan
@@ -83,6 +103,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                 type="checkbox"
                 name="documentType"
                 value="Blueprints/actions"
+                checked={filters.documentType === "Blueprints/actions"}
                 onChange={handleChange}
               />
               Blueprints/actions
@@ -131,7 +152,6 @@ const FilterTable: FC<FilterProps> = (props) => {
             </label>
           </div>
         </div>
-
         {/* Connection */}
         <div className="filter-group">
           <label>Connection</label>
