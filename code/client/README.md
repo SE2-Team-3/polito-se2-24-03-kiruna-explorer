@@ -7,46 +7,7 @@ This document lists all components and routes that compose the Kiruna Explorer a
 - [Expanding the ESLint configuration](#expanding-the-eslint-configuration)
 - [Client Application Routes](#client-application-routes)
 - [Client Application Components](#client-application-components)
-  - [1. General Components](#1-general-components)
-    - [Left Side Bar](#left-side-bar)
-    - [Nav Bar](#nav-bar)
-    - [User Context](#user-context)
-    - [Sidebar Provider](#sidebar-provider)
-    - [Toast Provider](#toast-provider)
-  - [2. General Pages](#2-general-pages)
-    - [2.1. Map](#21-map)
-      - [Draggable Marker](#draggable-marker)
-      - [Explore Map](#explore-map)
-    - [Home](#home)
-    - [Login](#login)
-  - [3. Urban Planner](#4-urban-planner)
-    - [3.1. Add Document Form](#31-add-document-form)
-      - [Data Selection](#data-selection)
-      - [Document Details](#document-details)
-      - [Language Selection](#language-selection)
-      - [LinkEntry Form](#linkentry-form)
-      - [Link Type Selection](#link-type-selection)
-      - [Node Type](#node-type)
-      - [Page Selection](#page-selection)
-      - [Scale Selection](#scale-selection)
-      - [Stakeholders Selection](#stakeholders-selection)
-      - [Step One](#step-one)
-      - [Step Two](#step-two)
-      - [Step Three](#step-three)
-      - [Add Document With Component](#add-document-with-component)
-      - [Multiple Direct Link Form](#multiple-direct-link-form)
-        - [3.1.1. Georeference](#311-georeference)
-          - [Georeference Selection](#georeference-selection)
-          - [Georeference Type Selection](#georeference-type-selection)
-          - [Mini Map Modal](#mini-map-modal)
-    - [3.2. Link Document Form](#32-link-document-form)
-      - [Document Selector](#document-selector)
-      - [Link Type Selector](#link-type-selector)
-      - [Link Document Form](#link-document-form)
-    - [3.3. Urban Planner Dashboard](#33-urban-planner-dashboard)
-    - [3.4. Documents List](#34-documents-lists)
-    - [3.5. Add Resource Form](#35-add-resource-form)
-
+- [UI Application screenshots-first release](#ui-application-screenshots)
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -185,6 +146,47 @@ The `App` component defines a set of routes to handle navigation between differe
 
 
 # Client Application Components
+
+ - [Back to table of contents](#table-of-contents)
+ - [1. General Components](#1-general-components)
+    - [Left Side Bar](#left-side-bar)
+    - [Nav Bar](#nav-bar)
+    - [User Context](#user-context)
+    - [Sidebar Provider](#sidebar-provider)
+    - [Toast Provider](#toast-provider)
+  - [2. General Pages](#2-general-pages)
+    - [2.1. Map](#21-map)
+      - [Draggable Marker](#draggable-marker)
+      - [Explore Map](#explore-map)
+    - [Home](#home)
+    - [Login](#login)
+  - [3. Urban Planner](#4-urban-planner)
+    - [3.1. Add Document Form](#31-add-document-form)
+      - [Data Selection](#data-selection)
+      - [Document Details](#document-details)
+      - [Language Selection](#language-selection)
+      - [LinkEntry Form](#linkentry-form)
+      - [Link Type Selection](#link-type-selection)
+      - [Node Type](#node-type)
+      - [Page Selection](#page-selection)
+      - [Scale Selection](#scale-selection)
+      - [Stakeholders Selection](#stakeholders-selection)
+      - [Step One](#step-one)
+      - [Step Two](#step-two)
+      - [Step Three](#step-three)
+      - [Add Document With Component](#add-document-with-component)
+      - [Multiple Direct Link Form](#multiple-direct-link-form)
+        - [3.1.1. Georeference](#311-georeference)
+          - [Georeference Selection](#georeference-selection)
+          - [Georeference Type Selection](#georeference-type-selection)
+          - [Mini Map Modal](#mini-map-modal)
+    - [3.2. Link Document Form](#32-link-document-form)
+      - [Document Selector](#document-selector)
+      - [Link Type Selector](#link-type-selector)
+      - [Link Document Form](#link-document-form)
+    - [3.3. Urban Planner Dashboard](#33-urban-planner-dashboard)
+    - [3.4. Documents List](#34-documents-lists)
+    - [3.5. Add Resource Form](#35-add-resource-form)
 
 ## 1. General Components
 
@@ -385,6 +387,10 @@ This component allows users to view, navigate, and interact with document-relate
 This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
 
 ---
-
-
-
+# **UI Application screenshots** 
+### Login page
+![Login Page](../../Screenshots/Demo-2/screenshot-1.png)
+### Add document page
+![Add document Page](../../Screenshots/Demo-2/screenshot-2.png)
+### Georeference document on map
+![Georeference document on map](../../Screenshots/Demo-2/screenshot-3.png)
