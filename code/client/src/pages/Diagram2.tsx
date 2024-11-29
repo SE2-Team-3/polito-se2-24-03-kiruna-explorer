@@ -22,6 +22,7 @@ import EdgeCollateralConsequence from "../components/customEdge/EdgeCollateralCo
 import EdgePrevision from "../components/customEdge/EdgePrevision";
 import EdgeUpdate from "../components/customEdge/EdgeUpdate";
 import EdgeDefault from "../components/customEdge/EdgeDefault";
+import Popup from "../components/Popup";
 
 const xPosCalculator = (date: string | null) => {
   if (date == null) return 200;
@@ -80,6 +81,8 @@ const edgeTypes = {
 const Diagram2 = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
 
   useEffect(() => {
     async function getDocs() {
@@ -93,7 +96,7 @@ const Diagram2 = () => {
             data: {
               label: d.documentId,
               nodeType: d.nodeType,
-              showEdges: true,
+              showEdges: false,
             },
             width: 30,
             position: {
@@ -125,34 +128,39 @@ const Diagram2 = () => {
         setNodes(newNodes);
       }
       if (initialConnections.length) {
-        let newEdges: Edge[] = [];
+        const connectionsMap: Record<string, string[]> = {};
+
         for (const c of initialConnections) {
-          let edgeType = "";
-          switch (c.connection) {
-            case "direct consequence":
-              edgeType = "direct consequence";
-              break;
-            case "collateral consequence":
-              edgeType = "collateral consequence";
-              break;
-            case "prevision":
-              edgeType = "prevision";
-              break;
-            case "update":
-              edgeType = "update";
-              break;
-            default:
-              edgeType = "default";
-              break;
+          const pairKey = `${c.documentId1}-${c.documentId2}`;
+          if (!connectionsMap[pairKey]) {
+            connectionsMap[pairKey] = [];
           }
-          newEdges.push({
-            id: `${c.documentId1}-${c.documentId2}`,
-            source: c.documentId1.toString(),
-            target: c.documentId2.toString(),
-            type: edgeType,
-            data: { linkType: c.connection },
-            zIndex: 4,
-          });
+          connectionsMap[pairKey].push(c.connection);
+        }
+
+        let newEdges: Edge[] = [];
+        for (const [pairKey, linkTypes] of Object.entries(connectionsMap)) {
+          const [source, target] = pairKey.split("-");
+
+          if (linkTypes.length === 1) {
+            newEdges.push({
+              id: `${source}-${target}-${linkTypes[0]}`,
+              source,
+              target,
+              type: linkTypes[0],
+              data: { linkTypes },
+              zIndex: 4,
+            });
+          } else {
+            newEdges.push({
+              id: `${source}-${target}-default`,
+              source,
+              target,
+              type: "default",
+              data: { linkTypes, label: `${linkTypes.length} connessioni` },
+              zIndex: 4,
+            });
+          }
         }
         setEdges(newEdges);
       }
@@ -174,6 +182,18 @@ const Diagram2 = () => {
     (params: any) => setEdges((eds) => addEdge(params, eds)),
     []
   );
+
+  const onEdgeClick = useCallback((event: any, edge: any) => {
+    if (edge?.type === "default" && edge?.data?.linkTypes) {
+      // Quando si clicca su un edge di tipo "default", mostra il popup con i linkTypes
+      setLinkTypesForPopup(edge.data.linkTypes);
+      setPopupVisible(true);
+    }
+  }, []);
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
 
   return (
     <>
@@ -200,7 +220,11 @@ const Diagram2 = () => {
                 [5000, 748],
               ]}
               minZoom={1}
+              onEdgeClick={onEdgeClick}
             >
+              {popupVisible && (
+                <Popup linkTypes={linkTypesForPopup} onClose={closePopup} />
+              )}
               <ViewportPortal>
                 {/*It's 3 different tables, it's most likely better to just use one single table, will do in future maybe*/}
                 <Header generateYears={null} classname="header-trans" />
