@@ -136,8 +136,8 @@ const DateSelection = (props: Props) => {
             >
               <option value="">mm</option>
               {Array.from({ length: 12 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
+                <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
+                  {String(i + 1).padStart(2, '0')}
                 </option>
               ))}
             </Form.Select>
@@ -155,8 +155,8 @@ const DateSelection = (props: Props) => {
             >
               <option value="">dd</option>
               {Array.from({ length: 31 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
+                <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
+                  {String(i + 1).padStart(2, '0')}
                 </option>
               ))}
             </Form.Select>
