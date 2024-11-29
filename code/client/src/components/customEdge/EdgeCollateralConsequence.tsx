@@ -1,4 +1,4 @@
-import { EdgeProps, getStraightPath } from "@xyflow/react";
+import { EdgeProps, getBezierPath } from "@xyflow/react";
 
 const EdgeCollateralConsequence = ({
   id,
@@ -9,11 +9,14 @@ const EdgeCollateralConsequence = ({
   sourcePosition,
   targetPosition,
 }: EdgeProps) => {
-  const [edgePath] = getStraightPath({
+  // Otteniamo il percorso Bezier
+  const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
     targetY,
+    sourcePosition,
+    targetPosition,
   });
 
   return (

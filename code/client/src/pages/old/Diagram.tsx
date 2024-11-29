@@ -1,10 +1,10 @@
-import "../style/Diagram.css";
+import "../../style/Diagram.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useCallback, useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import NodeForm from "../components/NodeForm";
-import DiagramArea from "../components/DiagramArea";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../components/Header";
+import NodeForm from "../../components/old/NodeForm";
+import DiagramArea from "../../components/old/DiagramArea";
 import {
   addEdge,
   applyNodeChanges,
@@ -190,7 +190,7 @@ const Diagram = () => {
       <div style={{ display: "flex", marginTop: "15px" }}>
         <Sidebar doctype={doctype} classname={null} />
         <div className="scroll-container">
-          <Header generateYears={generateYears} classname={null}/>
+          <Header generateYears={generateYears} classname={null} />
           <DiagramArea
             nodes={nodes}
             edges={edges}

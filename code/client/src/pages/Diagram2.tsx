@@ -1,82 +1,24 @@
-import { ReactFlow, Node, Edge, EdgeProps } from "@xyflow/react";
+import { ReactFlow, Node, Edge } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
 import { ReactFlowProvider } from "@xyflow/react";
 
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import BGTable from "../components/BGTable";
+import Popup from "../components/Popup";
 
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
-import FunctionIcon from "../components/Icon";
 import { addEdge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import Document from "../models/document";
-import { getDocuments, getConnections } from "../API/API";
 import Connection from "../models/Connection";
+import { getDocuments, getConnections } from "../API/API";
 
-import EdgeDirectConsequence from "../components/customEdge/EdgeDirectConsequence";
-import EdgeCollateralConsequence from "../components/customEdge/EdgeCollateralConsequence";
-import EdgePrevision from "../components/customEdge/EdgePrevision";
-import EdgeUpdate from "../components/customEdge/EdgeUpdate";
-import EdgeDefault from "../components/customEdge/EdgeDefault";
-import Popup from "../components/Popup";
-
-const xPosCalculator = (date: string | null) => {
-  if (date == null) return 200;
-  let month = 0,
-    day = 0,
-    x = 200,
-    y = 2004,
-    temp;
-  const year = parseInt(date.slice(0, 4));
-  while (y < year) {
-    temp = document.getElementById(`head-${y}`)?.offsetWidth;
-    if (temp) x = x + temp;
-    y++;
-  }
-  if (date.length >= 6) {
-    month = parseInt(date.split("-")[1]) - 1;
-    temp = document.getElementById(`head-${year}`)?.offsetWidth;
-    if (temp) x = x + (month * temp) / 12;
-  }
-  if (date.length >= 8) {
-    day = parseInt(date.split("-")[2]) - 1;
-    temp = document.getElementById(`head-${year}`)?.offsetWidth;
-    if (temp) x = x + (day * temp) / 12 / 30;
-  }
-  return x;
-};
-
-const yPosCalculator = (scale: string) => {
-  const isPlan = new RegExp("^[0-9]*$");
-
-  //650 floor 250 ceiling
-  if (isPlan.test(scale)) {
-    const s = parseInt(scale);
-    if (s > 100000) return 650 - 400;
-    if (s > 10000) return 650 - 350;
-    if (s > 5000) return 650 - 250;
-    if (s > 1000) return 650 - 150;
-    return 650 - 50;
-  }
-
-  if (scale === "Text") return 50 + 50;
-  if (scale === "Concept") return 50 + 100;
-  return 50 + 650;
-};
-
-const nodeTypes = { icon: FunctionIcon };
-
-const edgeTypes = {
-  "direct consequence": EdgeDirectConsequence,
-  "collateral consequence": EdgeCollateralConsequence,
-  prevision: EdgePrevision,
-  update: EdgeUpdate,
-  default: EdgeDefault,
-};
+import { xPosCalculator, yPosCalculator } from "../utils/positionCalculators";
+import { nodeTypes, edgeTypes } from "../utils/nodeAndEdgeTypes";
 
 const Diagram2 = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -185,7 +127,6 @@ const Diagram2 = () => {
 
   const onEdgeClick = useCallback((event: any, edge: any) => {
     if (edge?.type === "default" && edge?.data?.linkTypes) {
-      // Quando si clicca su un edge di tipo "default", mostra il popup con i linkTypes
       setLinkTypesForPopup(edge.data.linkTypes);
       setPopupVisible(true);
     }
@@ -231,7 +172,7 @@ const Diagram2 = () => {
                 <Sidebar doctype={null} classname="sidebar-trans" />
                 <BGTable />
 
-                <h1 className="point-trans">T</h1>
+                {/*<h1 className="point-trans">T</h1>*/}
               </ViewportPortal>
             </ReactFlow>
           </div>

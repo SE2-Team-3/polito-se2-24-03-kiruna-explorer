@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Diagram from "./pages/Diagram";
-import Diagram2 from "./pages/Diagram2"
+import Diagram from "./pages/old/Diagram";
+import Diagram2 from "./pages/Diagram2";
 
 function App() {
   return (
     <Routes>
       <Route path="/diagram" element={<Diagram />} />
-      <Route path='/diagram2' element={ <Diagram2 />}/>
+      <Route path="/diagram2" element={<Diagram2 />} />
     </Routes>
   );
 }

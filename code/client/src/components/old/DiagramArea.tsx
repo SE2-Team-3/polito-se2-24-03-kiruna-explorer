@@ -1,5 +1,5 @@
 import ReactFlow, { Background } from "react-flow-renderer";
-import FunctionIcon from "./Icon"; // Import your icon component
+import FunctionIcon from "../Icon"; // Import your icon component
 
 const nodeTypes = { icon: FunctionIcon };
 

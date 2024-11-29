@@ -1,11 +1,11 @@
 // src/components/Diagram.tsx
-import "../style/Diagram.css";
+import "../../style/Diagram.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useCallback, useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import NodeForm from "../components/NodeForm";
-import DiagramArea from "../components/DiagramArea";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../components/Header";
+import NodeForm from "../../components/old/NodeForm";
+import DiagramArea from "../../components/old/DiagramArea";
 import {
   addEdge,
   applyNodeChanges,
