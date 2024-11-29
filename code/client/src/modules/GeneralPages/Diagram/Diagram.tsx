@@ -2,28 +2,33 @@ import { ReactFlow, Node, Edge } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
 import { ReactFlowProvider } from "@xyflow/react";
 
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import BGTable from "../components/BGTable";
-import Popup from "../components/Popup";
+import Header from "../../../components/Header";
+import Sidebar from "../../../components/Sidebar";
+import BGTable from "../../../components/BGTable";
+import Popup from "../../../components/Popup";
 
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { addEdge } from "@xyflow/react";
 
-import Document from "../models/document";
-import Connection from "../models/Connection";
-import API from "../API/API";
+import Document from "../../../models/document";
+import Connection from "../../../models/Connection";
+import API from "../../../API/API";
+import { useSidebar } from "../../../components/SidebarContext";
 
-import { xPosCalculator, yPosCalculator } from "../utils/positionCalculators";
-import { nodeTypes, edgeTypes } from "../utils/nodeAndEdgeTypes";
+import {
+  xPosCalculator,
+  yPosCalculator,
+} from "../../../utils/positionCalculators";
+import { nodeTypes, edgeTypes } from "../../../utils/nodeAndEdgeTypes";
 
-const Diagram2 = () => {
+const Diagram = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [popupVisible, setPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
+  const { isSidebarOpen } = useSidebar();
 
   useEffect(() => {
     async function getDocs() {
@@ -136,9 +141,9 @@ const Diagram2 = () => {
   };
 
   return (
-    <>
+    <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <ReactFlowProvider>
-        <h1>Sopra diagramma</h1>
+        {/*<h1>Sopra diagramma</h1>*/}
         <div
           style={{ width: "100vw", height: "750px", border: "solid 1px green" }}
         >
@@ -176,11 +181,11 @@ const Diagram2 = () => {
             </ReactFlow>
           </div>
 
-          <h1>Sotto diagramma</h1>
+          {/*<h1>Sotto diagramma</h1>*/}
         </div>
       </ReactFlowProvider>
-    </>
+    </div>
   );
 };
 
-export default Diagram2;
+export default Diagram;

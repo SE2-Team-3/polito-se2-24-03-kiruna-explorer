@@ -9,6 +9,7 @@ import NewDocumentSelected from "../assets/icons/document selected.svg";
 import NewLinkSelected from "../assets/icons/link selected.svg";
 import NewLink from "../assets/icons/link notselected.svg";
 import { PiMapPinAreaDuotone, PiMapPinAreaLight } from "react-icons/pi";
+import { FaDiagramProject } from "react-icons/fa6";
 import { TiDocumentAdd } from "react-icons/ti";
 import { HiDocumentAdd } from "react-icons/hi";
 import { CiLogin } from "react-icons/ci";
@@ -49,6 +50,10 @@ const LeftSideBar = (props: { logout: () => void }) => {
     toggleSidebar();
   };
 
+  const handleNavigation5 = () => {
+    navigate("/diagram");
+    toggleSidebar();
+  };
   return (
     <>
       <div className="menu-icon" onClick={toggleSidebar}>
@@ -141,26 +146,64 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="text-box">Documents List</span>
                 </div>{" "}
               </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/diagram" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation5}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/diagram" ? (
+                      <FaDiagramProject />
+                    ) : (
+                      <FaDiagramProject />
+                    )}
+                  </span>
+                  <span className="text-box">Diagram</span>
+                </div>
+              </Row>
             </Col>
           ) : (
-            <Row>
-              <div
-                className={`menu-text-container ${
-                  location.pathname === "/explore-map" ? "highlighted" : ""
-                }`}
-                role="button"
-                onClick={handleNavigation4}
-              >
-                <span className="file-icon-box">
-                  {location.pathname === "/explore-map" ? (
-                    <PiMapPinAreaDuotone />
-                  ) : (
-                    <PiMapPinAreaLight />
-                  )}
-                </span>
-                <span className="text-box">View documents</span>
-              </div>
-            </Row>
+            <>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/explore-map" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation4}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/explore-map" ? (
+                      <PiMapPinAreaDuotone />
+                    ) : (
+                      <PiMapPinAreaLight />
+                    )}
+                  </span>
+                  <span className="text-box">View documents</span>
+                </div>
+              </Row>
+              <Row>
+                <div
+                  className={`menu-text-container ${
+                    location.pathname === "/diagram" ? "highlighted" : ""
+                  }`}
+                  role="button"
+                  onClick={handleNavigation5}
+                >
+                  <span className="file-icon-box">
+                    {location.pathname === "/diagram" ? (
+                      <FaDiagramProject />
+                    ) : (
+                      <FaDiagramProject />
+                    )}
+                  </span>
+                  <span className="text-box">Diagram</span>
+                </div>
+              </Row>
+            </>
           )}
         </Row>
         <Row className="bottom-side-box">
