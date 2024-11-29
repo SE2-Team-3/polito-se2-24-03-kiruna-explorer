@@ -62,7 +62,9 @@ class DocumentDAO {
               (err: Error | null) => {
                 if (err) return reject(err);
                 if (georeference) {
-                  const name = georeferenceName ? georeferenceName : "geo" + georeferenceId;
+                  const name = georeferenceName
+                    ? georeferenceName
+                    : "geo" + georeferenceId;
                   db.run(
                     createGeoreferenceSql,
                     [georeferenceId, coordinates, name, isArea],
@@ -101,7 +103,7 @@ class DocumentDAO {
       try {
         const sql = "INSERT INTO DocumentConnections VALUES (?,?,?)";
 
-        linkType = Utility.emptyFixer(linkType)
+        linkType = Utility.emptyFixer(linkType);
 
         db.run(sql, [documentId1, documentId2, linkType], (err: any) => {
           if (err) {
@@ -219,46 +221,69 @@ class DocumentDAO {
     return count > 0;
   }
 
-  async uploadResource(documentId: number, files: Express.Multer.File[]): Promise<any> {
+  async uploadResource(
+    documentId: number,
+    files: Express.Multer.File[]
+  ): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       try {
         const checkDocumentSql = "SELECT 1 FROM Document WHERE documentId = ?";
         const insertResourceSql = "INSERT INTO Resource (data) VALUES (?)";
-        const insertDocResSql = "INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (?, ?, ?, ?)";
+        const insertDocResSql =
+          "INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (?, ?, ?, ?)";
 
-        if (!files || files.length === 0) return reject(new Error("No file uploaded"));
+        if (!files || files.length === 0)
+          return reject(new Error("No file uploaded"));
 
-        db.get(checkDocumentSql, [documentId], (err: Error | null, row: any) => {
-          if (err) return reject(err);
-          if (!row) return reject(new Error("Document not found"));
+        db.get(
+          checkDocumentSql,
+          [documentId],
+          (err: Error | null, row: any) => {
+            if (err) return reject(err);
+            if (!row) return reject(new Error("Document not found"));
 
-          const uploadPromises = files.map(file => {
-            return new Promise<any>((res, rej) => {
-              db.run(insertResourceSql, [file.buffer], function (err: Error | null) {
-                if (err) return rej(err);
-                const resourceId = this.lastID;
-                db.run(insertDocResSql, [documentId, resourceId, file.mimetype, file.originalname], (err: Error | null) => {
-                  if (err) return rej(err);
-                  res({
-                    resourceId: resourceId,
-                    fileName: file.originalname,
-                    fileType: file.mimetype,
-                    message: "Resource uploaded successfully",
-                  });
-                });
+            const uploadPromises = files.map((file) => {
+              return new Promise<any>((res, rej) => {
+                db.run(
+                  insertResourceSql,
+                  [file.buffer],
+                  function (err: Error | null) {
+                    if (err) return rej(err);
+                    const resourceId = this.lastID;
+                    db.run(
+                      insertDocResSql,
+                      [
+                        documentId,
+                        resourceId,
+                        file.mimetype,
+                        file.originalname,
+                      ],
+                      (err: Error | null) => {
+                        if (err) return rej(err);
+                        res({
+                          resourceId: resourceId,
+                          fileName: file.originalname,
+                          fileType: file.mimetype,
+                          message: "Resource uploaded successfully",
+                        });
+                      }
+                    );
+                  }
+                );
               });
             });
-          });
 
-          Promise.all(uploadPromises)
-            .then(results => resolve({
-              status: 201,
-              resources: results,
-              message: "All resources uploaded successfully",
-            }))
-            .catch(error => reject(error));
-        });
-
+            Promise.all(uploadPromises)
+              .then((results) =>
+                resolve({
+                  status: 201,
+                  resources: results,
+                  message: "All resources uploaded successfully",
+                })
+              )
+              .catch((error) => reject(error));
+          }
+        );
       } catch (error) {
         console.error("Unexpected error in uploadResource:", error);
         reject(error);
@@ -332,9 +357,11 @@ class DocumentDAO {
           params.push(`${filters.issuanceDate}%`);
         }
         if (filters.stakeholders && filters.stakeholders.length > 0) {
-          const stakeholderConditions = filters.stakeholders.map(() => `stakeholders LIKE ?`).join(' AND ');
+          const stakeholderConditions = filters.stakeholders
+            .map(() => `stakeholders LIKE ?`)
+            .join(" AND ");
           sql += ` AND (${stakeholderConditions})`;
-          filters.stakeholders.forEach(s => params.push(`%${s}%`));
+          filters.stakeholders.forEach((s) => params.push(`%${s}%`));
         }
 
         db.all(sql, params, (err: Error | null, rows: any[]) => {
@@ -368,42 +395,41 @@ class DocumentDAO {
         FROM DocumentConnections
         WHERE documentId1 = ? OR documentId2 = ?
       `;
-      db.all(sql, [documentId, documentId], (err: Error | null, rows: any[]) => {
-        if (err) {
-          return reject(err);
+      db.all(
+        sql,
+        [documentId, documentId],
+        (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(rows);
         }
-        resolve(rows);
-      });
+      );
     });
   }
 
-  async getGeoreferences(): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      try {
-        const sql = `SELECT georeferenceId, coordinates, georeferenceName, isArea FROM Georeference`;
-        db.all(sql, (err: Error | null, rows: any) => {
-          if (err) return reject(err);
+  async getGeoreferences(isArea?: boolean): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      let sql = `SELECT georeferenceId, coordinates, georeferenceName, isArea FROM Georeference`;
+
+      if (isArea === undefined) {
+        try {
+          db.all(sql, (err: Error | null, rows: any) => {
+            if (err) return reject(err);
+            resolve(rows);
+          });
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        sql += ` WHERE isArea = ?`;
+        db.all(sql, [isArea ? 1 : 0], (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
           resolve(rows);
         });
-      } catch (error) {
-        reject(error);
       }
-    });
-  }
-
-  async getGeoreferencesByIsArea(isArea: boolean): Promise<any[]> {
-    return new Promise<any[]>((resolve, reject) => {
-      const sql = `
-        SELECT georeferenceId, coordinates, georeferenceName, isArea
-        FROM Georeference
-        WHERE isArea = ?
-      `;
-      db.all(sql, [isArea ? 1 : 0], (err: Error | null, rows: any[]) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(rows);
-      });
     });
   }
 
@@ -446,7 +472,7 @@ class DocumentDAO {
               issuanceDate,
               language,
               pages,
-              georeferenceId
+              georeferenceId,
             ],
             (err: Error | null) => {
               if (err) return reject(err);
@@ -458,7 +484,6 @@ class DocumentDAO {
             }
           );
         });
-
       } catch (error) {
         return reject(error);
       }
