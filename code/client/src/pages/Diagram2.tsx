@@ -99,7 +99,7 @@ const Diagram2 = () => {
               source,
               target,
               type: "default",
-              data: { linkTypes, label: `${linkTypes.length} connessioni` },
+              data: { linkTypes, label: `${linkTypes.length} connections` },
               zIndex: 4,
             });
           }
