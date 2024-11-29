@@ -11,11 +11,10 @@ import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { addEdge } from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
 
 import Document from "../models/document";
 import Connection from "../models/Connection";
-import { getDocuments, getConnections } from "../API/API";
+import API from "../API/API";
 
 import { xPosCalculator, yPosCalculator } from "../utils/positionCalculators";
 import { nodeTypes, edgeTypes } from "../utils/nodeAndEdgeTypes";
@@ -28,8 +27,8 @@ const Diagram2 = () => {
 
   useEffect(() => {
     async function getDocs() {
-      const initialDocs: Document[] = await getDocuments();
-      const initialConnections: Connection[] = await getConnections();
+      const initialDocs: Document[] = await API.getDocuments();
+      const initialConnections: Connection[] = await API.getConnections();
       if (initialDocs.length) {
         let newNodes: Node[] = [];
         for (const d of initialDocs) {
