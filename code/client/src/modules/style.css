@@ -869,10 +869,21 @@ MAP
   .sidebar-container:hover ~ .map-wrapper {
     left: 300px;
   }
+
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 70px;
+  }
+  .sidebar-container:hover ~ .diagram-wrapper {
+    left: 300px;
+  }
 }
 
 @media (max-width: 768px) {
   .map-wrapper {
+    left: 0;
+  }
+
+  .diagram-wrapper {
     left: 0;
   }
   .modal-title.h4 {
@@ -883,6 +894,13 @@ MAP
     left: 60px;
   }
   .sidebar-container:hover ~ .map-wrapper {
+    left: 300px;
+  }
+
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 60px;
+  }
+  .sidebar-container:hover ~ .diagram-wrapper {
     left: 300px;
   }
 }
@@ -1102,6 +1120,17 @@ DIAGRAM
   overflow-y: hidden;
 }
 
+.sidebar-container.open ~ .diagram-wrapper {
+  left: 75px;
+}
+.sidebar-container:hover ~ .diagram-wrapper {
+  left: 350px;
+}
+
+.react-flow__pane {
+  background-color: white;
+  border: none;
+}
 .react-flow__edge {
   stroke: #333;
 }
@@ -1131,13 +1160,12 @@ DIAGRAM
 }
 
 .header-cell {
-  border-top: 1px solid #333;
+  border-top: 1px solid transparent;
   border-left: 1px solid #333;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
   text-align: left;
   font-weight: bold;
-  width: 200px;
 }
 
 .side-table {
@@ -1146,7 +1174,7 @@ DIAGRAM
 
 .side-cell {
   border-top: 1px solid #333;
-  border-left: 1px solid #333;
+  border-left: 1px solid transparent;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
   height: 100px;

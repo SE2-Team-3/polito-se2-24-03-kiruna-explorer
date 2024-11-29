@@ -25,9 +25,9 @@ export const xPosCalculator = (date: string | null) => {
 };
 
 export const yPosCalculator = (scale: string) => {
-  const isPlan = new RegExp("^[0-9]*$");
+  //const isPlan = new RegExp("^[0-9]*$");
 
-  //650 floor 250 ceiling
+  /*650 floor 250 ceiling
   if (isPlan.test(scale)) {
     const s = parseInt(scale);
     if (s > 100000) return 650 - 400;
@@ -35,6 +35,21 @@ export const yPosCalculator = (scale: string) => {
     if (s > 5000) return 650 - 250;
     if (s > 1000) return 650 - 150;
     return 650 - 50;
+  }
+  */
+
+  if (scale.includes(":")) {
+    const parts = scale.split(":");
+    if (parts.length === 2) {
+      const ratio = parseInt(parts[1]);
+      if (!isNaN(ratio)) {
+        if (ratio > 100000) return 650 - 400;
+        if (ratio > 10000) return 650 - 350;
+        if (ratio > 5000) return 650 - 250;
+        if (ratio > 1000) return 650 - 150;
+        return 650 - 50;
+      }
+    }
   }
 
   if (scale === "Text") return 50 + 50;

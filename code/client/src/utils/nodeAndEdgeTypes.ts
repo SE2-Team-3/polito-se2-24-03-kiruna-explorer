@@ -1,4 +1,4 @@
-import FunctionIcon from "../components/Icon";
+import FunctionIcon from "../components/diagramComponents/Icon";
 import EdgeDirectConsequence from "../components/customEdge/EdgeDirectConsequence";
 import EdgeCollateralConsequence from "../components/customEdge/EdgeCollateralConsequence";
 import EdgePrevision from "../components/customEdge/EdgePrevision";

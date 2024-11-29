@@ -2,10 +2,10 @@ import { ReactFlow, Node, Edge } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
 import { ReactFlowProvider } from "@xyflow/react";
 
-import Header from "../../../components/Header";
-import Sidebar from "../../../components/Sidebar";
-import BGTable from "../../../components/BGTable";
-import Popup from "../../../components/Popup";
+import Header from "../../../components/diagramComponents/Header";
+import Sidebar from "../../../components/diagramComponents/Sidebar";
+import BGTable from "../../../components/diagramComponents/BGTable";
+import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
@@ -29,6 +29,7 @@ const Diagram = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
   const { isSidebarOpen } = useSidebar();
+  const [yearWidths, setYearWidths] = useState<number[]>([]);
 
   useEffect(() => {
     async function getDocs() {
@@ -54,23 +55,21 @@ const Diagram = () => {
           });
         }
 
-        const years = [
-          2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014,
-          2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
-        ];
-        const counts = [
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        ];
+        const years = Array.from({ length: 22 }, (_, index) => 2004 + index);
+
+        const counts: number[] = new Array(23).fill(0);
+
         for (const d of initialDocs) {
           if (d.issuanceDate) {
             const year = parseInt(d.issuanceDate.slice(0, 4));
             counts[year - 2004]++;
           }
         }
-        for (const y of years) {
-          let e = document.getElementById(`head-${y}`);
-          e?.style.setProperty("width", 75 + counts[y - 2004] * 50 + "px");
-        }
+        const calculatedYearWidths = years.map(
+          (y) => 75 + counts[y - 2004] * 50
+        );
+        setYearWidths(calculatedYearWidths);
+
         setNodes(newNodes);
       }
       if (initialConnections.length) {
@@ -144,9 +143,7 @@ const Diagram = () => {
     <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <ReactFlowProvider>
         {/*<h1>Sopra diagramma</h1>*/}
-        <div
-          style={{ width: "100vw", height: "750px", border: "solid 1px green" }}
-        >
+        <div style={{ width: "100vw", height: "750px", border: "none" }}>
           <div style={{ height: "100%" }}>
             <ReactFlow
               nodes={nodes}
@@ -168,15 +165,17 @@ const Diagram = () => {
               onEdgeClick={onEdgeClick}
             >
               {popupVisible && (
-                <Popup linkTypes={linkTypesForPopup} onClose={closePopup} />
+                <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />
               )}
               <ViewportPortal>
                 {/*It's 3 different tables, it's most likely better to just use one single table, will do in future maybe*/}
-                <Header generateYears={null} classname="header-trans" />
+                <Header
+                  generateYears={null}
+                  yearWidths={yearWidths}
+                  classname="header-trans"
+                />
                 <Sidebar doctype={null} classname="sidebar-trans" />
-                <BGTable />
-
-                {/*<h1 className="point-trans">T</h1>*/}
+                <BGTable yearWidths={yearWidths} />
               </ViewportPortal>
             </ReactFlow>
           </div>
