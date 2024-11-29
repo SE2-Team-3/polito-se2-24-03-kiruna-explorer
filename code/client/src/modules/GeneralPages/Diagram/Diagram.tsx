@@ -23,6 +23,7 @@ import {
   yPosCalculator,
 } from "../../../utils/positionCalculators";
 import { nodeTypes, edgeTypes } from "../../../utils/nodeAndEdgeTypes";
+import { useOccupiedPositions } from "../../../utils/positionUtils";
 
 const Diagram = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -32,6 +33,7 @@ const Diagram = () => {
   const { isSidebarOpen } = useSidebar();
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const navigate = useNavigate();
+  const { getAvailablePosition } = useOccupiedPositions();
 
   useEffect(() => {
     async function getDocs() {
@@ -40,6 +42,15 @@ const Diagram = () => {
       if (initialDocs.length) {
         let newNodes: Node[] = [];
         for (const d of initialDocs) {
+          let { x, y } = {
+            x: xPosCalculator(d.issuanceDate),
+            y: yPosCalculator(d.scale),
+          };
+
+          const availablePosition = getAvailablePosition(x, y);
+          x = availablePosition.x;
+          y = availablePosition.y;
+
           newNodes.push({
             id: d.documentId.toString(),
             data: {
@@ -48,10 +59,7 @@ const Diagram = () => {
               showEdges: false,
             },
             width: 30,
-            position: {
-              x: xPosCalculator(d.issuanceDate),
-              y: yPosCalculator(d.scale),
-            },
+            position: { x, y },
             zIndex: 5,
             type: "icon",
           });
@@ -170,6 +178,7 @@ const Diagram = () => {
               minZoom={1}
               onEdgeClick={onEdgeClick}
               onNodeClick={(event, node) => handleNodeClick(node.id)}
+              nodesDraggable={false} 
             >
               {popupVisible && (
                 <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />
