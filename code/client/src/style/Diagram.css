@@ -111,7 +111,24 @@
   position: absolute;
 }
 
-svg{
+svg {
   overflow: visible;
   position: absolute;
+}
+
+.node-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 50px;
+  width: auto;
+  height: auto;
+  background: none;
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 0;
+  cursor: move;
+  z-index: 10;
+  padding: auto;
 }
