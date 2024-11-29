@@ -1,4 +1,4 @@
-import { ReactFlow, Node, Edge, Position } from "@xyflow/react";
+import { ReactFlow, Node, Edge, EdgeProps } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
 import { ReactFlowProvider } from "@xyflow/react";
 
@@ -16,6 +16,12 @@ import "@xyflow/react/dist/style.css";
 import Document from "../models/document";
 import { getDocuments, getConnections } from "../API/API";
 import Connection from "../models/Connection";
+
+import EdgeDirectConsequence from "../components/customEdge/EdgeDirectConsequence";
+import EdgeCollateralConsequence from "../components/customEdge/EdgeCollateralConsequence";
+import EdgePrevision from "../components/customEdge/EdgePrevision";
+import EdgeUpdate from "../components/customEdge/EdgeUpdate";
+import EdgeDefault from "../components/customEdge/EdgeDefault";
 
 const xPosCalculator = (date: string | null) => {
   if (date == null) return 200;
@@ -62,6 +68,14 @@ const yPosCalculator = (scale: string) => {
 };
 
 const nodeTypes = { icon: FunctionIcon };
+
+const edgeTypes = {
+  "direct consequence": EdgeDirectConsequence,
+  "collateral consequence": EdgeCollateralConsequence,
+  prevision: EdgePrevision,
+  update: EdgeUpdate,
+  default: EdgeDefault,
+};
 
 const Diagram2 = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -113,13 +127,31 @@ const Diagram2 = () => {
       if (initialConnections.length) {
         let newEdges: Edge[] = [];
         for (const c of initialConnections) {
+          let edgeType = "";
+          switch (c.connection) {
+            case "direct consequence":
+              edgeType = "direct consequence";
+              break;
+            case "collateral consequence":
+              edgeType = "collateral consequence";
+              break;
+            case "prevision":
+              edgeType = "prevision";
+              break;
+            case "update":
+              edgeType = "update";
+              break;
+            default:
+              edgeType = "default";
+              break;
+          }
           newEdges.push({
             id: `${c.documentId1}-${c.documentId2}`,
             source: c.documentId1.toString(),
             target: c.documentId2.toString(),
-            //type: c.connection, //uncomment when custom edges implemented
+            type: edgeType,
+            data: { linkType: c.connection },
             zIndex: 4,
-            type: "icon",
           });
         }
         setEdges(newEdges);
@@ -157,6 +189,7 @@ const Diagram2 = () => {
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
               connectionLineStyle={{ stroke: "rgb(0, 0, 0)", strokeWidth: 2 }}
               panOnDrag={true}
               panOnScroll={true}
