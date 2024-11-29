@@ -833,7 +833,8 @@ MAP
   position: relative;
 }
 
-.map-wrapper {
+.map-wrapper,
+.document-wrapper {
   position: absolute;
   min-height: calc(100vh - 100px);
   left: 75px;
@@ -863,26 +864,22 @@ MAP
     font-size: 20px;
   }
 
-  .sidebar-container.open ~ .map-wrapper {
-    left: 70px;
-  }
-  .sidebar-container:hover ~ .map-wrapper {
-    left: 300px;
-  }
-
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
   .sidebar-container.open ~ .diagram-wrapper {
     left: 70px;
   }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
   .sidebar-container:hover ~ .diagram-wrapper {
     left: 300px;
   }
 }
 
 @media (max-width: 768px) {
-  .map-wrapper {
-    left: 0;
-  }
-
+  .map-wrapper,
+  .document-wrapper,
   .diagram-wrapper {
     left: 0;
   }
@@ -890,16 +887,14 @@ MAP
     font-size: 16px;
   }
 
-  .sidebar-container.open ~ .map-wrapper {
-    left: 60px;
-  }
-  .sidebar-container:hover ~ .map-wrapper {
-    left: 300px;
-  }
-
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
   .sidebar-container.open ~ .diagram-wrapper {
     left: 60px;
   }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
   .sidebar-container:hover ~ .diagram-wrapper {
     left: 300px;
   }
@@ -1263,4 +1258,15 @@ svg {
   cursor: move;
   z-index: 10;
   padding: auto;
+}
+
+/*
+DOCUMENT DETAILS
+*/
+
+.sidebar-container.open ~ .document-wrapper {
+  left: 75px;
+}
+.sidebar-container:hover ~ .document-wrapper {
+  left: 350px;
 }

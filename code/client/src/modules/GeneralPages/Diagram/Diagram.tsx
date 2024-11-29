@@ -1,6 +1,7 @@
 import { ReactFlow, Node, Edge } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
 import { ReactFlowProvider } from "@xyflow/react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../../../components/diagramComponents/Header";
 import Sidebar from "../../../components/diagramComponents/Sidebar";
@@ -30,6 +31,7 @@ const Diagram = () => {
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
   const { isSidebarOpen } = useSidebar();
   const [yearWidths, setYearWidths] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getDocs() {
@@ -139,6 +141,10 @@ const Diagram = () => {
     setPopupVisible(false);
   };
 
+  const handleNodeClick = (nodeId: string) => {
+    navigate(`/documents/${nodeId}`);
+  };
+
   return (
     <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <ReactFlowProvider>
@@ -163,6 +169,7 @@ const Diagram = () => {
               ]}
               minZoom={1}
               onEdgeClick={onEdgeClick}
+              onNodeClick={(event, node) => handleNodeClick(node.id)}
             >
               {popupVisible && (
                 <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />

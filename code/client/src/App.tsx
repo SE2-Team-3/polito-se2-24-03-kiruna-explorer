@@ -24,6 +24,7 @@ import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceF
 import { FaPlus } from "react-icons/fa";
 import ExploreMap from "./modules/GeneralPages/Map/ExploreMap";
 import Diagram from "./modules/GeneralPages/Diagram/Diagram";
+import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -149,6 +150,10 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/explore-map" element={<ExploreMap />} />
                 <Route path="/diagram" element={<Diagram />} />
+                <Route
+                  path="/documents/:documentId"
+                  element={<DocumentDetails />}
+                />
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"

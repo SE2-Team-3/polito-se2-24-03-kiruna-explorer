@@ -1,5 +1,4 @@
 function BGTable({ yearWidths }: { yearWidths: number[] }) {
-  console.log(yearWidths.reduce((acc, width) => acc + width, 0));
   return (
     <table
       style={{
