@@ -107,6 +107,22 @@ async function getDocuments() {
   }
 }
 
+async function getDocumentById(documentId: number): Promise<Document> {
+  const response = await fetch(`${baseURL}documents/${documentId}`, {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const document: Document = await response.json();
+    return document;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw new Error(errDetail.error);
+    if (errDetail.message) throw new Error(errDetail.message);
+    throw new Error("Error fetching document. Please reload the page.");
+  }
+}
+
 async function getConnections() {
   const response = await fetch(
     "http://localhost:3001/api/documents/connections",
@@ -190,6 +206,7 @@ const API = {
   addDocument,
   linkDocuments,
   getDocuments,
+  getDocumentById,
   uploadResources,
   updateDocumentGeoreference, // Added the new function here
   getConnections,

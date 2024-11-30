@@ -833,8 +833,7 @@ MAP
   position: relative;
 }
 
-.map-wrapper,
-.document-wrapper {
+.map-wrapper {
   position: absolute;
   min-height: calc(100vh - 100px);
   left: 75px;
@@ -1263,6 +1262,20 @@ svg {
 /*
 DOCUMENT DETAILS
 */
+
+.document-wrapper {
+  position: absolute;
+  min-height: calc(100vh - 100px);
+  left: 75px;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
 
 .sidebar-container.open ~ .document-wrapper {
   left: 75px;
