@@ -71,7 +71,7 @@ class DocumentController {
       ? {
           ...document,
           resources: documentResources,
-          connections: documentConnections,
+          linkedDocuments: documentConnections,
         }
       : {};
 

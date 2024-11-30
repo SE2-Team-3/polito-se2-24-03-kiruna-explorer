@@ -135,7 +135,7 @@ class DocumentDAO {
   getConnectionDetailsByDocumentId(documentId: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       const sql = `
-        SELECT DISTINCT D.documentId, D.title
+        SELECT DISTINCT D.documentId, D.title, DC.connection
         FROM DocumentConnections DC
         JOIN Document D ON (DC.documentId1 = D.documentId OR DC.documentId2 = D.documentId)
         WHERE (DC.documentId1 = ? OR DC.documentId2 = ?) AND D.documentId != ?
