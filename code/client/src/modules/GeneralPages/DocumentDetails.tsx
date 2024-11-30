@@ -66,49 +66,49 @@ const DocumentDetails = () => {
         <Row className="blue-text">
           <strong>{document?.title}</strong>
         </Row>
-          <Row className="table-container">
-           <Col >
+      
+          <Row >
+           <Col md={2} className="title-container">
             <img src={Calendar} alt="calendar" />
-            <span>{document?.issuanceDate}</span>
+            <span >{document?.issuanceDate}</span>
            </Col>
-             <Col>
+             <Col md={2}>
                <img src={DocumentType} alt="document type" />
-               <span>{document?.documentType}</span>
+               <span >{document?.documentType}</span>
              </Col>
-              <Col>
+              <Col md={1}>
                <img src={PointLocation} alt="point location" />
                <span>{document?.georeferenceId}</span>
               </Col>
           </Row>
+          
          <Row className="description-row">
            <strong>Description</strong>
            <span>{document?.description}</span>
          </Row>
         <Row className="table-container">
-          <Col >
-            <img src={Language} alt="language" />
-          
-            <strong>Language</strong>
-            <div>
-            {document?.language === "English" ? (
-              <Flag code="GB" style={{ width: "40px", height: "30px" }} />
-            ) : (
-              <Flag code="SE" style={{ width: "40px", height: "30px" }} />
-            )}
+        <Col>
+          <strong >
+           <img src={Language} alt="language" /> Language
+          </strong>
+           <div style={{ display: "flex", alignItems: "flex", gap: "15px"}}>
+             {document?.language === "English" ? (
+             <Flag code="GB" style={{ width: "40px", height: "30px" }} />
+             ) : (
+             <Flag code="SE" style={{ width: "40px", height: "30px" }} />
+              )}
+             <span style={{ verticalAlign: "flex" }}>{document?.language}</span>
            </div>
-            <span style={{ textAlign: 'center' }}>{document?.language}</span>
-            
-           </Col>
+        </Col>
             <Col>
-             <img src={Book} alt="book" />
-             <strong>Pages</strong>
+             
+             <strong><img src={Book} alt="book" /> Pages</strong>
              <div>
               <span className="blue-text">{document?.pages}</span>
              </div>
             </Col>
            <Col>
-            <img src={Scale} alt="scale" />
-            <strong>Scale</strong>
+            <strong><img src={Scale} alt="scale" /> Scale</strong>
              <div>
               <span className="blue-text">Plan</span>
               <span>{document?.scale}</span>
@@ -117,8 +117,8 @@ const DocumentDetails = () => {
         </Row>
           <Row className="table-container" >
            <Col xs={4} className="linked-documents">
-            <img src={LinkDocument} alt="link document" />
-            <strong>Linked Documents</strong>
+            
+            <strong> <img src={LinkDocument} alt="link document" />Linked Documents</strong>
             {connections && connections.length > 0 ? (
             <div className="linked-documents-table">
              {connections.map((connection, index) => {
@@ -144,8 +144,7 @@ const DocumentDetails = () => {
                   )}
             </Col>
              <Col xs={4} className="resources">
-               <img src={UploadDocument} alt="upload resource" />
-                <strong>Resources</strong>
+                <strong><img src={UploadDocument} alt="upload resource" /> Resources</strong>
                 {resources && resources.length > 0 ? (
                 <div className="linked-documents-table">
                  {resources.map((resource, index) => (
@@ -163,8 +162,7 @@ const DocumentDetails = () => {
                   )}
              </Col>
                 <Col xs={4} className="stakeholders">
-                 <img src={PersonBlue} alt="person" />
-                 <strong>Stakeholders</strong>
+                 <strong><img src={PersonBlue} alt="person" /> Stakeholders</strong>
                   <div className="linked-documents-table">
                       {document?.stakeholders.map((stakeholder, index) => (
                      <div

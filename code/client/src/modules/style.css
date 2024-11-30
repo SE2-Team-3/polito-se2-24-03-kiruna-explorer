@@ -1,33 +1,65 @@
 @import url("../index.css");
+
+.form-container .blue-text strong {
+  font-size: 32px;  
+  font-weight: bold;  
+}
+
+.title-container {
+               
+  margin-left: 40px;
+  margin-bottom: 30px;
+  
+}
 /*applying table style in document details */
 .table-container {
   display: flex;
   justify-content: flex-start;   
-  gap: 20px;                     
-  align-items: flex;           
-  margin-top: 10px;              
+  gap: 0px;                     
+  align-items: center;           
+  margin-top: 50px;              
   margin-left: 20px;
+  margin-bottom: 30px; 
+  margin-right: 0px;
   flex-wrap: nowrap;
 }
 
-.table-container img {
-  max-width: 50px;
-  margin-bottom: 10px;
+.table-container strong,
+.linked-documents strong,
+.resources strong,
+.stakeholders strong {
+  font-size: 20px; 
+  font-weight: bold;  
+  display: flex;     
+  align-items: center;     
+  gap: 10px; 
+  margin-bottom: 8px; 
 }
+
+.table-container img {
+  margin-right: 10px;
+  max-width: 50px;
+  margin-bottom: 0px;
+}
+
 
 /* styling descriotion in document details*/
 .description-row {
   padding-top: 20px;
   padding-left: 40px;    
+  margin-bottom: 30px;
   
 }
 
 .description-row strong {
+  font-size: 1.25rem; 
+  font-weight: bold;  
   display: block;        
   margin-bottom: 8px;    
 }
 
 .description-row span {
+  margin-top: 15px;
   color: #898989;        
 }
 /* applying table style in document details*/
@@ -35,13 +67,17 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
+  border-collapse: separate; 
+  border-spacing: 0 10px; 
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .table-row {
   display: table-row;
   padding: 8px 12px;
   text-align: left;
+  background-color: inherit; 
 }
 
 .dark-row {
