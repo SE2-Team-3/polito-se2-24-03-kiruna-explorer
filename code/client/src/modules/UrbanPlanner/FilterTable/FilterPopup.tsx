@@ -2,6 +2,7 @@ import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import Document from "../../../models/document";
 import "./FilterPopup.css";
 import API from "../../../API/API";
+import { Col, Row } from "react-bootstrap";
 
 interface FilterProps {
   setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
@@ -11,20 +12,18 @@ const FilterTable: FC<FilterProps> = (props) => {
   const [filters, setFilters] = useState<Filters>({
     documentType: "",
     stakeholders: [],
-    connection: "",
-    pages: "",
-    startDate: "",
-    endDate: "",
+    issuanceDateStart: "",
+    issuanceDateEnd: "",
+    language: "",
   });
   console.log(filters);
 
   interface Filters {
     documentType?: string;
     stakeholders?: string | string[];
-    connection?: string;
-    pages?: string;
-    startDate?: string;
-    endDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
+    language?: string;
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -67,47 +66,72 @@ const FilterTable: FC<FilterProps> = (props) => {
         {/* Type Document */}
         <div className="filter-group">
           <label>Scale</label>
+          <Row>
+            <Col>
+              <label>
+                <input
+                  type="checkbox"
+                  name="documentType"
+                  value="Text"
+                  checked={filters.documentType === "Text"}
+                  onChange={handleChange}
+                />
+                Text
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="documentType"
+                  value="Concept"
+                  checked={filters.documentType === "Concept"}
+                  onChange={handleChange}
+                />
+                Concept
+              </label>
+            </Col>
+            <Col>
+              <label>
+                <input
+                  type="checkbox"
+                  name="documentType"
+                  value="Architectural plan"
+                  checked={filters.documentType === "Architectural plan"}
+                  onChange={handleChange}
+                />
+                Architectural
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="documentType"
+                  value="Blueprints/actions"
+                  checked={filters.documentType === "Blueprints/actions"}
+                  onChange={handleChange}
+                />
+                Blueprints
+              </label>
+            </Col>
+          </Row>
+        </div>
+
+        {/* Language */}
+        <div className="filter-group">
+          <label>Language</label>
           <div>
-            <label>
-              <input
-                type="checkbox"
-                name="documentType"
-                value="Text"
-                checked={filters.documentType === "Text"}
-                onChange={handleChange}
-              />
-              Text
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="documentType"
-                value="Concept"
-                checked={filters.documentType === "Concept"}
-                onChange={handleChange}
-              />
-              Concept
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="documentType"
-                value="Architectural plan"
-                checked={filters.documentType === "Architectural plan"}
-                onChange={handleChange}
-              />
-              Architectural plan
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="documentType"
-                value="Blueprints/actions"
-                checked={filters.documentType === "Blueprints/actions"}
-                onChange={handleChange}
-              />
-              Blueprints/actions
-            </label>
+            <Row>
+              <Col>
+                <label>
+                  <input type="checkbox" name="language" value="English" onChange={handleChange} />
+                  English
+                </label>
+              </Col>
+              <Col>
+                <label>
+                  <input type="checkbox" name="language" value="Swedish" onChange={handleChange} />
+                  Swedish
+                </label>
+              </Col>
+            </Row>
           </div>
         </div>
 
@@ -152,38 +176,25 @@ const FilterTable: FC<FilterProps> = (props) => {
             </label>
           </div>
         </div>
-        {/* Connection */}
-        <div className="filter-group">
-          <label>Connection</label>
-          <input
-            type="number"
-            name="connection"
-            value={filters.connection}
-            onChange={handleChange}
-            placeholder="e.g. 01"
-          />
-        </div>
-
-        {/* Pages */}
-        <div className="filter-group">
-          <label>Pages</label>
-          <input
-            type="number"
-            name="pages"
-            value={filters.pages}
-            onChange={handleChange}
-            placeholder="e.g. 111"
-          />
-        </div>
 
         {/* Start Date and End Date */}
         <div className="filter-group">
           <label>Start Date</label>
-          <input type="date" name="startDate" value={filters.startDate} onChange={handleChange} />
+          <input
+            type="date"
+            name="issuanceDateStart"
+            value={filters.issuanceDateStart}
+            onChange={handleChange}
+          />
         </div>
         <div className="filter-group">
           <label>End Date</label>
-          <input type="date" name="endDate" value={filters.endDate} onChange={handleChange} />
+          <input
+            type="date"
+            name="issuanceDateEnd"
+            value={filters.issuanceDateEnd}
+            onChange={handleChange}
+          />
         </div>
 
         {/* Submit Button */}
