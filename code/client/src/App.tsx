@@ -149,7 +149,10 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route path="/explore-map" element={<ExploreMap />} />
+                <Route
+                  path="/explore-map"
+                  element={<ExploreMap searchTitle={searchTitle} />}
+                />
                 <Route path="/diagram" element={<Diagram />} />
                 <Route
                   path="/documents/:documentId"

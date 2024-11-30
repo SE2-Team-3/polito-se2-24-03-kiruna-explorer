@@ -1,7 +1,7 @@
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import Document from "../models/document";
+import DocumentDetail from "../models/documentDetail";
 import Connection from "../models/Connection";
-import Resource from "../models/resource";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -108,13 +108,13 @@ async function getDocuments() {
   }
 }
 
-async function getDocumentById(documentId: number): Promise<Document> {
+async function getDocumentById(documentId: number): Promise<DocumentDetail> {
   const response = await fetch(`${baseURL}documents/${documentId}`, {
     credentials: "include",
   });
 
   if (response.ok) {
-    const document: Document = await response.json();
+    const document: DocumentDetail = await response.json();
     return document;
   } else {
     const errDetail = await response.json();
@@ -200,27 +200,6 @@ async function uploadResources(documentId: number, resources: File[]) {
   });
 }
 
-async function getResources(documentId: number): Promise<Resource[]> {
-  const response = await fetch(
-    baseURL + "documents/" + documentId + "/resources",
-    {
-      credentials: "include",
-    }
-  );
-
-  if (response.ok) {
-    const resources: Resource[] = await response.json();
-    return resources;
-  } else {
-    const errDetail = await response.json();
-    if (errDetail.error) throw new Error(errDetail.error);
-    if (errDetail.message) throw new Error(errDetail.message);
-    throw new Error(
-      "Error fetching original resources. Please reload the page."
-    );
-  }
-}
-
 function getFilteredDocuments(filters: {
   documentType?: string;
   nodeType?: string;
@@ -273,7 +252,6 @@ const API = {
   uploadResources,
   updateDocumentGeoreference, // Added the new function here
   getConnections,
-  getResources,
   getFilteredDocuments,
 };
 

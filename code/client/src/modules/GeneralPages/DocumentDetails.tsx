@@ -1,11 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useSidebar } from "../../components/SidebarContext";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import API from "../../API/API";
 import { useEffect, useState } from "react";
-import Document from "../../models/document";
-import Connection from "../../models/Connection";
-import Resource from "../../models/resource";
+import DocumentDetail from "../../models/documentDetail";
 import Flag from "react-world-flags";
 import { useNavigate } from "react-router-dom";
 import LinkDocument from "../../assets/icons/link selected.svg";
@@ -21,40 +19,79 @@ import Book from "../../assets/icons/book.svg";
 const DocumentDetails = () => {
   const { isSidebarOpen } = useSidebar();
   const { documentId } = useParams();
-  const [document, setDocument] = useState<Document>();
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [connections, setConnections] = useState<Connection[]>([]);
-  const [resources, setResources] = useState<Resource[]>([]);
+  const [document, setDocument] = useState<DocumentDetail>();
   const navigate = useNavigate();
 
   const docId = Number(documentId);
 
   useEffect(() => {
-    //API.getDocumentById(docId).then((doc) => setDocument(doc));
-    API.getConnections().then((con) => {
-      const documentConnections = con.filter((c) => c.documentId1 === docId);
-      setConnections(documentConnections); // Set connections or empty array
-    });
-    API.getDocuments().then((docs) => {
-      setDocuments(docs);
-    });
-    API.getResources(docId).then((res) => {
-      setResources(res);
-    });
+    API.getDocumentById(docId).then((doc) => setDocument(doc));
 
-    const dummyDocument: Document = {
-      documentId: docId,
-      title: "Document Test",
-      description: "This is a sample document with test data.",
-      documentType: "Agreement",
-      scale: "1:1000",
-      nodeType: "Document",
-      stakeholders: ["Klab", "Company B", "Organization C"],
-      issuanceDate: "2024-10-10",
-      language: "English",
-      pages: "12",
-      georeferenceId: 1,
-      coordinates: "15, 113",
+    const dummyDocument: DocumentDetail = {
+      documentId: 2,
+      title: "document-2",
+      description: "document-2",
+      documentType: "Concept",
+      scale: "Concept",
+      nodeType: "Prescriptive document",
+      stakeholders: ["Citizen"],
+      issuanceDate: "2024",
+      language: "",
+      pages: "3-4",
+      coordinates: [[67.86360999264214, 20.230553366082994]],
+      resources: [
+        {
+          resourceId: 3,
+          fileType: "text/plain",
+          fileName: "test (Copy 3).txt",
+          data: {
+            type: "Buffer",
+            data: [
+              116, 104, 105, 115, 32, 105, 115, 32, 97, 32, 116, 101, 115, 116,
+              32, 99, 111, 110, 116, 101, 110, 116, 32, 102, 111, 114, 32, 107,
+              105, 114, 117, 110, 97, 10,
+            ],
+          },
+        },
+        {
+          resourceId: 4,
+          fileType: "text/plain",
+          fileName: "test (Copy 2).txt",
+          data: {
+            type: "Buffer",
+            data: [
+              116, 104, 105, 115, 32, 105, 115, 32, 97, 32, 116, 101, 115, 116,
+              32, 99, 111, 110, 116, 101, 110, 116, 32, 102, 111, 114, 32, 107,
+              105, 114, 117, 110, 97, 10,
+            ],
+          },
+        },
+        {
+          resourceId: 5,
+          fileType: "text/plain",
+          fileName: "test (Copy).txt",
+          data: {
+            type: "Buffer",
+            data: [
+              116, 104, 105, 115, 32, 105, 115, 32, 97, 32, 116, 101, 115, 116,
+              32, 99, 111, 110, 116, 101, 110, 116, 32, 102, 111, 114, 32, 107,
+              105, 114, 117, 110, 97, 10,
+            ],
+          },
+        },
+      ],
+      linkedDocuments: [
+        {
+          documentId: 1,
+          title: "test",
+          connection: "update",
+        },
+        {
+          documentId: 1,
+          title: "test",
+          connection: "prevision",
+        },
+      ],
     };
 
     setDocument(dummyDocument);
@@ -66,114 +103,149 @@ const DocumentDetails = () => {
         <Row className="blue-text">
           <strong>{document?.title}</strong>
         </Row>
-      
-          <Row >
-           <Col md={2} className="title-container">
-            <img src={Calendar} alt="calendar" />
-            <span >{document?.issuanceDate}</span>
-           </Col>
-             <Col md={2}>
-               <img src={DocumentType} alt="document type" />
-               <span >{document?.documentType}</span>
-             </Col>
-              <Col md={1}>
-               <img src={PointLocation} alt="point location" />
-               <span>{document?.georeferenceId}</span>
-              </Col>
-          </Row>
-          
-         <Row className="description-row">
-           <strong>Description</strong>
-           <span>{document?.description}</span>
-         </Row>
-        <Row className="table-container">
-        <Col>
-          <strong >
-           <img src={Language} alt="language" /> Language
-          </strong>
-           <div style={{ display: "flex", alignItems: "flex", gap: "15px"}}>
-             {document?.language === "English" ? (
-             <Flag code="GB" style={{ width: "40px", height: "30px" }} />
-             ) : (
-             <Flag code="SE" style={{ width: "40px", height: "30px" }} />
+
+        <Row className="title-container">
+          <Col md={2} className="field-box">
+            <img src={Calendar} alt="calendar" width={20} height={20} />
+            <span className="font-size-20">{document?.issuanceDate}</span>
+          </Col>
+          <Col md={2} className="field-box">
+            <img
+              src={DocumentType}
+              alt="document type"
+              width={20}
+              height={20}
+            />
+            <span className="font-size-20">{document?.documentType}</span>
+          </Col>
+          <Col md={2} className="field-box">
+            <img
+              src={PointLocation}
+              alt="point location"
+              width={20}
+              height={20}
+            />
+            <span className="font-size-20">
+              {document?.coordinates.map((coordinate) =>
+                coordinate.map((value) => parseFloat(value.toFixed(2)))
               )}
-             <span style={{ verticalAlign: "flex" }}>{document?.language}</span>
-           </div>
-        </Col>
-            <Col>
-             
-             <strong><img src={Book} alt="book" /> Pages</strong>
-             <div>
-              <span className="blue-text">{document?.pages}</span>
-             </div>
-            </Col>
-           <Col>
-            <strong><img src={Scale} alt="scale" /> Scale</strong>
-             <div>
-              <span className="blue-text">Plan</span>
-              <span>{document?.scale}</span>
-             </div>
-            </Col>
+            </span>
+          </Col>
         </Row>
-          <Row className="table-container" >
-           <Col xs={4} className="linked-documents">
-            
-            <strong> <img src={LinkDocument} alt="link document" />Linked Documents</strong>
-            {connections && connections.length > 0 ? (
-            <div className="linked-documents-table">
-             {connections.map((connection, index) => {
-              const linkedDoc = documents.find(
-              (doc) => doc.documentId === connection.documentId2
-               );
-               return (
-               <div
-                  key={index}
-                 className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
-                >
-                    <span className="document-title">
-                      {linkedDoc ? linkedDoc.title
-                       : `Document ID: ${connection.documentId2}`}
-                    </span>
-                       <span className="document-connection">{connection.connection}</span>
-                 </div>
-                      );
-                     })}
-               </div>
-                  ) : (
-                 <div className="no-documents">No linked documents found.</div>
-                  )}
-            </Col>
-             <Col xs={4} className="resources">
-                <strong><img src={UploadDocument} alt="upload resource" /> Resources</strong>
-                {resources && resources.length > 0 ? (
-                <div className="linked-documents-table">
-                 {resources.map((resource, index) => (
-                   <div
-                     key={index}
-                     className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
-                   >
-                     <span className="document-title">{resource.fileName}</span>
-                     <span className="document-connection">{resource.fileType}</span>
-                   </div>
-                     ))}
-               </div>
-                    ) : (
-                        <div className="no-documents">No resources found.</div>
-                  )}
-             </Col>
-                <Col xs={4} className="stakeholders">
-                 <strong><img src={PersonBlue} alt="person" /> Stakeholders</strong>
-                  <div className="linked-documents-table">
-                      {document?.stakeholders.map((stakeholder, index) => (
-                     <div
+
+        <Row className="description-row">
+          <strong>Description</strong>
+          <span className="font-size-18" style={{ color: "black" }}>
+            {document?.description}
+          </span>
+        </Row>
+        <Row className="table-container">
+          <Col>
+            <strong>
+              <img src={Language} alt="language" /> Language
+            </strong>
+            <div style={{ display: "flex", alignItems: "flex", gap: "15px" }}>
+              {document?.language === "English" ? (
+                <Flag code="GB" style={{ width: "40px", height: "30px" }} />
+              ) : document?.language === "Swedish" ? (
+                <Flag code="SE" style={{ width: "40px", height: "30px" }} />
+              ) : (
+                <span className="font-size-20">None</span>
+              )}
+              <span className="font-size-20" style={{ verticalAlign: "flex" }}>
+                {document?.language}
+              </span>
+            </div>
+          </Col>
+          <Col>
+            <strong>
+              <img src={Book} alt="book" /> Pages
+            </strong>
+            <div>
+              <span className="blue-text">{document?.pages}</span>
+            </div>
+          </Col>
+          <Col>
+            <strong>
+              <img src={Scale} alt="scale" /> Scale
+            </strong>
+            <div>
+              <span className="blue-text">Plan</span>
+              <span className="font-size-20">{document?.scale}</span>
+            </div>
+          </Col>
+        </Row>
+        <Row className="table-container">
+          <Col xs={4} className="linked-documents">
+            <strong>
+              <img src={LinkDocument} alt="link document" />
+              Linked Documents
+            </strong>
+            {document?.linkedDocuments &&
+            document?.linkedDocuments.length > 0 ? (
+              <div className="linked-documents-table">
+                {document?.linkedDocuments.map((linkedDoc, index) => {
+                  return (
+                    <div
                       key={index}
-                      className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
-                      >
-                      <span className="document-title">{stakeholder}</span>
-                   </div>
-                      ))}
+                      className={`table-row ${
+                        index % 2 === 0 ? "dark-row" : "light-row"
+                      }`}
+                    >
+                      <span className="document-title">{linkedDoc.title}</span>
+                      <span className="document-connection">
+                        {" - "}
+                        {linkedDoc.connection}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="no-documents">No linked documents found.</div>
+            )}
+          </Col>
+          <Col xs={4} className="resources">
+            <strong>
+              <img src={UploadDocument} alt="upload resource" /> Resources
+            </strong>
+            {document?.resources && document?.resources.length > 0 ? (
+              <div className="linked-documents-table">
+                {document.resources.map((resource, index) => (
+                  <div
+                    key={index}
+                    className={`table-row ${
+                      index % 2 === 0 ? "dark-row" : "light-row"
+                    }`}
+                  >
+                    <span className="document-title">{resource.fileName}</span>
+                    <span className="document-connection">
+                      {resource.fileType}
+                    </span>
                   </div>
-                </Col>
+                ))}
+              </div>
+            ) : (
+              <div className="no-documents">No resources found.</div>
+            )}
+          </Col>
+          <Col xs={4} className="stakeholders">
+            <strong>
+              <img src={PersonBlue} alt="person" /> Stakeholders
+            </strong>
+            <div className="linked-documents-table">
+              {document?.stakeholders.map((stakeholder, index) => (
+                <div
+                  key={index}
+                  className={`table-row ${
+                    index % 2 === 0 ? "dark-row" : "light-row"
+                  }`}
+                >
+                  <span className="document-title">{stakeholder}</span>
+                </div>
+              ))}
+            </div>
+          </Col>
         </Row>
       </div>
     </div>
