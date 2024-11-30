@@ -31,6 +31,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState<Boolean>(false);
   const [loginMessage, setLoginMessage] = useState<String>("");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [searchTitle, setSearchTitle] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -120,7 +121,7 @@ function App() {
         <Container>
           <SidebarProvider>
             <UserContext.Provider value={user}>
-              <NavBar />
+              <NavBar setSearchTitle={setSearchTitle} />
               <LeftSideBar logout={doLogOut} />
               <Routes>
                 {/* default page is login page */}
@@ -186,6 +187,7 @@ function App() {
                     loggedIn ? (
                       <DocumentsListTable
                         setUploadDocumentId={setUploadDocumentId}
+                        searchTitle={searchTitle}
                       />
                     ) : (
                       <Navigate to="/login" />

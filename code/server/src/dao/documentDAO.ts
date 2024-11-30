@@ -141,15 +141,17 @@ class DocumentDAO {
           "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
         const updateDocumentSql =
           "UPDATE Document SET georeferenceId=? WHERE documentId=?";
-        const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?)";
+        const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?, ?, ?)";
         db.get(georeferenceIdSql, (err: Error | null, row: any) => {
           if (err) return reject(err);
           const georeferenceId = row.georeferenceId
             ? row.georeferenceId + 1
             : 1;
+          const isArea = georeference.length > 2;
+          const georeferenceName = "geo" + georeferenceId;
           db.run(
             createGeoreferenceSql,
-            [georeferenceId, JSON.stringify(georeference)],
+            [georeferenceId, JSON.stringify(georeference), georeferenceName, isArea],
             (err: Error | null) => {
               if (err) return reject(err);
               db.run(
@@ -327,7 +329,8 @@ class DocumentDAO {
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
-    issuanceDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
     language?: string;
   }): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
@@ -352,9 +355,15 @@ class DocumentDAO {
           sql += ` AND language = ?`;
           params.push(filters.language);
         }
-        if (filters.issuanceDate) {
-          sql += ` AND issuanceDate LIKE ?`;
-          params.push(`${filters.issuanceDate}%`);
+        if (filters.issuanceDateStart && filters.issuanceDateEnd) {
+          sql += " AND issuanceDate BETWEEN ? AND ?";
+          params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
+        } else if (filters.issuanceDateStart) {
+          sql += " AND issuanceDate >= ?";
+          params.push(filters.issuanceDateStart);
+        } else if (filters.issuanceDateEnd) {
+          sql += " AND issuanceDate <= ?";
+          params.push(filters.issuanceDateEnd);
         }
         if (filters.stakeholders && filters.stakeholders.length > 0) {
           const stakeholderConditions = filters.stakeholders
@@ -363,6 +372,8 @@ class DocumentDAO {
           sql += ` AND (${stakeholderConditions})`;
           filters.stakeholders.forEach((s) => params.push(`%${s}%`));
         }
+
+        console.log(sql, params);
 
         db.all(sql, params, (err: Error | null, rows: any[]) => {
           if (err) return reject(err);
@@ -487,6 +498,18 @@ class DocumentDAO {
       } catch (error) {
         return reject(error);
       }
+    });
+  }
+
+  async updateGeoreferenceId(documentId: number, georeferenceId: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const sql = `UPDATE Document SET georeferenceId = ? WHERE documentId = ?`;
+      db.run(sql, [georeferenceId, documentId], function(err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
     });
   }
 }
