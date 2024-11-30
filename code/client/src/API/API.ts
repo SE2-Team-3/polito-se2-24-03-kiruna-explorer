@@ -1,6 +1,7 @@
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import Document from "../models/document";
 import Connection from "../models/Connection";
+import Resource from "../models/resource";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -199,6 +200,27 @@ async function uploadResources(documentId: number, resources: File[]) {
   });
 }
 
+async function getResources(documentId: number): Promise<Resource[]> {
+  const response = await fetch(
+    baseURL + "documents/" + documentId + "/resources",
+    {
+      credentials: "include",
+    }
+  );
+
+  if (response.ok) {
+    const resources: Resource[] = await response.json();
+    return resources;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw new Error(errDetail.error);
+    if (errDetail.message) throw new Error(errDetail.message);
+    throw new Error(
+      "Error fetching original resources. Please reload the page."
+    );
+  }
+}
+
 const API = {
   login,
   logOut,
@@ -210,6 +232,7 @@ const API = {
   uploadResources,
   updateDocumentGeoreference, // Added the new function here
   getConnections,
+  getResources,
 };
 
 export default API;
