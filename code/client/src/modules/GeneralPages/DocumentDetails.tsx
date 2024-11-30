@@ -63,97 +63,119 @@ const DocumentDetails = () => {
   return (
     <div className={`document-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
-        <Row>
+        <Row className="blue-text">
           <strong>{document?.title}</strong>
         </Row>
-        <Row>
-          <Col>
+          <Row className="table-container">
+           <Col >
             <img src={Calendar} alt="calendar" />
             <span>{document?.issuanceDate}</span>
-          </Col>
-          <Col>
-            <img src={DocumentType} alt="document type" />
-            <span>{document?.documentType}</span>
-          </Col>
-          <Col>
-            <img src={PointLocation} alt="point location" />
-            <span>{document?.georeferenceId}</span>
-          </Col>
-        </Row>
-        <Row>
-          <strong>Description</strong>
-          <span>{document?.description}</span>
-        </Row>
-        <Row>
-          <Col>
+           </Col>
+             <Col>
+               <img src={DocumentType} alt="document type" />
+               <span>{document?.documentType}</span>
+             </Col>
+              <Col>
+               <img src={PointLocation} alt="point location" />
+               <span>{document?.georeferenceId}</span>
+              </Col>
+          </Row>
+         <Row className="description-row">
+           <strong>Description</strong>
+           <span>{document?.description}</span>
+         </Row>
+        <Row className="table-container">
+          <Col >
             <img src={Language} alt="language" />
+          
             <strong>Language</strong>
+            <div>
             {document?.language === "English" ? (
               <Flag code="GB" style={{ width: "40px", height: "30px" }} />
             ) : (
               <Flag code="SE" style={{ width: "40px", height: "30px" }} />
             )}
-            <span>{document?.language}</span>
-          </Col>
-          <Col>
-            <img src={Book} alt="book" />
-            <strong>Pages</strong>
-            <span>{document?.pages}</span>
-          </Col>
-          <Col>
+           </div>
+            <span style={{ textAlign: 'center' }}>{document?.language}</span>
+            
+           </Col>
+            <Col>
+             <img src={Book} alt="book" />
+             <strong>Pages</strong>
+             <div>
+              <span className="blue-text">{document?.pages}</span>
+             </div>
+            </Col>
+           <Col>
             <img src={Scale} alt="scale" />
             <strong>Scale</strong>
-            <span>{document?.scale}</span>
-          </Col>
+             <div>
+              <span className="blue-text">Plan</span>
+              <span>{document?.scale}</span>
+             </div>
+            </Col>
         </Row>
-        <Row>
-          <Col className="linked-documents">
+          <Row className="table-container" >
+           <Col xs={4} className="linked-documents">
             <img src={LinkDocument} alt="link document" />
             <strong>Linked Documents</strong>
-            <ul>
-              {connections && connections.length > 0 ? (
-                connections.map((connection, index) => {
-                  const linkedDoc = documents.find(
-                    (doc) => doc.documentId === connection.documentId2
-                  );
-                  return (
-                    <li key={index}>
-                      {linkedDoc
-                        ? linkedDoc.title
-                        : `Document ID: ${connection.documentId2}`}{" "}
-                      - {connection.connection}
-                    </li>
-                  );
-                })
-              ) : (
-                <li>No linked documents found.</li>
-              )}
-            </ul>
-          </Col>
-          <Col className="resources">
-            <img src={UploadDocument} alt="upload resource" />
-            <strong>Resources</strong>
-            <ul>
-              {resources && resources.length > 0 ? (
-                resources.map((resource, index) => (
-                  <li key={index}>
-                    {resource.fileName} ({resource.fileType})
-                  </li>
-                ))
-              ) : (
-                <li>No resources found.</li>
-              )}
-            </ul>
-          </Col>
-          <Col className="stakeholders">
-            <img src={PersonBlue} alt="person" />
-            <strong>Stakeholders</strong>
-            <ul>
-              {document?.stakeholders.map((stakeholder, index) => (
-                <li key={index}>{stakeholder}</li>
-              ))}
-            </ul>
-          </Col>
+            {connections && connections.length > 0 ? (
+            <div className="linked-documents-table">
+             {connections.map((connection, index) => {
+              const linkedDoc = documents.find(
+              (doc) => doc.documentId === connection.documentId2
+               );
+               return (
+               <div
+                  key={index}
+                 className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
+                >
+                    <span className="document-title">
+                      {linkedDoc ? linkedDoc.title
+                       : `Document ID: ${connection.documentId2}`}
+                    </span>
+                       <span className="document-connection">{connection.connection}</span>
+                 </div>
+                      );
+                     })}
+               </div>
+                  ) : (
+                 <div className="no-documents">No linked documents found.</div>
+                  )}
+            </Col>
+             <Col xs={4} className="resources">
+               <img src={UploadDocument} alt="upload resource" />
+                <strong>Resources</strong>
+                {resources && resources.length > 0 ? (
+                <div className="linked-documents-table">
+                 {resources.map((resource, index) => (
+                   <div
+                     key={index}
+                     className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
+                   >
+                     <span className="document-title">{resource.fileName}</span>
+                     <span className="document-connection">{resource.fileType}</span>
+                   </div>
+                     ))}
+               </div>
+                    ) : (
+                        <div className="no-documents">No resources found.</div>
+                  )}
+             </Col>
+                <Col xs={4} className="stakeholders">
+                 <img src={PersonBlue} alt="person" />
+                 <strong>Stakeholders</strong>
+                  <div className="linked-documents-table">
+                      {document?.stakeholders.map((stakeholder, index) => (
+                     <div
+                      key={index}
+                      className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
+                      >
+                      <span className="document-title">{stakeholder}</span>
+                   </div>
+                      ))}
+                  </div>
+                </Col>
         </Row>
       </div>
     </div>

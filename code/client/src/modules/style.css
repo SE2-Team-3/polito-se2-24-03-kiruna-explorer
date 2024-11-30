@@ -1,8 +1,76 @@
 @import url("../index.css");
+/*applying table style in document details */
+.table-container {
+  display: flex;
+  justify-content: flex-start;   
+  gap: 20px;                     
+  align-items: flex;           
+  margin-top: 10px;              
+  margin-left: 20px;
+  flex-wrap: nowrap;
+}
+
+.table-container img {
+  max-width: 50px;
+  margin-bottom: 10px;
+}
+
+/* styling descriotion in document details*/
+.description-row {
+  padding-top: 20px;
+  padding-left: 40px;    
+  
+}
+
+.description-row strong {
+  display: block;        
+  margin-bottom: 8px;    
+}
+
+.description-row span {
+  color: #898989;        
+}
+/* applying table style in document details*/
+.linked-documents-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table-row {
+  display: table-row;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.dark-row {
+  background-color: #f5f5f5; /* Light gray */
+}
+
+.light-row {
+  background-color: #ffffff; /* White */
+}
+
+.document-title {
+  display: table-cell;
+  text-align: flex;
+}
+
+.document-connection {
+  display: table-cell;
+  text-align: flex;
+}
+
+.no-documents {
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+}
+
 /*
 PAGE STYLE
 */
-
 .main-page {
   position: absolute;
   min-height: calc(100vh - 100px);
@@ -40,6 +108,7 @@ PAGE STYLE
   overflow-x: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
     /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+    
 }
 
 .row-box-custom {
