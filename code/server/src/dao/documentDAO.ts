@@ -62,7 +62,9 @@ class DocumentDAO {
               (err: Error | null) => {
                 if (err) return reject(err);
                 if (georeference) {
-                  const name = georeferenceName ? georeferenceName : "geo" + georeferenceId;
+                  const name = georeferenceName
+                    ? georeferenceName
+                    : "geo" + georeferenceId;
                   db.run(
                     createGeoreferenceSql,
                     [georeferenceId, coordinates, name, isArea],
@@ -101,7 +103,7 @@ class DocumentDAO {
       try {
         const sql = "INSERT INTO DocumentConnections VALUES (?,?,?)";
 
-        linkType = Utility.emptyFixer(linkType)
+        linkType = Utility.emptyFixer(linkType);
 
         db.run(sql, [documentId1, documentId2, linkType], (err: any) => {
           if (err) {
@@ -129,6 +131,48 @@ class DocumentDAO {
       }
     });
   }
+
+  getConnectionDetailsByDocumentId(documentId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const sql = `
+        SELECT DISTINCT D.documentId, D.title
+        FROM DocumentConnections DC
+        JOIN Document D ON (DC.documentId1 = D.documentId OR DC.documentId2 = D.documentId)
+        WHERE (DC.documentId1 = ? OR DC.documentId2 = ?) AND D.documentId != ?
+      `;
+
+      db.all(
+        sql,
+        [documentId, documentId, documentId],
+        (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(rows);
+        }
+      );
+    });
+  }
+
+  getDocumentById(documentId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      try {
+        const sql = `
+        SELECT 
+          D.documentId, D.title, D.description, D.documentType, D.scale, D.nodeType, D.stakeholders, D.issuanceDate, D.language, D.pages, G.coordinates
+        FROM Document D
+        LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId
+        WHERE D.documentId = ?`;
+        db.get(sql, [documentId], (err: Error | null, rows: any) => {
+          if (err) return reject(err);
+          resolve(rows);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   georeferenceDocument(
     documentId: number,
     georeference: string[]
@@ -200,65 +244,88 @@ class DocumentDAO {
    * Algorithm for clockwise check
    * It may not work in some situations, it's not mathematically proven
    */
-  clockwiseCheck(coordinates: string): boolean {
-    let count = 0,
-      i = 0;
-    let angles: number[];
-    const coordinateArray: number[][] = JSON.parse(coordinates);
-    const newOrigin = coordinateArray[0];
-    for (const coord of coordinateArray.slice(1, -1)) {
-      let newCoord: number[] = [];
-      newCoord[0] = coord[0] - newOrigin[0];
-      newCoord[1] = coord[1] - newOrigin[1];
-      angles[i++] = Math.atan2(newCoord[0], newCoord[1]); //This fails when crossing 0° need to find a fix
-    }
-    for (i = 1; i < angles.length; i++) {
-      if (angles[i] < angles[i - 1]) count++;
-      else count--;
-    }
-    return count > 0;
-  }
+  // clockwiseCheck(coordinates: string): boolean {
+  //   let count = 0,
+  //     i = 0;
+  //   let angles: number[];
+  //   const coordinateArray: number[][] = JSON.parse(coordinates);
+  //   const newOrigin = coordinateArray[0];
+  //   for (const coord of coordinateArray.slice(1, -1)) {
+  //     let newCoord: number[] = [];
+  //     newCoord[0] = coord[0] - newOrigin[0];
+  //     newCoord[1] = coord[1] - newOrigin[1];
+  //     angles[i++] = Math.atan2(newCoord[0], newCoord[1]); //This fails when crossing 0° need to find a fix
+  //   }
+  //   for (i = 1; i < angles.length; i++) {
+  //     if (angles[i] < angles[i - 1]) count++;
+  //     else count--;
+  //   }
+  //   return count > 0;
+  // }
 
-  async uploadResource(documentId: number, files: Express.Multer.File[]): Promise<any> {
+  async uploadResource(
+    documentId: number,
+    files: Express.Multer.File[]
+  ): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       try {
         const checkDocumentSql = "SELECT 1 FROM Document WHERE documentId = ?";
         const insertResourceSql = "INSERT INTO Resource (data) VALUES (?)";
-        const insertDocResSql = "INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (?, ?, ?, ?)";
+        const insertDocResSql =
+          "INSERT INTO DocumentResources (documentId, resourceId, fileType, fileName) VALUES (?, ?, ?, ?)";
 
-        if (!files || files.length === 0) return reject(new Error("No file uploaded"));
+        if (!files || files.length === 0)
+          return reject(new Error("No file uploaded"));
 
-        db.get(checkDocumentSql, [documentId], (err: Error | null, row: any) => {
-          if (err) return reject(err);
-          if (!row) return reject(new Error("Document not found"));
+        db.get(
+          checkDocumentSql,
+          [documentId],
+          (err: Error | null, row: any) => {
+            if (err) return reject(err);
+            if (!row) return reject(new Error("Document not found"));
 
-          const uploadPromises = files.map(file => {
-            return new Promise<any>((res, rej) => {
-              db.run(insertResourceSql, [file.buffer], function (err: Error | null) {
-                if (err) return rej(err);
-                const resourceId = this.lastID;
-                db.run(insertDocResSql, [documentId, resourceId, file.mimetype, file.originalname], (err: Error | null) => {
-                  if (err) return rej(err);
-                  res({
-                    resourceId: resourceId,
-                    fileName: file.originalname,
-                    fileType: file.mimetype,
-                    message: "Resource uploaded successfully",
-                  });
-                });
+            const uploadPromises = files.map((file) => {
+              return new Promise<any>((res, rej) => {
+                db.run(
+                  insertResourceSql,
+                  [file.buffer],
+                  function (err: Error | null) {
+                    if (err) return rej(err);
+                    const resourceId = this.lastID;
+                    db.run(
+                      insertDocResSql,
+                      [
+                        documentId,
+                        resourceId,
+                        file.mimetype,
+                        file.originalname,
+                      ],
+                      (err: Error | null) => {
+                        if (err) return rej(err);
+                        res({
+                          resourceId: resourceId,
+                          fileName: file.originalname,
+                          fileType: file.mimetype,
+                          message: "Resource uploaded successfully",
+                        });
+                      }
+                    );
+                  }
+                );
               });
             });
-          });
 
-          Promise.all(uploadPromises)
-            .then(results => resolve({
-              status: 201,
-              resources: results,
-              message: "All resources uploaded successfully",
-            }))
-            .catch(error => reject(error));
-        });
-
+            Promise.all(uploadPromises)
+              .then((results) =>
+                resolve({
+                  status: 201,
+                  resources: results,
+                  message: "All resources uploaded successfully",
+                })
+              )
+              .catch((error) => reject(error));
+          }
+        );
       } catch (error) {
         console.error("Unexpected error in uploadResource:", error);
         reject(error);
@@ -339,9 +406,11 @@ class DocumentDAO {
           params.push(filters.issuanceDateEnd);
         }
         if (filters.stakeholders && filters.stakeholders.length > 0) {
-          const stakeholderConditions = filters.stakeholders.map(() => `stakeholders LIKE ?`).join(' AND ');
+          const stakeholderConditions = filters.stakeholders
+            .map(() => `stakeholders LIKE ?`)
+            .join(" AND ");
           sql += ` AND (${stakeholderConditions})`;
-          filters.stakeholders.forEach(s => params.push(`%${s}%`));
+          filters.stakeholders.forEach((s) => params.push(`%${s}%`));
         }
 
         console.log(sql, params);
@@ -377,18 +446,21 @@ class DocumentDAO {
         FROM DocumentConnections
         WHERE documentId1 = ? OR documentId2 = ?
       `;
-      db.all(sql, [documentId, documentId], (err: Error | null, rows: any[]) => {
-        if (err) {
-          return reject(err);
+      db.all(
+        sql,
+        [documentId, documentId],
+        (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(rows);
         }
-        resolve(rows);
-      });
+      );
     });
   }
 
   async getGeoreferences(isArea?: boolean): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
-
       let sql = `SELECT georeferenceId, coordinates, georeferenceName, isArea FROM Georeference`;
 
       if (isArea === undefined) {
@@ -451,7 +523,7 @@ class DocumentDAO {
               issuanceDate,
               language,
               pages,
-              georeferenceId
+              georeferenceId,
             ],
             (err: Error | null) => {
               if (err) return reject(err);
@@ -463,7 +535,6 @@ class DocumentDAO {
             }
           );
         });
-
       } catch (error) {
         return reject(error);
       }

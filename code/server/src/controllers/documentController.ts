@@ -27,10 +27,9 @@ class DocumentController {
     georeference: string[] | null,
     georeferenceName: string | null
   ): Promise<any> {
-
-    issuanceDate=Utility.emptyFixer(issuanceDate)
-    language=Utility.emptyFixer(language)
-    pages=Utility.emptyFixer(pages)
+    issuanceDate = Utility.emptyFixer(issuanceDate);
+    language = Utility.emptyFixer(language);
+    pages = Utility.emptyFixer(pages);
 
     return this.documentDAO.createDocument(
       title,
@@ -60,6 +59,23 @@ class DocumentController {
     return this.documentDAO.getDocuments();
   }
 
+  async getDocumentById(documentId: number): Promise<any> {
+    const document = await this.documentDAO.getDocumentById(documentId);
+    const documentResources = await this.documentDAO.getResourcesByDocumentId(
+      documentId
+    );
+    const documentConnections =
+      await this.documentDAO.getConnectionDetailsByDocumentId(documentId);
+
+    const response = {
+      ...document,
+      resources: documentResources,
+      connections: documentConnections,
+    };
+
+    return response;
+  }
+
   async georeferenceDocument(
     documentId: number,
     georeference: string[]
@@ -68,7 +84,10 @@ class DocumentController {
     return this.documentDAO.georeferenceDocument(documentId, georeference);
   }
 
-  async uploadResource(documentId: number, files: Express.Multer.File[]): Promise<any> {
+  async uploadResource(
+    documentId: number,
+    files: Express.Multer.File[]
+  ): Promise<any> {
     if (!files || files.length === 0) throw new Error("No files uploaded");
     return this.documentDAO.uploadResource(documentId, files);
   }
@@ -120,10 +139,9 @@ class DocumentController {
     pages: string | null,
     georeferenceId: number | null
   ): Promise<any> {
-
-    issuanceDate=Utility.emptyFixer(issuanceDate)
-    language=Utility.emptyFixer(language)
-    pages=Utility.emptyFixer(pages)
+    issuanceDate = Utility.emptyFixer(issuanceDate);
+    language = Utility.emptyFixer(language);
+    pages = Utility.emptyFixer(pages);
 
     return this.documentDAO.createDocumentWithExistingGeoreference(
       title,
