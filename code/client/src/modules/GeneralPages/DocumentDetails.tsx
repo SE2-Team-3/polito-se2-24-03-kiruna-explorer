@@ -16,6 +16,7 @@ import PointLocation from "../../assets/icons/point location.svg";
 import DocumentType from "../../assets/icons/document type.svg";
 import Calendar from "../../assets/icons/date.svg";
 import PersonBlue from "../../assets/icons/person blue.svg";
+import Book from "../../assets/icons/book.svg";
 
 const DocumentDetails = () => {
   const { isSidebarOpen } = useSidebar();
@@ -95,7 +96,7 @@ const DocumentDetails = () => {
             <span>{document?.language}</span>
           </Col>
           <Col>
-            <i className="bi bi-book"></i>
+            <img src={Book} alt="book" />
             <strong>Pages</strong>
             <span>{document?.pages}</span>
           </Col>
