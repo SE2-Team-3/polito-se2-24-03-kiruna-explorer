@@ -304,6 +304,26 @@ class DocumentRoutes {
           .then((data: any) => res.status(201).json(data))
           .catch((error: any) => next(error))
     );
+
+    this.router.patch(
+      "/:documentId/existing-georeference",
+      this.authenticator.isLoggedIn,
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      body("georeferenceId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .updateGeoreferenceId(
+            parseInt(req.params.documentId, 10),
+            req.body.georeferenceId
+          )
+          .then(() => res.status(200).json({ message: "Georeference updated successfully" }) )
+          .catch((error: any) => next(error))
+    );
   }
 }
 

@@ -138,5 +138,9 @@ class DocumentController {
       georeferenceId
     );
   }
+
+  async updateGeoreferenceId(documentId: number, georeferenceId: number): Promise<boolean> {
+    return this.documentDAO.updateGeoreferenceId(documentId, georeferenceId);
+  }
 }
 export default DocumentController;

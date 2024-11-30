@@ -139,15 +139,17 @@ class DocumentDAO {
           "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
         const updateDocumentSql =
           "UPDATE Document SET georeferenceId=? WHERE documentId=?";
-        const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?)";
+        const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?, ?, ?)";
         db.get(georeferenceIdSql, (err: Error | null, row: any) => {
           if (err) return reject(err);
           const georeferenceId = row.georeferenceId
             ? row.georeferenceId + 1
             : 1;
+          const isArea = georeference.length > 2;
+          const georeferenceName = "geo" + georeferenceId;
           db.run(
             createGeoreferenceSql,
-            [georeferenceId, JSON.stringify(georeference)],
+            [georeferenceId, JSON.stringify(georeference), georeferenceName, isArea],
             (err: Error | null) => {
               if (err) return reject(err);
               db.run(
@@ -467,6 +469,18 @@ class DocumentDAO {
       } catch (error) {
         return reject(error);
       }
+    });
+  }
+
+  async updateGeoreferenceId(documentId: number, georeferenceId: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const sql = `UPDATE Document SET georeferenceId = ? WHERE documentId = ?`;
+      db.run(sql, [georeferenceId, documentId], function(err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
     });
   }
 }
