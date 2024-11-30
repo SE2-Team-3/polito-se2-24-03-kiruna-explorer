@@ -12,13 +12,25 @@ import API from "../../../API/API";
 import Document from "../../../models/document";
 import DraggableMarker from "./DraggableMarker";
 
-const ExploreMap = () => {
+const ExploreMap = (props: any) => {
   const { isSidebarOpen } = useSidebar();
   const [documents, setDocuments] = useState<Document[]>([]);
+  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
 
   useEffect(() => {
-    API.getDocuments().then((docs) => setDocuments(docs));
+    API.getDocuments().then((docs) => {
+      setDocuments(docs);
+      setFilteredDocuments(docs); // Inizializza con tutti i documenti
+    });
   }, []);
+
+  // update documents list based on searchTitle
+  useEffect(() => {
+    const filtered = documents.filter((doc) =>
+      doc.title.toLowerCase().startsWith(props.searchTitle.toLowerCase())
+    );
+    setFilteredDocuments(filtered);
+  }, [props.searchTitle, documents]);
 
   const _created = (e: any) => {
     console.log(e.layer.toGeoJSON());
@@ -68,7 +80,7 @@ const ExploreMap = () => {
         />
 
         <MarkerClusterGroup>
-          {documents.map((document) => (
+          {filteredDocuments.map((document) => (
             <DraggableMarker
               key={document.documentId}
               document={document}

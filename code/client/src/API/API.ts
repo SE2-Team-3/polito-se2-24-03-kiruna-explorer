@@ -60,16 +60,12 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
           response
             .json()
             .then((json: any) => resolve(json))
-            .catch((err: any) =>
-              reject({ error: "Cannot parse server response" })
-            );
+            .catch((err: any) => reject({ error: "Cannot parse server response" }));
         } else {
           response
             .json()
             .then((obj: any) => reject(obj))
-            .catch((err: any) =>
-              reject({ error: "Cannot parse server response" })
-            );
+            .catch((err: any) => reject({ error: "Cannot parse server response" }));
         }
       })
       .catch((err: any) => reject({ error: "Cannot communicate" }));
@@ -110,11 +106,7 @@ async function getDocuments() {
 /**
  * This function creates a link between 2 documents in db.
  */
-function linkDocuments(
-  documentId1: number,
-  documentId2: number,
-  linkType: string
-) {
+function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
   return getJson(
     fetch(baseURL + "documents/link", {
       method: "POST",
@@ -134,10 +126,7 @@ function linkDocuments(
 /**
  * This function updates the georeference of a document in the database.
  */
-function updateDocumentGeoreference(
-  documentId: number,
-  georeference: [[number, number]]
-) {
+function updateDocumentGeoreference(documentId: number, georeference: [[number, number]]) {
   return fetch(`${baseURL}documents/${documentId}`, {
     method: "PATCH", // Correct HTTP method
     headers: {
@@ -165,6 +154,47 @@ async function uploadResources(documentId: number, resources: File[]) {
   });
 }
 
+function getFilteredDocuments(filters: {
+  documentType?: string;
+  nodeType?: string;
+  stakeholders?: string | string[];
+  issuanceDateStart?: string;
+  issuanceDateEnd?: string;
+  language?: string;
+}) {
+  const queryParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== null && value !== "") {
+      // Gestisce valori multipli come array (es. stakeholders)
+      if (Array.isArray(value)) {
+        value.forEach((v) => queryParams.append(key, v));
+      } else {
+        queryParams.append(key, value);
+      }
+    }
+  }
+  console.log(queryParams.toString());
+
+  // Effettua la richiesta GET
+  return fetch(`${baseURL}documents/filtered?${queryParams.toString()}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Opzionale, utile se serve inviare cookie/sessione
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered documents");
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching filtered documents:", error);
+      throw error;
+    });
+}
+
 const API = {
   login,
   logOut,
@@ -173,7 +203,8 @@ const API = {
   linkDocuments,
   getDocuments,
   uploadResources,
-  updateDocumentGeoreference, // Added the new function here
+  updateDocumentGeoreference,
+  getFilteredDocuments,
 };
 
 export default API;
