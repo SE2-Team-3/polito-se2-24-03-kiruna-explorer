@@ -89,7 +89,8 @@ class DocumentController {
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
-    issuanceDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
     language?: string;
   }): Promise<any[]> {
     return this.documentDAO.getFilteredDocuments(filters);

@@ -213,7 +213,8 @@ class DocumentRoutes {
           return [value];
         })
         .isArray(),
-      query("issuanceDate").optional().matches(/^\d{4}(-\d{1,2}){0,2}$/),
+      query("issuanceDateStart").optional().matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
+      query("issuanceDateEnd").optional().matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
       query("language").optional().isString().isIn([
         "English",
         "Swedish"
@@ -225,7 +226,8 @@ class DocumentRoutes {
           documentType: req.query.documentType,
           nodeType: req.query.nodeType,
           stakeholders: req.query.stakeholders,
-          issuanceDate: req.query.issuanceDate,
+          issuanceDateStart: req.query.issuanceDateStart,
+          issuanceDateEnd: req.query.issuanceDateEnd,
           language: req.query.language,
         };
         this.controller

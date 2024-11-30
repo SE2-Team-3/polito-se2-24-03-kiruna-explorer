@@ -302,7 +302,8 @@ class DocumentDAO {
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
-    issuanceDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
     language?: string;
   }): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
@@ -327,15 +328,23 @@ class DocumentDAO {
           sql += ` AND language = ?`;
           params.push(filters.language);
         }
-        if (filters.issuanceDate) {
-          sql += ` AND issuanceDate LIKE ?`;
-          params.push(`${filters.issuanceDate}%`);
+        if (filters.issuanceDateStart && filters.issuanceDateEnd) {
+          sql += " AND issuanceDate BETWEEN ? AND ?";
+          params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
+        } else if (filters.issuanceDateStart) {
+          sql += " AND issuanceDate >= ?";
+          params.push(filters.issuanceDateStart);
+        } else if (filters.issuanceDateEnd) {
+          sql += " AND issuanceDate <= ?";
+          params.push(filters.issuanceDateEnd);
         }
         if (filters.stakeholders && filters.stakeholders.length > 0) {
           const stakeholderConditions = filters.stakeholders.map(() => `stakeholders LIKE ?`).join(' AND ');
           sql += ` AND (${stakeholderConditions})`;
           filters.stakeholders.forEach(s => params.push(`%${s}%`));
         }
+
+        console.log(sql, params);
 
         db.all(sql, params, (err: Error | null, rows: any[]) => {
           if (err) return reject(err);
