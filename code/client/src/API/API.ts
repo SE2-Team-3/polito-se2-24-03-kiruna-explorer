@@ -158,7 +158,8 @@ function getFilteredDocuments(filters: {
   documentType?: string;
   nodeType?: string;
   stakeholders?: string | string[];
-  issuanceDate?: string;
+  issuanceDateStart?: string;
+  issuanceDateEnd?: string;
   language?: string;
 }) {
   const queryParams = new URLSearchParams();

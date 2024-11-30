@@ -2,15 +2,27 @@ import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import Document from "../../../models/document";
 import "./FilterPopup.css";
 import API from "../../../API/API";
-import { Col, Row } from "react-bootstrap";
-
+import { Button, Col, Dropdown, Row } from "react-bootstrap";
+import ClearIcon from "../../../assets/icons/close.svg";
 interface FilterProps {
   setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
 }
 
+const nodeTypes = [
+  "Design document",
+  "Informative document",
+  "Prescriptive document",
+  "Technical document",
+  "Agreement",
+  "Conflict",
+  "Consultation",
+  "Action",
+];
+
 const FilterTable: FC<FilterProps> = (props) => {
   const [filters, setFilters] = useState<Filters>({
     documentType: "",
+    nodeType: "",
     stakeholders: [],
     issuanceDateStart: "",
     issuanceDateEnd: "",
@@ -20,6 +32,7 @@ const FilterTable: FC<FilterProps> = (props) => {
 
   interface Filters {
     documentType?: string;
+    nodeType?: string;
     stakeholders?: string | string[];
     issuanceDateStart?: string;
     issuanceDateEnd?: string;
@@ -98,7 +111,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                   checked={filters.documentType === "Architectural plan"}
                   onChange={handleChange}
                 />
-                Architectural
+                Plan
               </label>
               <label>
                 <input
@@ -160,10 +173,10 @@ const FilterTable: FC<FilterProps> = (props) => {
               <input
                 type="checkbox"
                 name="stakeholders"
-                value="Arichitecture firms"
+                value="Architecture firms"
                 onChange={handleChange}
               />
-              Arichitecture firms
+              Architecture firms
             </label>
             <label>
               <input
@@ -174,6 +187,50 @@ const FilterTable: FC<FilterProps> = (props) => {
               />
               Regional authority
             </label>
+          </div>
+        </div>
+
+        {/* Node Type */}
+
+        <div className="filter-group">
+          <label>Node Type</label>
+          <div>
+            <Dropdown>
+              <Row>
+                <Col md={8}>
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-basic"
+                    className="dropdown-toggle"
+                  >
+                    {filters.nodeType || "Select Node Type"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {nodeTypes.map((nodeType) => (
+                      <Dropdown.Item
+                        className="dropdown-item"
+                        key={nodeType}
+                        onClick={() => {
+                          setFilters({ ...filters, nodeType });
+                        }}
+                      >
+                        {nodeType}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Col>
+                <Col md={4}>
+                  <Button
+                    className="clear-button"
+                    onClick={() => {
+                      setFilters({ ...filters, nodeType: "" });
+                    }}
+                  >
+                    <img src={ClearIcon} alt="Clear" />
+                  </Button>
+                </Col>
+              </Row>
+            </Dropdown>
           </div>
         </div>
 
