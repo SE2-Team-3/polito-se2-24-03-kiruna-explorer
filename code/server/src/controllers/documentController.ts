@@ -59,6 +59,25 @@ class DocumentController {
     return this.documentDAO.getDocuments();
   }
 
+  async getDocumentById(documentId: number): Promise<any> {
+    const document = await this.documentDAO.getDocumentById(documentId);
+    const documentResources = await this.documentDAO.getResourcesByDocumentId(
+      documentId
+    );
+    const documentConnections =
+      await this.documentDAO.getConnectionDetailsByDocumentId(documentId);
+
+    const response = document
+      ? {
+          ...document,
+          resources: documentResources,
+          linkedDocuments: documentConnections,
+        }
+      : {};
+
+    return response;
+  }
+
   async georeferenceDocument(
     documentId: number,
     georeference: string[]
@@ -91,7 +110,8 @@ class DocumentController {
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
-    issuanceDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
     language?: string;
   }): Promise<any[]> {
     return this.documentDAO.getFilteredDocuments(filters);
@@ -137,6 +157,13 @@ class DocumentController {
       pages,
       georeferenceId
     );
+  }
+
+  async updateGeoreferenceId(
+    documentId: number,
+    georeferenceId: number
+  ): Promise<boolean> {
+    return this.documentDAO.updateGeoreferenceId(documentId, georeferenceId);
   }
 }
 export default DocumentController;

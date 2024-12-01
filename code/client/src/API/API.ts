@@ -183,6 +183,47 @@ async function uploadResources(documentId: number, resources: File[]) {
   });
 }
 
+function getFilteredDocuments(filters: {
+  documentType?: string;
+  nodeType?: string;
+  stakeholders?: string | string[];
+  issuanceDateStart?: string;
+  issuanceDateEnd?: string;
+  language?: string;
+}) {
+  const queryParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== null && value !== "") {
+      // Gestisce valori multipli come array (es. stakeholders)
+      if (Array.isArray(value)) {
+        value.forEach((v) => queryParams.append(key, v));
+      } else {
+        queryParams.append(key, value);
+      }
+    }
+  }
+  console.log(queryParams.toString());
+
+  // Effettua la richiesta GET
+  return fetch(`${baseURL}documents/filtered?${queryParams.toString()}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Opzionale, utile se serve inviare cookie/sessione
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered documents");
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching filtered documents:", error);
+      throw error;
+    });
+}
+
 const API = {
   login,
   logOut,
@@ -193,6 +234,7 @@ const API = {
   uploadResources,
   updateDocumentGeoreference, // Added the new function here
   getConnections,
+  getFilteredDocuments,
 };
 
 export default API;

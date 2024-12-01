@@ -131,6 +131,48 @@ class DocumentDAO {
       }
     });
   }
+
+  getConnectionDetailsByDocumentId(documentId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const sql = `
+        SELECT DISTINCT D.documentId, D.title, DC.connection
+        FROM DocumentConnections DC
+        JOIN Document D ON (DC.documentId1 = D.documentId OR DC.documentId2 = D.documentId)
+        WHERE (DC.documentId1 = ? OR DC.documentId2 = ?) AND D.documentId != ?
+      `;
+
+      db.all(
+        sql,
+        [documentId, documentId, documentId],
+        (err: Error | null, rows: any[]) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(rows);
+        }
+      );
+    });
+  }
+
+  getDocumentById(documentId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      try {
+        const sql = `
+        SELECT 
+          D.documentId, D.title, D.description, D.documentType, D.scale, D.nodeType, D.stakeholders, D.issuanceDate, D.language, D.pages, G.coordinates
+        FROM Document D
+        LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId
+        WHERE D.documentId = ?`;
+        db.get(sql, [documentId], (err: Error | null, rows: any) => {
+          if (err) return reject(err);
+          resolve(rows);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   georeferenceDocument(
     documentId: number,
     georeference: string[]
@@ -141,15 +183,23 @@ class DocumentDAO {
           "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
         const updateDocumentSql =
           "UPDATE Document SET georeferenceId=? WHERE documentId=?";
-        const createGeoreferenceSql = "INSERT INTO Georeference VALUES (?, ?)";
+        const createGeoreferenceSql =
+          "INSERT INTO Georeference VALUES (?, ?, ?, ?)";
         db.get(georeferenceIdSql, (err: Error | null, row: any) => {
           if (err) return reject(err);
           const georeferenceId = row.georeferenceId
             ? row.georeferenceId + 1
             : 1;
+          const isArea = georeference.length > 2;
+          const georeferenceName = "geo" + georeferenceId;
           db.run(
             createGeoreferenceSql,
-            [georeferenceId, JSON.stringify(georeference)],
+            [
+              georeferenceId,
+              JSON.stringify(georeference),
+              georeferenceName,
+              isArea,
+            ],
             (err: Error | null) => {
               if (err) return reject(err);
               db.run(
@@ -327,7 +377,8 @@ class DocumentDAO {
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
-    issuanceDate?: string;
+    issuanceDateStart?: string;
+    issuanceDateEnd?: string;
     language?: string;
   }): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
@@ -352,9 +403,15 @@ class DocumentDAO {
           sql += ` AND language = ?`;
           params.push(filters.language);
         }
-        if (filters.issuanceDate) {
-          sql += ` AND issuanceDate LIKE ?`;
-          params.push(`${filters.issuanceDate}%`);
+        if (filters.issuanceDateStart && filters.issuanceDateEnd) {
+          sql += " AND issuanceDate BETWEEN ? AND ?";
+          params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
+        } else if (filters.issuanceDateStart) {
+          sql += " AND issuanceDate >= ?";
+          params.push(filters.issuanceDateStart);
+        } else if (filters.issuanceDateEnd) {
+          sql += " AND issuanceDate <= ?";
+          params.push(filters.issuanceDateEnd);
         }
         if (filters.stakeholders && filters.stakeholders.length > 0) {
           const stakeholderConditions = filters.stakeholders
@@ -363,6 +420,8 @@ class DocumentDAO {
           sql += ` AND (${stakeholderConditions})`;
           filters.stakeholders.forEach((s) => params.push(`%${s}%`));
         }
+
+        console.log(sql, params);
 
         db.all(sql, params, (err: Error | null, rows: any[]) => {
           if (err) return reject(err);
@@ -487,6 +546,21 @@ class DocumentDAO {
       } catch (error) {
         return reject(error);
       }
+    });
+  }
+
+  async updateGeoreferenceId(
+    documentId: number,
+    georeferenceId: number
+  ): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const sql = `UPDATE Document SET georeferenceId = ? WHERE documentId = ?`;
+      db.run(sql, [georeferenceId, documentId], function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
     });
   }
 }
