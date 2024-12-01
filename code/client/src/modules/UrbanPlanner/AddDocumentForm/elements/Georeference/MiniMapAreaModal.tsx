@@ -45,6 +45,7 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
           rectangle: false,
           circle: false,
           marker: false,
+          circlemarker: false,
         },
         edit: {
           featureGroup: featureGroupRef.current as L.FeatureGroup,
