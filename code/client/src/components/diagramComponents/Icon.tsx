@@ -1,4 +1,13 @@
 import { Handle, Position } from "@xyflow/react";
+import Action from "../../assets/icons/nodeType/action.svg";
+import Agreement from "../../assets/icons/nodeType/agreement.svg";
+import Conflict from "../../assets/icons/nodeType/conflict.svg";
+import Consultation from "../../assets/icons/nodeType/consultation.svg";
+import Design from "../../assets/icons/nodeType/design document.svg";
+import Informative from "../../assets/icons/nodeType/informative document.svg";
+import Prescriptive from "../../assets/icons/nodeType/prescriptive document.svg";
+import Technical from "../../assets/icons/nodeType/technical document.svg";
+import Logo from "../../assets/icons/Kiruna Icon - 2.svg";
 
 interface FunctionIconProps {
   data: {
@@ -11,19 +20,19 @@ interface FunctionIconProps {
 
 // Mappa delle icone per ciascun tipo di nodo (basato su nodeType)
 const iconMap: { [key: string]: string } = {
-  "Design document": "bi-file-earmark-richtext",
-  "Informative document": "bi-file-earmark-font",
-  "Prescriptive document": "bi-file-earmark-lock",
-  "Technical document": "bi-file-earmark-ruled",
-  Agreement: "bi-globe2",
-  Conflict: "bi-people",
-  Consultation: "bi-question-circle",
-  Action: "bi-file-earmark-plus",
+  "Design document": Design,
+  "Informative document": Informative,
+  "Prescriptive document": Prescriptive,
+  "Technical document": Technical,
+  Agreement: Agreement,
+  Conflict: Conflict,
+  Consultation: Consultation,
+  Action: Action,
 };
 
 const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
   // Recupera l'icona corretta basata sul nodeType
-  const iconClass = iconMap[data.nodeType] || "bi-x";
+  const iconClass = iconMap[data.nodeType] || Logo;
 
   return (
     <div className="node-wrap">
@@ -63,10 +72,11 @@ const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
         }}
       >
         <span>{data.label}</span>
-        <i
-          className={`bi ${iconClass}`}
-          style={{ fontSize: "20px", marginTop: "10px" }}
-        ></i>
+        <img
+          src={iconClass}
+          alt={`${data.nodeType} icon`}
+          style={{ marginLeft: "5px" }}
+        ></img>
       </div>
     </div>
   );
