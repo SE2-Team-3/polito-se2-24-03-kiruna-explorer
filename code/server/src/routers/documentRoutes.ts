@@ -119,13 +119,6 @@ class DocumentRoutes {
         .catch((err) => next(err));
     });
 
-    this.router.get("/:documentId", (req: any, res: any, next: any) => {
-      this.controller
-        .getDocumentById(parseInt(req.params.documentId, 10))
-        .then((document) => res.status(200).json(document))
-        .catch((error: any) => next(error));
-    });
-
     /*
      * This route can be used to update any field of a document in the future, just by specifying in the body the field to update and its new value.
      * For now it will by default always assume the call is made to update the georeference.
@@ -267,6 +260,20 @@ class DocumentRoutes {
           .getConnectionsById(parseInt(req.params.documentId, 10))
           .then((connections) => res.status(200).json(connections))
           .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/:documentId",
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) => {
+        this.controller
+          .getDocumentById(parseInt(req.params.documentId, 10))
+          .then((document) => res.status(200).json(document))
+          .catch((error: any) => next(error));
+      }
     );
 
     this.router.get(
