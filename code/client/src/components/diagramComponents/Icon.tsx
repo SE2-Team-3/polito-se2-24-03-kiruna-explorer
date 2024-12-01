@@ -12,13 +12,14 @@ import Logo from "../../assets/icons/Kiruna Icon - 2.svg";
 interface FunctionIconProps {
   data: {
     label: string;
-    nodeType: string; // Cambiato per usare nodeType
+    nodeType: string;
+    stakeholder: string;
     showEdges: boolean;
   };
   isConnectable: boolean;
 }
 
-// Mappa delle icone per ciascun tipo di nodo (basato su nodeType)
+// Map the icon
 const iconMap: { [key: string]: string } = {
   "Design document": Design,
   "Informative document": Informative,
@@ -30,13 +31,27 @@ const iconMap: { [key: string]: string } = {
   Action: Action,
 };
 
-const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
-  // Recupera l'icona corretta basata sul nodeType
-  const iconClass = iconMap[data.nodeType] || Logo;
+const colorMap: { [key: string]: string } = {
+  Municipality: "#3D52A0",
+  LKAB: "#F9837C",
+  Citizen: "#75DDDD",
+  "Architecture firms": "#F1D302",
+  "Regional authority": "#F4D35E",
+  Others: "#F1C8DB",
+};
 
+const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
+  const iconClass = iconMap[data.nodeType] || Logo;
+  const colorClass = Object.keys(colorMap).find((key) =>
+    data.stakeholder.includes(key)
+  )
+    ? colorMap[
+        Object.keys(colorMap).find((key) => data.stakeholder.includes(key))!
+      ]
+    : "#000";
   return (
-    <div className="node-wrap">
-      {/* Handle per la connessione in entrata */}
+    <div className="node-wrap" style={{ border: `3px solid ${colorClass}` }}>
+      {/* Handle input */}
       <Handle
         type="target"
         position={Position.Left}
@@ -49,7 +64,7 @@ const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
           visibility: data.showEdges ? "visible" : "hidden",
         }}
       />
-      {/* Handle per la connessione in uscita */}
+      {/* Handle output */}
       <Handle
         type="source"
         position={Position.Right}
@@ -59,10 +74,11 @@ const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
           height: 10,
           background: "#555",
           borderRadius: "50%",
+
           visibility: data.showEdges ? "visible" : "hidden",
         }}
       />
-      {/* Icona e label del nodo */}
+      {/* Icona and label */}
       <div
         style={{
           textAlign: "center",

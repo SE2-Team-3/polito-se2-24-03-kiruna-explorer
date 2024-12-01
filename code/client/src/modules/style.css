@@ -1155,6 +1155,7 @@ DIAGRAM
   border-bottom: 1px solid #333;
   text-align: left;
   font-weight: bold;
+  color: #3d52a0;
 }
 
 .side-table {
@@ -1172,6 +1173,7 @@ DIAGRAM
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #3d52a0;
 }
 
 .popup {
@@ -1246,7 +1248,6 @@ svg {
   width: auto;
   height: auto;
   background-color: white;
-  border: 1px solid #555;
   border-radius: 10px;
   padding: 3px;
   cursor: move;

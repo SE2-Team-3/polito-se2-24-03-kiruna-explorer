@@ -22,12 +22,14 @@ const EdgePopup: React.FC<PopupProps> = ({ linkTypes, onClose }) => {
       }}
     >
       <h3>Link Types</h3>
-      <ul>
+      <ul className="font-size-20">
         {linkTypes.map((linkType, index) => (
           <li key={index}>{linkType}</li>
         ))}
       </ul>
-      <button onClick={onClose}>Close</button>
+      <button onClick={onClose} className="button-small mt-2">
+        Close
+      </button>
     </div>
   );
 };

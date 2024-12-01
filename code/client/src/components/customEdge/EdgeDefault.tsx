@@ -46,7 +46,7 @@ const EdgeDefault = ({
             width={labelWidth}
             height={labelHeight}
             fill="#fff"
-            stroke="#000"
+            stroke="#3d52a0"
             strokeWidth={1}
             rx={5}
             ry={5}
@@ -58,7 +58,7 @@ const EdgeDefault = ({
             dominantBaseline="middle"
             style={{
               fontSize: "12px",
-              fill: "#000",
+              fill: "#3d52a0",
               pointerEvents: "none",
               zIndex: 5,
             }}
