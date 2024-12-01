@@ -115,6 +115,12 @@ async function getDocumentById(documentId: number): Promise<DocumentDetail> {
 
   if (response.ok) {
     const document: DocumentDetail = await response.json();
+    if (typeof document.stakeholders === "string") {
+      document.stakeholders = JSON.parse(document.stakeholders);
+    }
+    if (typeof document.coordinates === "string") {
+      document.coordinates = JSON.parse(document.coordinates);
+    }
     return document;
   } else {
     const errDetail = await response.json();
