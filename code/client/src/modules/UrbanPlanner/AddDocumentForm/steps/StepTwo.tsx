@@ -43,27 +43,24 @@ const StepTwo = ({
   return (
     <>
       <form onSubmit={onSubmit}>
-        <StakeholderSelection
-          ref={stakeholderSelectionRef}
-          document={document}
-          setDocument={setDocument}
-        />
-        <ScaleSelection document={document} setDocument={setDocument} />
-        <NodeType document={document} setDocument={setDocument} />
-        <DateSelection document={document} setDocument={setDocument} />
-        <GeoreferenceTypeSelection
-          document={document}
-          setDocument={setDocument}
-        />
+        <Row>
+          <StakeholderSelection
+            ref={stakeholderSelectionRef}
+            document={document}
+            setDocument={setDocument}
+          />
+          <DateSelection document={document} setDocument={setDocument} />
+        </Row>
+        <Row>
+          <ScaleSelection document={document} setDocument={setDocument} />
+          <NodeType document={document} setDocument={setDocument} />
+        </Row>
+        <GeoreferenceTypeSelection document={document} setDocument={setDocument} />
         <Row className="row-box-button">
           <Button onClick={onBack} className="button-white mt-3 me-3">
             Back
           </Button>
-          <Button
-            type="submit"
-            onClick={validateForm}
-            className="button-blue mt-3"
-          >
+          <Button type="submit" onClick={validateForm} className="button-blue mt-3">
             Submit
           </Button>
         </Row>

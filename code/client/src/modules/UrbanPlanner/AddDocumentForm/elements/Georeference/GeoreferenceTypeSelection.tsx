@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";
 import GeoreferenceSelection from "./GeoreferenceSelection";
+import GeoreferenceAreaSelection from "./GeoreferenceAreaSelection";
 
 const GeoreferenceTypeSelection = (props: Props) => {
   const [geoType, setGeoType] = useState("Municipality");
-  const [showMiniMap, setShowMiniMap] = useState(true);
+  const [showMiniMap, setShowMiniMap] = useState(false);
+  const [showPolygonMap, setShowPolygonMap] = useState(false); // Stato per il modal del poligono
 
   useEffect(() => {
     if (geoType === "Municipality") {
@@ -19,7 +21,11 @@ const GeoreferenceTypeSelection = (props: Props) => {
 
   const handleGeoSelection = (value: string) => {
     setGeoType(value);
-    setShowMiniMap(true);
+    if (value === "Point") {
+      setShowMiniMap(true);
+    } else if (value === "Polygon") {
+      setShowPolygonMap(true);
+    }
   };
 
   return (
@@ -48,9 +54,18 @@ const GeoreferenceTypeSelection = (props: Props) => {
               value="Point"
               checked={geoType === "Point"}
               onChange={(e) => handleGeoSelection(e.target.value)}
-              onClick={(e: React.MouseEvent<HTMLInputElement>) =>
-                handleGeoSelection((e.target as HTMLInputElement).value)
-              }
+              className="font-size-20"
+            />
+          </Col>
+          <Col xs="auto">
+            <Form.Check
+              type="radio"
+              id="georeference-polygon"
+              label="Polygon"
+              name="georeference"
+              value="Polygon"
+              checked={geoType === "Polygon"}
+              onChange={(e) => handleGeoSelection(e.target.value)}
               className="font-size-20"
             />
           </Col>
@@ -60,6 +75,13 @@ const GeoreferenceTypeSelection = (props: Props) => {
             {...props}
             showMiniMap={showMiniMap}
             setShowMiniMap={setShowMiniMap}
+          />
+        )}
+        {geoType === "Polygon" && (
+          <GeoreferenceAreaSelection
+            {...props}
+            showPolygonMap={showPolygonMap}
+            setShowPolygonMap={setShowPolygonMap}
           />
         )}
       </Form.Group>

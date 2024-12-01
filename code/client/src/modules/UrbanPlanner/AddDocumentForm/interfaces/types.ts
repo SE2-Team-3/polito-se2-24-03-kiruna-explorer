@@ -12,6 +12,7 @@ export interface NewDocument {
   pages: string;
   //Connections: number;
   georeference: number[][] | null;
+  georeferenceName?: string;
 }
 
 export interface Props {

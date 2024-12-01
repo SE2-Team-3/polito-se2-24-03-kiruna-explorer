@@ -201,14 +201,14 @@ const FilterTable: FC<FilterProps> = (props) => {
                   <Dropdown.Toggle
                     variant="success"
                     id="dropdown-basic"
-                    className="dropdown-toggle"
+                    className="dropdown-toggle-filter"
                   >
                     {filters.nodeType || "Select Node Type"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     {nodeTypes.map((nodeType) => (
                       <Dropdown.Item
-                        className="dropdown-item"
+                        className="dropdown-item-filter"
                         key={nodeType}
                         onClick={() => {
                           setFilters({ ...filters, nodeType });

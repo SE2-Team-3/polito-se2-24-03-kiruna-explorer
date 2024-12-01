@@ -1,7 +1,6 @@
 import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, FeatureGroup } from "react-leaflet";
-import { EditControl } from "react-leaflet-draw";
+import { MapContainer, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css";
@@ -32,11 +31,6 @@ const ExploreMap = (props: any) => {
     setFilteredDocuments(filtered);
   }, [props.searchTitle, documents]);
 
-  const _created = (e: any) => {
-    console.log(e.layer.toGeoJSON());
-    console.log(e.layer.toGeoJSON().geometry.coordinates);
-  };
-
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513]; // Default position (Kiruna)
 
   return (
@@ -50,29 +44,6 @@ const ExploreMap = (props: any) => {
         scrollWheelZoom={true}
         className="map-container"
       >
-        <FeatureGroup>
-          <EditControl
-            position="topright"
-            onCreated={_created}
-            draw={{
-              rectangle: false,
-              circle: false,
-              circlemarker: false,
-              marker: false,
-              polyline: false,
-              polygon: {
-                allowIntersection: false,
-                drawError: {
-                  color: "#e1e100",
-                  message: "<strong>Oh no!<strong> you can't draw that!",
-                },
-                shapeOptions: {
-                  color: "#3D52A0",
-                },
-              },
-            }}
-          />
-        </FeatureGroup>
         <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
         <TileLayer
           attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>'

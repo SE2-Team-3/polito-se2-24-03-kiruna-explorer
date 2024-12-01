@@ -31,7 +31,8 @@ PAGE STYLE
   border-radius: 10px;
   width: 100%;
   max-width: 1200px;
-  padding: 10px;
+  padding-inline: 70px;
+  padding-block: 30px;
   box-sizing: border-box;
   max-height: calc(100vh - 130px);
   overflow-y: auto;

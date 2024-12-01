@@ -16,9 +16,7 @@ const GeoreferenceSelection = (
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [
-        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
-      ],
+      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
     });
   }, [latitude, longitude]);
 

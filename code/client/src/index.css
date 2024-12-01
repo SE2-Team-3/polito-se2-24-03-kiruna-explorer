@@ -356,10 +356,10 @@ input {
   font-size: 0.9rem;
 }
 
-input::placeholder {
-  color: #768ec8; /* Colore del placeholder */
+/* input::placeholder {
+  color: #768ec8;
   font-size: 0.9rem;
-}
+} */
 
 .clear-button {
   background: none;
