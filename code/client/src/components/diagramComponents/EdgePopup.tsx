@@ -13,9 +13,10 @@ const EdgePopup: React.FC<PopupProps> = ({ linkTypes, onClose }) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        background: "#fff",
+        background: "white",
         padding: "20px",
         borderRadius: "8px",
+        border: "2px solid #3d52a0",
         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
         zIndex: 9999,
       }}

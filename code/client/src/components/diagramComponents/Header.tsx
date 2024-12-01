@@ -30,6 +30,7 @@ const Header = ({
               style={{
                 width: `${yearWidths[index]}px`,
                 whiteSpace: "nowrap",
+                padding: "10px",
               }}
             >
               {year}
