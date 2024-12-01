@@ -78,7 +78,7 @@ export default function LinkDocumentForm() {
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
-        <Form className="document-form" onSubmit={handleSubmit} noValidate>
+        <Form className="document-form-link" onSubmit={handleSubmit} noValidate>
           <Row className="form-title">Link Documents</Row>
           <DocumentSelector
             documents={documents}
@@ -90,17 +90,10 @@ export default function LinkDocumentForm() {
           <LinkTypeSelector linkType={linkType} setLinkType={setLinkType} />
           <Row className="row-box">
             <Col className="col-box">
-              <Button
-                type="submit"
-                className="button-blue ms-3 btn btn-primary float-end"
-              >
+              <Button type="submit" className="button-blue ms-3 btn btn-primary float-end">
                 Submit
               </Button>
-              <Button
-                variant="primary"
-                className="button-white float-end"
-                onClick={handleCancel}
-              >
+              <Button variant="primary" className="button-white float-end" onClick={handleCancel}>
                 Cancel
               </Button>
             </Col>

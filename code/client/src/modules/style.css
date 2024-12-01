@@ -55,6 +55,11 @@ FORM STYLE
 */
 .document-form {
   padding: 20px;
+  width: 40%;
+}
+
+.document-form-link {
+  padding: 20px;
 }
 
 .row-box {
