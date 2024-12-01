@@ -119,13 +119,6 @@ class DocumentRoutes {
         .catch((err) => next(err));
     });
 
-    this.router.get("/:documentId", (req: any, res: any, next: any) => {
-      this.controller
-        .getDocumentById(parseInt(req.params.documentId, 10))
-        .then((document) => res.status(200).json(document))
-        .catch((error: any) => next(error));
-    });
-
     /*
      * This route can be used to update any field of a document in the future, just by specifying in the body the field to update and its new value.
      * For now it will by default always assume the call is made to update the georeference.
@@ -171,7 +164,9 @@ class DocumentRoutes {
 
     this.router.get(
       "/resource/:resourceId",
-      param("resourceId").isInt().custom((value) => value > 0),
+      param("resourceId")
+        .isInt()
+        .custom((value) => value > 0),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
@@ -196,22 +191,23 @@ class DocumentRoutes {
     this.router.get(
       "/filtered",
       query("title").optional().isString(),
-      query("documentType").optional().isString().isIn([
-        "Text",
-        "Concept",
-        "Architectural plan",
-        "Blueprints/actions"
-      ]),
-      query("nodeType").optional().isString().isIn([
-        "Design document",
-        "Informative document",
-        "Prescriptive document",
-        "Technical document",
-        "Agreement",
-        "Conflict",
-        "Consultation",
-        "Action"
-      ]),
+      query("documentType")
+        .optional()
+        .isString()
+        .isIn(["Text", "Concept", "Architectural plan", "Blueprints/actions"]),
+      query("nodeType")
+        .optional()
+        .isString()
+        .isIn([
+          "Design document",
+          "Informative document",
+          "Prescriptive document",
+          "Technical document",
+          "Agreement",
+          "Conflict",
+          "Consultation",
+          "Action",
+        ]),
       query("stakeholders")
         .optional()
         .customSanitizer((value) => {
@@ -221,12 +217,13 @@ class DocumentRoutes {
           return [value];
         })
         .isArray(),
-      query("issuanceDateStart").optional().matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
-      query("issuanceDateEnd").optional().matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
-      query("language").optional().isString().isIn([
-        "English",
-        "Swedish"
-      ]),
+      query("issuanceDateStart")
+        .optional()
+        .matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
+      query("issuanceDateEnd")
+        .optional()
+        .matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
+      query("language").optional().isString().isIn(["English", "Swedish"]),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) => {
         const filters = {
@@ -266,6 +263,20 @@ class DocumentRoutes {
     );
 
     this.router.get(
+      "/:documentId",
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) => {
+        this.controller
+          .getDocumentById(parseInt(req.params.documentId, 10))
+          .then((document) => res.status(200).json(document))
+          .catch((error: any) => next(error));
+      }
+    );
+
+    this.router.get(
       "/georeferences",
       query("isArea")
         .optional()
@@ -273,7 +284,10 @@ class DocumentRoutes {
         .withMessage("isArea must be a boolean"),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) => {
-        const isArea = req.query.isArea !== undefined ? req.query.isArea === 'true' : undefined;
+        const isArea =
+          req.query.isArea !== undefined
+            ? req.query.isArea === "true"
+            : undefined;
         this.controller
           .getGeoreferences(isArea)
           .then((georeferences) => res.status(200).json(georeferences))
@@ -293,7 +307,10 @@ class DocumentRoutes {
       body("issuanceDate").optional().isString(),
       body("language").optional().isString(),
       body("pages").optional().isString(),
-      body("georeferenceId").optional({ nullable: true }).isInt().custom((value) => value > 0),
+      body("georeferenceId")
+        .optional({ nullable: true })
+        .isInt()
+        .custom((value) => value > 0),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
@@ -307,7 +324,7 @@ class DocumentRoutes {
             req.body.issuanceDate,
             req.body.language,
             req.body.pages,
-            req.body.georeferenceId,
+            req.body.georeferenceId
           )
           .then((data: any) => res.status(201).json(data))
           .catch((error: any) => next(error))
@@ -329,7 +346,11 @@ class DocumentRoutes {
             parseInt(req.params.documentId, 10),
             req.body.georeferenceId
           )
-          .then(() => res.status(200).json({ message: "Georeference updated successfully" }) )
+          .then(() =>
+            res
+              .status(200)
+              .json({ message: "Georeference updated successfully" })
+          )
           .catch((error: any) => next(error))
     );
   }
