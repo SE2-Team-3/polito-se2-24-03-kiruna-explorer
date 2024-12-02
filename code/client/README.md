@@ -166,6 +166,13 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Node Form](#node-form)
       - [Sidebar](#sidebar)
       - [Zoom Slider](#zoom-slider)
+      - [Edge Popup](#edge-popup)
+    - [2.3. Custom Edge](#23-custom-edge)
+      - [Edge Collateral Consequence](#edge-collateral-consequence)
+      - [Edge Default](#edge-default)
+      - [Edge Direct Consequence](#edge-direct-consequence)
+      - [Edge Prevision](#edge-prevision)
+      - [Edge Update](#edge-update)
     - [Home](#home)
     - [Login](#login)
   - [3. Urban Planner](#4-urban-planner)
@@ -195,6 +202,7 @@ The `App` component defines a set of routes to handle navigation between differe
     - [3.3. Urban Planner Dashboard](#33-urban-planner-dashboard)
     - [3.4. Documents List](#34-documents-lists)
     - [3.5. Add Resource Form](#35-add-resource-form)
+    - [3.6. Filter Popup](#36-filter-popup)
 
 ## 1. General Components
 
@@ -250,7 +258,7 @@ The component  provides functionality for displaying documents as markers on a c
 This folder contains components for Georeferencing documents on diagram:
 
 ### BG Table 
-**File**: `undefined now`  
+**File**: `components/diagramComponents/BGTable.tsx`  
 This component renders a large HTML table with a predefined structure.
 
 ---
@@ -262,13 +270,13 @@ The component is  designed to render an interactive diagram.
 ---
 
 ### Header  
-**File**: `undefined now`  
+**File**: `components/diagramComponents/Header.tsx`  
 The component is  designed to render a table header containing a list of years.
 
 ---
 
 ### Icon 
-**File**: `undefined now`
+**File**: `components/diagramComponents/Icon.tsx`
 This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
 
 ---
@@ -279,13 +287,52 @@ The component is designed to provide a form interface for adding a new node to d
 
 ---
 ### Sidebar  
-**File**: `undefined now`
+**File**: `components/diagramComponents/Sidebar.tsx`
 This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
 
 ---
 ### Zoom Slider  
 **File**: `undefined now`
 The component is designed to control and display the zoom level of a viewport in the diagram. 
+
+---
+
+### Edge popup  
+**File**: `components/diagramComponents/EdgePopup.tsx`
+This component serves as a popup modal displaying a list of "link types" and includes a button to close the moda
+
+---
+
+### 2.3. Custom Edge
+This folder contains components that define link types between two documnets on diagram:
+
+### Edge Collateral Consequence
+**File**: `components/customEdge/EdgeCollateralConsequence.tsx`
+The component provides edge for "Collateral" link type on diagram.
+
+---
+
+### Edge Default
+**File**: `components/customEdge/EdgeDefault.tsx`
+The component provides edge for "Default" link type on diagram.
+
+---
+
+### Edge Direct Consequence
+**File**: `components/customEdge/EdgeDirectConsequence.tsx`
+The component provides edge for "Direct" link type on diagram.
+
+---
+
+### Edge Prevision 
+**File**: `components/customEdge/EdgePrevision.tsx`
+The component provides edge for "Prevision" link type on diagram.
+
+---
+
+### Edge Update 
+**File**: `components/customEdge/EdgeUpdate.tsx`
+The component provides edge for "Update" link type on diagram.
 
 ---
 
@@ -435,5 +482,13 @@ This component allows users to view, navigate, and interact with document-relate
 ### 3.5. Add resource Form
 **File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
 This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
+
+---
+
+### 3.6. Filter Popup
+**File**: `modules/UrbanPlanner/FilterTable/FilterPopup.tsx`  
+The component provides a user interface for filtering documents based on various criteria includes documentType, nodeType, stakeholders, issuanceDateStart, issuanceDateEnd, language.
+
+---
 
 
