@@ -27,7 +27,7 @@ describe("Document DAO kx14", () => {
                 documentType: "Text",
                 scale: "Text",
                 nodeType: "Design doc.",
-                stakeholders: `[\"Municipality\",\"Citizen\"]`,
+                stakeholders: `["Municipality","Citizen"]`,
                 issuanceDate: "2023-11-13",
                 language: "English",
                 pages: "100",
