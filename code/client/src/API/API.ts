@@ -1,6 +1,6 @@
-// Initialize all the API calls here
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import Document from "../models/document";
+import Connection from "../models/Connection";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -60,12 +60,16 @@ function getJson(httpResponsePromise: Promise<Response>): Promise<any> {
           response
             .json()
             .then((json: any) => resolve(json))
-            .catch((err: any) => reject({ error: "Cannot parse server response" }));
+            .catch((err: any) =>
+              reject({ error: "Cannot parse server response" })
+            );
         } else {
           response
             .json()
             .then((obj: any) => reject(obj))
-            .catch((err: any) => reject({ error: "Cannot parse server response" }));
+            .catch((err: any) =>
+              reject({ error: "Cannot parse server response" })
+            );
         }
       })
       .catch((err: any) => reject({ error: "Cannot communicate" }));
@@ -103,10 +107,32 @@ async function getDocuments() {
   }
 }
 
+async function getConnections() {
+  const response = await fetch(
+    "http://localhost:3001/api/documents/connections",
+    {
+      credentials: "include",
+    }
+  );
+  if (response.ok) {
+    const connections: Connection[] = await response.json();
+    return connections;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+
 /**
  * This function creates a link between 2 documents in db.
  */
-function linkDocuments(documentId1: number, documentId2: number, linkType: string) {
+function linkDocuments(
+  documentId1: number,
+  documentId2: number,
+  linkType: string
+) {
   return getJson(
     fetch(baseURL + "documents/link", {
       method: "POST",
@@ -126,7 +152,10 @@ function linkDocuments(documentId1: number, documentId2: number, linkType: strin
 /**
  * This function updates the georeference of a document in the database.
  */
-function updateDocumentGeoreference(documentId: number, georeference: [[number, number]]) {
+function updateDocumentGeoreference(
+  documentId: number,
+  georeference: [[number, number]]
+) {
   return fetch(`${baseURL}documents/${documentId}`, {
     method: "PATCH", // Correct HTTP method
     headers: {
@@ -203,7 +232,8 @@ const API = {
   linkDocuments,
   getDocuments,
   uploadResources,
-  updateDocumentGeoreference,
+  updateDocumentGeoreference, // Added the new function here
+  getConnections,
   getFilteredDocuments,
 };
 

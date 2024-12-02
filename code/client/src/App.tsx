@@ -1,5 +1,11 @@
 import { Button, Container } from "react-bootstrap";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
@@ -17,6 +23,8 @@ import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsLi
 import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 import { FaPlus } from "react-icons/fa";
 import ExploreMap from "./modules/GeneralPages/Map/ExploreMap";
+import Diagram from "./modules/GeneralPages/Diagram/Diagram";
+import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -27,7 +35,9 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
+    undefined
+  );
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -117,7 +127,13 @@ function App() {
                 {/* default page is login page */}
                 <Route
                   path="/"
-                  element={loggedIn ? <Navigate to="/explore-map" /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? (
+                      <Navigate to="/explore-map" />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
                 />
                 {/* login page */}
                 <Route
@@ -133,17 +149,30 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route path="/explore-map" element={<ExploreMap searchTitle={searchTitle} />} />
+                <Route path="/diagram" element={<Diagram />} />
+                <Route
+                  path="/documents/:documentId"
+                  element={<DocumentDetails />}
+                />
+                <Route
+                  path="/explore-map"
+                  element={<ExploreMap searchTitle={searchTitle} />}
+                />
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"
-                  element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />
+                  }
                 />
                 <Route
                   path="/urban-planner/add-document"
                   element={
                     loggedIn ? (
-                      <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
+                      <AddDocumentForm
+                        document={newDocument}
+                        setDocument={setNewDocument}
+                      />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -151,7 +180,9 @@ function App() {
                 />
                 <Route
                   path="/urban-planner/link-documents"
-                  element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
+                  element={
+                    loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
+                  }
                 />
                 <Route
                   path="/urban-planner/documents-list"
@@ -182,7 +213,10 @@ function App() {
         </Container>
       </ToastProvider>
       {loggedIn && location.pathname == "/explore-map" ? (
-        <Button onClick={() => navigate("/urban-planner/add-document")} className="add-button">
+        <Button
+          onClick={() => navigate("/urban-planner/add-document")}
+          className="add-button"
+        >
           <FaPlus color="white" size={25} />
         </Button>
       ) : null}
