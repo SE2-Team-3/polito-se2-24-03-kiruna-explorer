@@ -1,13 +1,13 @@
-# kiruna-explorer
+# Kiruna-Explorer
 This document lists all components and routes that compose the Kiruna Explorer application.
 # Table of Contents
-- [kiruna-explorer](#kiruna-explorer)
+- [Kiruna-Explorer](#kiruna-explorer)
 - [Table of Contents](#table-of-contents)
 - [React + TypeScript + Vite](#react--typescript--vite)
 - [Expanding the ESLint configuration](#expanding-the-eslint-configuration)
 - [Client Application Routes](#client-application-routes)
 - [Client Application Components](#client-application-components)
-- [UI Application screenshots-first release](#ui-application-screenshots)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -436,11 +436,4 @@ This component allows users to view, navigate, and interact with document-relate
 **File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
 This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
 
----
-# **UI Application screenshots** 
-### Login page
-![Login Page](../../Screenshots/Demo-2/screenshot-1.png)
-### Add document page
-![Add document Page](../../Screenshots/Demo-2/screenshot-2.png)
-### Georeference document on map
-![Georeference document on map](../../Screenshots/Demo-2/screenshot-3.png)
+
