@@ -98,7 +98,7 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
         >
           Close
         </Button>
-        <Button variant="primary" className="button-small" onClick={handleSave}>
+        <Button variant="primary" className="button-small-save" onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>

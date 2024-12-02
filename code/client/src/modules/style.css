@@ -197,17 +197,20 @@ BUTTON STYLE
   transform: scale(0.95);
 }
 
-.button-small {
+.button-small,
+.button-small:hover {
   background-color: transparent;
   border-color: #3d52a0;
   color: #3d52a0;
   font-size: 18px;
 }
 
-.button-small:hover {
+.button-small-save,
+.button-small-save:hover {
   background-color: #3d52a0;
   border-color: #3d52a0;
   color: white;
+  font-size: 18px;
 }
 
 .add-link-button {
