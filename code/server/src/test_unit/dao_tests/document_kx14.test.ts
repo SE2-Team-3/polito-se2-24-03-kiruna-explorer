@@ -34,7 +34,7 @@ describe("Document DAO kx14", () => {
                 coordinates: "[[67.8600199224865,20.209608078002933],[67.8600199224865,20.209608078002933],[67.8600199224865,20.209608078002933]]"
             };
 
-            jest.spyOn(db, "get").mockImplementation((sql, [], callback) => {
+            jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
                 callback(null, response_document);
                 return {} as Database;
             });
@@ -68,7 +68,7 @@ describe("Document DAO kx14", () => {
                 }
             ];
 
-            jest.spyOn(db, "all").mockImplementation((sql, [], callback) => {
+            jest.spyOn(db, "all").mockImplementation((sql, params, callback) => {
                 callback(null, response_connections);
                 return {} as Database;
             });
@@ -99,7 +99,7 @@ describe("Document DAO kx14", () => {
                 }
             ];
 
-            jest.spyOn(db, "all").mockImplementation((sql, [], callback) => {
+            jest.spyOn(db, "all").mockImplementation((sql, params, callback) => {
                 callback(null, response_resources);
                 return {} as Database;
             });
