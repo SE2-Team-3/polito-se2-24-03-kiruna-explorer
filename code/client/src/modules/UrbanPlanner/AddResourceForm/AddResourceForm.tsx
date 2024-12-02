@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import API from "../../../API/API";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -75,13 +75,13 @@ export default function AddResourceForm(props: any) {
             ? resources.map((res) => {
                 return (
                   <Row key={res.name} className="uploaded-doc-row">
-                    <Col>
-                      <img src={Tick} />
+                    <Col style={{maxWidth:"fit-content"}}>
+                      <img src={Tick}/>
                     </Col>
-                    <Col className="uploaded-doc-col">
+                    <Col style={{overflow:"hidden"}}>
                       <p className="uploaded-doc-name">{res.name}</p>
                     </Col>
-                    <Col className="uploaded-doc-button">
+                    <Col style={{maxWidth:"fit-content"}}>
                       <img src={Close} onClick={() => handleRemove(res.name)} role="button" />
                     </Col>
                   </Row>
