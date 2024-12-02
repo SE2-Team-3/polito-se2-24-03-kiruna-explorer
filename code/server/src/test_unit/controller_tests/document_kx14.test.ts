@@ -10,7 +10,7 @@ const response_document =
         documentType: "Text",
         scale: "Text",
         nodeType: "Design doc.",
-        stakeholders: `[\"Municipality\",\"Citizen\"]`,
+        stakeholders: `["Municipality","Citizen"]`,
         issuanceDate: "2023-11-13",
         language: "English",
         pages: "100",
