@@ -21,9 +21,13 @@ import { useSidebar } from "../../../components/SidebarContext";
 import {
   xPosCalculator,
   yPosCalculator,
-} from "../../../utils/positionCalculators";
-import { nodeTypes, edgeTypes } from "../../../utils/nodeAndEdgeTypes";
-import { useOccupiedPositions } from "../../../utils/positionUtils";
+} from "../../../components/diagramComponents/utils/positionCalculators";
+import {
+  nodeTypes,
+  edgeTypes,
+} from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
+import { useOccupiedPositions } from "../../../components/diagramComponents/utils/positionUtils";
+import { GrStakeholder } from "react-icons/gr";
 
 const Diagram = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -56,6 +60,7 @@ const Diagram = () => {
             data: {
               label: d.documentId,
               nodeType: d.nodeType,
+              stakeholder: d.stakeholders,
               showEdges: false,
             },
             width: 30,
@@ -178,7 +183,7 @@ const Diagram = () => {
               minZoom={1}
               onEdgeClick={onEdgeClick}
               onNodeClick={(event, node) => handleNodeClick(node.id)}
-              nodesDraggable={false} 
+              nodesDraggable={false}
             >
               {popupVisible && (
                 <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />

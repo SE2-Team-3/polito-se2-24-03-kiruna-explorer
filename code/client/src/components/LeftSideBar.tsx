@@ -4,14 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useSidebar } from "./SidebarContext";
 import "../index.css";
-import NewDocument from "../assets/icons/document notselected.svg";
-import NewDocumentSelected from "../assets/icons/document selected.svg";
+import ListDocument from "../assets/icons/document notselected.svg";
+import ListDocumentSelected from "../assets/icons/document selected.svg";
+import NewDocument from "../assets/icons/file-earmark-plus - notselected.svg";
+import NewDocumentSelected from "../assets/icons/file-earmark-plus selected.svg";
 import NewLinkSelected from "../assets/icons/link selected.svg";
 import NewLink from "../assets/icons/link notselected.svg";
-import { PiMapPinAreaDuotone, PiMapPinAreaLight } from "react-icons/pi";
-import { FaDiagramProject } from "react-icons/fa6";
-import { TiDocumentAdd } from "react-icons/ti";
-import { HiDocumentAdd } from "react-icons/hi";
+import PinMap from "../assets/icons/pin map not selected.svg";
+import PinMapSelected from "../assets/icons/pin map selected.svg";
+import Diagram from "../assets/icons/diagram not selected.svg";
+import DiagramSelected from "../assets/icons/diagram selected.svg";
 import { CiLogin } from "react-icons/ci";
 
 const LeftSideBar = (props: { logout: () => void }) => {
@@ -69,13 +71,19 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     location.pathname === "/explore-map" ? "highlighted" : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation4}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation4();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
+                      <img src={PinMapSelected} alt="map selected" />
                     ) : (
-                      <PiMapPinAreaLight />
+                      <img src={PinMap} alt="map not selected" />
                     )}
                   </span>
                   <span className="text-box">View documents</span>
@@ -90,13 +98,22 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation1}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation1();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/add-document" ? (
-                      <HiDocumentAdd />
+                      <img
+                        src={NewDocumentSelected}
+                        alt="new document selected"
+                      />
                     ) : (
-                      <TiDocumentAdd />
+                      <img src={NewDocument} alt="new document" />
                     )}
                   </span>
                   <span className="text-box">New document</span>
@@ -110,13 +127,22 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation2}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation2();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/link-documents" ? (
-                      <img src={NewLinkSelected} alt="new document selected" />
+                      <img
+                        src={NewLinkSelected}
+                        alt="new link document selected"
+                      />
                     ) : (
-                      <img src={NewLink} alt="new document" />
+                      <img src={NewLink} alt="new link document" />
                     )}
                   </span>
                   <span className="text-box">Link documents</span>
@@ -131,16 +157,22 @@ const LeftSideBar = (props: { logout: () => void }) => {
                       : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation3}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation3();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/documents-list" ? (
                       <img
-                        src={NewDocumentSelected}
-                        alt="new document selected"
+                        src={ListDocumentSelected}
+                        alt="list document selected"
                       />
                     ) : (
-                      <img src={NewDocument} alt="new document" />
+                      <img src={ListDocument} alt="list document" />
                     )}
                   </span>
                   <span className="text-box">Documents List</span>
@@ -152,13 +184,19 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     location.pathname === "/diagram" ? "highlighted" : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation5}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation5();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/diagram" ? (
-                      <FaDiagramProject />
+                      <img src={DiagramSelected} alt="diagram selected" />
                     ) : (
-                      <FaDiagramProject />
+                      <img src={Diagram} alt="diagram not selected" />
                     )}
                   </span>
                   <span className="text-box">Diagram</span>
@@ -173,13 +211,19 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     location.pathname === "/explore-map" ? "highlighted" : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation4}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation4();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/explore-map" ? (
-                      <PiMapPinAreaDuotone />
+                      <img src={PinMapSelected} alt="map selected2" />
                     ) : (
-                      <PiMapPinAreaLight />
+                      <img src={PinMap} alt="area not selected2" />
                     )}
                   </span>
                   <span className="text-box">View documents</span>
@@ -191,13 +235,19 @@ const LeftSideBar = (props: { logout: () => void }) => {
                     location.pathname === "/diagram" ? "highlighted" : ""
                   }`}
                   role="button"
+                  tabIndex={0}
                   onClick={handleNavigation5}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleNavigation5();
+                    }
+                  }}
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/diagram" ? (
-                      <FaDiagramProject />
+                      <img src={DiagramSelected} alt="diagram selected2" />
                     ) : (
-                      <FaDiagramProject />
+                      <img src={Diagram} alt="diagram not selected2" />
                     )}
                   </span>
                   <span className="text-box">Diagram</span>

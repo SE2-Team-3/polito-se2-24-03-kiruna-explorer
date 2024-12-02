@@ -149,14 +149,14 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route
-                  path="/explore-map"
-                  element={<ExploreMap searchTitle={searchTitle} />}
-                />
                 <Route path="/diagram" element={<Diagram />} />
                 <Route
                   path="/documents/:documentId"
                   element={<DocumentDetails />}
+                />
+                <Route
+                  path="/explore-map"
+                  element={<ExploreMap searchTitle={searchTitle} />}
                 />
                 {/* urban-planner login required */}
                 <Route
