@@ -7,7 +7,7 @@ import API from "../../../API/API";
 import Document from "../../../models/document";
 import { useToast } from "../../ToastProvider";
 
-import icons from "../../../models/documentTypeIcons";
+import markers from "../../../models/documentTypeMarkers";
 
 //leaving default icon here just in case there will be a use in future
 const logoIcon = new L.Icon({
@@ -106,7 +106,7 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
       eventHandlers={eventHandlers}
       position={position}
       ref={markerRef}
-      icon={icons.get(document.nodeType)}
+      icon={document.nodeType ? markers.get(document.nodeType) : logoIcon}
     >
       <Popup autoClose={false} closeButton={true}>
         <div>
