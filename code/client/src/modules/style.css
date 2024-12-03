@@ -4,17 +4,19 @@ PAGE STYLE
 */
 
 .main-page {
-  position: relative;
+  position: absolute;
   min-height: calc(100vh - 100px);
   padding: 20px;
   overflow-y: auto;
   /*width: calc(100vh - 350px);*/
-  margin-left: 75px;
-  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: margin-left 0.3s ease;
+  left: 75px;
+  top: 100px;
+  bottom: 0;
+  right: 0;
 }
 
 .sidebar-container.open ~ .main-page {
@@ -37,7 +39,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -423,6 +426,10 @@ DROPDOWN STYLE
 SMALL LAPTOP RESPONSIVE PAGE
 */
 @media (max-width: 1024px) {
+  .main-page {
+    margin-left: 70px;
+    left: 0;
+  }
   .sidebar-container.open ~ .main-page {
     margin-left: 70px;
   }
@@ -500,6 +507,7 @@ TABLET RESPONSIVE PAGE
 @media (max-width: 768px) {
   .main-page {
     margin-left: 0px;
+    left: 0;
   }
   .sidebar-container.open ~ .main-page {
     margin-left: 60px;
@@ -629,6 +637,7 @@ LOGIN
   justify-content: center;
   align-items: center;
   background: linear-gradient(to right, #3d52a0, #adbbba);
+  top: 0;
 }
 
 .loginWrapper {
@@ -675,7 +684,12 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
@@ -799,6 +813,9 @@ LOGIN
 }
 
 @media (max-width: 426px) {
+  .sidebar-container:hover ~ .main-page {
+    display: none;
+  }
   .document-form .row-box {
     flex-direction: column; /* Stack items vertically */
   }
@@ -825,7 +842,8 @@ MAP
   position: relative;
 }
 
-.map-wrapper {
+.map-wrapper,
+.document-wrapper {
   position: absolute;
   min-height: calc(100vh - 100px);
   left: 75px;
@@ -855,26 +873,38 @@ MAP
     font-size: 20px;
   }
 
-  .sidebar-container.open ~ .map-wrapper {
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
     left: 70px;
   }
-  .sidebar-container:hover ~ .map-wrapper {
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
     left: 300px;
   }
 }
 
 @media (max-width: 768px) {
-  .map-wrapper {
+  .map-wrapper,
+  .document-wrapper,
+  .diagram-wrapper {
     left: 0;
   }
   .modal-title.h4 {
     font-size: 16px;
   }
 
-  .sidebar-container.open ~ .map-wrapper {
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
     left: 60px;
   }
-  .sidebar-container:hover ~ .map-wrapper {
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
     left: 300px;
   }
 }
@@ -1071,4 +1101,175 @@ button.btn-link:hover {
 
 .draggable-toggle-btn:hover {
   background-color: #3d52a0;
+}
+
+/*
+DIAGRAM
+*/
+
+.diagram-wrapper {
+  position: absolute;
+  min-height: calc(100vh - 100px);
+  left: 75px;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  transition: margin-left 0.3s ease;
+  overflow-y: hidden;
+}
+
+.sidebar-container.open ~ .diagram-wrapper {
+  left: 75px;
+}
+.sidebar-container:hover ~ .diagram-wrapper {
+  left: 350px;
+}
+
+.react-flow__pane {
+  background-color: white;
+  border: none;
+}
+.react-flow__edge {
+  stroke: #333;
+}
+.react-flow__background {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: transparent;
+  background-image: linear-gradient(#333 1px, transparent 0px),
+    /* Adjusted from em to px */
+      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+  background-size: 140px 85px; /* Adjusted from em to px */
+  z-index: -1;
+}
+
+.scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 650px;
+}
+
+.header-table {
+  height: 50px;
+}
+
+.header-cell {
+  border-top: 1px solid transparent;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  font-weight: bold;
+  color: #3d52a0;
+}
+
+.side-table {
+  width: 200px;
+}
+
+.side-cell {
+  border-top: 1px solid #333;
+  border-left: 1px solid transparent;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  height: 100px;
+  width: 100%;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3d52a0;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.node-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 200px;
+  margin: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.node-form input,
+.node-form button {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.node-form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.node-form button:hover {
+  background-color: #0056b3;
+}
+
+.header-trans {
+  translate: 200px 00px;
+  position: absolute;
+}
+
+.sidebar-trans {
+  translate: 0px 50px;
+  position: absolute;
+}
+
+.point-trans {
+  translate: 200px 50px;
+  position: absolute;
+}
+
+svg {
+  overflow: visible;
+  position: absolute;
+}
+
+.node-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 50px;
+  width: auto;
+  height: auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 3px;
+  cursor: move;
+  z-index: 10;
+}
+
+/*
+DOCUMENT DETAILS
+*/
+
+.sidebar-container.open ~ .document-wrapper {
+  left: 75px;
+}
+.sidebar-container:hover ~ .document-wrapper {
+  left: 350px;
 }
