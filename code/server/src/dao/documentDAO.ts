@@ -399,12 +399,6 @@ class DocumentDAO {
           sql += ` AND nodeType = ?`;
           params.push(filters.nodeType);
         }
-        /*
-        if (filters.language) {
-          sql += ` AND language = ?`;
-          params.push(filters.language);
-        }
-        */
         if (filters.issuanceDateStart && filters.issuanceDateEnd) {
           sql += " AND issuanceDate BETWEEN ? AND ?";
           params.push(filters.issuanceDateStart, filters.issuanceDateEnd);

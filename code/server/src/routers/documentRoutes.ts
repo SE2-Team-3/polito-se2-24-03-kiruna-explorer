@@ -223,7 +223,6 @@ class DocumentRoutes {
       query("issuanceDateEnd")
         .optional()
         .matches(/^\d{4}$|^\d{4}-\d{2}$|^\d{4}-\d{2}-\d{2}$/),
-      //query("language").optional().isString().isIn(["English", "Swedish"]),
       query("language")
         .optional()
         .customSanitizer((value) => {
