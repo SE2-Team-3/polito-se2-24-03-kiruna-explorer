@@ -1,10 +1,12 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../style.css";
-import { Props } from "../../interfaces/types";
-import MiniMapModal from "./MiniMapModal";
+import { Props } from "../../../interfaces/types";
+import MiniMapModal from "../MiniMapModal";
+import API from "../../../../../../API/API";
+import Georeference from "../../../../../../models/georeference";
 
-const GeoreferenceSelection = (
+const NewPointSelection = (
   props: Props & {
     showMiniMap: boolean;
     setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,28 +14,26 @@ const GeoreferenceSelection = (
 ) => {
   const [latitude, setLatitude] = useState(67.85572);
   const [longitude, setLongitude] = useState(20.22513);
+  const [listPoint, SetList] = useState<Georeference[]>([]);
 
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
+      georeference: [
+        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
+      ],
     });
   }, [latitude, longitude]);
 
-  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setLatitude(value);
-  };
-
-  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setLongitude(value);
-  };
+  useEffect(() => {
+    API.getGeoreferences(false).then((geo) => {
+      SetList(geo);
+    });
+  }, []);
 
   return (
     <Form.Group as={Col} className="align-items-center">
       <Row className="geo-box w-100 align-items-center">
-        {" "}
         {/* Added align-items-center */}
         <Col>
           <InputGroup className="w-100">
@@ -44,7 +44,6 @@ const GeoreferenceSelection = (
               min="67.8200"
               max="67.8900"
               value={Number(latitude.toFixed(5))}
-              onChange={handleLatitudeChange}
               placeholder="Insert Latitude"
               className="font-size-20"
               required
@@ -66,7 +65,6 @@ const GeoreferenceSelection = (
               min="20.1000"
               max="20.3500"
               value={Number(longitude.toFixed(5))}
-              onChange={handleLongitudeChange}
               placeholder="Insert Longitude"
               className="font-size-20"
               required
@@ -88,4 +86,4 @@ const GeoreferenceSelection = (
   );
 };
 
-export default GeoreferenceSelection;
+export default NewPointSelection;
