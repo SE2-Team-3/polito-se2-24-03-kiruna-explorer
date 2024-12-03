@@ -4,14 +4,16 @@ import PolygonMapModal from "./MiniMapAreaModal";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";
 
-const AreaSelection = (
+const NewAreaSelection = (
   props: Props & {
     showPolygonMap: boolean;
     setShowPolygonMap: React.Dispatch<React.SetStateAction<boolean>>;
   }
 ) => {
   const [polygonName, setPolygonName] = useState("");
-  const [polygonCoordinates, setPolygonCoordinates] = useState<[number, number][]>([]);
+  const [polygonCoordinates, setPolygonCoordinates] = useState<
+    [number, number][]
+  >([]);
 
   useEffect(() => {
     props.setDocument({
@@ -53,4 +55,4 @@ const AreaSelection = (
   );
 };
 
-export default AreaSelection;
+export default NewAreaSelection;
