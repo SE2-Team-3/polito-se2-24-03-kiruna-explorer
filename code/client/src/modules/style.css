@@ -952,20 +952,14 @@ MAP
   margin-left: 0;
   margin-right: 0;
   padding: 0.5rem;
-}
-
-.uploaded-doc-col {
-  max-width: 80%;
+  align-items: center;
 }
 
 .uploaded-doc-name {
+  font-family: "Open Sans", sans-serif;
   text-overflow: ellipsis;
   overflow: hidden;
   margin: 0;
-}
-
-.uploaded-doc-button {
-  text-align: end;
 }
 
 /* DOCUMETS LIST CSS */
@@ -1244,7 +1238,7 @@ DIAGRAM
   position: absolute;
 }
 
-svg {
+.diagram-svg-fix svg {
   overflow: visible;
   position: absolute;
 }
