@@ -104,11 +104,9 @@ const DateSelection = (props: Props) => {
 
   return (
     <Form.Group as={Col} controlId="formGridDate">
-      <Form.Label className="black-text">Date *</Form.Label>
-
       <Row>
         <Col md={4}>
-          <Form.Label className="font-size-18">Year</Form.Label>
+          <Form.Label className="black-text">Year *</Form.Label>
           <Form.Select
             required
             value={year}
@@ -127,7 +125,7 @@ const DateSelection = (props: Props) => {
 
         {year !== "" && (
           <Col md={3}>
-            <Form.Label className="font-size-18">Month</Form.Label>
+            <Form.Label className="black-text">Month</Form.Label>
             <Form.Select
               value={month}
               onChange={(event) => handleMonthChange(event.target.value)}
@@ -136,8 +134,8 @@ const DateSelection = (props: Props) => {
             >
               <option value="">mm</option>
               {Array.from({ length: 12 }, (_, i) => (
-                <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
-                  {String(i + 1).padStart(2, '0')}
+                <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                  {String(i + 1).padStart(2, "0")}
                 </option>
               ))}
             </Form.Select>
@@ -146,7 +144,7 @@ const DateSelection = (props: Props) => {
 
         {year !== "" && month !== "" && (
           <Col md={3}>
-            <Form.Label className="font-size-18">Day</Form.Label>
+            <Form.Label className="black-text">Day</Form.Label>
             <Form.Select
               value={day}
               onChange={(event) => handleDayChange(event.target.value)}
@@ -155,8 +153,8 @@ const DateSelection = (props: Props) => {
             >
               <option value="">dd</option>
               {Array.from({ length: 31 }, (_, i) => (
-                <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
-                  {String(i + 1).padStart(2, '0')}
+                <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                  {String(i + 1).padStart(2, "0")}
                 </option>
               ))}
             </Form.Select>

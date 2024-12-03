@@ -52,6 +52,7 @@ const AddDocumentForm = (props: Props) => {
         language: props.document.language,
         pages: props.document.pages.trim(),
         georeference: props.document.georeference,
+        georeferenceName: props.document.georeferenceName,
       };
 
       API.addDocument(document).then((response) => {
@@ -69,6 +70,7 @@ const AddDocumentForm = (props: Props) => {
           language: "",
           pages: "",
           georeference: [[]],
+          georeferenceName: "",
         };
         props.setDocument(newDoc);
         setErrorMessage("");

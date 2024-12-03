@@ -33,7 +33,8 @@ PAGE STYLE
   border-radius: 10px;
   width: 100%;
   max-width: 1200px;
-  padding: 10px;
+  padding-inline: 70px;
+  padding-block: 30px;
   box-sizing: border-box;
   max-height: calc(100vh - 130px);
   overflow-y: auto;
@@ -56,6 +57,11 @@ PAGE STYLE
 FORM STYLE
 */
 .document-form {
+  padding: 20px;
+  width: 40%;
+}
+
+.document-form-link {
   padding: 20px;
 }
 
@@ -194,17 +200,20 @@ BUTTON STYLE
   transform: scale(0.95);
 }
 
-.button-small {
+.button-small,
+.button-small:hover {
   background-color: transparent;
   border-color: #3d52a0;
   color: #3d52a0;
   font-size: 18px;
 }
 
-.button-small:hover {
+.button-small-save,
+.button-small-save:hover {
   background-color: #3d52a0;
   border-color: #3d52a0;
   color: white;
+  font-size: 18px;
 }
 
 .add-link-button {

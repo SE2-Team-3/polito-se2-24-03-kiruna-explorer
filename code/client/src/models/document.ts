@@ -10,6 +10,7 @@ class Document {
   language: string | null;
   pages: string | null;
   georeferenceId: number | null;
+  georeferenceName: string | null;
   coordinates: string | null;
 
   constructor(
@@ -24,6 +25,7 @@ class Document {
     language: string | null,
     pages: string | null,
     georeferenceId: number | null,
+    georeferenceName: string | null,
     coordinates: string | null
   ) {
     this.documentId = documentId;
@@ -37,6 +39,7 @@ class Document {
     this.language = language;
     this.pages = pages;
     this.georeferenceId = georeferenceId;
+    this.georeferenceName = georeferenceName;
     this.coordinates = coordinates;
   }
 }
