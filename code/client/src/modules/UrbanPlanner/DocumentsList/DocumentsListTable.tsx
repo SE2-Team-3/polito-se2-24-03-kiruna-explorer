@@ -99,7 +99,7 @@ export default function DocumentsListTable(props: any) {
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Row>
+      <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
         <Col md={visibleFilterTable ? 9 : 12}>
           <Row>
             <div className="form-container">

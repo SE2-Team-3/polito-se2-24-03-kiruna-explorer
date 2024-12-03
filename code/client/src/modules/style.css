@@ -27,6 +27,10 @@ PAGE STYLE
   margin-left: 350px;
 }
 
+.row-full-width-document-list {
+  width: 80%;
+}
+
 .form-container {
   background-color: white;
   backdrop-filter: blur(10px);
@@ -39,8 +43,7 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
-    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -684,12 +687,7 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(
-    to right,
-    #7091e6 0%,
-    #636fa4 51%,
-    #7091e6 100%
-  );
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
 }
 .loginBtn {
   border: none;
@@ -1141,8 +1139,7 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */
-      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }
