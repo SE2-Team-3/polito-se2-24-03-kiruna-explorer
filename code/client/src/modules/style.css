@@ -858,47 +858,6 @@ MAP
   font-size: 24px;
 }
 
-@media (max-width: 1024px) {
-  .modal-title.h4 {
-    font-size: 20px;
-  }
-
-  .sidebar-container.open ~ .map-wrapper,
-  .sidebar-container.open ~ .document-wrapper,
-  .sidebar-container.open ~ .diagram-wrapper {
-    left: 70px;
-  }
-
-  .sidebar-container:hover ~ .map-wrapper,
-  .sidebar-container:hover ~ .document-wrapper,
-  .sidebar-container:hover ~ .diagram-wrapper {
-    left: 300px;
-  }
-}
-
-@media (max-width: 768px) {
-  .map-wrapper,
-  .document-wrapper,
-  .diagram-wrapper {
-    left: 0;
-  }
-  .modal-title.h4 {
-    font-size: 16px;
-  }
-
-  .sidebar-container.open ~ .map-wrapper,
-  .sidebar-container.open ~ .document-wrapper,
-  .sidebar-container.open ~ .diagram-wrapper {
-    left: 60px;
-  }
-
-  .sidebar-container:hover ~ .map-wrapper,
-  .sidebar-container:hover ~ .document-wrapper,
-  .sidebar-container:hover ~ .diagram-wrapper {
-    left: 300px;
-  }
-}
-
 .leaflet-popup-content-wrapper {
   background-color: white;
   border-radius: 10px;
@@ -1269,6 +1228,7 @@ DOCUMENT DETAILS
   justify-content: center;
   flex-direction: column;
   transition: margin-left 0.3s ease;
+  padding: 5px;
 }
 
 .sidebar-container.open ~ .document-wrapper {
@@ -1285,8 +1245,7 @@ DOCUMENT DETAILS
 }
 
 .title-container {
-  margin-left: 30px;
-  margin-bottom: 30px;
+  margin-left: 20px;
   margin-top: 0;
 }
 /*applying table style in document details */
@@ -1295,11 +1254,15 @@ DOCUMENT DETAILS
   justify-content: flex-start;
   gap: 0px;
 
-  margin-top: 50px;
-  margin-left: 20px;
+  margin-top: 15px;
+  margin-left: 10px;
   margin-bottom: 30px;
   margin-right: 0px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+}
+
+.margintop-15px {
+  margin-top: 15px;
 }
 
 .table-container strong,
@@ -1311,7 +1274,7 @@ DOCUMENT DETAILS
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-top: 0px;
 }
 
 .table-container img {
@@ -1323,8 +1286,8 @@ DOCUMENT DETAILS
 /* styling descriotion in document details*/
 .description-row {
   padding-top: 20px;
-  padding-left: 40px;
-  margin-bottom: 30px;
+  padding-left: 20px;
+  margin-bottom: 10px;
 }
 
 .description-row strong {
@@ -1388,4 +1351,45 @@ DOCUMENT DETAILS
 
 .field-box span {
   margin-left: 5px;
+}
+
+@media (max-width: 1024px) {
+  .modal-title.h4 {
+    font-size: 20px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 70px;
+  }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
+    left: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-wrapper,
+  .document-wrapper,
+  .diagram-wrapper {
+    left: 0;
+  }
+  .modal-title.h4 {
+    font-size: 16px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 60px;
+  }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
+    left: 300px;
+  }
 }

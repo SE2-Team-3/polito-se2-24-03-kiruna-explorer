@@ -36,7 +36,9 @@ const DocumentDetails = () => {
             <Row className="title-container">
               <Col md={4} className="field-box">
                 <img src={Calendar} alt="calendar" width={20} height={20} />
-                <span className="font-size-20">{document?.issuanceDate}</span>
+                <span style={{ fontSize: "20px" }}>
+                  {document?.issuanceDate}
+                </span>
               </Col>
               <Col md={6} className="field-box">
                 <img
@@ -45,17 +47,17 @@ const DocumentDetails = () => {
                   width={20}
                   height={20}
                 />
-                <span className="font-size-20">{document?.nodeType}</span>
+                <span style={{ fontSize: "20px" }}>{document?.nodeType}</span>
               </Col>
             </Row>
             <Row className="description-row">
               <strong>Description</strong>
-              <span className="font-size-20" style={{ color: "black" }}>
+              <span style={{ fontSize: "20px", color: "black" }}>
                 {document?.description}
               </span>
             </Row>
           </Col>
-          <Col md={5} style={{ height: "300px", marginRight: "10px" }}>
+          <Col md={5} style={{ height: "300px", padding: "20px" }}>
             {/* Display the MiniMap with georeference coordinates */}
             {document?.coordinates && document.coordinates.length > 0 ? (
               <MiniMapDetail coordinates={document.coordinates} />
@@ -65,7 +67,7 @@ const DocumentDetails = () => {
           </Col>
         </Row>
         <Row className="table-container">
-          <Col>
+          <Col xs={12} md={4} className="margintop-15px">
             <strong>
               <img src={Language} alt="language" /> Language
             </strong>
@@ -75,14 +77,14 @@ const DocumentDetails = () => {
               ) : document?.language === "Swedish" ? (
                 <Flag code="SE" style={{ width: "40px", height: "30px" }} />
               ) : (
-                <span className="font-size-20">None</span>
+                <span style={{ fontSize: "20px" }}>None</span>
               )}
-              <span className="font-size-20" style={{ verticalAlign: "flex" }}>
+              <span style={{ fontSize: "20px", verticalAlign: "flex" }}>
                 {document?.language}
               </span>
             </div>
           </Col>
-          <Col>
+          <Col xs={12} md={4} className="margintop-15px">
             <strong>
               <img src={Book} alt="book" /> Pages
             </strong>
@@ -90,7 +92,7 @@ const DocumentDetails = () => {
               <span className="blue-text">{document?.pages}</span>
             </div>
           </Col>
-          <Col>
+          <Col xs={12} md={4} className="margintop-15px">
             <strong>
               <img src={Scale} alt="scale" /> Scale
             </strong>
@@ -107,7 +109,7 @@ const DocumentDetails = () => {
           </Col>
         </Row>
         <Row className="table-container">
-          <Col xs={4} className="linked-documents">
+          <Col xs={12} md={4} className="linked-documents margintop-15px">
             <strong>
               <img src={LinkDocument} alt="link document" />
               Linked Documents
@@ -138,7 +140,7 @@ const DocumentDetails = () => {
               <div className="no-documents">No linked documents found.</div>
             )}
           </Col>
-          <Col xs={4} className="resources">
+          <Col xs={12} md={4} className="resources margintop-15px">
             <strong>
               <img src={UploadDocument} alt="upload resource" /> Resources
             </strong>
@@ -162,7 +164,7 @@ const DocumentDetails = () => {
               <div className="no-documents">No resources found.</div>
             )}
           </Col>
-          <Col xs={4} className="stakeholders">
+          <Col xs={12} md={4} className="stakeholders margintop-15px">
             <strong>
               <img src={PersonBlue} alt="person" /> Stakeholders
             </strong>
