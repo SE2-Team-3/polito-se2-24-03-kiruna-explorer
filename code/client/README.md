@@ -149,32 +149,31 @@ The `App` component defines a set of routes to handle navigation between differe
 
  - [Back to table of contents](#table-of-contents)
  - [1. General Components](#1-general-components)
-    - [Left Side Bar](#left-side-bar)
-    - [Nav Bar](#nav-bar)
-    - [User Context](#user-context)
-    - [Sidebar Provider](#sidebar-provider)
-    - [Toast Provider](#toast-provider)
-  - [2. General Pages](#2-general-pages)
-    - [2.1. Map](#21-map)
-      - [Draggable Marker](#draggable-marker)
-      - [Explore Map](#explore-map)
-    - [2.2. Diagram](#22-diagram)
-      - [BG Table](#bg-table)
-      - [Diagram Area](#diagram-area)
-      - [Header](#header)
-      - [Icon](#icon)
-      - [Node Form](#node-form)
-      - [Sidebar](#sidebar)
-      - [Zoom Slider](#zoom-slider)
-      - [Edge Popup](#edge-popup)
-    - [2.3. Custom Edge](#23-custom-edge)
+   - [1.1. Custom Edge](#11-custom-edge)
       - [Edge Collateral Consequence](#edge-collateral-consequence)
       - [Edge Default](#edge-default)
       - [Edge Direct Consequence](#edge-direct-consequence)
       - [Edge Prevision](#edge-prevision)
       - [Edge Update](#edge-update)
+   - [1.2. Diagram Components](#12-diagram-components)
+      - [BG Table](#bg-table)
+      - [Header](#header)
+      - [Icon](#icon)
+      - [Sidebar](#sidebar)
+      - [Edge Popup](#edge-popup)
+    - [Left Side Bar](#left-side-bar)
+    - [Nav Bar](#nav-bar)
+    - [User Context](#user-context)
+    - [Sidebar Context](#sidebar-context)
+  - [2. General Pages](#2-general-pages)
+    - [2.1. Map](#21-map)
+      - [Draggable Marker](#draggable-marker)
+      - [Explore Map](#explore-map)
+    - [Diagram](#diagram)
+    - [Document Details](#document-details)
     - [Home](#home)
     - [Login](#login)
+    - [Toast Provider](#toast-provider)
   - [3. Urban Planner](#4-urban-planner)
     - [3.1. Add Document Form](#31-add-document-form)
       - [Data Selection](#data-selection)
@@ -192,8 +191,10 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Add Document With Component](#add-document-with-component)
       - [Multiple Direct Link Form](#multiple-direct-link-form)
         - [3.1.1. Georeference](#311-georeference)
+          - [Georeference Area Selection](#georeference-area-selection)
           - [Georeference Selection](#georeference-selection)
           - [Georeference Type Selection](#georeference-type-selection)
+          - [Mini Map Area Modal](#mini-map-area-modal)
           - [Mini Map Modal](#mini-map-modal)
     - [3.2. Link Document Form](#32-link-document-form)
       - [Document Selector](#document-selector)
@@ -206,104 +207,7 @@ The `App` component defines a set of routes to handle navigation between differe
 
 ## 1. General Components
 
-### Left Side Bar
-**File**: `components/LeftSideBar.tsx`  
-The component is a sidebar component that provides navigation and user-specific options in the app. 
-- **If logged in**: It includes menu option of view documents, new document, link documents and documents list.  
-- **If not logged in**: For guest user it provides just view document as the menu option.
-
----
-
-### Nav Bar 
-**File**: `components/NavBar.tsx`  
-The NavBar component renders a simple navigation bar with a title. It helps maintain a consistent UI by ensuring the navbar is visible across the application, except on the login page.
-
----
-
-### User Context 
-**File**: `components/UserContext.tsx`  
-This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
-
----
-
-### Sidebar Provider 
-**File**: `components/SidebarProvider.tsx`  
-This component manages the sidebar's open/closed state across the application.
-
----
-
-### Toast Provider 
-**File**: `modules/ToastProvider.tsx`  
-This component allows any component in the application to show toast notifications for success or error messages
-
----
-
-## 2. General Pages
-
-### 2.1. Map
-This folder contains components for Georeferencing documents on map:
-
-### Draggable Marker
-**File**: `modules/GeneralPagaes/Map/DraggableMarker.tsx`  
-This components is used by the logged in user to assign a new (lat, long) to the document on the map by moving it with drag&drop
-
----
-
-### Explore Map
-**File**: `modules/GeneralPagaes/Map/ExploreMap.tsx`  
-The component  provides functionality for displaying documents as markers on a clustered map and integrates with draggable markers for user interaction
-
----
-### 2.2. Diagram
-This folder contains components for Georeferencing documents on diagram:
-
-### BG Table 
-**File**: `components/diagramComponents/BGTable.tsx`  
-This component renders a large HTML table with a predefined structure.
-
----
-
-### Diagram Area 
-**File**: `undefined now`  
-The component is  designed to render an interactive diagram.
-
----
-
-### Header  
-**File**: `components/diagramComponents/Header.tsx`  
-The component is  designed to render a table header containing a list of years.
-
----
-
-### Icon 
-**File**: `components/diagramComponents/Icon.tsx`
-This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
-
----
-
-### Node Form 
-**File**: `undefined now`
-The component is designed to provide a form interface for adding a new node to diagram. It allows users to input the necessary data for a new node, such as its ID, label, and position coordinates (X and Y), and then submit this data.
-
----
-### Sidebar  
-**File**: `components/diagramComponents/Sidebar.tsx`
-This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
-
----
-### Zoom Slider  
-**File**: `undefined now`
-The component is designed to control and display the zoom level of a viewport in the diagram. 
-
----
-
-### Edge popup  
-**File**: `components/diagramComponents/EdgePopup.tsx`
-This component serves as a popup modal displaying a list of "link types" and includes a button to close the moda
-
----
-
-### 2.3. Custom Edge
+### 1.1. Custom Edge
 This folder contains components that define link types between two documnets on diagram:
 
 ### Edge Collateral Consequence
@@ -336,6 +240,93 @@ The component provides edge for "Update" link type on diagram.
 
 ---
 
+### 1.2. Diagram Components
+This folder contains components for Georeferencing documents on diagram:
+
+### BG Table 
+**File**: `components/diagramComponents/BGTable.tsx`  
+This component renders a large HTML table with a predefined structure.
+
+---
+
+### Header  
+**File**: `components/diagramComponents/Header.tsx`  
+The component is  designed to render a table header containing a list of years.
+
+---
+
+### Icon 
+**File**: `components/diagramComponents/Icon.tsx`
+This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
+
+---
+
+### Sidebar  
+**File**: `components/diagramComponents/Sidebar.tsx`
+This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
+
+---
+
+### Edge popup  
+**File**: `components/diagramComponents/EdgePopup.tsx`
+This component serves as a popup modal displaying a list of "link types" and includes a button to close the moda
+
+---
+
+### Left Side Bar
+**File**: `components/LeftSideBar.tsx`  
+The component is a sidebar component that provides navigation and user-specific options in the app. 
+- **If logged in**: It includes menu option of view documents, new document, link documents and documents list.  
+- **If not logged in**: For guest user it provides just view document as the menu option.
+
+---
+
+### Nav Bar 
+**File**: `components/NavBar.tsx`  
+The NavBar component renders a simple navigation bar with a title. It helps maintain a consistent UI by ensuring the navbar is visible across the application, except on the login page.
+
+---
+
+### User Context 
+**File**: `components/UserContext.tsx`  
+This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
+
+---
+
+### Sidebar Context 
+**File**: `components/SidebarContext.tsx`  
+This component manages the sidebar's open/closed state across the application.
+
+---
+
+## 2. General Pages
+
+### 2.1. Map
+This folder contains components for Georeferencing documents on map:
+
+### Draggable Marker
+**File**: `modules/GeneralPagaes/Map/DraggableMarker.tsx`  
+This components is used by the logged in user to assign a new (lat, long) to the document on the map by moving it with drag&drop
+
+---
+
+### Explore Map
+**File**: `modules/GeneralPagaes/Map/ExploreMap.tsx`  
+The component  provides functionality for displaying documents as markers on a clustered map and integrates with draggable markers for user interaction
+
+---
+
+### Diagram
+**File**: `modules/GeneralPagaes/Diagram/Diagram.tsx`  
+The component displays a graphical representation of documents and their connections as nodes and edges, respectively. The component also provides various interactive features and contextual tools to enhance the user experience
+
+---
+
+### Document Details
+**File**: `modules/GeneralPagaes/DocumentDetails.tsx`  
+The component displays detailed information about a specific document that is chosen on the diagram.
+---
+
 ### Home 
 **File**: `modules/GeneralPagaes/Home.tsx`  
 This component serves as a welcome page for users after they log in to have access to their modules.
@@ -345,6 +336,12 @@ This component serves as a welcome page for users after they log in to have acce
 ### Login
 **File**: `modules/GeneralPagaes/Login.tsx`  
 This component provides a login interface for users, allowing them to input their credentials (username and password) and submit them to log into the application.
+
+---
+
+### Toast Provider 
+**File**: `modules/ToastProvider.tsx`  
+This component allows any component in the application to show toast notifications for success or error messages
 
 ---
 
@@ -421,51 +418,69 @@ The component represents the third step in a multi-step form process.
 It is specifically designed to handle the functionality of linking the newly created or updated document (identified by newDocID) to other existing documents.
 
 ---
+
    ### Add Document With Component
    **File**: `modules/UrbanPlanner/AddDocumentForm/AddDocumentWithComponent.tsx`  
 This component represents a multi-step form for adding a new document. It handles the creation of a new document by guiding the user through multiple steps. It allows users to provide document details, additional information, and optionally link the document to others.
 
 ---
+
    ### Multiple Direct Link Form
    **File**: `modules/UrbanPlanner/AddDocumentForm/MultipleDirectLinkForm.tsx`  
 This component allows users to link multiple existing documents to a newly created document.
 The form allows users to select multiple documents and link them to a newly created document by choosing a document and one or more link types. The form is dynamic, allowing the user to add or remove link entries.
 
 ---
+
 ### 3.1.1. Georeference
 This folder contains components for georeferencing the document:
 
-   ### Georeference Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceSelection.tsx`  
+### Georeference Area Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceAreaSelection.tsx`  
+The component is a UI element that allows users to define and name a geographic area by either entering a name directly or interacting with a polygon map modal.
+
+---
+
+### Georeference Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceSelection.tsx`  
 This component allows users to input geographical coordinates (latitude and longitude) and integrates this data into a document object.
 
 ---
-   ### Georeference Type Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceTypeSelection.tsx`  
+
+### Georeference Type Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceTypeSelection.tsx`  
 This component is used for selecting a georeference type for a document.
 
 ---
-   ### Mini Map Modal
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapModal.tsx`  
+
+### Mini Map Area Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapAreaModal.tsx`  
+The component is a modal window that enables users to interactively select or draw a polygon on a map and save its geographical coordinates. 
+
+---
+
+### Mini Map Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapModal.tsx`  
 This component shows a mini map where the user can choose/point a location (lat, long) for the new document.
 
 ---
+
 ### 3.2. Link Document Form
 This folder contains components for linking existing documents:
    
-   ### Document Selector
-   **File**: `modules/UrbanPlanner/LinkDosumentForm/elements/DocumentSelector.tsx`  
+### Document Selector
+**File**: `modules/UrbanPlanner/LinkDosumentForm/elements/DocumentSelector.tsx`  
 The component provides the functionality for selecting two documents from a list. 
 
 ---
-   ### Link Type Selector
-   **File**: `modules/UrbanPlanner/LinkDosumentForm/elements/LinkTypeSelector.tsx`  
+### Link Type Selector
+**File**: `modules/UrbanPlanner/LinkDosumentForm/elements/LinkTypeSelector.tsx`  
 The component allows users to select multiple link types for the documents they are linking
 
 ---
   
 ### Link Document Form
-   **File**: `modules/UrbanPlanner/LinkDosumentForm/LinkDocumentForm.tsx`  
+**File**: `modules/UrbanPlanner/LinkDosumentForm/LinkDocumentForm.tsx`  
 This component allows users to link two documents by selecting them from a list of available documents and specifying the type(s) of link between them.
 
 ---
