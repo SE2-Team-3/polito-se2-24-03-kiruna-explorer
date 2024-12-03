@@ -9,7 +9,7 @@ import LinkDocument from "../../assets/icons/link selected.svg";
 import UploadDocument from "../../assets/icons/upload.svg";
 import Scale from "../../assets/icons/scale.svg";
 import Language from "../../assets/icons/language.svg";
-import PointLocation from "../../assets/icons/point location.svg";
+import MiniMapDetail from "./Map/MiniMapDetail";
 import DocumentType from "../../assets/icons/document type.svg";
 import Calendar from "../../assets/icons/date.svg";
 import PersonBlue from "../../assets/icons/person blue.svg";
@@ -25,48 +25,44 @@ const DocumentDetails = () => {
   useEffect(() => {
     API.getDocumentById(docId).then((doc) => setDocument(doc));
   }, [docId]);
-
   return (
     <div className={`document-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
         <Row className="blue-text">
           <strong>{document?.title}</strong>
         </Row>
-
-        <Row className="title-container">
-          <Col md={2} className="field-box">
-            <img src={Calendar} alt="calendar" width={20} height={20} />
-            <span className="font-size-20">{document?.issuanceDate}</span>
+        <Row>
+          <Col>
+            <Row className="title-container">
+              <Col md={4} className="field-box">
+                <img src={Calendar} alt="calendar" width={20} height={20} />
+                <span className="font-size-20">{document?.issuanceDate}</span>
+              </Col>
+              <Col md={6} className="field-box">
+                <img
+                  src={DocumentType}
+                  alt="node type"
+                  width={20}
+                  height={20}
+                />
+                <span className="font-size-20">{document?.nodeType}</span>
+              </Col>
+            </Row>
+            <Row className="description-row">
+              <strong>Description</strong>
+              <span className="font-size-20" style={{ color: "black" }}>
+                {document?.description}
+              </span>
+            </Row>
           </Col>
-          <Col md={2} className="field-box">
-            <img
-              src={DocumentType}
-              alt="document type"
-              width={20}
-              height={20}
-            />
-            <span className="font-size-20">{document?.documentType}</span>
+          <Col md={5} style={{ height: "300px", marginRight: "10px" }}>
+            {/* Display the MiniMap with georeference coordinates */}
+            {document?.coordinates && document.coordinates.length > 0 ? (
+              <MiniMapDetail coordinates={document.coordinates} />
+            ) : (
+              <p>This document belong to Municipality area.</p>
+            )}
           </Col>
-          <Col md={2} className="field-box">
-            <img
-              src={PointLocation}
-              alt="point location"
-              width={20}
-              height={20}
-            />
-            <span className="font-size-20">
-              {document?.coordinates?.map((coordinate) =>
-                coordinate.map((value) => parseFloat(value.toFixed(2)))
-              )}
-            </span>
-          </Col>
-        </Row>
-
-        <Row className="description-row">
-          <strong>Description</strong>
-          <span className="font-size-20" style={{ color: "black" }}>
-            {document?.description}
-          </span>
         </Row>
         <Row className="table-container">
           <Col>
@@ -99,9 +95,15 @@ const DocumentDetails = () => {
               <img src={Scale} alt="scale" /> Scale
             </strong>
             <div>
-              <span className="blue-text">Plan</span>
-              <span className="font-size-20">{document?.scale}</span>
-            </div>
+              {document?.documentType?.toString() === "Plan" ? (
+                <>
+                  <span className="blue-text">{document?.documentType}</span>
+                  <span className="font-size-20">{document?.scale}</span>
+                </>
+              ) : (
+                <span className="blue-text">{document?.scale}</span>
+              )}
+            </div>{" "}
           </Col>
         </Row>
         <Row className="table-container">
