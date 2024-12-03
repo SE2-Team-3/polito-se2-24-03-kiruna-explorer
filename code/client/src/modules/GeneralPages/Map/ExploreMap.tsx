@@ -32,7 +32,7 @@ const ExploreMap = (props: any) => {
     setFilteredDocuments(filtered);
   }, [props.searchTitle, documents]);
 
-  const kirunaPosition: LatLngExpression = [67.4734, 21.3673]; // Default position (Kiruna)
+  const kirunaPosition: LatLngExpression = [67.85572, 20.22513]; // Default position (Kiruna)
 
   return (
     <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
