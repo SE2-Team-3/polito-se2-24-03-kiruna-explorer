@@ -379,7 +379,7 @@ class DocumentDAO {
     stakeholders?: string[];
     issuanceDateStart?: string;
     issuanceDateEnd?: string;
-    language?: string;
+    language?: string[];
   }): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
       try {
@@ -399,10 +399,6 @@ class DocumentDAO {
           sql += ` AND nodeType = ?`;
           params.push(filters.nodeType);
         }
-        if (filters.language) {
-          sql += ` AND language = ?`;
-          params.push(filters.language);
-        }
         if (filters.issuanceDateStart && filters.issuanceDateEnd) {
           sql += " AND issuanceDate BETWEEN ? AND ?";
           params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
@@ -419,6 +415,13 @@ class DocumentDAO {
             .join(" AND ");
           sql += ` AND (${stakeholderConditions})`;
           filters.stakeholders.forEach((s) => params.push(`%${s}%`));
+        }
+        if (filters.language && filters.language.length > 0) {
+          const languageConditions = filters.language
+            .map(() => `language LIKE ?`)
+            .join(" OR ");
+          sql += ` AND (${languageConditions})`;
+          filters.language.forEach((l) => params.push(`%${l}%`));
         }
 
         console.log(sql, params);
