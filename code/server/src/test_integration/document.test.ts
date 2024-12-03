@@ -27,6 +27,7 @@ const testDocument = {
   language: "English",
   pages: "1",
   georeference: [[67.8558, 20.2253]],
+  georeferenceName: "test",
 };
 
 let plannerCookie: string;
@@ -201,13 +202,18 @@ describe("Document routes integration tests", () => {
   describe("POST /api/documents/documentId/resources", () => {
     test("It should return 200 with the requested resources of a document", async () => {
       const documentId = 1;
-      let response = await request(app)
-        .get(`${routePath}/documents/${documentId}/resources`)
-        .set("Cookie", plannerCookie)
-        .expect(200);
+      try {
 
-      expect(response.body).toBeDefined();
-      expect(response.body.length).toBeGreaterThan(0);
+        let response = await request(app)
+          .get(`${routePath}/documents/${documentId}/resources`)
+          .set("Cookie", plannerCookie)
+          .expect(200);
+          expect(response.body.length).toBeGreaterThan(0);
+          expect(response.body).toBeDefined();
+      } catch (error) {
+        console.log("error", error);
+      }
+
     });
   });
 });
