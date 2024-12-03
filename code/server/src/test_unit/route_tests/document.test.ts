@@ -596,3 +596,46 @@ describe("POST /api/documents/:documentId/resources", () => {
     expect(DocumentController.prototype.getResources).toHaveBeenCalled();
   });
 });
+
+// KX8 (Search documents)
+describe("GET /api/documents/filtered", () => {
+  test("It should return 200 if searched document found", async () => {
+    const filters = {
+      title: "doc-1",
+      documentType: "Text",
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "getFilteredDocuments")
+      .mockResolvedValueOnce({
+        title: filters.title,
+        documentType: filters,
+      } as any);
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+        isString: () => ({ isLength: () => ({}) }),
+        isArray: () => ({ isString: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app).get(
+      baseURL +
+        `/documents/filtered?title=${filters.title}&documentType=${filters.documentType}`
+    );
+    expect(response.status).toBe(200);
+    expect(DocumentController.prototype.getResources).toHaveBeenCalled();
+  });
+});
