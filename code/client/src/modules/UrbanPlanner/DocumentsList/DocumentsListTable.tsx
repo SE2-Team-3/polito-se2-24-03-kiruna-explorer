@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
-import FilterIcon from "../../../assets/icons/Filter icon.svg";
+import FilterIcon from "../../../assets/icons/filter.svg";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../components/SidebarContext";
 import FilterTable from "../FilterTable/FilterPopup";
