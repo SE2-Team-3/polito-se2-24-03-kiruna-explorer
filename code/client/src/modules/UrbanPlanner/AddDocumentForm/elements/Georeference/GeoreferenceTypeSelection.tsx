@@ -23,9 +23,9 @@ const GeoreferenceTypeSelection = (props: Props) => {
 
   const handleGeoSelection = (value: string) => {
     setGeoType(value);
-    if (value === "NewPoint") {
+    if (value === "NewPoint" || value === "ListOfPoints") {
       setShowMiniMap(true);
-    } else if (value === "NewArea") {
+    } else if (value === "NewArea" || value === "ListOfAreas") {
       setShowPolygonMap(true);
     }
   };

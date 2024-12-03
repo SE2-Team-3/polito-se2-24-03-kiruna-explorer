@@ -1,12 +1,10 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../../../style.css";
+import "../../../../../style.css";
 import { Props } from "../../../interfaces/types";
-import MiniMapModal from "../MiniMapModal";
-import API from "../../../../../../API/API";
-import Georeference from "../../../../../../models/georeference";
+import MiniMapListPointModal from "../minimap/MiniMapListPointModal";
 
-const NewPointSelection = (
+const ListOfPointsSelection = (
   props: Props & {
     showMiniMap: boolean;
     setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +12,6 @@ const NewPointSelection = (
 ) => {
   const [latitude, setLatitude] = useState(67.85572);
   const [longitude, setLongitude] = useState(20.22513);
-  const [listPoint, SetList] = useState<Georeference[]>([]);
 
   useEffect(() => {
     props.setDocument({
@@ -25,15 +22,20 @@ const NewPointSelection = (
     });
   }, [latitude, longitude]);
 
-  useEffect(() => {
-    API.getGeoreferences(false).then((geo) => {
-      SetList(geo);
-    });
-  }, []);
+  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLatitude(value);
+  };
+
+  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLongitude(value);
+  };
 
   return (
     <Form.Group as={Col} className="align-items-center">
       <Row className="geo-box w-100 align-items-center">
+        {" "}
         {/* Added align-items-center */}
         <Col>
           <InputGroup className="w-100">
@@ -44,6 +46,7 @@ const NewPointSelection = (
               min="67.8200"
               max="67.8900"
               value={Number(latitude.toFixed(5))}
+              onChange={handleLatitudeChange}
               placeholder="Insert Latitude"
               className="font-size-20"
               required
@@ -65,6 +68,7 @@ const NewPointSelection = (
               min="20.1000"
               max="20.3500"
               value={Number(longitude.toFixed(5))}
+              onChange={handleLongitudeChange}
               placeholder="Insert Longitude"
               className="font-size-20"
               required
@@ -75,7 +79,7 @@ const NewPointSelection = (
         <Col></Col>
       </Row>
       {props && props.showMiniMap && (
-        <MiniMapModal
+        <MiniMapListPointModal
           showMiniMap={props.showMiniMap}
           setShowMiniMap={props.setShowMiniMap}
           setLatitude={setLatitude}
@@ -86,4 +90,4 @@ const NewPointSelection = (
   );
 };
 
-export default NewPointSelection;
+export default ListOfPointsSelection;

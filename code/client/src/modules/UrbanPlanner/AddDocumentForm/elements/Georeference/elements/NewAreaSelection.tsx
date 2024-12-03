@@ -1,8 +1,8 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import PolygonMapModal from "./MiniMapAreaModal";
-import "../../../../style.css";
-import { Props } from "../../interfaces/types";
+import MiniMapAreaModal from "../minimap/MiniMapAreaModal";
+import "../../../../../style.css";
+import { Props } from "../../../interfaces/types";
 
 const NewAreaSelection = (
   props: Props & {
@@ -45,7 +45,7 @@ const NewAreaSelection = (
         </Col>
       </Row>
       {props.showPolygonMap && (
-        <PolygonMapModal
+        <MiniMapAreaModal
           showPolygonMap={props.showPolygonMap}
           setShowPolygonMap={props.setShowPolygonMap}
           setPolygonCoordinates={setPolygonCoordinates}

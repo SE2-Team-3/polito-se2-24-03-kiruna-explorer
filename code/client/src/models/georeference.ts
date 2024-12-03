@@ -1,12 +1,12 @@
 class Georeference {
   georeferenceId: number;
-  coordinates: [number, number][];
+  coordinates: string;
   georeferenceName: string;
   isArea: boolean;
 
   constructor(
     georeferenceId: number,
-    coordinates: [number, number][],
+    coordinates: string,
     georeferenceName: string,
     isArea: boolean
   ) {

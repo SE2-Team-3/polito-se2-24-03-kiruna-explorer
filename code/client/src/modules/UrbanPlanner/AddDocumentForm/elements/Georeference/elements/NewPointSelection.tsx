@@ -1,8 +1,8 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../../../style.css";
-import { Props } from "../../interfaces/types";
-import MiniMapModal from "./MiniMapModal";
+import "../../../../../style.css";
+import { Props } from "../../../interfaces/types";
+import MiniMapPointModal from "../minimap/MiniMapPointModal";
 
 const NewPointSelection = (
   props: Props & {
@@ -79,7 +79,7 @@ const NewPointSelection = (
         <Col></Col>
       </Row>
       {props && props.showMiniMap && (
-        <MiniMapModal
+        <MiniMapPointModal
           showMiniMap={props.showMiniMap}
           setShowMiniMap={props.setShowMiniMap}
           setLatitude={setLatitude}
