@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";
 import GeoreferenceSelection from "./GeoreferenceSelection";
-import GeoreferenceAreaSelection from "./GeoreferenceAreaSelection";
+import AreaSelection from "./GeoreferenceAreaSelection";
 
 const GeoreferenceTypeSelection = (props: Props) => {
   const [geoType, setGeoType] = useState("Municipality");
@@ -78,7 +78,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
           />
         )}
         {geoType === "Polygon" && (
-          <GeoreferenceAreaSelection
+          <AreaSelection
             {...props}
             showPolygonMap={showPolygonMap}
             setShowPolygonMap={setShowPolygonMap}
