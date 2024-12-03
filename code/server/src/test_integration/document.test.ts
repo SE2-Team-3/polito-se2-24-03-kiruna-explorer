@@ -27,6 +27,7 @@ const testDocument = {
   language: "English",
   pages: "1",
   georeference: [[67.8558, 20.2253]],
+  georeferenceName: "test",
 };
 
 let plannerCookie: string;
@@ -183,6 +184,7 @@ describe("Document routes integration tests", () => {
     });
   });
 
+  // KX8 (Search documents)
   describe("POST /api/documents/resource/:resourceId", () => {
     test("It should return 200 with the requested resource", async () => {
       const resourceId = 1;
@@ -205,9 +207,30 @@ describe("Document routes integration tests", () => {
         .get(`${routePath}/documents/${documentId}/resources`)
         .set("Cookie", plannerCookie)
         .expect(200);
-
-      expect(response.body).toBeDefined();
       expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body).toBeDefined();
+    });
+  });
+
+  describe("POST /api/documents/filtered", () => {
+    test("It should return 200 with the searched documents", async () => {
+      const filters = {
+        title: "document-1",
+        documentType: "Text",
+        stakeholders: "Municipality",
+        issuanceDateStart: "2014-3",
+        issuanceDateEnd: "2015-01-07",
+      };
+
+      let response = await request(app)
+        .get(
+          `${routePath}/documents/filtered?title=${filters.title}&documentType=${filters.documentType}&stakeholders=${filters.stakeholders}`
+        )
+        .set("Cookie", plannerCookie)
+        .expect(200);
+
+      expect(response.body.length).toBeDefined();
+      expect(response.body).toBeDefined();
     });
   });
 });

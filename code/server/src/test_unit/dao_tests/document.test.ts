@@ -41,6 +41,7 @@ describe("DocumentDAO unit tests", () => {
         "2024-11-06",
         "English",
         "1",
+        null,
         null
       );
       expect(result.documentId).toBeDefined();
@@ -85,7 +86,8 @@ describe("DocumentDAO unit tests", () => {
         "2024-11-06",
         "English",
         "1",
-        ["67.8558, 20.2253"]
+        ["67.8558, 20.2253"],
+        "test"
       );
 
       expect(result.documentId).toBeDefined();
@@ -186,6 +188,69 @@ describe("DocumentDAO unit tests", () => {
       expect(result[0].size).toBeDefined();
       expect(result[0].destination).toBeDefined();
       expect(result[0].filename).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
+
+  // KX8 (Search documents)
+  describe("getFilteredDocuments", () => {
+    it("should return the searched documents", async () => {
+      const filters: any = {
+        documentType: "Text",
+      };
+      const expectedDocuments = [
+        {
+          documentId: 1,
+          title: "Test Title 1",
+          description: "Test Description 1",
+          documentType: "Text",
+          scale: "Text",
+          nodeType: "Design doc.",
+          stakeholders: `["Municipality", "Architectural firm"]`,
+          issuanceDate: "2023-11-13",
+          language: "English",
+          pages: "100",
+          georeferenceId: 101,
+          coordinates: "[1.1, 2.2]",
+        },
+        {
+          documentId: 2,
+          title: "Test Title 2",
+          description: "Test Description 2",
+          documentType: "Text",
+          scale: "1:500",
+          nodeType: "Design doc.",
+          stakeholders: `["Municipality"]`,
+          issuanceDate: "2023-11-13",
+          language: "Swedish",
+          pages: "1-100",
+          georeferenceId: 151,
+          coordinates: "[1.1, 2.2]",
+        },
+      ];
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, expectedDocuments);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getFilteredDocuments(filters);
+
+      expect(result).toBeDefined();
+      expect(result[0].title).toBeDefined();
+      expect(result[0].description).toBeDefined();
+      expect(result[0].documentType).toBeDefined();
+      expect(result[0].scale).toBeDefined();
+      expect(result[0].nodeType).toBeDefined();
+      expect(result[0].stakeholders).toBeDefined();
+      expect(result[0].issuanceDate).toBeDefined();
+      expect(result[0].language).toBeDefined();
+      expect(result[0].pages).toBeDefined();
+      expect(result[0].georeferenceId).toBeDefined();
       mockDBAll.mockRestore();
     });
   });
