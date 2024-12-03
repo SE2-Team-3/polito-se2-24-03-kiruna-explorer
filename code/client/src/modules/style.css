@@ -1234,7 +1234,7 @@ DIAGRAM
   position: absolute;
 }
 
-svg {
+.diagram-svg-fix svg {
   overflow: visible;
   position: absolute;
 }

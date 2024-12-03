@@ -162,7 +162,7 @@ const Diagram = () => {
     <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <ReactFlowProvider>
         {/*<h1>Sopra diagramma</h1>*/}
-        <div style={{ width: "100vw", height: "750px", border: "none" }}>
+        <div style={{ width: "100vw", height: "750px", border: "none" }} className="diagram-svg-fix">
           <div style={{ height: "100%" }}>
             <ReactFlow
               nodes={nodes}
