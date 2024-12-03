@@ -101,7 +101,7 @@ export default function DocumentsListTable(props: any) {
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
         <Col md={visibleFilterTable ? 9 : 12}>
-          <Row>
+          <Row {...(visibleFilterTable ? { className: "row-full-height-document-list" } : null)}>
             <div className="form-container">
               <Table hover>
                 <thead>
@@ -160,7 +160,7 @@ export default function DocumentsListTable(props: any) {
           </Row>
           <Row>
             {/* Controlli per selezionare gli elementi per pagina */}
-            <div className="d-flex justify-content-between align-items-center mt-3">
+            <div className="d-flex justify-content-between align-items-center">
               <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
                 <Form.Label className="me-2 mb-0">Showing</Form.Label>
                 <Form.Select
