@@ -42,6 +42,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        null,
         null
       );
 
@@ -56,6 +57,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        null,
         null
       );
       expect(response).toEqual({
@@ -99,7 +101,8 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
-        testDocument.georeference
+        testDocument.georeference,
+        null
       );
 
       expect(DocumentDAO.prototype.createDocument).toHaveBeenCalledTimes(2);
@@ -113,6 +116,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        null,
         null
       );
       expect(response).toEqual({
@@ -239,6 +243,31 @@ describe("Document Controller Unit Tests", () => {
         DocumentDAO.prototype.getResourcesByDocumentId
       ).toHaveBeenCalledWith(documentId);
       expect(response).toEqual([testFile]);
+    });
+  });
+
+  // KX8 (Search documents)
+  describe("getFilteredDocuments", () => {
+    it("should return the searched documents", async () => {
+      const filters: any = {
+        title: "doc-1",
+        documentType: "Text",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "getFilteredDocuments")
+        .mockResolvedValueOnce(filters);
+
+      const controller = new DocumentController();
+
+      const response = await controller.getFilteredDocuments(filters);
+
+      expect(DocumentDAO.prototype.getFilteredDocuments).toHaveBeenCalledTimes(
+        1
+      );
+      expect(DocumentDAO.prototype.getFilteredDocuments).toHaveBeenCalledWith(
+        filters
+      );
     });
   });
 });
