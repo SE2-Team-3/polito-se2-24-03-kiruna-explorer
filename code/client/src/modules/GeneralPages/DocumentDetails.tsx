@@ -52,7 +52,7 @@ const DocumentDetails = () => {
             </Row>
             <Row className="description-row">
               <strong>Description</strong>
-              <span style={{ fontSize: "20px", color: "black" }}>
+              <span style={{ fontSize: "18px", color: "black" }}>
                 {document?.description}
               </span>
             </Row>
@@ -71,7 +71,14 @@ const DocumentDetails = () => {
             <strong>
               <img src={Language} alt="language" /> Language
             </strong>
-            <div style={{ display: "flex", alignItems: "flex", gap: "15px" }}>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex",
+                gap: "15px",
+              }}
+            >
               {document?.language === "English" ? (
                 <Flag code="GB" style={{ width: "40px", height: "30px" }} />
               ) : document?.language === "Swedish" ? (
@@ -88,6 +95,7 @@ const DocumentDetails = () => {
             <strong>
               <img src={Book} alt="book" /> Pages
             </strong>
+            <br />
             <div>
               <span className="blue-text">{document?.pages}</span>
             </div>
@@ -96,6 +104,7 @@ const DocumentDetails = () => {
             <strong>
               <img src={Scale} alt="scale" /> Scale
             </strong>
+            <br />
             <div>
               {document?.documentType?.toString() === "Plan" ? (
                 <>
@@ -108,6 +117,7 @@ const DocumentDetails = () => {
             </div>{" "}
           </Col>
         </Row>
+        <br />
         <Row className="table-container">
           <Col xs={12} md={4} className="linked-documents margintop-15px">
             <strong>
