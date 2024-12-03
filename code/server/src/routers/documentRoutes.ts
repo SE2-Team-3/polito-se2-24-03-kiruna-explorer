@@ -258,6 +258,25 @@ class DocumentRoutes {
     });
 
     this.router.get(
+      "/georeferences",
+      query("isArea")
+        .optional()
+        .isBoolean()
+        .withMessage("isArea must be a boolean"),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) => {
+        const isArea =
+          req.query.isArea !== undefined
+            ? req.query.isArea === "true"
+            : undefined;
+        this.controller
+          .getGeoreferences(isArea)
+          .then((georeferences) => res.status(200).json(georeferences))
+          .catch((error: any) => next(error));
+      }
+    );
+
+    this.router.get(
       "/:documentId/connections",
       param("documentId")
         .isInt()
@@ -280,25 +299,6 @@ class DocumentRoutes {
         this.controller
           .getDocumentById(parseInt(req.params.documentId, 10))
           .then((document) => res.status(200).json(document))
-          .catch((error: any) => next(error));
-      }
-    );
-
-    this.router.get(
-      "/georeferences",
-      query("isArea")
-        .optional()
-        .isBoolean()
-        .withMessage("isArea must be a boolean"),
-      this.errorHandler.validateRequest,
-      (req: any, res: any, next: any) => {
-        const isArea =
-          req.query.isArea !== undefined
-            ? req.query.isArea === "true"
-            : undefined;
-        this.controller
-          .getGeoreferences(isArea)
-          .then((georeferences) => res.status(200).json(georeferences))
           .catch((error: any) => next(error));
       }
     );
