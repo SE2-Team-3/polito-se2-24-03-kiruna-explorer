@@ -23,7 +23,7 @@ import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsLi
 import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
 import { FaPlus } from "react-icons/fa";
 import ExploreMap from "./modules/GeneralPages/Map/ExploreMap";
-import Diagram from "./modules/GeneralPages/Diagram/Diagram";
+import DiagramWrapper from "./modules/GeneralPages/Diagram/DiagramWrapper";
 import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 
 function App() {
@@ -149,7 +149,7 @@ function App() {
                 />
                 {/* no login required */}
                 <Route path="/home" element={<Home />} />
-                <Route path="/diagram" element={<Diagram />} />
+                <Route path="/diagram" element={<DiagramWrapper />} />
                 <Route
                   path="/documents/:documentId"
                   element={<DocumentDetails />}
