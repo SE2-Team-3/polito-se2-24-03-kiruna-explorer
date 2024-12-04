@@ -152,34 +152,91 @@ const GeoreferenceTypeSelection = (props: Props) => {
         )}
 
         {geoType === "NewPoint" && (
-          <NewPointSelection
-            {...props}
-            showMiniMap={showMiniMap}
-            setShowMiniMap={setShowMiniMap}
-          />
+          <Row>
+            <Col>
+              <NewPointSelection
+                {...props}
+                showMiniMap={showMiniMap}
+                setShowMiniMap={setShowMiniMap}
+              />
+              <Button
+                variant="primary"
+                onClick={handleDeselect}
+                className="button-small mt-2"
+              >
+                Deselect
+              </Button>
+            </Col>
+          </Row>
         )}
         {geoType === "NewArea" && (
-          <NewAreaSelection
-            {...props}
-            showPolygonMap={showPolygonMap}
-            setShowPolygonMap={setShowPolygonMap}
-          />
+          <Row>
+            <Col>
+              <NewAreaSelection
+                {...props}
+                showPolygonMap={showPolygonMap}
+                setShowPolygonMap={setShowPolygonMap}
+              />
+              <Button
+                variant="primary"
+                onClick={handleDeselect}
+                className="button-small mt-2"
+              >
+                Deselect
+              </Button>
+            </Col>
+          </Row>
         )}
         {geoType === "ListOfPoints" && (
-          <ListOfPointsSelection
-            {...props}
-            showMiniMap={showMiniMap}
-            setShowMiniMap={setShowMiniMap}
-          />
+          <Row>
+            <Col>
+              <ListOfPointsSelection
+                {...props}
+                showMiniMap={showMiniMap}
+                setShowMiniMap={setShowMiniMap}
+              />
+              <Button
+                variant="primary"
+                onClick={handleDeselect}
+                className="button-small mt-2"
+              >
+                Deselect
+              </Button>
+            </Col>
+          </Row>
         )}
         {geoType === "ListOfAreas" && (
-          <ListOfAreasSelection
-            {...props}
-            showPolygonMap={showPolygonMap}
-            setShowPolygonMap={setShowPolygonMap}
-          />
+          <Row>
+            <Col>
+              <ListOfAreasSelection
+                {...props}
+                showPolygonMap={showPolygonMap}
+                setShowPolygonMap={setShowPolygonMap}
+              />
+              <Button
+                variant="primary"
+                onClick={handleDeselect}
+                className="button-small mt-2"
+              >
+                Deselect
+              </Button>
+            </Col>
+          </Row>
         )}
-        {geoType === "Municipality" && <p>Municipality area selected</p>}
+        {geoType === "Municipality" && (
+          <Row>
+            <Col>
+              <p className="text-success">Municipality area selected</p>
+              <Button
+                variant="primary"
+                onClick={handleDeselect}
+                className="button-small mt-2"
+              >
+                Deselect
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Form.Group>
     </>
   );
