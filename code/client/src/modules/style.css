@@ -35,11 +35,17 @@ PAGE STYLE
   height: 100%;
 }
 
-.form-container {
+@media (min-width: 1020px) {
+  .form-container {
+    width: 50%;
+  }
+}
+
+.form-container,
+.form-container-document-table {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
-  width: 100%;
   max-width: 1200px;
   padding-inline: 70px;
   padding-block: 30px;
