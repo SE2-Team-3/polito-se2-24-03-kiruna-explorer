@@ -1,5 +1,6 @@
 import { LatLngExpression } from "leaflet";
 
+//in format lng lat
 export type Area = LatLngExpression[][];
 export const MunicipalityArea: Area[] = [
   [

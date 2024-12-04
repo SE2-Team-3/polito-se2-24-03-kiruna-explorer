@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";
@@ -11,7 +11,7 @@ import ClearIcon from "../../../../../assets/icons/close.svg";
 const GeoreferenceTypeSelection = (props: Props) => {
   const [geoType, setGeoType] = useState("Default");
   const [showMiniMap, setShowMiniMap] = useState(false);
-  const [showPolygonMap, setShowPolygonMap] = useState(false); // Stato per il modal del poligono
+  const [showPolygonMap, setShowPolygonMap] = useState(false);
 
   useEffect(() => {
     if (geoType === "Default") {
@@ -40,7 +40,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
       <Form.Group as={Col} controlId="formGridGeoType">
         <Form.Label className="black-text">Georeference</Form.Label>
         {/* Choose between Point and Area */}
-        {geoType === "Default" ? (
+        {geoType === "Default" && (
           <Row>
             <Col xs="auto">
               <Form.Check
@@ -51,6 +51,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="Point"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col xs="auto">
@@ -62,11 +63,10 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="Polygon"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
           </Row>
-        ) : (
-          <></>
         )}
         {/* Point options */}
         {geoType === "Point" && (
@@ -80,6 +80,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="NewPoint"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col className="mt-2" xs="auto">
@@ -91,6 +92,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="ListOfPoints"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col className="mt-1" xs="auto">
@@ -112,6 +114,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="NewArea"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col className="mt-2" xs="auto">
@@ -123,6 +126,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="ListOfAreas"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col className="mt-2" xs="auto">
@@ -134,6 +138,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 value="Municipality"
                 onChange={(e) => handleGeoSelection(e.target.value)}
                 className="font-size-20"
+                required
               />
             </Col>
             <Col className="mt-1" xs="auto">
@@ -144,6 +149,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
           </Row>
         )}
 
+        {/* Point and Area selection */}
         {geoType === "NewPoint" && (
           <Row>
             <Col xs="auto">

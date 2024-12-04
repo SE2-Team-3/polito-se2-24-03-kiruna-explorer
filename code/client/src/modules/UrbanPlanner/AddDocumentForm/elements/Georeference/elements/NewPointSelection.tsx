@@ -1,4 +1,4 @@
-import { Row, Col, Form, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../../style.css";
 import { Props } from "../../../interfaces/types";
@@ -16,7 +16,9 @@ const NewPointSelection = (
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
+      georeference: [
+        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
+      ],
     });
   }, [latitude, longitude]);
 

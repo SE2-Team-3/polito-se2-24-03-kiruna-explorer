@@ -19,7 +19,7 @@ const MiniMapListAreaModal = ({
   setShowPolygonMap,
   setPolygonCoordinates,
 }: Props) => {
-  const [listPoint, SetList] = useState<Georeference[]>([]);
+  const [listArea, SetList] = useState<Georeference[]>([]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
 
@@ -60,8 +60,8 @@ const MiniMapListAreaModal = ({
             attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
           />
-          {listPoint.map((point, index) => {
-            const coords = JSON.parse(point.coordinates);
+          {listArea.map((area, index) => {
+            const coords = JSON.parse(area.coordinates);
             const polygonColor = getRandomColor();
 
             return coords.length > 2 ? (
@@ -84,7 +84,7 @@ const MiniMapListAreaModal = ({
                     ]);
 
                     setPolygonCoordinates(formattedCoords);
-                    setPolygonName(point.georeferenceName);
+                    setPolygonName(area.georeferenceName);
                     setShowPolygonMap(false);
                   },
                 }}
@@ -94,7 +94,11 @@ const MiniMapListAreaModal = ({
         </MapContainer>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" className="button-small" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          className="button-small"
+          onClick={handleClose}
+        >
           Close
         </Button>
       </Modal.Footer>
