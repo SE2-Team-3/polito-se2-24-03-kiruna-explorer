@@ -11,9 +11,7 @@ const NewAreaSelection = (
   }
 ) => {
   const [polygonName, setPolygonName] = useState("");
-  const [polygonCoordinates, setPolygonCoordinates] = useState<
-    [number, number][]
-  >([]);
+  const [polygonCoordinates, setPolygonCoordinates] = useState<[number, number][]>([]);
 
   useEffect(() => {
     props.setDocument({
@@ -32,7 +30,7 @@ const NewAreaSelection = (
       <Row className="geo-box w-100 align-items-center">
         <Col>
           <InputGroup className="w-100">
-            <InputGroup.Text className="font-size-18">Name</InputGroup.Text>
+            {/* <InputGroup.Text className="font-size-18">Name</InputGroup.Text> */}
             <Form.Control
               type="text"
               value={polygonName}

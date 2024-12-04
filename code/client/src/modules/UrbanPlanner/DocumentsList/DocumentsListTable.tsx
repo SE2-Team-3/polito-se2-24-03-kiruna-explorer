@@ -102,7 +102,7 @@ export default function DocumentsListTable(props: any) {
       <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
         <Col md={visibleFilterTable ? 9 : 12}>
           <Row {...(visibleFilterTable ? { className: "row-full-height-document-list" } : null)}>
-            <div className="form-container">
+            <div className="form-container-document-table">
               <Table hover>
                 <thead>
                   <tr>
