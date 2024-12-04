@@ -9,7 +9,7 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
 - [UI Application screenshots-first release](#ui-application-screenshots)
 - [Diagrams](./assets/diagrams/)
   - [Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
-  - [Class Diagram](./assets/diagrams/ClassDiagram.jpeg)
+  - [Class Diagram](./assets/diagrams/ClassDiagramR1.jpeg)
 - [Retrospectives](./Retrospectives/)
   - [Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
   - [Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
