@@ -69,10 +69,10 @@ const MiniMapListAreaModal = ({
                 key={index}
                 positions={coords}
                 pathOptions={{
-                  color: polygonColor,
+                  color: "#3d52a0",
                   weight: 3,
                   opacity: 0.7,
-                  fillColor: polygonColor,
+                  fillColor: "#3d52a0",
                   fillOpacity: 0.3,
                 }}
                 eventHandlers={{
@@ -94,11 +94,7 @@ const MiniMapListAreaModal = ({
         </MapContainer>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="secondary"
-          className="button-small"
-          onClick={handleClose}
-        >
+        <Button variant="secondary" className="button-small" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>

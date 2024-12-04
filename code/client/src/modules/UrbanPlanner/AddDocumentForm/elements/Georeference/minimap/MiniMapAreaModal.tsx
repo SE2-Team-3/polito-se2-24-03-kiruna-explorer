@@ -12,11 +12,7 @@ interface Props {
   setPolygonCoordinates: (coords: [number, number][]) => void;
 }
 
-const MiniMapAreaModal = ({
-  showPolygonMap,
-  setShowPolygonMap,
-  setPolygonCoordinates,
-}: Props) => {
+const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
   const kirunaBounds: LatLngBounds = new LatLngBounds([
@@ -31,19 +27,13 @@ const MiniMapAreaModal = ({
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
     // check if all points are within Kiruna bounds
-    const isValid = polygon.every(([lon, lat]: [number, number]) =>
-      validateLocation(lat, lon)
-    );
+    const isValid = polygon.every(([lon, lat]: [number, number]) => validateLocation(lat, lon));
     if (!isValid) {
-      setValidationMessage(
-        "All points of the polygon must be within the Kiruna bounds."
-      );
+      setValidationMessage("All points of the polygon must be within the Kiruna bounds.");
       setShowPolygonMap(true);
       return;
     }
-    setPolygonCoordinates(
-      polygon.map((coord: [number, number]) => [coord[1], coord[0]])
-    );
+    setPolygonCoordinates(polygon.map((coord: [number, number]) => [coord[1], coord[0]]));
     setShowPolygonMap(false);
   };
 
@@ -67,7 +57,7 @@ const MiniMapAreaModal = ({
           polygon: {
             allowIntersection: false,
             shapeOptions: {
-              color: "#ff0000",
+              color: "#3d52a0",
             },
           },
           polyline: false,
@@ -99,11 +89,7 @@ const MiniMapAreaModal = ({
   };
 
   return (
-    <Modal
-      show={showPolygonMap}
-      onHide={() => setShowPolygonMap(false)}
-      size="lg"
-    >
+    <Modal show={showPolygonMap} onHide={() => setShowPolygonMap(false)} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select an area on the map</Modal.Title>
       </Modal.Header>
@@ -136,11 +122,7 @@ const MiniMapAreaModal = ({
         >
           Close
         </Button>
-        <Button
-          variant="primary"
-          className="button-small-save"
-          onClick={handleSave}
-        >
+        <Button variant="primary" className="button-small-save" onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>
