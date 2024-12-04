@@ -13,7 +13,7 @@ const ScaleSelection = (props: Props) => {
 
   const handleTypeChange = (value: string) => {
     setDocumentType(value);
-    setScale(value === "Plan" ? "" : value);
+    setScale(value === "Architectural Plan" ? "" : value);
   };
 
   const handleScaleChange = (value: string) => {
@@ -49,10 +49,10 @@ const ScaleSelection = (props: Props) => {
           <option value="">Select scale</option>
           <option value="Text">Text</option>
           <option value="Concept">Concept</option>
-          <option value="Plan">Architectural plan</option>
+          <option value="Architectural Plan">Architectural plan</option>
           <option value="Actions">Blueprints/actions</option>
         </Form.Select>
-        {documentType === "Plan" && (
+        {documentType === "Architectural Plan" && (
           <>
             <Form.Control
               type="text"

@@ -1409,3 +1409,8 @@ DOCUMENT DETAILS
     left: 300px;
   }
 }
+
+.clickable-title:hover {
+  color: #3d52a0;
+  text-decoration: underline;
+}
