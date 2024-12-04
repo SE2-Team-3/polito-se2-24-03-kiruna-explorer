@@ -155,9 +155,15 @@ export default function DocumentsListTable(props: any) {
                         </Badge>
                         <span
                           className="clickable-title"
+                          role="button"
+                          tabIndex={0}
                           onClick={() =>
                             navigate(`/documents/${item.documentId}`)
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ")
+                              navigate(`/documents/${item.documentId}`);
+                          }}
                           style={{
                             cursor: "pointer",
                           }}

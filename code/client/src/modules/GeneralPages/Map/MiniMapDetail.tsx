@@ -1,4 +1,4 @@
-import { LatLngExpression } from "leaflet";
+import L, { LatLngExpression } from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -6,7 +6,6 @@ import {
   Polyline,
   useMap,
 } from "react-leaflet";
-import L from "leaflet";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../style.css";
 

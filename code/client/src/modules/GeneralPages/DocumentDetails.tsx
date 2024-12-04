@@ -25,6 +25,17 @@ const DocumentDetails = () => {
   useEffect(() => {
     API.getDocumentById(docId).then((doc) => setDocument(doc));
   }, [docId]);
+
+  const getLanguageFlag = (language: string | undefined) => {
+    if (language === "English") {
+      return <Flag code="GB" style={{ width: "40px", height: "30px" }} />;
+    }
+    if (language === "Swedish") {
+      return <Flag code="SE" style={{ width: "40px", height: "30px" }} />;
+    }
+    return <span style={{ fontSize: "20px" }}>None</span>;
+  };
+
   return (
     <div className={`document-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
@@ -79,13 +90,7 @@ const DocumentDetails = () => {
                 gap: "15px",
               }}
             >
-              {document?.language === "English" ? (
-                <Flag code="GB" style={{ width: "40px", height: "30px" }} />
-              ) : document?.language === "Swedish" ? (
-                <Flag code="SE" style={{ width: "40px", height: "30px" }} />
-              ) : (
-                <span style={{ fontSize: "20px" }}>None</span>
-              )}
+              {getLanguageFlag(document?.language)}
               <span style={{ fontSize: "20px", verticalAlign: "flex" }}>
                 {document?.language}
               </span>
@@ -114,7 +119,7 @@ const DocumentDetails = () => {
               ) : (
                 <span className="blue-text">{document?.scale}</span>
               )}
-            </div>{" "}
+            </div>
           </Col>
         </Row>
         <br />
@@ -130,7 +135,7 @@ const DocumentDetails = () => {
                 {document?.linkedDocuments?.length > 0 ? (
                   document.linkedDocuments.map((linkedDoc, index) => (
                     <div
-                      key={index}
+                      key={`${index}-${linkedDoc.documentId}`}
                       className={`table-row ${
                         index % 2 === 0 ? "dark-row" : "light-row"
                       }`}
@@ -158,7 +163,7 @@ const DocumentDetails = () => {
               <div className="linked-documents-table">
                 {document?.resources.map((resource, index) => (
                   <div
-                    key={index}
+                    key={`${index}-${resource.resourceId}`}
                     className={`table-row ${
                       index % 2 === 0 ? "dark-row" : "light-row"
                     }`}
@@ -181,7 +186,7 @@ const DocumentDetails = () => {
             <div className="linked-documents-table">
               {document?.stakeholders?.map((stakeholder, index) => (
                 <div
-                  key={index}
+                  key={`${index}-${stakeholder}`}
                   className={`table-row ${
                     index % 2 === 0 ? "dark-row" : "light-row"
                   }`}
