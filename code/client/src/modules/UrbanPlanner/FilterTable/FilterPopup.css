@@ -58,15 +58,15 @@
   background-color: #2c3e78;
 }
 
-.dropdown-item {
+.dropdown-item-filter {
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
   color: #333;
 }
 
-.dropdown-toggle,
-.dropdown-toggle:hover,
-.dropdown-toggle:focus {
+.dropdown-toggle-filter,
+.dropdown-toggle-filter:hover,
+.dropdown-toggle-filter:focus {
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
   color: #3d52a0;

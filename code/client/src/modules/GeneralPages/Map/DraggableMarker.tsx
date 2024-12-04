@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, useContext, useEffect } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, Polygon } from "react-leaflet"; // Importa Polygon
 import L from "leaflet";
 import { UserContext } from "../../../components/UserContext";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
@@ -7,6 +7,9 @@ import API from "../../../API/API";
 import Document from "../../../models/document";
 import { useToast } from "../../ToastProvider";
 
+import markers from "../../../models/documentTypeMarkers";
+
+//leaving default icon here just in case there will be a use in future
 const logoIcon = new L.Icon({
   iconUrl: Logo,
   iconSize: [40, 40],
@@ -25,20 +28,19 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
   const user = useContext(UserContext);
   const showToast = useToast();
 
-  const initialPosition = useMemo<[number, number]>(() => {
-    // No georeference: belong to municipality area (to be modified in KX9)
-    return !document.coordinates
-      ? kirunaPosition
-      : // With Georeference: belong to a specific location
-      JSON.parse(document.coordinates).length === 1
-      ? L.latLng(
-          JSON.parse(document.coordinates)[0][0],
-          JSON.parse(document.coordinates)[0][1]
-        )
-      : (kirunaPosition as any); // to be midified in KX9
+  // Differenzia tra marker e poligono (modifica in KX9)
+  const isPolygon = useMemo(() => {
+    const coords = JSON.parse(document.coordinates || "[]");
+    return coords.length > 1; // Considera poligono se ci sono più di 1 set di coordinate
   }, [document.coordinates]);
 
-  const [position, setPosition] = useState<[number, number]>(initialPosition);
+  const initialPosition = useMemo(() => {
+    if (!document.coordinates) return kirunaPosition; // Nessuna georeferenza, posizione predefinita
+    const coords = JSON.parse(document.coordinates);
+    return isPolygon ? coords : L.latLng(coords[0][0], coords[0][1]);
+  }, [document.coordinates, isPolygon]);
+
+  const [position, setPosition] = useState(initialPosition);
   const [draggable, setDraggable] = useState(false);
   const markerRef = useRef<L.Marker>(null);
 
@@ -49,18 +51,14 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
       newCoordinates[1] >= 20.1 &&
       newCoordinates[1] <= 20.35
     ) {
-      API.updateDocumentGeoreference(document.documentId, [
-        newCoordinates,
-      ]).then((response) => {
+      API.updateDocumentGeoreference(document.documentId, [newCoordinates]).then((response) => {
         const { message } = response;
         setDocuments((prevDocuments) =>
           prevDocuments.map((doc) =>
             doc.documentId === document.documentId
               ? {
                   ...doc,
-                  coordinates: JSON.stringify([
-                    [newCoordinates[0], newCoordinates[1]],
-                  ]),
+                  coordinates: JSON.stringify([[newCoordinates[0], newCoordinates[1]]]),
                 }
               : doc
           )
@@ -68,13 +66,8 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
         showToast("Success!", "Georeference updated successfully", false);
       });
     } else {
-      showToast(
-        "Cannot update coordinates",
-        "Please choose coordinates within Kiruna area",
-        true
-      );
+      showToast("Cannot update coordinates", "Please choose coordinates within Kiruna area", true);
     }
-    //.catch((err) => console.error("Error updating coordinates:", err));
   };
 
   const eventHandlers = useMemo(
@@ -97,13 +90,29 @@ const DraggableMarker = ({ document, setDocuments }: DraggableMarkerProps) => {
     setDraggable((prev) => !prev);
   };
 
-  return (
+  return isPolygon ? (
+    <Polygon
+      positions={position} // Posizioni del poligono
+      color="#3d52a0"
+      fillOpacity={0.5}
+    >
+      <Popup autoClose={false} closeButton={true}>
+        <div>
+          <h5>{document.title}</h5>
+          <p>Description: {document.description}</p>
+          <p>Scale: {document.scale}</p>
+          <p>Type: {document.nodeType}</p>
+          <p>Issuance Date: {document.issuanceDate}</p>
+        </div>
+      </Popup>
+    </Polygon>
+  ) : (
     <Marker
       draggable={draggable}
       eventHandlers={eventHandlers}
-      position={position}
+      position={position as [number, number]}
       ref={markerRef}
-      icon={logoIcon}
+      icon={document.nodeType ? markers.get(document.nodeType) : logoIcon}
     >
       <Popup autoClose={false} closeButton={true}>
         <div>

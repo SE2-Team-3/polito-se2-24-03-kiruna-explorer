@@ -27,19 +27,27 @@ PAGE STYLE
   margin-left: 350px;
 }
 
+.row-full-width-document-list {
+  width: 80%;
+}
+
+.row-full-height-document-list {
+  height: 100%;
+}
+
 .form-container {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
   width: 100%;
   max-width: 1200px;
-  padding: 10px;
+  padding-inline: 70px;
+  padding-block: 30px;
   box-sizing: border-box;
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
-    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -56,6 +64,11 @@ PAGE STYLE
 FORM STYLE
 */
 .document-form {
+  padding: 20px;
+  width: 40%;
+}
+
+.document-form-link {
   padding: 20px;
 }
 
@@ -194,17 +207,20 @@ BUTTON STYLE
   transform: scale(0.95);
 }
 
-.button-small {
+.button-small,
+.button-small:hover {
   background-color: transparent;
   border-color: #3d52a0;
   color: #3d52a0;
   font-size: 18px;
 }
 
-.button-small:hover {
+.button-small-save,
+.button-small-save:hover {
   background-color: #3d52a0;
   border-color: #3d52a0;
   color: white;
+  font-size: 18px;
 }
 
 .add-link-button {
@@ -675,12 +691,7 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(
-    to right,
-    #7091e6 0%,
-    #636fa4 51%,
-    #7091e6 100%
-  );
+  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
 }
 .loginBtn {
   border: none;
@@ -899,20 +910,14 @@ MAP
   margin-left: 0;
   margin-right: 0;
   padding: 0.5rem;
-}
-
-.uploaded-doc-col {
-  max-width: 80%;
+  align-items: center;
 }
 
 .uploaded-doc-name {
+  font-family: "Open Sans", sans-serif;
   text-overflow: ellipsis;
   overflow: hidden;
   margin: 0;
-}
-
-.uploaded-doc-button {
-  text-align: end;
 }
 
 /* DOCUMETS LIST CSS */
@@ -1090,8 +1095,7 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */
-      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }
@@ -1192,7 +1196,7 @@ DIAGRAM
   position: absolute;
 }
 
-svg {
+.diagram-svg-fix svg {
   overflow: visible;
   position: absolute;
 }

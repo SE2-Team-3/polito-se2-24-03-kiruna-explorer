@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
-import FilterIcon from "../../../assets/icons/Filter icon.svg";
+import FilterIcon from "../../../assets/icons/filter.svg";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../components/SidebarContext";
 import FilterTable from "../FilterTable/FilterPopup";
@@ -99,9 +99,9 @@ export default function DocumentsListTable(props: any) {
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Row>
+      <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
         <Col md={visibleFilterTable ? 9 : 12}>
-          <Row>
+          <Row {...(visibleFilterTable ? { className: "row-full-height-document-list" } : null)}>
             <div className="form-container">
               <Table hover>
                 <thead>
@@ -160,7 +160,7 @@ export default function DocumentsListTable(props: any) {
           </Row>
           <Row>
             {/* Controlli per selezionare gli elementi per pagina */}
-            <div className="d-flex justify-content-between align-items-center mt-3">
+            <div className="d-flex justify-content-between align-items-center">
               <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
                 <Form.Label className="me-2 mb-0">Showing</Form.Label>
                 <Form.Select
