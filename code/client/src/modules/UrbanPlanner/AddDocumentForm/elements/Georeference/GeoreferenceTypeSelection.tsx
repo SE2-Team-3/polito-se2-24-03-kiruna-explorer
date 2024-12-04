@@ -1,19 +1,17 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";
-import NewPointSelection from "./elements/NewPointSelection";
-import NewAreaSelection from "./elements/NewAreaSelection";
-import ListOfPointsSelection from "./elements/ListOfPointsSelection";
-import ListOfAreasSelection from "./elements/ListOfAreasSelection";
+import GeoreferenceSelection from "./GeoreferenceSelection";
+import AreaSelection from "./GeoreferenceAreaSelection";
 
 const GeoreferenceTypeSelection = (props: Props) => {
-  const [geoType, setGeoType] = useState("Default");
+  const [geoType, setGeoType] = useState("Municipality");
   const [showMiniMap, setShowMiniMap] = useState(false);
   const [showPolygonMap, setShowPolygonMap] = useState(false); // Stato per il modal del poligono
 
   useEffect(() => {
-    if (geoType === "Default") {
+    if (geoType === "Municipality") {
       props.setDocument({
         ...props.document,
         georeference: null,
@@ -23,15 +21,11 @@ const GeoreferenceTypeSelection = (props: Props) => {
 
   const handleGeoSelection = (value: string) => {
     setGeoType(value);
-    if (value === "NewPoint" || value === "ListOfPoints") {
+    if (value === "Point") {
       setShowMiniMap(true);
-    } else if (value === "NewArea" || value === "ListOfAreas") {
+    } else if (value === "Polygon") {
       setShowPolygonMap(true);
     }
-  };
-
-  const handleDeselect = () => {
-    setGeoType("Default");
   };
 
   return (
