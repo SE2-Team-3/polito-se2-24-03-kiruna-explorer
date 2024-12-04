@@ -12,15 +12,13 @@ interface Props {
   setPolygonCoordinates: (coords: [number, number][]) => void;
 }
 
-const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
+const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
-
   const kirunaBounds: LatLngBounds = new LatLngBounds([
     [67.821, 20.182], // Southwest corner
     [67.89, 20.268], // Northeast corner
   ]);
-
   const validateLocation = (lat: number, lon: number) => {
     return kirunaBounds.contains([lat, lon]);
   };
@@ -28,17 +26,13 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
   const handleSave = () => {
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
-
     // check if all points are within Kiruna bounds
     const isValid = polygon.every(([lon, lat]: [number, number]) => validateLocation(lat, lon));
-
     if (!isValid) {
       setValidationMessage("All points of the polygon must be within the Kiruna bounds.");
       setShowPolygonMap(true);
       return;
     }
-
-    // Converte le coordinate (scambia lat e lon)
     setPolygonCoordinates(polygon.map((coord: [number, number]) => [coord[1], coord[0]]));
     setShowPolygonMap(false);
   };
@@ -63,7 +57,7 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
           polygon: {
             allowIntersection: false,
             shapeOptions: {
-              color: "#ff0000",
+              color: "#3d52a0",
             },
           },
           polyline: false,
@@ -136,4 +130,4 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
   );
 };
 
-export default PolygonMapModal;
+export default MiniMapAreaModal;

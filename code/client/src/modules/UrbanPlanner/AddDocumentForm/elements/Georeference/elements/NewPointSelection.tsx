@@ -1,10 +1,10 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../../../style.css";
-import { Props } from "../../interfaces/types";
-import MiniMapModal from "./MiniMapModal";
+import "../../../../../style.css";
+import { Props } from "../../../interfaces/types";
+import MiniMapPointModal from "../minimap/MiniMapPointModal";
 
-const GeoreferenceSelection = (
+const NewPointSelection = (
   props: Props & {
     showMiniMap: boolean;
     setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,9 +32,8 @@ const GeoreferenceSelection = (
 
   return (
     <Form.Group as={Col} className="align-items-center">
-      <Row className="geo-box w-100 align-items-center">
+      {/* <Row className="geo-box w-100 align-items-center">
         {" "}
-        {/* Added align-items-center */}
         <Col>
           <InputGroup className="w-100">
             <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
@@ -56,7 +55,6 @@ const GeoreferenceSelection = (
       </Row>
       <Row className="geo-box w-100 align-items-center">
         {" "}
-        {/* Added align-items-center */}
         <Col>
           <InputGroup className="w-100">
             <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
@@ -75,9 +73,23 @@ const GeoreferenceSelection = (
           </InputGroup>
         </Col>
         <Col></Col>
+      </Row> */}
+      <Row>
+        <Col xs="auto">
+          <label className="black-text">Lat</label>
+        </Col>
+        <Col xs="auto">
+          <label className="black-text-coord">{latitude.toFixed(5)}</label>
+        </Col>
+        <Col xs="auto">
+          <label className="black-text">Long</label>
+        </Col>
+        <Col xs="auto">
+          <label className="black-text-coord">{longitude.toFixed(5)}</label>
+        </Col>
       </Row>
       {props && props.showMiniMap && (
-        <MiniMapModal
+        <MiniMapPointModal
           showMiniMap={props.showMiniMap}
           setShowMiniMap={props.setShowMiniMap}
           setLatitude={setLatitude}
@@ -88,4 +100,4 @@ const GeoreferenceSelection = (
   );
 };
 
-export default GeoreferenceSelection;
+export default NewPointSelection;

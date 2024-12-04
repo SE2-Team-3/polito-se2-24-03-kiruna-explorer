@@ -1,17 +1,19 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import PolygonMapModal from "./MiniMapAreaModal";
-import "../../../../style.css";
-import { Props } from "../../interfaces/types";
+import MiniMapAreaModal from "../minimap/MiniMapAreaModal";
+import "../../../../../style.css";
+import { Props } from "../../../interfaces/types";
 
-const AreaSelection = (
+const NewAreaSelection = (
   props: Props & {
     showPolygonMap: boolean;
     setShowPolygonMap: React.Dispatch<React.SetStateAction<boolean>>;
   }
 ) => {
   const [polygonName, setPolygonName] = useState("");
-  const [polygonCoordinates, setPolygonCoordinates] = useState<[number, number][]>([]);
+  const [polygonCoordinates, setPolygonCoordinates] = useState<
+    [number, number][]
+  >([]);
 
   useEffect(() => {
     props.setDocument({
@@ -43,7 +45,7 @@ const AreaSelection = (
         </Col>
       </Row>
       {props.showPolygonMap && (
-        <PolygonMapModal
+        <MiniMapAreaModal
           showPolygonMap={props.showPolygonMap}
           setShowPolygonMap={props.setShowPolygonMap}
           setPolygonCoordinates={setPolygonCoordinates}
@@ -53,4 +55,4 @@ const AreaSelection = (
   );
 };
 
-export default AreaSelection;
+export default NewAreaSelection;

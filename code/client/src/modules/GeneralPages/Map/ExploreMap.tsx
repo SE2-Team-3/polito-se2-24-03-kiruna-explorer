@@ -1,6 +1,6 @@
 import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Polygon } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css";
@@ -10,6 +10,7 @@ import "./map.css";
 import API from "../../../API/API";
 import Document from "../../../models/document";
 import DraggableMarker from "./DraggableMarker";
+import { MunicipalityArea, Area } from "./elements/MunicipalityArea";
 
 const ExploreMap = (props: any) => {
   const { isSidebarOpen } = useSidebar();
@@ -49,6 +50,14 @@ const ExploreMap = (props: any) => {
           attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>'
           url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
         />
+
+        {MunicipalityArea.map((area: Area, index: number) => (
+          <Polygon
+            key={index}
+            positions={area}
+            pathOptions={{ color: "red", fillColor: "red", fillOpacity: 0.5 }}
+          />
+        ))}
 
         <MarkerClusterGroup>
           {filteredDocuments.map((document) => (
