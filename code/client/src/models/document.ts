@@ -5,7 +5,7 @@ class Document {
   documentType: string;
   scale: string;
   nodeType: string;
-  stakeholders: string;
+  stakeholders: string[]; // Change stakeholders to an array of strings
   issuanceDate: string | null;
   language: string | null;
   pages: string | null;
@@ -20,7 +20,7 @@ class Document {
     documentType: string,
     scale: string,
     nodeType: string,
-    stakeholders: string,
+    stakeholders: string[], // Update constructor parameter to expect an array
     issuanceDate: string | null,
     language: string | null,
     pages: string | null,
@@ -34,7 +34,7 @@ class Document {
     this.documentType = documentType;
     this.scale = scale;
     this.nodeType = nodeType;
-    this.stakeholders = stakeholders;
+    this.stakeholders = stakeholders; // Assign the array of stakeholders
     this.issuanceDate = issuanceDate;
     this.language = language;
     this.pages = pages;

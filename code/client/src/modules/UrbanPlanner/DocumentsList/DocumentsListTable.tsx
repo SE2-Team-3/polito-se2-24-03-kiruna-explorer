@@ -52,7 +52,7 @@ export default function DocumentsListTable(props: any) {
     switch (docType) {
       case "Text":
         return "badge-text";
-      case "Plan":
+      case "Architectural plan":
         return "badge-plan";
       case "Concept":
         return "badge-concept";
@@ -129,7 +129,21 @@ export default function DocumentsListTable(props: any) {
                         <Badge className={`${getBadgeClass(item.documentType)}`}>
                           {item.documentType.charAt(0).toUpperCase()}
                         </Badge>
-                        {item.title}
+                        <span
+                          className="clickable-title"
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => navigate(`/documents/${item.documentId}`)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ")
+                              navigate(`/documents/${item.documentId}`);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                          }}
+                        >
+                          {item.title}
+                        </span>
                       </td>
                       <td data-label="Issuance Date">{item.issuanceDate}</td>
                       <td data-label="Language">{item.language}</td>
