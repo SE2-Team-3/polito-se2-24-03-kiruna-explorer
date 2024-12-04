@@ -1,211 +1,102 @@
-import { ReactFlow, Node, Edge } from "@xyflow/react";
-import { ViewportPortal } from "@xyflow/react";
-import { ReactFlowProvider } from "@xyflow/react";
-import { useNavigate } from "react-router-dom";
 
-import Header from "../../../components/diagramComponents/Header";
-import Sidebar from "../../../components/diagramComponents/Sidebar";
-import BGTable from "../../../components/diagramComponents/BGTable";
+import { useState, useCallback } from "react";
+import { useSidebar } from "../../../components/SidebarContext";
+import { useNavigate } from "react-router-dom";
+import { ViewportPortal, ReactFlow, addEdge, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
+import DiagramTable from "../../../components/diagramComponents/DiagramTable";
+import { nodeTypes, edgeTypes } from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
 import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 
-import { useEffect, useState } from "react";
-import { useCallback } from "react";
-import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
-import { addEdge } from "@xyflow/react";
+const Diagram = (props: any) => {
 
-import Document from "../../../models/document";
-import Connection from "../../../models/Connection";
-import API from "../../../API/API";
-import { useSidebar } from "../../../components/SidebarContext";
+    const setNodes = props.setNodes
+    const setEdges = props.setEdges
+    const scrollWidth = props.scrollWidth
+    const nodes = props.nodes
+    const edges = props.edges
+    const yearWidths = props.yearWidths
 
-import {
-  xPosCalculator,
-  yPosCalculator,
-} from "../../../components/diagramComponents/utils/positionCalculators";
-import {
-  nodeTypes,
-  edgeTypes,
-} from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
-import { useOccupiedPositions } from "../../../components/diagramComponents/utils/positionUtils";
-import { GrStakeholder } from "react-icons/gr";
+    const scrollHeight=750 > document.documentElement.clientHeight - 100 ? document.documentElement.clientHeight - 100 : 750
 
-const Diagram = () => {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
-  const { isSidebarOpen } = useSidebar();
-  const [yearWidths, setYearWidths] = useState<number[]>([]);
-  const navigate = useNavigate();
-  const { getAvailablePosition } = useOccupiedPositions();
+    const navigate = useNavigate();
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
+    const { isSidebarOpen } = useSidebar();
 
-  useEffect(() => {
-    async function getDocs() {
-      const initialDocs: Document[] = await API.getDocuments();
-      const initialConnections: Connection[] = await API.getConnections();
-      if (initialDocs.length) {
-        let newNodes: Node[] = [];
-        for (const d of initialDocs) {
-          let { x, y } = {
-            x: xPosCalculator(d.issuanceDate),
-            y: yPosCalculator(d.scale),
-          };
+    const onNodesChange = useCallback(
+        (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
+        []
+    );
 
-          const availablePosition = getAvailablePosition(x, y);
-          x = availablePosition.x;
-          y = availablePosition.y;
+    const onEdgesChange = useCallback(
+        (changes: any) => setEdges((eds: any) => applyEdgeChanges(changes, eds)),
+        []
+    );
 
-          newNodes.push({
-            id: d.documentId.toString(),
-            data: {
-              label: d.documentId,
-              nodeType: d.nodeType,
-              stakeholder: d.stakeholders,
-              showEdges: false,
-            },
-            width: 30,
-            position: { x, y },
-            zIndex: 5,
-            type: "icon",
-          });
+    const onConnect = useCallback(
+        (params: any) => setEdges((eds: any) => addEdge(params, eds)),
+        []
+    );
+
+    const onEdgeClick = useCallback((event: any, edge: any) => {
+        if (edge?.type === "default" && edge?.data?.linkTypes) {
+            setLinkTypesForPopup(edge.data.linkTypes);
+            setPopupVisible(true);
         }
+    }, []);
 
-        const years = Array.from({ length: 22 }, (_, index) => 2004 + index);
+    const closePopup = () => {
+        setPopupVisible(false);
+    };
 
-        const counts: number[] = new Array(23).fill(0);
+    const handleNodeClick = (nodeId: string) => {
+        navigate(`/documents/${nodeId}`);
+    };
 
-        for (const d of initialDocs) {
-          if (d.issuanceDate) {
-            const year = parseInt(d.issuanceDate.slice(0, 4));
-            counts[year - 2004]++;
-          }
-        }
-        const calculatedYearWidths = years.map(
-          (y) => 75 + counts[y - 2004] * 50
-        );
-        setYearWidths(calculatedYearWidths);
+    return (
+        <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
+            <div style={{
+                width: scrollWidth + "px",
+                height: scrollHeight + "px", border: "none"
+            }}
+                className="diagram-svg-fix">
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
+                    connectionLineStyle={{ stroke: "rgb(0, 0, 0)", strokeWidth: 2 }}
+                    panOnDrag={true}
+                    panOnScroll={true}
+                    preventScrolling={false}
+                    onConnect={onConnect}
+                    defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+                    translateExtent={[
+                        [0, 0],
+                        [yearWidths.reduce((partialSum: number, a: number) => partialSum + a, 200), 750]
+                    ]}
+                    nodeExtent={[
+                        [200,50],
+                        [+Infinity, 750]
+                    ]}
+                    minZoom={1}
+                    onEdgeClick={onEdgeClick}
+                    onNodeClick={(event, node) => handleNodeClick(node.id)}
+                    nodesDraggable={true}
+                >
+                    {popupVisible && (
+                        <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />
+                    )}
 
-        setNodes(newNodes);
-      }
-      if (initialConnections.length) {
-        const connectionsMap: Record<string, string[]> = {};
-
-        for (const c of initialConnections) {
-          const pairKey = `${c.documentId1}-${c.documentId2}`;
-          if (!connectionsMap[pairKey]) {
-            connectionsMap[pairKey] = [];
-          }
-          connectionsMap[pairKey].push(c.connection);
-        }
-
-        let newEdges: Edge[] = [];
-        for (const [pairKey, linkTypes] of Object.entries(connectionsMap)) {
-          const [source, target] = pairKey.split("-");
-
-          if (linkTypes.length === 1) {
-            newEdges.push({
-              id: `${source}-${target}-${linkTypes[0]}`,
-              source,
-              target,
-              type: linkTypes[0],
-              data: { linkTypes },
-              zIndex: 4,
-            });
-          } else {
-            newEdges.push({
-              id: `${source}-${target}-default`,
-              source,
-              target,
-              type: "default",
-              data: { linkTypes, label: `${linkTypes.length} connections` },
-              zIndex: 4,
-            });
-          }
-        }
-        setEdges(newEdges);
-      }
-    }
-    if (!nodes.length) getDocs();
-  }, []);
-
-  const onNodesChange = useCallback(
-    (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  );
-
-  const onEdgesChange = useCallback(
-    (changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
-  );
-
-  const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge(params, eds)),
-    []
-  );
-
-  const onEdgeClick = useCallback((event: any, edge: any) => {
-    if (edge?.type === "default" && edge?.data?.linkTypes) {
-      setLinkTypesForPopup(edge.data.linkTypes);
-      setPopupVisible(true);
-    }
-  }, []);
-
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
-
-  const handleNodeClick = (nodeId: string) => {
-    navigate(`/documents/${nodeId}`);
-  };
-
-  return (
-    <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <ReactFlowProvider>
-        {/*<h1>Sopra diagramma</h1>*/}
-        <div style={{ width: "100vw", height: "750px", border: "none" }} className="diagram-svg-fix">
-          <div style={{ height: "100%" }}>
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              nodeTypes={nodeTypes}
-              edgeTypes={edgeTypes}
-              connectionLineStyle={{ stroke: "rgb(0, 0, 0)", strokeWidth: 2 }}
-              panOnDrag={true}
-              panOnScroll={true}
-              preventScrolling={false}
-              onConnect={onConnect}
-              translateExtent={[
-                [0, 0],
-                [5000, 748],
-              ]}
-              minZoom={1}
-              onEdgeClick={onEdgeClick}
-              onNodeClick={(event, node) => handleNodeClick(node.id)}
-              nodesDraggable={false}
-            >
-              {popupVisible && (
-                <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />
-              )}
-              <ViewportPortal>
-                {/*It's 3 different tables, it's most likely better to just use one single table, will do in future maybe*/}
-                <Header
-                  generateYears={null}
-                  yearWidths={yearWidths}
-                  classname="header-trans"
-                />
-                <Sidebar doctype={null} classname="sidebar-trans" />
-                <BGTable yearWidths={yearWidths} />
-              </ViewportPortal>
-            </ReactFlow>
-          </div>
-
-          {/*<h1>Sotto diagramma</h1>*/}
+                    <ViewportPortal>
+                        <DiagramTable yearWidths={yearWidths} />
+                    </ViewportPortal>
+                </ReactFlow>
+            </div>
         </div>
-      </ReactFlowProvider>
-    </div>
-  );
-};
+    );
+}
 
-export default Diagram;
+export default Diagram

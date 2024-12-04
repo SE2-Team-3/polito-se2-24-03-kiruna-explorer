@@ -1105,13 +1105,11 @@ DIAGRAM
 
 .diagram-wrapper {
   position: absolute;
-  min-height: calc(100vh - 100px);
   left: 75px;
   top: 100px;
   bottom: 0;
   right: 0;
   transition: margin-left 0.3s ease;
-  overflow-y: hidden;
 }
 
 .sidebar-container.open ~ .diagram-wrapper {
@@ -1148,13 +1146,13 @@ DIAGRAM
   height: 650px;
 }
 
-.header-table {
+.diagram-header {
   height: 50px;
 }
 
 .header-cell {
-  border-top: 1px solid transparent;
-  border-left: 1px solid #333;
+  border-top: none;
+  border-left: none;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
   text-align: left;
@@ -1162,22 +1160,25 @@ DIAGRAM
   color: #3d52a0;
 }
 
-.side-table {
-  width: 200px;
-}
-
 .side-cell {
-  border-top: 1px solid #333;
+  border-top: none;
   border-left: 1px solid transparent;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
   height: 100px;
-  width: 100%;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #3d52a0;
+}
+
+.bg-cell {
+  border-top: none;
+  border-left: none;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  height:100px
 }
 
 .popup {
@@ -1221,21 +1222,6 @@ DIAGRAM
 
 .node-form button:hover {
   background-color: #0056b3;
-}
-
-.header-trans {
-  translate: 200px 00px;
-  position: absolute;
-}
-
-.sidebar-trans {
-  translate: 0px 50px;
-  position: absolute;
-}
-
-.point-trans {
-  translate: 200px 50px;
-  position: absolute;
 }
 
 .diagram-svg-fix svg {
