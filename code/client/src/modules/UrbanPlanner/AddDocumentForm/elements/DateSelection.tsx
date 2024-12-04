@@ -91,6 +91,23 @@ const DateSelection = (props: Props) => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
 
+  const [yearmd, setYearmd] = useState(0);
+  const [monthmd, setMonthmd] = useState(0);
+  const [daymd, setDaymd] = useState(0);
+
+  useEffect(() => {
+    if (year === "") {
+      setYearmd(12);
+    } else if (year !== "" && month === "") {
+      setYearmd(6);
+      setMonthmd(6);
+    } else if (year !== "" && month !== "" && day === "") {
+      setYearmd(4);
+      setMonthmd(4);
+      setDaymd(4);
+    }
+  }, [day, month, year, props.setDocument]);
+
   const [dateError, setDateError] = useState("");
 
   useEffect(() => {
@@ -105,7 +122,7 @@ const DateSelection = (props: Props) => {
   return (
     <Form.Group as={Col} controlId="formGridDate">
       <Row>
-        <Col md={4}>
+        <Col md={yearmd}>
           <Form.Label className="black-text">Year *</Form.Label>
           <Form.Select
             required
@@ -124,7 +141,7 @@ const DateSelection = (props: Props) => {
         </Col>
 
         {year !== "" && (
-          <Col md={3}>
+          <Col md={monthmd}>
             <Form.Label className="black-text">Month</Form.Label>
             <Form.Select
               value={month}
@@ -143,7 +160,7 @@ const DateSelection = (props: Props) => {
         )}
 
         {year !== "" && month !== "" && (
-          <Col md={3}>
+          <Col md={daymd}>
             <Form.Label className="black-text">Day</Form.Label>
             <Form.Select
               value={day}

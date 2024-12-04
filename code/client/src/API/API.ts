@@ -2,6 +2,7 @@ import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/
 import Document from "../models/document";
 import DocumentDetail from "../models/documentDetail";
 import Connection from "../models/Connection";
+import Georeference from "../models/georeference";
 
 const baseURL = "http://localhost:3001/api/";
 
@@ -247,6 +248,25 @@ function getFilteredDocuments(filters: {
     });
 }
 
+async function getGeoreferences(isArea?: boolean) {
+  const params = new URLSearchParams();
+  if (isArea !== undefined) {
+    params.append("isArea", isArea.toString());
+  }
+  const response = await fetch(baseURL + "documents/georeferences", {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const georeferences: Georeference[] = await response.json();
+    return georeferences;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+
 const API = {
   login,
   logOut,
@@ -259,6 +279,7 @@ const API = {
   updateDocumentGeoreference, // Added the new function here
   getConnections,
   getFilteredDocuments,
+  getGeoreferences,
 };
 
 export default API;

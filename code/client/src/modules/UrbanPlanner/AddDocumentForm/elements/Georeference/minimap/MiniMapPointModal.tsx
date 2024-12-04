@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
 import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
-import Logo from "../../../../../assets/icons/Kiruna Icon - 2.svg";
-import "../../../../style.css";
+import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
+import "../../../../../style.css";
 
 interface Props {
   showMiniMap: boolean;
@@ -13,7 +13,7 @@ interface Props {
   setLongitude: (lon: number) => void;
 }
 
-const MiniMapModal = ({
+const MiniMapPointModal = ({
   showMiniMap,
   setShowMiniMap,
   setLatitude,
@@ -109,4 +109,4 @@ const MiniMapModal = ({
   );
 };
 
-export default MiniMapModal;
+export default MiniMapPointModal;

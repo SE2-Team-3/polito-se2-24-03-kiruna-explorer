@@ -1,17 +1,19 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import PolygonMapModal from "./MiniMapAreaModal";
-import "../../../../style.css";
-import { Props } from "../../interfaces/types";
+import MiniMapListAreaModal from "../minimap/MiniMapListAreaModal";
+import "../../../../../style.css";
+import { Props } from "../../../interfaces/types";
 
-const AreaSelection = (
+const ListOfAreasSelection = (
   props: Props & {
     showPolygonMap: boolean;
     setShowPolygonMap: React.Dispatch<React.SetStateAction<boolean>>;
   }
 ) => {
   const [polygonName, setPolygonName] = useState("");
-  const [polygonCoordinates, setPolygonCoordinates] = useState<[number, number][]>([]);
+  const [polygonCoordinates, setPolygonCoordinates] = useState<
+    [number, number][]
+  >([]);
 
   useEffect(() => {
     props.setDocument({
@@ -38,12 +40,14 @@ const AreaSelection = (
               placeholder="Enter area name"
               className="font-size-20"
               required
+              disabled
             />
           </InputGroup>
         </Col>
       </Row>
       {props.showPolygonMap && (
-        <PolygonMapModal
+        <MiniMapListAreaModal
+          setPolygonName={setPolygonName}
           showPolygonMap={props.showPolygonMap}
           setShowPolygonMap={props.setShowPolygonMap}
           setPolygonCoordinates={setPolygonCoordinates}
@@ -53,4 +57,4 @@ const AreaSelection = (
   );
 };
 
-export default AreaSelection;
+export default ListOfAreasSelection;

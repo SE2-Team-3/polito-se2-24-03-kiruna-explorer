@@ -35,11 +35,17 @@ PAGE STYLE
   height: 100%;
 }
 
-.form-container {
+@media (min-width: 1020px) {
+  .form-container {
+    width: 50%;
+  }
+}
+
+.form-container,
+.form-container-document-table {
   background-color: white;
   backdrop-filter: blur(10px);
   border-radius: 10px;
-  width: 100%;
   max-width: 1200px;
   padding-inline: 70px;
   padding-block: 30px;
@@ -132,6 +138,15 @@ GENERAL TEXT STYLE
   justify-content: left;
   color: #3d52a0;
   margin-bottom: 20px;
+}
+
+.black-text-coord {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  justify-content: left;
+  color: #1e1e1e;
+  padding-top: 10px;
 }
 
 .black-text {
@@ -458,7 +473,8 @@ SMALL LAPTOP RESPONSIVE PAGE
     font-size: 20px;
   }
 
-  .black-text {
+  .black-text,
+  .black-text-coord {
     font-size: 20px;
   }
 
@@ -537,7 +553,8 @@ TABLET RESPONSIVE PAGE
     font-size: 16px;
   }
 
-  .black-text {
+  .black-text,
+  .black-text-coord {
     font-size: 12px;
   }
 

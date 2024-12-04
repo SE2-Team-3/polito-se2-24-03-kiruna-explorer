@@ -55,7 +55,9 @@ const StepTwo = ({
           <ScaleSelection document={document} setDocument={setDocument} />
           <NodeType document={document} setDocument={setDocument} />
         </Row>
-        <GeoreferenceTypeSelection document={document} setDocument={setDocument} />
+        <Row>
+          <GeoreferenceTypeSelection document={document} setDocument={setDocument} />
+        </Row>
         <Row className="row-box-button">
           <Button onClick={onBack} className="button-white mt-3 me-3">
             Back
