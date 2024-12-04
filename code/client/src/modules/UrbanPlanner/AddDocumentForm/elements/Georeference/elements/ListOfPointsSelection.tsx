@@ -16,9 +16,7 @@ const ListOfPointsSelection = (
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [
-        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
-      ],
+      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
     });
   }, [latitude, longitude]);
 
@@ -34,49 +32,19 @@ const ListOfPointsSelection = (
 
   return (
     <Form.Group as={Col} className="align-items-center">
-      <Row className="geo-box w-100 align-items-center">
-        {" "}
-        {/* Added align-items-center */}
-        <Col>
-          <InputGroup className="w-100">
-            <InputGroup.Text className="font-size-18">Lat.</InputGroup.Text>
-            <Form.Control
-              type="number"
-              step="0.0001"
-              min="67.8200"
-              max="67.8900"
-              value={Number(latitude.toFixed(5))}
-              onChange={handleLatitudeChange}
-              placeholder="Insert Latitude"
-              className="font-size-20"
-              required
-              disabled
-            />
-          </InputGroup>
+      <Row>
+        <Col xs="auto">
+          <label className="black-text">Lat</label>
         </Col>
-        <Col></Col>
-      </Row>
-      <Row className="geo-box w-100 align-items-center">
-        {" "}
-        {/* Added align-items-center */}
-        <Col>
-          <InputGroup className="w-100">
-            <InputGroup.Text className="font-size-18">Lon.</InputGroup.Text>
-            <Form.Control
-              type="number"
-              step="0.0001"
-              min="20.1000"
-              max="20.3500"
-              value={Number(longitude.toFixed(5))}
-              onChange={handleLongitudeChange}
-              placeholder="Insert Longitude"
-              className="font-size-20"
-              required
-              disabled
-            />
-          </InputGroup>
+        <Col xs="auto">
+          <label className="black-text-coord">{latitude.toFixed(5)}</label>
         </Col>
-        <Col></Col>
+        <Col xs="auto">
+          <label className="black-text">Long</label>
+        </Col>
+        <Col xs="auto">
+          <label className="black-text-coord">{longitude.toFixed(5)}</label>
+        </Col>
       </Row>
       {props && props.showMiniMap && (
         <MiniMapListPointModal

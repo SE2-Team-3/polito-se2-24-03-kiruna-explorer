@@ -133,6 +133,15 @@ GENERAL TEXT STYLE
   margin-bottom: 20px;
 }
 
+.black-text-coord {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  justify-content: left;
+  color: #1e1e1e;
+  padding-top: 10px;
+}
+
 .black-text {
   font-family: "Open Sans", sans-serif;
   font-size: 17px;
@@ -457,7 +466,8 @@ SMALL LAPTOP RESPONSIVE PAGE
     font-size: 20px;
   }
 
-  .black-text {
+  .black-text,
+  .black-text-coord {
     font-size: 20px;
   }
 
@@ -536,7 +546,8 @@ TABLET RESPONSIVE PAGE
     font-size: 16px;
   }
 
-  .black-text {
+  .black-text,
+  .black-text-coord {
     font-size: 12px;
   }
 

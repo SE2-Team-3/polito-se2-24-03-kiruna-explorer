@@ -6,6 +6,7 @@ import NewPointSelection from "./elements/NewPointSelection";
 import NewAreaSelection from "./elements/NewAreaSelection";
 import ListOfPointsSelection from "./elements/ListOfPointsSelection";
 import ListOfAreasSelection from "./elements/ListOfAreasSelection";
+import ClearIcon from "../../../../../assets/icons/close.svg";
 
 const GeoreferenceTypeSelection = (props: Props) => {
   const [geoType, setGeoType] = useState("Default");
@@ -70,7 +71,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
         {/* Point options */}
         {geoType === "Point" && (
           <Row>
-            <Col xs="auto">
+            <Col className="mt-2" xs="auto">
               <Form.Check
                 type="radio"
                 id="new-point"
@@ -81,7 +82,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 className="font-size-20"
               />
             </Col>
-            <Col xs="auto">
+            <Col className="mt-2" xs="auto">
               <Form.Check
                 type="radio"
                 id="list-points"
@@ -92,13 +93,9 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 className="font-size-20"
               />
             </Col>
-            <Col>
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
@@ -106,7 +103,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
         {/* Area options */}
         {geoType === "Polygon" && (
           <Row>
-            <Col xs="auto">
+            <Col className="mt-2" xs="auto">
               <Form.Check
                 type="radio"
                 id="new-area"
@@ -117,7 +114,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 className="font-size-20"
               />
             </Col>
-            <Col xs="auto">
+            <Col className="mt-2" xs="auto">
               <Form.Check
                 type="radio"
                 id="list-areas"
@@ -128,7 +125,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 className="font-size-20"
               />
             </Col>
-            <Col xs="auto">
+            <Col className="mt-2" xs="auto">
               <Form.Check
                 type="radio"
                 id="municipality"
@@ -139,13 +136,9 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 className="font-size-20"
               />
             </Col>
-            <Col>
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
@@ -153,18 +146,16 @@ const GeoreferenceTypeSelection = (props: Props) => {
 
         {geoType === "NewPoint" && (
           <Row>
-            <Col>
+            <Col xs="auto">
               <NewPointSelection
                 {...props}
                 showMiniMap={showMiniMap}
                 setShowMiniMap={setShowMiniMap}
               />
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            </Col>
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
@@ -177,30 +168,26 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 showPolygonMap={showPolygonMap}
                 setShowPolygonMap={setShowPolygonMap}
               />
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            </Col>
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
         )}
         {geoType === "ListOfPoints" && (
           <Row>
-            <Col>
+            <Col xs="auto">
               <ListOfPointsSelection
                 {...props}
                 showMiniMap={showMiniMap}
                 setShowMiniMap={setShowMiniMap}
               />
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            </Col>
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
@@ -213,26 +200,22 @@ const GeoreferenceTypeSelection = (props: Props) => {
                 showPolygonMap={showPolygonMap}
                 setShowPolygonMap={setShowPolygonMap}
               />
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            </Col>
+            <Col className="mt-1" xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
         )}
         {geoType === "Municipality" && (
           <Row>
-            <Col>
+            <Col className="mt-2" xs="auto">
               <p className="text-success">Municipality area selected</p>
-              <Button
-                variant="primary"
-                onClick={handleDeselect}
-                className="button-small mt-2"
-              >
-                Deselect
+            </Col>
+            <Col xs="auto">
+              <Button className="clear-button" onClick={handleDeselect}>
+                <img src={ClearIcon} alt="Clear" />
               </Button>
             </Col>
           </Row>
