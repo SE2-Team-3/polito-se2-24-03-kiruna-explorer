@@ -1,7 +1,7 @@
 import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { MapContainer, TileLayer, Popup, Polygon } from "react-leaflet";
+import { MapContainer, TileLayer, Polygon } from "react-leaflet";
 import "../../../../../style.css";
 import API from "../../../../../../API/API";
 import Georeference from "../../../../../../models/georeference";
@@ -31,6 +31,7 @@ const MiniMapListAreaModal = ({
     });
   }, []);
 
+  /*
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -38,7 +39,7 @@ const MiniMapListAreaModal = ({
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  };
+  };*/
 
   return (
     <Modal show={showPolygonMap} onHide={handleClose} size="lg">
@@ -62,11 +63,10 @@ const MiniMapListAreaModal = ({
           />
           {listArea.map((area, index) => {
             const coords = JSON.parse(area.coordinates);
-            const polygonColor = getRandomColor();
 
             return coords.length > 2 ? (
               <Polygon
-                key={index}
+                key={`${index}-${area.georeferenceId}`}
                 positions={coords}
                 pathOptions={{
                   color: "#3d52a0",

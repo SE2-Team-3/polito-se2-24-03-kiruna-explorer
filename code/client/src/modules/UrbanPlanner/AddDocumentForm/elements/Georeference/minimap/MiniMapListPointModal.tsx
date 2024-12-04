@@ -1,13 +1,7 @@
-import { LatLngBounds, LatLngExpression, LatLng } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { Button, Modal, Col } from "react-bootstrap";
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { Button, Modal } from "react-bootstrap";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../../../../style.css";

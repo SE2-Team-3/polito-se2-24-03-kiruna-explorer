@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../style.css";
 import { Props } from "../../interfaces/types";

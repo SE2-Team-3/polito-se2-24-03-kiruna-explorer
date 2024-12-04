@@ -1,4 +1,4 @@
-import { Row, Col, Form, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../../../style.css";
 import { Props } from "../../../interfaces/types";
@@ -16,19 +16,11 @@ const ListOfPointsSelection = (
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
+      georeference: [
+        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
+      ],
     });
   }, [latitude, longitude]);
-
-  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setLatitude(value);
-  };
-
-  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setLongitude(value);
-  };
 
   return (
     <Form.Group as={Col} className="align-items-center">
