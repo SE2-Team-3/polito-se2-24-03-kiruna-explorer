@@ -47,7 +47,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -586,6 +587,11 @@ TABLET RESPONSIVE PAGE
     width: 25px;
     height: 25px;
   }
+
+  .form-container {
+    padding-inline: 30px;
+    padding-block: 10px;
+  }
 }
 
 /*
@@ -691,7 +697,12 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
@@ -1095,7 +1106,8 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */
+      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }

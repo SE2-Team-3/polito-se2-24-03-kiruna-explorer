@@ -108,7 +108,7 @@ const DocumentDetails = () => {
             <div>
               {document?.documentType?.toString() === "Plan" ? (
                 <>
-                  <span className="blue-text">{document?.documentType}</span>
+                  <span className="blue-text">Architectural plan</span>
                   <span className="font-size-20">{document?.scale}</span>
                 </>
               ) : (
