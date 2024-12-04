@@ -52,7 +52,7 @@ export default function DocumentsListTable(props: any) {
     switch (docType) {
       case "Text":
         return "badge-text";
-      case "Architectural Plan":
+      case "Architectural plan":
         return "badge-plan";
       case "Concept":
         return "badge-concept";
