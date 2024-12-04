@@ -12,11 +12,7 @@ interface Props {
   setPolygonCoordinates: (coords: [number, number][]) => void;
 }
 
-const MiniMapAreaModal = ({
-  showPolygonMap,
-  setShowPolygonMap,
-  setPolygonCoordinates,
-}: Props) => {
+const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
 
@@ -32,7 +28,6 @@ const MiniMapAreaModal = ({
   const handleSave = () => {
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
-<<<<<<< HEAD:code/client/src/modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapAreaModal.tsx
 
     // check if all points are within Kiruna bounds
     const isValid = polygon.every(([lon, lat]: [number, number]) => validateLocation(lat, lon));
@@ -45,11 +40,6 @@ const MiniMapAreaModal = ({
 
     // Converte le coordinate (scambia lat e lon)
     setPolygonCoordinates(polygon.map((coord: [number, number]) => [coord[1], coord[0]]));
-=======
-    setPolygonCoordinates(
-      polygon.map((coord: [number, number]) => [coord[1], coord[0]])
-    );
->>>>>>> 7345a84 (list of areas and points):code/client/src/modules/UrbanPlanner/AddDocumentForm/elements/Georeference/minimap/MiniMapAreaModal.tsx
     setShowPolygonMap(false);
   };
 
@@ -105,11 +95,7 @@ const MiniMapAreaModal = ({
   };
 
   return (
-    <Modal
-      show={showPolygonMap}
-      onHide={() => setShowPolygonMap(false)}
-      size="lg"
-    >
+    <Modal show={showPolygonMap} onHide={() => setShowPolygonMap(false)} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select an area on the map</Modal.Title>
       </Modal.Header>
@@ -142,11 +128,7 @@ const MiniMapAreaModal = ({
         >
           Close
         </Button>
-        <Button
-          variant="primary"
-          className="button-small-save"
-          onClick={handleSave}
-        >
+        <Button variant="primary" className="button-small-save" onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>
@@ -154,4 +136,4 @@ const MiniMapAreaModal = ({
   );
 };
 
-export default MiniMapAreaModal;
+export default PolygonMapModal;

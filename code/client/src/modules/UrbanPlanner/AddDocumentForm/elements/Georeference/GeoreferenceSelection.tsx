@@ -1,10 +1,10 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import "../../../../../style.css";
-import { Props } from "../../../interfaces/types";
-import MiniMapPointModal from "../minimap/MiniMapPointModal";
+import "../../../../style.css";
+import { Props } from "../../interfaces/types";
+import MiniMapModal from "./MiniMapModal";
 
-const NewPointSelection = (
+const GeoreferenceSelection = (
   props: Props & {
     showMiniMap: boolean;
     setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,9 +16,7 @@ const NewPointSelection = (
   useEffect(() => {
     props.setDocument({
       ...props.document,
-      georeference: [
-        [Number(latitude.toFixed(5)), Number(longitude.toFixed(5))],
-      ],
+      georeference: [[Number(latitude.toFixed(5)), Number(longitude.toFixed(5))]],
     });
   }, [latitude, longitude]);
 
@@ -79,7 +77,7 @@ const NewPointSelection = (
         <Col></Col>
       </Row>
       {props && props.showMiniMap && (
-        <MiniMapPointModal
+        <MiniMapModal
           showMiniMap={props.showMiniMap}
           setShowMiniMap={props.setShowMiniMap}
           setLatitude={setLatitude}
@@ -90,4 +88,4 @@ const NewPointSelection = (
   );
 };
 
-export default NewPointSelection;
+export default GeoreferenceSelection;
