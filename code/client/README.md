@@ -191,11 +191,15 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Add Document With Component](#add-document-with-component)
       - [Multiple Direct Link Form](#multiple-direct-link-form)
         - [3.1.1. Georeference](#311-georeference)
-          - [Georeference Area Selection](#georeference-area-selection)
-          - [Georeference Selection](#georeference-selection)
-          - [Georeference Type Selection](#georeference-type-selection)
+          - [List Of Area Selection](#list-of-area-selection)
+          - [List Of Point Selection](#list-of-point-selection)
+          - [New Area Selection](#new-area-selection)
+          - [New Point Selection](#new-point-selection)
           - [Mini Map Area Modal](#mini-map-area-modal)
-          - [Mini Map Modal](#mini-map-modal)
+          - [Mini Map List Area Modal](#mini-map-list-area-modal)
+          - [Mini Map List Point Modal](#mini-map-list-point-modal)
+          - [Mini Map Point Modal](#mini-map-point-modal)
+          - [Georeference Type Selection](#georeference-type-selection)
     - [3.2. Link Document Form](#32-link-document-form)
       - [Document Selector](#document-selector)
       - [Link Type Selector](#link-type-selector)
@@ -350,83 +354,90 @@ This component allows any component in the application to show toast notificatio
 ### 3.1. Add Document Form
 This folder contains components for adding a new document:
 
-   ### Data Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/DataSelection.tsx`  
-   This component is used for selecting a date within a form. It allows users to choose a date for the `issuance date` field of a document and automatically updates the parent component’s document state with the selected date.
+### Data Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/DataSelection.tsx`  
+This component is used for selecting a date within a form. It allows users to choose a date for the `issuance date` field of a document and automatically updates the parent component’s document state with the selected date.
 
 --- 
-   ### Document Details
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/DocumentDetails.tsx`  
-    This component provides input fields for entering a document's title and description. It manages these fields locally and updates the parent component's document state with each change.
+
+### Document Details
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/DocumentDetails.tsx`  
+This component provides input fields for entering a document's title and description. It manages these fields locally and updates the parent component's document state with each change.
 
 ---
 
-   ### Language Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/LanguageSelection.tsx`  
+### Language Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/LanguageSelection.tsx`  
 This component allows users to select a language (either English or Swedish) for a document. It manages the state of the selected language. 
 
 ---
-   ### LinkEntry Form
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/LinkEntryForm.tsx`  
+
+### LinkEntry Form
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/LinkEntryForm.tsx`  
 This component is designed for managing individual link entries in the form.
 Allows users to define a document and its associated link type(s) in a structured way and provides functionality to manage multiple link entries within a form.
 
 ---
-   ### Link Type Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/LinkTypeSelection.tsx`  
+
+### Link Type Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/LinkTypeSelection.tsx`  
 This component provides a dropdown-based multi-selection interface for choosing link types.
 Enables users to select one or more link types from a predefined list and provides validation feedback if no link type is selected when the form is submitted.
 
 ---
-   ### Node Type
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/NodeType.tsx`  
+
+### Node Type
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/NodeType.tsx`  
 The component is designed to allow users to select the type of a document from a predefined list and updates the document's state with the selected type.
 
 ---
-   ### Page Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/PageSelection.tsx`  
+
+### Page Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/PageSelection.tsx`  
 This component is designed to allow users to specify the number of pages for a document. It manages the state of the pages input.
 
 ---
-   ### Scale Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/ScaleSelection.tsx`  
+
+### Scale Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/ScaleSelection.tsx`  
 This component is designed to allow users to select the scale of a document and conditionally input additional details based on their selection.
 
 ---
-   ### Stakeholders Selection
-   **File**: `modules/UrbanPlanner/AddDocumentForm/elements/StakeholdersSelection.tsx`  
+
+### Stakeholders Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/StakeholdersSelection.tsx`  
 This component allows users to select multiple stakeholders from a predefined list.
 
 ---
 
-   ### Step One
-   **File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepOne.tsx`  
+### Step One
+**File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepOne.tsx`  
 The component is representing the first step in a multi-step form for document creation.
 Gathers basic information about a document, such as title, description, pages, and language.
 
 ---
-   ### Step Two
-   **File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepTwo.tsx`  
+### Step Two
+**File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepTwo.tsx`  
 The component represents the second step in a multi-step form for creating a document.
 Collects additional information about the document, such as stakeholders, scale, node type, issuance date, and georeferencing type.
 
 ---
-   ### Step Three
-   **File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepThree.tsx`  
+### Step Three
+**File**: `modules/UrbanPlanner/AddDocumentForm/steps/StepThree.tsx`  
 The component is a minimal wrapper that integrates the `MultipleDirectLinkForm` component into the final step of a multi-step form. 
 The component represents the third step in a multi-step form process.
 It is specifically designed to handle the functionality of linking the newly created or updated document (identified by newDocID) to other existing documents.
 
 ---
 
-   ### Add Document With Component
-   **File**: `modules/UrbanPlanner/AddDocumentForm/AddDocumentWithComponent.tsx`  
+### Add Document With Component
+**File**: `modules/UrbanPlanner/AddDocumentForm/AddDocumentWithComponent.tsx`  
 This component represents a multi-step form for adding a new document. It handles the creation of a new document by guiding the user through multiple steps. It allows users to provide document details, additional information, and optionally link the document to others.
 
 ---
 
-   ### Multiple Direct Link Form
-   **File**: `modules/UrbanPlanner/AddDocumentForm/MultipleDirectLinkForm.tsx`  
+### Multiple Direct Link Form
+**File**: `modules/UrbanPlanner/AddDocumentForm/MultipleDirectLinkForm.tsx`  
 This component allows users to link multiple existing documents to a newly created document.
 The form allows users to select multiple documents and link them to a newly created document by choosing a document and one or more link types. The form is dynamic, allowing the user to add or remove link entries.
 
@@ -435,33 +446,57 @@ The form allows users to select multiple documents and link them to a newly crea
 ### 3.1.1. Georeference
 This folder contains components for georeferencing the document:
 
-### Georeference Area Selection
-**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceAreaSelection.tsx`  
-The component is a UI element that allows users to define and name a geographic area by either entering a name directly or interacting with a polygon map modal.
+### List Of Area Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/elements/ListOfAreaSelection.tsx`  
+This component is designed to manage and display a form field that allows users to assign a name and optionally configure polygon coordinates for a specific area on a map.
 
 ---
 
-### Georeference Selection
-**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceSelection.tsx`  
-This component allows users to input geographical coordinates (latitude and longitude) and integrates this data into a document object.
+### List Of Point Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/elements/ListOfPoinSelection.tsx`  
+This component provides an interface for selecting and displaying a single geographic point (latitude and longitude).
+
+---
+
+### New Area Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/elements/NewAreaSelection.tsx`  
+This component allows users to define a new geographic area by naming it and optionally selecting its polygonal boundaries on a map.
+
+---
+
+### New Point Selection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/elements/NewPointSelection.tsx`  
+This component facilitates the selection of a single geographic point (latitude and longitude). It allows users to view and potentially update the coordinates using a modal map interface.
+
+---
+
+### Mini Map Area Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/minimap/MiniMapAreaModal.tsx`  
+The component is a modal window that enables users to interactively select or draw a polygon on a map and save its geographical coordinates. 
+
+---
+
+### Mini Map List Area Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/minimap/MiniMapListAreaModal.tsx`  
+This component provides a modal-based map interface for selecting predefined polygonal areas. It allows users to choose an area by clicking on displayed polygons.
+
+---
+
+### Mini Map List Point Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/minimap/MiniMapListPointModal.tsx`  
+This component is a modal-based map interface designed for selecting a single point location. It allows users to choose a point from a set of predefined locations.
+
+---
+
+### Mini Map Point Modal
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/minimap/MiniMapPointModal.tsx`  
+This component is a modal-based map interface designed for selecting a single point location. It allows users to choose a point from a set of predefined locations.
 
 ---
 
 ### Georeference Type Selection
 **File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceTypeSelection.tsx`  
 This component is used for selecting a georeference type for a document.
-
----
-
-### Mini Map Area Modal
-**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapAreaModal.tsx`  
-The component is a modal window that enables users to interactively select or draw a polygon on a map and save its geographical coordinates. 
-
----
-
-### Mini Map Modal
-**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/MiniMapModal.tsx`  
-This component shows a mini map where the user can choose/point a location (lat, long) for the new document.
 
 ---
 
