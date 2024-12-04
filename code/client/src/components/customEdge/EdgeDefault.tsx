@@ -42,7 +42,7 @@ const EdgeDefault = ({
         <>
           <rect
             x={midX - labelWidth / 2}
-            y={midY + labelOffset - labelHeight / 2}
+            y={midY - labelHeight / 2}
             width={labelWidth}
             height={labelHeight}
             fill="#fff"
@@ -53,7 +53,7 @@ const EdgeDefault = ({
           />
           <text
             x={midX}
-            y={midY + labelOffset}
+            y={midY}
             textAnchor="middle"
             dominantBaseline="middle"
             style={{

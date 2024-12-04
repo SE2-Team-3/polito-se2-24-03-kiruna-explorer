@@ -1,8 +1,8 @@
 @import url("../index.css");
+
 /*
 PAGE STYLE
 */
-
 .main-page {
   position: absolute;
   min-height: calc(100vh - 100px);
@@ -47,7 +47,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -586,6 +587,11 @@ TABLET RESPONSIVE PAGE
     width: 25px;
     height: 25px;
   }
+
+  .form-container {
+    padding-inline: 30px;
+    padding-block: 10px;
+  }
 }
 
 /*
@@ -691,7 +697,12 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-image: linear-gradient(
+    to right,
+    #7091e6 0%,
+    #636fa4 51%,
+    #7091e6 100%
+  );
 }
 .loginBtn {
   border: none;
@@ -844,8 +855,7 @@ MAP
   position: relative;
 }
 
-.map-wrapper,
-.document-wrapper {
+.map-wrapper {
   position: absolute;
   min-height: calc(100vh - 100px);
   left: 75px;
@@ -868,47 +878,6 @@ MAP
 .modal-title.h4 {
   color: black;
   font-size: 24px;
-}
-
-@media (max-width: 1024px) {
-  .modal-title.h4 {
-    font-size: 20px;
-  }
-
-  .sidebar-container.open ~ .map-wrapper,
-  .sidebar-container.open ~ .document-wrapper,
-  .sidebar-container.open ~ .diagram-wrapper {
-    left: 70px;
-  }
-
-  .sidebar-container:hover ~ .map-wrapper,
-  .sidebar-container:hover ~ .document-wrapper,
-  .sidebar-container:hover ~ .diagram-wrapper {
-    left: 300px;
-  }
-}
-
-@media (max-width: 768px) {
-  .map-wrapper,
-  .document-wrapper,
-  .diagram-wrapper {
-    left: 0;
-  }
-  .modal-title.h4 {
-    font-size: 16px;
-  }
-
-  .sidebar-container.open ~ .map-wrapper,
-  .sidebar-container.open ~ .document-wrapper,
-  .sidebar-container.open ~ .diagram-wrapper {
-    left: 60px;
-  }
-
-  .sidebar-container:hover ~ .map-wrapper,
-  .sidebar-container:hover ~ .document-wrapper,
-  .sidebar-container:hover ~ .diagram-wrapper {
-    left: 300px;
-  }
 }
 
 .leaflet-popup-content-wrapper {
@@ -1137,7 +1106,8 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */
+      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }
@@ -1262,9 +1232,185 @@ DIAGRAM
 DOCUMENT DETAILS
 */
 
+.document-wrapper {
+  position: absolute;
+  min-height: calc(100vh - 100px);
+  left: 75px;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+  padding: 5px;
+}
+
 .sidebar-container.open ~ .document-wrapper {
   left: 75px;
 }
 .sidebar-container:hover ~ .document-wrapper {
   left: 350px;
+}
+
+.form-container .blue-text strong {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.title-container {
+  margin-left: 20px;
+  margin-top: 0;
+}
+/*applying table style in document details */
+.table-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0px;
+
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  margin-right: 0px;
+  flex-wrap: wrap;
+}
+
+.margintop-15px {
+  margin-top: 15px;
+}
+
+.table-container strong,
+.linked-documents strong,
+.resources strong,
+.stakeholders strong {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0px;
+}
+
+.table-container img {
+  margin-right: 10px;
+  max-width: 50px;
+  margin-bottom: 0px;
+}
+
+/* styling descriotion in document details*/
+.description-row {
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.description-row strong {
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.description-row span {
+  margin-top: 15px;
+  color: #898989;
+}
+/* applying table style in document details*/
+.linked-documents-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.table-row {
+  display: table-row;
+  padding: 8px 12px;
+  text-align: left;
+  background-color: inherit;
+}
+
+.dark-row {
+  background-color: #f5f5f5; /* Light gray */
+}
+
+.light-row {
+  background-color: #ffffff; /* White */
+}
+
+.document-title {
+  display: table-cell;
+  text-align: flex;
+}
+
+.document-connection {
+  display: table-cell;
+  text-align: flex;
+}
+
+.no-documents {
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+}
+
+.field-box {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+}
+
+.field-box span {
+  margin-left: 5px;
+}
+
+@media (max-width: 1024px) {
+  .modal-title.h4 {
+    font-size: 20px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 70px;
+  }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
+    left: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-wrapper,
+  .document-wrapper,
+  .diagram-wrapper {
+    left: 0;
+  }
+  .modal-title.h4 {
+    font-size: 16px;
+  }
+
+  .sidebar-container.open ~ .map-wrapper,
+  .sidebar-container.open ~ .document-wrapper,
+  .sidebar-container.open ~ .diagram-wrapper {
+    left: 60px;
+  }
+
+  .sidebar-container:hover ~ .map-wrapper,
+  .sidebar-container:hover ~ .document-wrapper,
+  .sidebar-container:hover ~ .diagram-wrapper {
+    left: 300px;
+  }
+}
+
+.clickable-title:hover {
+  color: #3d52a0;
+  text-decoration: underline;
 }

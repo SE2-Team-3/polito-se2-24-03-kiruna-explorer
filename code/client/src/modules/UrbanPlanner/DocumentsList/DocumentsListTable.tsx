@@ -52,7 +52,7 @@ export default function DocumentsListTable(props: any) {
     switch (docType) {
       case "Text":
         return "badge-text";
-      case "Plan":
+      case "Architectural plan":
         return "badge-plan";
       case "Concept":
         return "badge-concept";
@@ -76,7 +76,9 @@ export default function DocumentsListTable(props: any) {
   // Funzione per calcolare il numero totale di pagine
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reset alla prima pagina
   };
@@ -89,7 +91,11 @@ export default function DocumentsListTable(props: any) {
     const items = [];
     for (let i = 1; i <= totalPages; i++) {
       items.push(
-        <Pagination.Item key={i} active={i === currentPage} onClick={() => handlePageChange(i)}>
+        <Pagination.Item
+          key={i}
+          active={i === currentPage}
+          onClick={() => handlePageChange(i)}
+        >
           {i}
         </Pagination.Item>
       );
@@ -99,9 +105,17 @@ export default function DocumentsListTable(props: any) {
 
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
+      <Row
+        {...(visibleFilterTable
+          ? { className: "row-full-width-document-list" }
+          : null)}
+      >
         <Col md={visibleFilterTable ? 9 : 12}>
-          <Row {...(visibleFilterTable ? { className: "row-full-height-document-list" } : null)}>
+          <Row
+            {...(visibleFilterTable
+              ? { className: "row-full-height-document-list" }
+              : null)}
+          >
             <div className="form-container">
               <Table hover>
                 <thead>
@@ -111,10 +125,15 @@ export default function DocumentsListTable(props: any) {
                     <th>Language</th>
                     <th>Pages</th>
                     <th>
-                      <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Filter</Tooltip>}
+                      >
                         <Button
                           variant="link"
-                          onClick={() => setVisibleFilterTable(!visibleFilterTable)}
+                          onClick={() =>
+                            setVisibleFilterTable(!visibleFilterTable)
+                          }
                         >
                           <img src={FilterIcon} alt="filter document" />
                         </Button>
@@ -124,21 +143,47 @@ export default function DocumentsListTable(props: any) {
                 </thead>
                 <tbody>
                   {getPaginatedData().map((item, index) => (
-                    <tr key={item.documentId} className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                    <tr
+                      key={item.documentId}
+                      className={index % 2 === 0 ? "even-row" : "odd-row"}
+                    >
                       <td data-label="Title">
-                        <Badge className={`${getBadgeClass(item.documentType)}`}>
+                        <Badge
+                          className={`${getBadgeClass(item.documentType)}`}
+                        >
                           {item.documentType.charAt(0).toUpperCase()}
                         </Badge>
-                        {item.title}
+                        <span
+                          className="clickable-title"
+                          role="button"
+                          tabIndex={0}
+                          onClick={() =>
+                            navigate(`/documents/${item.documentId}`)
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ")
+                              navigate(`/documents/${item.documentId}`);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                          }}
+                        >
+                          {item.title}
+                        </span>
                       </td>
                       <td data-label="Issuance Date">{item.issuanceDate}</td>
                       <td data-label="Language">{item.language}</td>
                       <td data-label="Pages">{item.pages}</td>
                       <td data-label="Actions">
-                        <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip>Link</Tooltip>}
+                        >
                           <Button
                             variant="link"
-                            onClick={() => navigate("/urban-planner/link-documents")}
+                            onClick={() =>
+                              navigate("/urban-planner/link-documents")
+                            }
                           >
                             <img src={LinkDocument} alt="link document" />
                           </Button>
@@ -147,7 +192,10 @@ export default function DocumentsListTable(props: any) {
                           placement="top"
                           overlay={<Tooltip>{"Upload resource(s)"}</Tooltip>}
                         >
-                          <Button variant="link" onClick={() => handleClickUpload(item.documentId)}>
+                          <Button
+                            variant="link"
+                            onClick={() => handleClickUpload(item.documentId)}
+                          >
                             <img src={UploadDocument} alt="upload resource" />
                           </Button>
                         </OverlayTrigger>
@@ -161,7 +209,10 @@ export default function DocumentsListTable(props: any) {
           <Row>
             {/* Controlli per selezionare gli elementi per pagina */}
             <div className="d-flex justify-content-between align-items-center">
-              <Form.Group controlId="itemsPerPage" className="d-flex align-items-center">
+              <Form.Group
+                controlId="itemsPerPage"
+                className="d-flex align-items-center"
+              >
                 <Form.Label className="me-2 mb-0">Showing</Form.Label>
                 <Form.Select
                   value={itemsPerPage}
@@ -193,7 +244,9 @@ export default function DocumentsListTable(props: any) {
         </Col>
         {visibleFilterTable ? (
           <Col md={3}>
-            <FilterTable setFilteredDocuments={setFilteredDocuments}></FilterTable>
+            <FilterTable
+              setFilteredDocuments={setFilteredDocuments}
+            ></FilterTable>
           </Col>
         ) : null}
       </Row>

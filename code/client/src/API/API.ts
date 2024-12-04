@@ -1,5 +1,6 @@
 import { NewDocument } from "../modules/UrbanPlanner/AddDocumentForm/interfaces/types";
 import Document from "../models/document";
+import DocumentDetail from "../models/documentDetail";
 import Connection from "../models/Connection";
 
 const baseURL = "http://localhost:3001/api/";
@@ -104,6 +105,28 @@ async function getDocuments() {
     if (errDetail.error) throw errDetail.error;
     if (errDetail.message) throw errDetail.message;
     throw new Error("Error. Please reload the page");
+  }
+}
+
+async function getDocumentById(documentId: number): Promise<DocumentDetail> {
+  const response = await fetch(`${baseURL}documents/${documentId}`, {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const document: DocumentDetail = await response.json();
+    if (typeof document.stakeholders === "string") {
+      document.stakeholders = JSON.parse(document.stakeholders);
+    }
+    if (typeof document.coordinates === "string") {
+      document.coordinates = JSON.parse(document.coordinates);
+    }
+    return document;
+  } else {
+    const errDetail = await response.json();
+    if (errDetail.error) throw new Error(errDetail.error);
+    if (errDetail.message) throw new Error(errDetail.message);
+    throw new Error("Error fetching document. Please reload the page.");
   }
 }
 
@@ -231,6 +254,7 @@ const API = {
   addDocument,
   linkDocuments,
   getDocuments,
+  getDocumentById,
   uploadResources,
   updateDocumentGeoreference, // Added the new function here
   getConnections,
