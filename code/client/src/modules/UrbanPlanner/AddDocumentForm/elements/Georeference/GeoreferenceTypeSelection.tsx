@@ -61,7 +61,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
             <Form.Check
               type="radio"
               id="georeference-polygon"
-              label="Polygon"
+              label="Area"
               name="georeference"
               value="Polygon"
               checked={geoType === "Polygon"}

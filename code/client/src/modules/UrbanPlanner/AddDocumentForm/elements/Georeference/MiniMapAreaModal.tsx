@@ -1,7 +1,7 @@
-import { useRef, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { useRef, useEffect, useState } from "react";
+import { Modal, Button, Alert } from "react-bootstrap";
 import { MapContainer, TileLayer, FeatureGroup, useMap } from "react-leaflet";
-import L from "leaflet";
+import L, { LatLngBounds } from "leaflet";
 import "leaflet-draw";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
@@ -14,13 +14,38 @@ interface Props {
 
 const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
+  const [validationMessage, setValidationMessage] = useState("");
+
+  const kirunaBounds: LatLngBounds = new LatLngBounds([
+    [67.821, 20.182], // Southwest corner
+    [67.89, 20.268], // Northeast corner
+  ]);
+
+  const validateLocation = (lat: number, lon: number) => {
+    return kirunaBounds.contains([lat, lon]);
+  };
 
   const handleSave = () => {
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
+
+    // check if all points are within Kiruna bounds
+    const isValid = polygon.every(([lon, lat]: [number, number]) => validateLocation(lat, lon));
+
+    if (!isValid) {
+      setValidationMessage("All points of the polygon must be within the Kiruna bounds.");
+      setShowPolygonMap(true);
+      return;
+    }
+
+    // Converte le coordinate (scambia lat e lon)
     setPolygonCoordinates(polygon.map((coord: [number, number]) => [coord[1], coord[0]]));
     setShowPolygonMap(false);
   };
+
+  useEffect(() => {
+    setValidationMessage("");
+  }, [showPolygonMap]);
 
   const MapWithDrawControl = () => {
     const map = useMap();
@@ -89,6 +114,11 @@ const PolygonMapModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordina
           <FeatureGroup ref={featureGroupRef}></FeatureGroup>
           <MapWithDrawControl />
         </MapContainer>
+        {validationMessage && (
+          <Alert variant="danger" className="mt-3">
+            {validationMessage}
+          </Alert>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button
