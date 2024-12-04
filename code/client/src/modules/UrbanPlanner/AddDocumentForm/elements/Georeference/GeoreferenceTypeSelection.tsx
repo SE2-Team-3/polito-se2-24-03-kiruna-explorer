@@ -187,6 +187,7 @@ const GeoreferenceTypeSelection = (props: Props) => {
             setShowPolygonMap={setShowPolygonMap}
           />
         )}
+        {geoType === "Municipality" && <p>Municipality area selected</p>}
       </Form.Group>
     </>
   );
