@@ -111,7 +111,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                   checked={filters.documentType === "Architectural plan"}
                   onChange={handleChange}
                 />
-                Plan
+                Architectural plan
               </label>
               <label>
                 <input
