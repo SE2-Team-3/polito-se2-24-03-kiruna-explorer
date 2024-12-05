@@ -24,7 +24,7 @@ const MiniMapPointModal = ({
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
   const kirunaBounds: LatLngBounds = new LatLngBounds([
     [67.821, 20.182], // Southwest corner
-    [67.89, 20.268], // Northeast corner
+    [67.89, 20.32], // Northeast corner
   ]);
 
   const [cursorPosition, setCursorPosition] = useState<LatLng | null>(null);

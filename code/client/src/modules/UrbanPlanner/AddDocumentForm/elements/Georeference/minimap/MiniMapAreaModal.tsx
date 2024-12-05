@@ -12,12 +12,16 @@ interface Props {
   setPolygonCoordinates: (coords: [number, number][]) => void;
 }
 
-const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordinates }: Props) => {
+const MiniMapAreaModal = ({
+  showPolygonMap,
+  setShowPolygonMap,
+  setPolygonCoordinates,
+}: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
   const kirunaBounds: LatLngBounds = new LatLngBounds([
     [67.821, 20.182], // Southwest corner
-    [67.89, 20.268], // Northeast corner
+    [67.89, 20.32], // Northeast corner
   ]);
   const validateLocation = (lat: number, lon: number) => {
     return kirunaBounds.contains([lat, lon]);
@@ -27,13 +31,19 @@ const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordin
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
     // check if all points are within Kiruna bounds
-    const isValid = polygon.every(([lon, lat]: [number, number]) => validateLocation(lat, lon));
+    const isValid = polygon.every(([lon, lat]: [number, number]) =>
+      validateLocation(lat, lon)
+    );
     if (!isValid) {
-      setValidationMessage("All points of the polygon must be within the Kiruna bounds.");
+      setValidationMessage(
+        "All points of the polygon must be within the Kiruna bounds."
+      );
       setShowPolygonMap(true);
       return;
     }
-    setPolygonCoordinates(polygon.map((coord: [number, number]) => [coord[1], coord[0]]));
+    setPolygonCoordinates(
+      polygon.map((coord: [number, number]) => [coord[1], coord[0]])
+    );
     setShowPolygonMap(false);
   };
 
@@ -89,7 +99,11 @@ const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordin
   };
 
   return (
-    <Modal show={showPolygonMap} onHide={() => setShowPolygonMap(false)} size="lg">
+    <Modal
+      show={showPolygonMap}
+      onHide={() => setShowPolygonMap(false)}
+      size="lg"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Select an area on the map</Modal.Title>
       </Modal.Header>
@@ -122,7 +136,11 @@ const MiniMapAreaModal = ({ showPolygonMap, setShowPolygonMap, setPolygonCoordin
         >
           Close
         </Button>
-        <Button variant="primary" className="button-small-save" onClick={handleSave}>
+        <Button
+          variant="primary"
+          className="button-small-save"
+          onClick={handleSave}
+        >
           Save
         </Button>
       </Modal.Footer>
