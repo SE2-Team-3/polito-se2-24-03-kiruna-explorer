@@ -42,7 +42,6 @@ If you are using docker environment, please make sure that you have the followin
    cd code/server/
    npm start
    ```
-   Happy coding!
 
 ### Running the Application (Docker environment)
 
@@ -56,6 +55,27 @@ If you are using docker environment, please make sure that you have the followin
    docker-compose up --build
    ```
    Happy coding!
+
+
+## TD Management
+
+### Team TD Strategies
+
+1. Start the sprint with general tasks, mostly related to fixes from the previous sprint, to ensure system persistence and avoid possible bugs.
+2. Assign the fixes to the developers who were in charge of them in the previous sprint to increase team performance and prevent maintainability issues.
+3. Split the mockup tasks into multiple parts based on defined User Stories to be available for target User Stories and avoid any blockers for the development team.
+4. Dedicate styling meetings to avoid possible bugs in the UI/UX for each User Story.
+5. Create a Pull Request after developing any feature/documentation in the project to analyze the changes precisely and provide feedback within the team.
+6. Perform code reviews to find possible bugs, maintainability and security issues, or apply any necessary refactoring, and report them to be fixed before merging.
+7. Perform E2E testing after code review for each User Story to find essential bugs and issues in the system and report them to be fixed in a dedicated PR.
+8. Identify common features between User Stories to make technical decisions that allow multiple team members to work in parallel on different User Stories without blocking each other, thereby increasing the overall performance of the team.
+
+### SonarQuebe Rules
+1. Code smell (maintainability domain)
+2. Bug (reliability domain)
+3. Vulnerability (security domain)
+4. Security hotspot (security domain)
+
 
 ## Features
 
