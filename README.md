@@ -124,11 +124,11 @@ If you are using docker environment, please make sure that you have the followin
 
 # **UI Application screenshots** 
 ### Login page
-![Login Page](Screenshots/Demo-2/screenshot-1.png)
+![Login Page](Screenshots/Demo-2/Screenshot-1.png)
 ### Add document page
-![Add document Page](Screenshots/Demo-2/screenshot-2.png)
+![Add document Page](Screenshots/Demo-2/Screenshot-2.png)
 ### Georeference document on map
-![Georeference document on map](Screenshots/Demo-2/screenshot-3.png)
+![Georeference document on map](Screenshots/Demo-2/Screenshot-3.png)
 
 # License
 
