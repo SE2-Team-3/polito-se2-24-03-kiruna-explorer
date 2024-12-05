@@ -1,10 +1,7 @@
-# Kiruna Explorer
-
-Kiruna Explorer is a web application designed to help urban planners, residents, and visitors explore, analyze, and understand documents related to urban planning and geographical information in the Kiruna region. The application offers tools to visualize, link, and interact with various documents on both maps and diagrams, supporting a deeper study of their relationships, geolocation, and impact over time.
-
 # Table of Contents
 - [Kiruna-Explorer](#kiruna-explorer)
 - [Getting Started](#getting-started)
+- [Technical Debt Management](#technical-debt-management)
 - [Features](#features)
 - [UI Application screenshots-first release](#ui-application-screenshots)
 - [Diagrams](./assets/diagrams/)
@@ -13,6 +10,11 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
 - [Retrospectives](./Retrospectives/)
   - [Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
   - [Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
+
+# Kiruna Explorer
+
+Kiruna Explorer is a web application designed to help urban planners, residents, and visitors explore, analyze, and understand documents related to urban planning and geographical information in the Kiruna region. The application offers tools to visualize, link, and interact with various documents on both maps and diagrams, supporting a deeper study of their relationships, geolocation, and impact over time.
+
 ## Getting Started
 
 ### Prerequisites
@@ -57,7 +59,7 @@ If you are using docker environment, please make sure that you have the followin
    Happy coding!
 
 
-## TD Management
+## Technical Debt Management
 
 ### Team TD Strategies
 
