@@ -38,7 +38,7 @@ const DocumentDetails = () => {
 
   return (
     <div className={`document-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <div className="form-container">
+      <div className="form-container-document-details">
         <Row className="blue-text">
           <strong>{document?.title}</strong>
         </Row>
@@ -47,25 +47,16 @@ const DocumentDetails = () => {
             <Row className="title-container">
               <Col md={4} className="field-box">
                 <img src={Calendar} alt="calendar" width={20} height={20} />
-                <span style={{ fontSize: "20px" }}>
-                  {document?.issuanceDate}
-                </span>
+                <span style={{ fontSize: "20px" }}>{document?.issuanceDate}</span>
               </Col>
               <Col md={6} className="field-box">
-                <img
-                  src={DocumentType}
-                  alt="node type"
-                  width={20}
-                  height={20}
-                />
+                <img src={DocumentType} alt="node type" width={20} height={20} />
                 <span style={{ fontSize: "20px" }}>{document?.nodeType}</span>
               </Col>
             </Row>
             <Row className="description-row">
               <strong>Description</strong>
-              <span style={{ fontSize: "18px", color: "black" }}>
-                {document?.description}
-              </span>
+              <span style={{ fontSize: "18px", color: "black" }}>{document?.description}</span>
             </Row>
           </Col>
           <Col md={5} style={{ height: "300px", padding: "20px" }}>
@@ -91,9 +82,7 @@ const DocumentDetails = () => {
               }}
             >
               {getLanguageFlag(document?.language)}
-              <span style={{ fontSize: "20px", verticalAlign: "flex" }}>
-                {document?.language}
-              </span>
+              <span style={{ fontSize: "20px", verticalAlign: "flex" }}>{document?.language}</span>
             </div>
           </Col>
           <Col xs={12} md={4} className="margintop-15px">
@@ -129,16 +118,13 @@ const DocumentDetails = () => {
               <img src={LinkDocument} alt="link document" />
               Linked Documents
             </strong>
-            {document?.linkedDocuments &&
-            document?.linkedDocuments.length > 0 ? (
+            {document?.linkedDocuments && document?.linkedDocuments.length > 0 ? (
               <div className="linked-documents-table">
                 {document?.linkedDocuments?.length > 0 ? (
                   document.linkedDocuments.map((linkedDoc, index) => (
                     <div
                       key={`${index}-${linkedDoc.documentId}`}
-                      className={`table-row ${
-                        index % 2 === 0 ? "dark-row" : "light-row"
-                      }`}
+                      className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                     >
                       <span className="document-title">{linkedDoc.title}</span>
                       <span className="document-connection">
@@ -164,14 +150,10 @@ const DocumentDetails = () => {
                 {document?.resources.map((resource, index) => (
                   <div
                     key={`${index}-${resource.resourceId}`}
-                    className={`table-row ${
-                      index % 2 === 0 ? "dark-row" : "light-row"
-                    }`}
+                    className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                   >
                     <span className="document-title">{resource.fileName}</span>
-                    <span className="document-connection">
-                      {resource.fileType}
-                    </span>
+                    <span className="document-connection">{resource.fileType}</span>
                   </div>
                 ))}
               </div>
@@ -187,9 +169,7 @@ const DocumentDetails = () => {
               {document?.stakeholders?.map((stakeholder, index) => (
                 <div
                   key={`${index}-${stakeholder}`}
-                  className={`table-row ${
-                    index % 2 === 0 ? "dark-row" : "light-row"
-                  }`}
+                  className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                 >
                   <span className="document-title">{stakeholder}</span>
                 </div>
