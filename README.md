@@ -1,4 +1,5 @@
 # Table of Contents
+
 - [Kiruna-Explorer](#kiruna-explorer)
 - [Getting Started](#getting-started)
 - [Technical Debt Management](#technical-debt-management)
@@ -58,26 +59,28 @@ If you are using docker environment, please make sure that you have the followin
    ```
    Happy coding!
 
-
 ## Technical Debt Management
 
 ### Team TD Strategies
 
-1. Start the sprint with general tasks, mostly related to fixes from the previous sprint, to ensure system persistence and avoid possible bugs.
-2. Assign the fixes to the developers who were in charge of them in the previous sprint to increase team performance and prevent maintainability issues.
-3. Split the mockup tasks into multiple parts based on defined User Stories to be available for target User Stories and avoid any blockers for the development team.
-4. Dedicate styling meetings to avoid possible bugs in the UI/UX for each User Story.
-5. Create a Pull Request after developing any feature/documentation in the project to analyze the changes precisely and provide feedback within the team.
-6. Perform code reviews to find possible bugs, maintainability and security issues, or apply any necessary refactoring, and report them to be fixed before merging.
-7. Perform E2E testing after code review for each User Story to find essential bugs and issues in the system and report them to be fixed in a dedicated PR.
-8. Identify common features between User Stories to make technical decisions that allow multiple team members to work in parallel on different User Stories without blocking each other, thereby increasing the overall performance of the team.
+- Start the sprint with general tasks, mostly related to fixes from the previous sprint, to ensure system persistence and avoid possible bugs.
+- Assign the fixes to the developers who were in charge of them in the previous sprint to increase team performance and prevent maintainability issues.
+- Split the mockup tasks into multiple parts based on defined User Stories to be available for target User Stories and avoid any blockers for the development team.
+- Dedicate styling meetings to avoid possible bugs in the UI/UX for each User Story.
+- Create a Pull Request after developing any feature/documentation in the project for any user story to analyze the changes precisely and provide feedback within the team.
+- Apply possible technical debts that analyzed automatically by SonarQube into created PR including Code smell, Bug, Vulnerability and security hotspot based on the severity level.
+- Perform code reviews for any user story to find possible bugs, maintainability and security issues, or apply any necessary refactoring, and report them to be fixed before merging.
+- Perform E2E testing after code review for each user story to find essential bugs and issues in the system and report them to be fixed in a dedicated PR.
+- Discover common features between User Stories to make technical decisions that allow multiple team members to work in parallel on different User Stories without blocking each other, thereby increasing the overall performance of the team.
 
-### SonarQuebe Rules
-1. Code smell (maintainability domain)
-2. Bug (reliability domain)
-3. Vulnerability (security domain)
-4. Security hotspot (security domain)
+### Strategy adopted
 
+- Overal, after developing a feature by developer(s), we'll manage the TD both manually and automatically.
+  Firstly, developer will analyze and fix the discovered issues by SonarQube e.g. maintainability, reliability, security order by severity as much as feasible.
+  Secondly, another developer as code reviewer will review the code to discover code smell, bug, vulnerability or security issues. then developer will apply the fixes.
+  Lastly, E2E testing engineer will try to analyze the system again and discover any possible bugs and reliability and maintainability issues and report it. Then the developer again create a pull request and apply the possible fixes.
+  Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
+  Generally, we dedicate mostly 20% of the estimations in each user story to technical debt.
 
 ## Features
 
@@ -121,13 +124,18 @@ If you are using docker environment, please make sure that you have the followin
 - ### Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
+# **UI Application screenshots**
 
-# **UI Application screenshots** 
 ### Login page
+
 ![Login Page](Screenshots/Demo-2/Screenshot-1.png)
+
 ### Add document page
+
 ![Add document Page](Screenshots/Demo-2/Screenshot-2.png)
+
 ### Georeference document on map
+
 ![Georeference document on map](Screenshots/Demo-2/Screenshot-3.png)
 
 # License
