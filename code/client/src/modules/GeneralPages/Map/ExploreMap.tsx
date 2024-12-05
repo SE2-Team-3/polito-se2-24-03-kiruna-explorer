@@ -26,7 +26,7 @@ const ExploreMap = (props: any) => {
   // update documents list based on searchTitle
   useEffect(() => {
     const filtered = documents.filter((doc) =>
-      doc.title.toLowerCase().startsWith(props.searchTitle.toLowerCase())
+      doc.title.toLowerCase().includes(props.searchTitle.toLowerCase())
     );
     setFilteredDocuments(filtered);
   }, [props.searchTitle, documents]);
