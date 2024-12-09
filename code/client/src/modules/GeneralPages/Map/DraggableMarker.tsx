@@ -25,6 +25,7 @@ interface DraggableMarkerProps {
   setDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
   isViewLinkedDocuments: boolean;
   setIsViewLinkedDocuments: React.Dispatch<React.SetStateAction<boolean>>;
+  mapRef: React.RefObject<L.Map | null>;
 }
 
 const DraggableMarker = ({
@@ -32,6 +33,7 @@ const DraggableMarker = ({
   setDocuments,
   isViewLinkedDocuments,
   setIsViewLinkedDocuments,
+  mapRef,
 }: DraggableMarkerProps) => {
   const user = useContext(UserContext);
   const showToast = useToast();
@@ -73,6 +75,10 @@ const DraggableMarker = ({
 
       // Filtra i documenti collegati e aggiorna lo stato
       setDocuments(uniqueDocuments.filter((doc): doc is Document => doc !== undefined));
+    }
+    // Imposta la vista della mappa alla posizione e zoom predefiniti
+    if (mapRef.current) {
+      mapRef.current.setView(kirunaPosition, 12);
     }
   };
 

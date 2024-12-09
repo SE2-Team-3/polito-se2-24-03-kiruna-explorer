@@ -1,5 +1,5 @@
 import { LatLngExpression } from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSidebar } from "../../../components/SidebarContext";
@@ -28,6 +28,7 @@ const ExploreMap = ({
 }: ExploreMapProps) => {
   const { isSidebarOpen } = useSidebar();
   const [documents, setDocuments] = useState<Document[]>([]);
+  const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     API.getDocuments().then((docs) => {
@@ -52,6 +53,12 @@ const ExploreMap = ({
     }, 100);
   }, []);
 
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.setView(kirunaPosition, 14);
+    }
+  }, [mapRef.current]);
+
   return (
     <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <MapContainer
@@ -62,6 +69,7 @@ const ExploreMap = ({
         zoomControl={true}
         scrollWheelZoom={true}
         className="map-container"
+        ref={mapRef}
       >
         <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
         <TileLayer
@@ -77,6 +85,7 @@ const ExploreMap = ({
               setDocuments={setFilteredDocuments}
               isViewLinkedDocuments={isViewLinkedDocuments}
               setIsViewLinkedDocuments={setIsViewLinkedDocuments}
+              mapRef={mapRef}
             />
           ))}
         </MarkerClusterGroup>
