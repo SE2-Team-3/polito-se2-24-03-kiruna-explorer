@@ -47,8 +47,8 @@ const Diagram = (props: any) => {
 
   const onConnect = useCallback((params: any) => setEdges((eds: any) => addEdge(params, eds)), []);
 
-  const onEdgeClick = useCallback((event: any, edge: any) => {
-    if (edge?.type === "default" && edge?.data?.linkTypes) {
+  const onEdgeHover = useCallback((event: any, edge: any) => {
+    if (edge?.data?.linkTypes) {
       setLinkTypesForPopup(edge.data.linkTypes);
       setPopupVisible(true);
     }
@@ -130,11 +130,12 @@ const Diagram = (props: any) => {
             minZoom={1}
             onNodeMouseEnter={(event, node) => handleNodeMouseEnter(event, node)}
             onNodeMouseLeave={handleNodeMouseLeave}
-            onEdgeClick={onEdgeClick}
+            onEdgeMouseEnter={onEdgeHover}
+            onEdgeMouseLeave={() => setPopupVisible(false)}
             onNodeClick={(event, node) => handleNodeClick(node.id)}
             nodesDraggable={true}
           >
-            {popupVisible && <EdgePopup linkTypes={linkTypesForPopup} onClose={closePopup} />}
+            {popupVisible && <EdgePopup linkTypes={linkTypesForPopup} />}
             <ViewportPortal>
               <DiagramTable yearWidths={yearWidths} />
             </ViewportPortal>
