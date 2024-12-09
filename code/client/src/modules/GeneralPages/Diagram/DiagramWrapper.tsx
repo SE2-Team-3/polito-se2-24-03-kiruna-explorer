@@ -18,8 +18,7 @@ const DiagramWrapper = () => {
   const [edges, setEdges] = useState<Edge[]>([]);
 
   const [yearWidths, setYearWidths] = useState<number[]>([]);
-  const [scrollWidth, setScrollWidth] = useState<number>(1)
-
+  const [scrollWidth, setScrollWidth] = useState<number>(1);
 
   const { getAvailablePosition } = useOccupiedPositions();
 
@@ -42,7 +41,6 @@ const DiagramWrapper = () => {
           newNodes.push({
             id: d.documentId.toString(),
             data: {
-              label: d.documentId,
               nodeType: d.nodeType,
               stakeholder: d.stakeholders,
               showEdges: false,
@@ -64,15 +62,13 @@ const DiagramWrapper = () => {
             counts[year - 2004]++;
           }
         }
-        const calculatedYearWidths = years.map(
-          (y) => 75 + counts[y - 2004] * 50
-        );
+        const calculatedYearWidths = years.map((y) => 75 + counts[y - 2004] * 50);
         setYearWidths(calculatedYearWidths);
 
-        let x = 200
-        for (const y of calculatedYearWidths) x += y
-        if (x<document.documentElement.clientWidth-75) setScrollWidth(x)
-        else setScrollWidth(document.documentElement.clientWidth-75)
+        let x = 200;
+        for (const y of calculatedYearWidths) x += y;
+        if (x < document.documentElement.clientWidth - 75) setScrollWidth(x);
+        else setScrollWidth(document.documentElement.clientWidth - 75);
 
         setNodes(newNodes);
       }
@@ -118,9 +114,15 @@ const DiagramWrapper = () => {
   }, []);
 
   return (
-    <Diagram setNodes={setNodes} setEdges={setEdges} scrollWidth={scrollWidth} nodes={nodes} edges={edges} yearWidths={yearWidths}/>
-  )
-
+    <Diagram
+      setNodes={setNodes}
+      setEdges={setEdges}
+      scrollWidth={scrollWidth}
+      nodes={nodes}
+      edges={edges}
+      yearWidths={yearWidths}
+    />
+  );
 };
 
 export default DiagramWrapper;
