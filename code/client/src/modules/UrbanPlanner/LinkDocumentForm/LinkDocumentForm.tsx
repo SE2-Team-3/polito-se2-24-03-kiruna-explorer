@@ -79,7 +79,7 @@ export default function LinkDocumentForm() {
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
         <Form className="document-form-link" onSubmit={handleSubmit} noValidate>
-          <Row className="form-title">Link Documents</Row>
+          <Row className="form-title">Add Connection</Row>
           <DocumentSelector
             documents={documents}
             selectedDocument1={selectedDocument1}

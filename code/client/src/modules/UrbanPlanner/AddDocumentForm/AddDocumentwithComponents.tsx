@@ -118,7 +118,7 @@ const AddDocumentForm = (props: Props) => {
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="form-container">
         <Row className="form-title">
-          {currentStep == 3 ? "Link Multiple Document" : "New Document"}
+          {currentStep == 3 ? "Connect Multiple Document" : "New Document"}
         </Row>
 
         {/* Step Indicator Row */}
@@ -154,7 +154,7 @@ const AddDocumentForm = (props: Props) => {
             <div className="step-label">
               <span className="step-number">Step 3 (optional)</span>
               <br />
-              <span className="step-title">Link Doc</span>
+              <span className="step-title">Connections</span>
             </div>
           </Col>
         </Row>

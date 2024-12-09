@@ -21,7 +21,7 @@ const EdgePopup: React.FC<PopupProps> = ({ linkTypes, onClose }) => {
         zIndex: 9999,
       }}
     >
-      <h3>Link Types</h3>
+      <h3>Connection Types</h3>
       <ul className="font-size-20">
         {linkTypes.map((linkType, index) => (
           <li key={index}>{linkType}</li>

@@ -93,9 +93,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/add-document"
-                      ? "highlighted"
-                      : ""
+                    location.pathname === "/urban-planner/add-document" ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -108,10 +106,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/add-document" ? (
-                      <img
-                        src={NewDocumentSelected}
-                        alt="new document selected"
-                      />
+                      <img src={NewDocumentSelected} alt="new document selected" />
                     ) : (
                       <img src={NewDocument} alt="new document" />
                     )}
@@ -122,9 +117,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/link-documents"
-                      ? "highlighted"
-                      : ""
+                    location.pathname === "/urban-planner/link-documents" ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -137,24 +130,19 @@ const LeftSideBar = (props: { logout: () => void }) => {
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/link-documents" ? (
-                      <img
-                        src={NewLinkSelected}
-                        alt="new link document selected"
-                      />
+                      <img src={NewLinkSelected} alt="new link document selected" />
                     ) : (
                       <img src={NewLink} alt="new link document" />
                     )}
                   </span>
-                  <span className="text-box">Link documents</span>
+                  <span className="text-box">New Connection</span>
                 </div>{" "}
               </Row>
 
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/urban-planner/documents-list"
-                      ? "highlighted"
-                      : ""
+                    location.pathname === "/urban-planner/documents-list" ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -167,10 +155,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                 >
                   <span className="file-icon-box">
                     {location.pathname === "/urban-planner/documents-list" ? (
-                      <img
-                        src={ListDocumentSelected}
-                        alt="list document selected"
-                      />
+                      <img src={ListDocumentSelected} alt="list document selected" />
                     ) : (
                       <img src={ListDocument} alt="list document" />
                     )}
@@ -265,8 +250,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                 </span>
                 <Row>
                   <style>
-                    @import
-                    url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
+                    @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
                     500,700,900');
                   </style>
                   <span className="user-name">{user.name || "Username"}</span>
@@ -283,17 +267,13 @@ const LeftSideBar = (props: { logout: () => void }) => {
                 </span>
                 <Row>
                   <style>
-                    @import
-                    url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
+                    @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,
                     500,700,900');
                   </style>
                   <span className="user-name">Guest</span>
                   <span className="user-role">Visitor</span>
                 </Row>
-                <span
-                  className="logout-icon-box"
-                  onClick={() => navigate("/login")}
-                >
+                <span className="logout-icon-box" onClick={() => navigate("/login")}>
                   <CiLogin />
                 </span>
               </div>
