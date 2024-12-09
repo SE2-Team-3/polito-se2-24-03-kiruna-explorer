@@ -165,5 +165,29 @@ class DocumentController {
   ): Promise<boolean> {
     return this.documentDAO.updateGeoreferenceId(documentId, georeferenceId);
   }
+
+  async createDocumentType(documentType: string): Promise<boolean> {
+    return this.documentDAO.createDocumentType(documentType);
+  }
+
+  async getDocumentTypes(): Promise<any[]> {
+    return this.documentDAO.getDocumentTypes();
+  }
+
+  async createNodeType(nodeType: string): Promise<boolean> {
+    return this.documentDAO.createNodeType(nodeType);
+  }
+
+  async getNodeTypes(): Promise<any[]> {
+    return this.documentDAO.getNodeTypes();
+  }
+
+  async createStakeholder(stakeholder: string): Promise<boolean> {
+    return this.documentDAO.createStakeholder(stakeholder);
+  }
+
+  async getStakeholders(): Promise<any[]> {
+    return this.documentDAO.getStakeholders();
+  }
 }
 export default DocumentController;

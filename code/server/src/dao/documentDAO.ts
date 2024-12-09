@@ -566,6 +566,84 @@ class DocumentDAO {
       });
     });
   }
+
+  async createDocumentType(documentType: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const insertSql = `INSERT INTO DocumentType (documentTypeName) VALUES (?)`;
+
+      db.run(insertSql, [documentType], function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
+    });
+  }
+
+  async getDocumentTypes(): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `SELECT documentTypeId, documentTypeName FROM DocumentType`;
+
+      db.all(sql, (err: Error | null, rows: any[]) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      });
+    });
+  }
+
+  async createNodeType(nodeType: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const insertSql = `INSERT INTO NodeType (nodeTypeName) VALUES (?)`;
+
+      db.run(insertSql, [nodeType], function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
+    });
+  }
+
+  async getNodeTypes(): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `SELECT nodeTypeId, nodeTypeName FROM NodeType`;
+
+      db.all(sql, (err: Error | null, rows: any[]) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      });
+    });
+  }
+
+  async createStakeholder(stakeholder: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const insertSql = `INSERT INTO Stakeholder (stakeholderName) VALUES (?)`;
+
+      db.run(insertSql, [stakeholder], function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(true);
+      });
+    });
+  }
+
+  async getStakeholders(): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `SELECT stakeholderId, stakeholderName FROM Stakeholder`;
+
+      db.all(sql, (err: Error | null, rows: any[]) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      });
+    });
+  }
 }
 
 export default DocumentDAO;

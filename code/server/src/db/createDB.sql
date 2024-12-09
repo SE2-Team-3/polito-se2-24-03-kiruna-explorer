@@ -6,6 +6,10 @@ DROP TABLE IF EXISTS Resource;
 DROP TABLE IF EXISTS DocumentResources;
 DROP TABLE IF EXISTS Attachment;
 DROP TABLE IF EXISTS DocumentAttachments;
+DROP TABLE IF EXISTS DocumentType;
+DROP TABLE IF EXISTS NodeType;
+DROP TABLE IF EXISTS Stakeholder;
+DROP TABLE IF EXISTS DocumentStakeholders;
 
 CREATE TABLE Document (
     documentId INTEGER PRIMARY KEY,
@@ -57,4 +61,25 @@ CREATE TABLE DocumentAttachments (
 	documentId INTEGER,
 	fileType TEXT NOT NULL,
 	fileName TEXT NOT NULL
+);
+
+CREATE TABLE DocumentType (
+	documentTypeId INTEGER PRIMARY KEY AUTOINCREMENT,
+	documentTypeName TEXT NOT NULL
+);
+
+CREATE TABLE NodeType (
+	nodeTypeId INTEGER PRIMARY KEY AUTOINCREMENT,
+	nodeTypeName TEXT NOT NULL
+);
+
+CREATE TABLE Stakeholder (
+	stakeholderId INTEGER PRIMARY KEY AUTOINCREMENT,
+	stakeholderName TEXT NOT NULL
+);
+
+CREATE TABLE DocumentStakeholders (
+	documentId INTEGER,
+	stakeholderId INTEGER,
+	PRIMARY KEY (documentId, stakeholderId)
 );
