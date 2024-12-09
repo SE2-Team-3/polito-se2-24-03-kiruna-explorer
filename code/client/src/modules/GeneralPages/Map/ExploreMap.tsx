@@ -11,10 +11,23 @@ import API from "../../../API/API";
 import Document from "../../../models/document";
 import DraggableMarker from "./DraggableMarker";
 
-const ExploreMap = (props: any) => {
+interface ExploreMapProps {
+  searchTitle: string;
+  isViewLinkedDocuments: boolean;
+  setIsViewLinkedDocuments: React.Dispatch<React.SetStateAction<boolean>>;
+  filteredDocuments: Document[];
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+}
+
+const ExploreMap = ({
+  searchTitle,
+  isViewLinkedDocuments,
+  setIsViewLinkedDocuments,
+  filteredDocuments,
+  setFilteredDocuments,
+}: ExploreMapProps) => {
   const { isSidebarOpen } = useSidebar();
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
 
   useEffect(() => {
     API.getDocuments().then((docs) => {
@@ -26,10 +39,10 @@ const ExploreMap = (props: any) => {
   // update documents list based on searchTitle
   useEffect(() => {
     const filtered = documents.filter((doc) =>
-      doc.title.toLowerCase().includes(props.searchTitle.toLowerCase())
+      doc.title.toLowerCase().includes(searchTitle.toLowerCase())
     );
     setFilteredDocuments(filtered);
-  }, [props.searchTitle, documents]);
+  }, [searchTitle, documents]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513]; // Default position (Kiruna)
 
@@ -55,7 +68,9 @@ const ExploreMap = (props: any) => {
             <DraggableMarker
               key={document.documentId}
               document={document}
-              setDocuments={setDocuments}
+              setDocuments={setFilteredDocuments}
+              isViewLinkedDocuments={isViewLinkedDocuments}
+              setIsViewLinkedDocuments={setIsViewLinkedDocuments}
             />
           ))}
         </MarkerClusterGroup>

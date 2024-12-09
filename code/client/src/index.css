@@ -98,9 +98,7 @@ body {
   background-color: rgba(61, 82, 160, 0.12);
   border-radius: 10px;
   margin-inline: 15px; /* Aggiungi un margine orizzontale per creare il rientro */
-  width: calc(
-    100% - 30px
-  ); /* Riduce la larghezza per lasciare spazio ai margini */
+  width: calc(100% - 30px); /* Riduce la larghezza per lasciare spazio ai margini */
   font-weight: bold;
 }
 
@@ -326,6 +324,29 @@ body {
 
 .add-button:hover {
   background-color: #2c3f7f !important; /* Cambia il colore al passaggio del mouse */
+}
+
+.view-all-button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 80px;
+  height: 80px;
+  background-color: #900d09;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.view-all-button:hover {
+  background-color: #420c09 !important; /* Cambia il colore al passaggio del mouse */
 }
 
 a {

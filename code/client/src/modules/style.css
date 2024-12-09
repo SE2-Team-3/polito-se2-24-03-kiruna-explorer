@@ -1415,3 +1415,18 @@ DOCUMENT DETAILS
   color: #3d52a0;
   text-decoration: underline;
 }
+
+.view-linked-documents-button,
+.view-linked-documents-button:hover,
+.view-linked-documents-button:active {
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border: none;
+}
+.view-linked-documents-icon {
+  width: 24px;
+  height: 24px;
+}
