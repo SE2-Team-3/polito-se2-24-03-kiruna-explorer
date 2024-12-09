@@ -46,6 +46,12 @@ const ExploreMap = ({
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513]; // Default position (Kiruna)
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 100);
+  }, []);
+
   return (
     <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <MapContainer
