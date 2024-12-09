@@ -151,6 +151,7 @@ function App() {
                   path="/explore-map"
                   element={
                     <ExploreMap
+                      key={location.pathname}
                       searchTitle={searchTitle}
                       isViewLinkedDocuments={isViewLinkedDocuments}
                       setIsViewLinkedDocuments={setIsViewLinkedDocuments}

@@ -865,23 +865,24 @@ LOGIN
 /*
 MAP
 */
-.map-container {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
 
 .map-wrapper {
   position: absolute;
-  min-height: calc(100vh - 100px);
-  left: 75px;
   top: 100px;
-  bottom: 0;
+  left: 75px;
   right: 0;
+  bottom: 0;
+  width: calc(100% - 75px);
+  height: calc(100vh - 100px); /* Calcola direttamente l'altezza */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: margin-left 0.3s ease;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.map-container {
+  position: relative; /* Mantenuto */
+  width: 100%;
+  height: 100%; /* Deve occupare tutto lo spazio del wrapper */
 }
 
 .sidebar-container.open ~ .map-wrapper {
