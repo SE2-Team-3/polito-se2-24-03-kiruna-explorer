@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, useContext, useEffect } from "react";
-import { Marker, Popup, Polygon } from "react-leaflet";
+import { Marker, Popup, Polygon, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import { UserContext } from "../../../components/UserContext";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
@@ -8,7 +8,6 @@ import Document from "../../../models/document";
 import { useToast } from "../../ToastProvider";
 import markers from "../../../models/documentTypeMarkers";
 import { Button, Col, Row } from "react-bootstrap";
-import LinkIcon from "../../../assets/icons/Agreement marker.svg";
 import DocumentDetail from "../../../models/documentDetail";
 import ViewConnections from "../../../assets/icons/scan-eye-1.svg";
 
@@ -56,12 +55,10 @@ const DraggableMarker = ({
         API.getDocumentById(doc.documentId)
       );
       const documents = await Promise.all(documentPromises); // Array di DocumentDetail (documenti collegati)
-      console.log("DOCUMENTI COLLEGATI (DOCUMENTDETAIL)", documents);
 
       // Ottieni tutti i documenti
       const allDocs = await API.getDocuments();
       setAllDocuments(allDocs); // Array di Document (tutti i documenti)
-      console.log("TUTTI I DOCUMENTI (DOCUMENT)", allDocs);
 
       // Crea un array di Document con i documenti collegati
       const linkedDocuments = documents.map((doc) => {
@@ -73,8 +70,6 @@ const DraggableMarker = ({
       const uniqueDocuments = linkedDocuments.filter(
         (doc, index, self) => index === self.findIndex((d) => d?.documentId === doc?.documentId)
       );
-
-      console.log("DOCUMENTI COLLEGATI UNICI (DOCUMENT)", uniqueDocuments);
 
       // Filtra i documenti collegati e aggiorna lo stato
       setDocuments(uniqueDocuments.filter((doc): doc is Document => doc !== undefined));
@@ -166,6 +161,9 @@ const DraggableMarker = ({
         ref={markerRef}
         icon={document.nodeType ? markers.get(document.nodeType) : logoIcon}
       >
+        <Tooltip direction="top" offset={[0, -30]} opacity={1} permanent={false}>
+          {document.title}
+        </Tooltip>
         <Popup autoClose={false} closeButton={true}>
           <div>
             <h5>{document.title}</h5>
