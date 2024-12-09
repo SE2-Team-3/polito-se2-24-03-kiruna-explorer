@@ -72,10 +72,6 @@ const Diagram = (props: any) => {
     setTooltip({ visible: false, title: "", x: 0, y: 0 });
   };
 
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
-
   const handleNodeClick = (nodeId: string) => {
     navigate(`/documents/${nodeId}`);
   };
@@ -101,7 +97,7 @@ const Diagram = (props: any) => {
         <div
           style={{
             width: scrollWidth + "px",
-            height: scrollHeight + "px",
+            height: "100%",
             border: "none",
           }}
           className="diagram-svg-fix"
