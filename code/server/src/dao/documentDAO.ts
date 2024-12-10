@@ -296,7 +296,6 @@ class DocumentDAO {
 
         if (!row) {
           return resolve(null);
-          //return reject(new Error("Document not found"));
         }
 
         const document = {
