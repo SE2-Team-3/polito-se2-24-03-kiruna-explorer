@@ -62,6 +62,7 @@
 
 .login-row {
   display: flex;
+  width: 260px;
 }
 .login-row button {
   background-color: transparent;
@@ -72,6 +73,8 @@
   border-radius: 5px;
   cursor: pointer;
   height: 38px;
+  display: flex;
+  justify-content: end;
 }
 
 .login-row button:hover,
