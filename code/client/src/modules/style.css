@@ -670,13 +670,29 @@ LOGIN
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #3d52a0, #adbbba);
+  background: linear-gradient(to bottom, #DEDEDE 0%, #768EC8 58%,  #3D52A0 100%  );
   top: 0;
+}
+
+.explorer {
+  font-weight: bold;
+  font-size: 36px;
+  background: -webkit-linear-gradient(left, #3d52a0, #768EC8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title-text {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-size: 36px;
+  font-weight: 300;
+  color: #000000;
+ 
 }
 
 .loginWrapper {
   display: flex;
-  background-color: #adbbba;
+  background-color: #FFFFFF;
   border-radius: 1px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -685,6 +701,81 @@ LOGIN
   height: 800px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
 }
+
+/* "@" Icon styling */
+.input-icon {
+  font-size: 18px; 
+  color: #3D52A0; 
+  margin-left: 8px;
+  margin-right: 10px;
+}
+
+.input-container {
+  margin-bottom: 16px; 
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  border: 2px solid #768EC8;
+  border-radius: 4px;
+  padding: 8px;
+  height: 40px; 
+  box-sizing: border-box; 
+}
+
+.input-icon {
+  font-size: 18px; 
+  color: #3D52A0; 
+  
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3D52A0; 
+  padding-left: 8px;
+  padding-right: 10px;
+ 
+}
+
+.toggle-password:focus {
+  outline: none;
+}
+
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0; 
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: auto;
+  border-top: 1px solid #898989; 
+  margin: 0 10px; /* Spacing around the text */
+}
+
+.divider span {
+  font-size: 16px; 
+  color: #3D52A0; 
+  white-space: nowrap; 
+}
+.visitor-resident-btn {
+  color: #3D52A0; 
+  font-size: 18px; 
+  text-decoration: none; 
+}
+
+.visitor-resident-btn:hover {
+  color: #5F7EC5;
+  text-decoration: underline;
+}
+
 /* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */
 .formSection {
   display: flex;
@@ -718,24 +809,28 @@ LOGIN
 
 /* Responsive button styling */
 .loginBtn {
-  background-image: linear-gradient(to right, #7091e6 0%, #636fa4 51%, #7091e6 100%);
+  background-color: #3D52A0;
+  
 }
+
 .loginBtn {
-  border: none;
+  position: relative;
+  align-items: center;
+  border-radius: 4px; /* Rounded corners */
+  padding: 12px;
+  border: 2px solid #768EC8;
   width: 95%; /* Full width on smaller screens */
   margin-top: 20px;
-  padding: 10px;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
-  text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  color: white;
-  border-radius: 20px;
+  color: #FFFFFF;
 }
 
 .loginBtn:hover {
   background-position: right center; /* change the direction of the change here */
+  background-color: #5F7EC5;
   color: #fff;
   text-decoration: none;
 }
@@ -768,19 +863,6 @@ LOGIN
   height: 100%;
   object-fit: cover;
   opacity: 0.85;
-}
-
-.explorer {
-  font-weight: 300;
-  background: -webkit-linear-gradient(right, #3d52a0, #7091e6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.title-text {
-  font-family: "Montserrat", sans-serif;
-  font-size: 40px;
-  color: black;
 }
 
 /* Responsive adjustments */

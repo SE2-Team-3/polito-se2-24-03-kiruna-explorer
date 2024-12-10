@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import kirunaChurch from "../../assets/Kiruna_church.jpg";
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Eye icons
+import { FaRegUser } from 'react-icons/fa'; // User icon
 import "../style.css";
 import "../../index.css";
 
 export default function Login(props: any) {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); // Password state here
+  const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -40,11 +44,11 @@ export default function Login(props: any) {
           <Row>
             <Col className="col-title">
               <span className="title-text">Kiruna</span>
-              <span className="explorer title-text">Explorer</span>
+              <span className="explorer">Explorer</span>
             </Col>
           </Row>
           <Row className="loginFormContainer">
-            <span className="black-text" style={{ marginBottom: "20px" }}>
+            <span  style={{ marginBottom: "99px" ,fontSize:"15px"}}>
               Login to your account
             </span>
             {props.message ? (
@@ -57,31 +61,65 @@ export default function Login(props: any) {
                 {props.message}
               </Alert>
             ) : null}
-            <Form.Group className="form">
-              <Form.Control
-                placeholder="Username"
-                type="email"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-              <Form.Control
-                className="mt-3"
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </Form.Group>
+   
+            <Form.Group style={{textAlign:"left"}}>
+               <div className="input-container">
+               <label className="input-label" style={{textAlign:"left",fontSize:"15px"}}>Username</label>
+                 <div className="input-field">
+                  <input
+                   type="text"
+                   placeholder="e.g Planner"
+                   value={username}
+                   onChange={(event) => setUsername(event.target.value)}
+                   />
+                    <span className="input-icon">
+                    <FaRegUser size={16} />
+                     </span>
+                 </div>
+               </div>
+               
+               <div className="input-container">
+                <label className="input-label">Password</label>
+                 <div className="input-field">
+                 <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="minimum 8 characters"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                 />
+                   <button
+                    type="button"
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                   >
+                   {showPassword ? (
+                    <AiOutlineEyeInvisible size={16}   />
+                    ) : (
+                    <AiOutlineEye size={16} />
+                    )}
+                  </button>
+               </div>
+               </div>
+
+            
+             </Form.Group>
+             
             <Button type="submit" className="loginBtn" onClick={handleSubmit}>
               Login
             </Button>
-            <Button
+             <div className="divider">
+              <span>or continue as</span>
+              </div>
+            <Button className="visitor-resident-btn"
               variant="link"
-              className="mt-2 small"
               onClick={props.loginAsGuest}
             >
-              Continue as resident | visitor
+              <div className="visitor-resident-btn">
+              <span>Visitor | Resident </span>
+              </div>
+               
             </Button>
+
           </Row>
         </Col>
 
