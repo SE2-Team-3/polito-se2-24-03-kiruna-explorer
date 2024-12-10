@@ -20,6 +20,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0 30px;
+  justify-content: space-between;
 }
 
 /* Sidebar Container */
@@ -407,7 +408,6 @@ button:focus-visible {
 .search-bar-row {
   display: flex;
   align-items: center;
-  margin-left: auto;
 }
 
 .search-bar {
@@ -503,3 +503,8 @@ input {
 }
 
 */
+
+@font-face {
+  font-family: "sharp-grotesk";
+  src: url("./assets/custom-font/SharpGrotesk-SemiBold20.otf") format("opentype");
+}

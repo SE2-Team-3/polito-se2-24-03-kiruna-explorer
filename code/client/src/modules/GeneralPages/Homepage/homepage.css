@@ -18,12 +18,16 @@
 }
 
 .home-content {
-  max-width: 600px;
+  height: 100%;
   margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.title {
-  font-size: 2.5rem;
+.title-explorer-homepage {
+  font-family: "sharp-grotesk", sans-serif;
+  font-size: 7rem;
   color: #3d52a0;
   font-weight: bold;
 }
@@ -45,7 +49,6 @@
 .button-view-diagram:hover,
 .button-view-diagram:active {
   background-color: transparent !important;
-  border: 15px, #3d52a0;
   color: #3d52a0;
 }
 
@@ -59,7 +62,6 @@
 
 .login-row {
   display: flex;
-  margin-left: auto;
 }
 .login-row button {
   background-color: transparent;
@@ -75,4 +77,8 @@
 .login-row button:hover,
 .login-row button:active {
   background-color: transparent !important;
+}
+
+.row-buttons-map-diagram {
+  margin-inline: 20% !important;
 }

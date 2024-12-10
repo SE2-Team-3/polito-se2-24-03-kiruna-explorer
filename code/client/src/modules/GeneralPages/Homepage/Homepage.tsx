@@ -19,12 +19,17 @@ const HomePage = () => {
       <Container className="home-content">
         <Row className="text-center">
           <Col>
-            <h1 className="title">Explore Kiruna</h1>
+            <Row>
+              <h1 className="title-explorer-homepage">
+                Explore
+                <em>Kiruna</em>
+              </h1>
+            </Row>
             <p className="subtitle">Welcome to the digital exploration of Kiruna, Sweden.</p>
           </Col>
         </Row>
 
-        <Row className="mt-4">
+        <Row className="row-buttons-map-diagram">
           <Col sm={6} className="mb-3">
             <Button className="button-explore-map btn-lg w-100" onClick={handleMapRedirect}>
               <FaMapMarkerAlt size={30} className="mr-2" />
