@@ -191,23 +191,13 @@ class DocumentRoutes {
     this.router.get(
       "/filtered",
       query("title").optional().isString(),
+      query("description").optional().isString(),
       query("documentType")
         .optional()
-        .isString()
-        .isIn(["Text", "Concept", "Architectural plan", "Blueprints/actions"]),
+        .isString(),
       query("nodeType")
         .optional()
-        .isString()
-        .isIn([
-          "Design document",
-          "Informative document",
-          "Prescriptive document",
-          "Technical document",
-          "Agreement",
-          "Conflict",
-          "Consultation",
-          "Action",
-        ]),
+        .isString(),
       query("stakeholders")
         .optional()
         .customSanitizer((value) => {
@@ -236,6 +226,7 @@ class DocumentRoutes {
       (req: any, res: any, next: any) => {
         const filters = {
           title: req.query.title,
+          description: req.query.description,
           documentType: req.query.documentType,
           nodeType: req.query.nodeType,
           stakeholders: req.query.stakeholders,
@@ -359,6 +350,69 @@ class DocumentRoutes {
               .status(200)
               .json({ message: "Georeference updated successfully" })
           )
+          .catch((error: any) => next(error))
+    );
+
+    this.router.post(
+      "/types/document-types",
+      this.authenticator.isLoggedIn,
+      body("documentType").notEmpty().isString(),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .createDocumentType(req.body.documentType)
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/types/document-types",
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getDocumentTypes()
+          .then((documentTypes) => res.status(200).json(documentTypes))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.post(
+      "/types/node-types",
+      this.authenticator.isLoggedIn,
+      body("nodeType").notEmpty().isString(),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .createNodeType(req.body.nodeType)
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/types/node-types",
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getNodeTypes()
+          .then((nodeTypes) => res.status(200).json(nodeTypes))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.post(
+      "/types/stakeholders",
+      this.authenticator.isLoggedIn,
+      body("stakeholder").notEmpty().isString(),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .createStakeholder(req.body.stakeholder)
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/types/stakeholders",
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getStakeholders()
+          .then((stakeholders) => res.status(200).json(stakeholders))
           .catch((error: any) => next(error))
     );
   }
