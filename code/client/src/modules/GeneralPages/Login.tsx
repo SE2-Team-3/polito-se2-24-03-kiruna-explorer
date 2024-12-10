@@ -67,7 +67,7 @@ export default function Login(props: any) {
                  <div className="input-field">
                   <input
                    type="email"
-                   placeholder="Username"
+                   placeholder="e.g Planner"
                    value={username}
                    onChange={(event) => setUsername(event.target.value)}
                    />
@@ -81,7 +81,7 @@ export default function Login(props: any) {
                   <input
                     type={showPassword ? "text" : "password"}
                     className="password-input"
-                    placeholder="password"
+                    placeholder="minimum 8 characters"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                   />
