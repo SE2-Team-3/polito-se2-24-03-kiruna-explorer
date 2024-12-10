@@ -1,4 +1,7 @@
 .home-page {
+  /* background-image: url("https://i.guim.co.uk/img/media/30e82ea3c6839b6162bcc07e61b3aa1357c1535b/0_254_4493_2697/master/4493.jpg?width=1200&quality=85&auto=format&fit=max&s=c61691072b232bbe3cb82ff1c5457068");
+  background-repeat: no-repeat;
+  background-size: cover; */
   background-color: white;
   color: #3d52a0;
   display: flex;

@@ -49,7 +49,7 @@ const ExploreMap = ({
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.setView(kirunaPosition, 14);
+      mapRef.current.setView(kirunaPosition, 13);
     }
   }, [mapRef.current]);
 

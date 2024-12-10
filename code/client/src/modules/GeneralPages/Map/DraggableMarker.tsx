@@ -43,6 +43,19 @@ const DraggableMarker = ({
   }, [document.coordinates]);
   const [documentSelected, setDocumentSelected] = useState<DocumentDetail>();
   const [allDocuments, setAllDocuments] = useState<Document[]>([]);
+  const [isPolygonVisible, setIsPolygonVisible] = useState(false);
+
+  const markerEventHandlers = useMemo(
+    () => ({
+      mouseover: () => {
+        setIsPolygonVisible(true);
+      },
+      mouseout: () => {
+        setIsPolygonVisible(false);
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     API.getDocumentById(document.documentId).then((doc) => setDocumentSelected(doc));
@@ -147,7 +160,7 @@ const DraggableMarker = ({
 
   return (
     <>
-      {isPolygon && document.coordinates && (
+      {isPolygon && document.coordinates && isPolygonVisible && (
         <Polygon
           positions={JSON.parse(document.coordinates)}
           color="#3d52a0"
@@ -162,7 +175,7 @@ const DraggableMarker = ({
       )}
       <Marker
         draggable={draggable}
-        eventHandlers={eventHandlers}
+        eventHandlers={{ ...eventHandlers, ...markerEventHandlers }}
         position={position}
         ref={markerRef}
         icon={document.nodeType ? markers.get(document.nodeType) : logoIcon}
