@@ -143,7 +143,10 @@ function App() {
                   }
                 />
                 {/* no login required */}
-                <Route path="/home" element={<HomePage />} />
+                <Route
+                  path="/home"
+                  element={<HomePage loggedIn={loggedIn} username={user?.username} />}
+                />
                 <Route path="/diagram" element={<DiagramWrapper />} />
                 <Route path="/documents/:documentId" element={<DocumentDetails />} />
                 <Route

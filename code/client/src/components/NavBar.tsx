@@ -102,20 +102,20 @@ const NavBar: FC<NavBarProps> = (props) => {
       )}
       {!loggedIn && (
         <Row className="login-row">
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Login</Tooltip>}>
-            <Button className="login-button" onClick={() => navigate("/login")}>
+          <Button className="login-button" onClick={() => navigate("/login")}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Login</Tooltip>}>
               <LogInIcon size={24} color="#3d52a0" />
-            </Button>
-          </OverlayTrigger>
+            </OverlayTrigger>
+          </Button>
         </Row>
       )}
       {loggedIn && (
         <Row className="login-row">
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Logout</Tooltip>}>
-            <Button className="login-button" onClick={props.doLogOut}>
+          <Button className="login-button" onClick={props.doLogOut}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Logout</Tooltip>}>
               <LogOutIcon size={24} color="#3d52a0" />
-            </Button>
-          </OverlayTrigger>
+            </OverlayTrigger>
+          </Button>
         </Row>
       )}
     </div>

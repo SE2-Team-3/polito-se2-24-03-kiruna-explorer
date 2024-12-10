@@ -32,24 +32,45 @@
   font-weight: bold;
 }
 
+.username-span {
+  font-weight: bold;
+  color: #3d52a0;
+}
+
+.kiruna-flag {
+  margin-inline: 2px;
+  margin-bottom: 5px;
+}
+
 .subtitle {
+  font-family: "Montserrat", sans-serif;
   font-size: 1.2rem;
-  color: #768ec8;
+  color: black;
 }
 
 .button-explore-map,
 .button-explore-map:hover,
 .button-explore-map:active {
-  background-color: #3d52a0 !important;
-  opacity: 0.9;
-  color: white;
+  background-color: transparent !important;
+  width: 186px !important;
+  border: none !important;
 }
 
 .button-view-diagram,
 .button-view-diagram:hover,
 .button-view-diagram:active {
   background-color: transparent !important;
-  color: #3d52a0;
+  width: 186px !important;
+  border: none !important;
+}
+
+.map-button {
+  width: 186px;
+  height: 186px;
+}
+.diagram-button {
+  width: 186px;
+  height: 186px;
 }
 
 .navigate-home-button,

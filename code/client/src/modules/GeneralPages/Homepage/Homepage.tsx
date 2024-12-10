@@ -1,9 +1,16 @@
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { FaMapMarkerAlt, FaProjectDiagram } from "react-icons/fa";
 import "./HomePage.css"; // Aggiungi eventuali stili personalizzati
+import Flag from "../../../assets/icons/kirunaflag.svg";
+import MapButton from "../../../assets/map02.png";
+import DiagramButton from "../../../assets/diag02.png";
 
-const HomePage = () => {
+interface HomepageProps {
+  loggedIn: Boolean;
+  username: string | undefined;
+}
+
+const HomePage = ({ loggedIn, username }: HomepageProps) => {
   const navigate = useNavigate();
 
   const handleMapRedirect = () => {
@@ -25,22 +32,27 @@ const HomePage = () => {
                 <em>Kiruna</em>
               </h1>
             </Row>
-            <p className="subtitle">Welcome to the digital exploration of Kiruna, Sweden.</p>
+            <p className="subtitle">
+              👋 Welcome {loggedIn ? <span className="username-span">{username}</span> : null} to
+              the digital exploration of{" "}
+              <span className="kiruna-flag">
+                <img src={Flag} alt="Kiruna Flag" className="kiruna-flag" />
+              </span>
+              Kiruna, Sweden.
+            </p>
           </Col>
         </Row>
 
         <Row className="row-buttons-map-diagram">
           <Col sm={6} className="mb-3">
             <Button className="button-explore-map btn-lg w-100" onClick={handleMapRedirect}>
-              <FaMapMarkerAlt size={30} className="mr-2" />
-              Explore the Map
+              <img src={MapButton} alt="Map Button" className="map-button" />
             </Button>
           </Col>
 
           <Col sm={6} className="mb-3">
             <Button className="button-view-diagram btn-lg w-100" onClick={handleDiagramRedirect}>
-              <FaProjectDiagram size={30} className="mr-2" />
-              View the Diagram
+              <img src={DiagramButton} alt="Diagram Button" className="diagram-button" />
             </Button>
           </Col>
         </Row>
