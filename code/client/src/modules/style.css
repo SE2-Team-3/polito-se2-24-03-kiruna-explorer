@@ -773,6 +773,7 @@ LOGIN
 
 .visitor-resident-btn:hover {
   color: #5F7EC5;
+  text-decoration: underline;
 }
 
 /* Sezione sinistra per il form, centrata verticalmente e orizzontalmente */

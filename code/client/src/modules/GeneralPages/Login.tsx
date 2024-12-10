@@ -93,9 +93,9 @@ export default function Login(props: any) {
                     onClick={() => setShowPassword(!showPassword)}
                    >
                    {showPassword ? (
-                    <AiOutlineEyeInvisible   />
+                    <AiOutlineEyeInvisible size={16}   />
                     ) : (
-                    <AiOutlineEye  />
+                    <AiOutlineEye size={16} />
                     )}
                   </button>
                </div>
@@ -115,7 +115,7 @@ export default function Login(props: any) {
               onClick={props.loginAsGuest}
             >
               <div className="visitor-resident-btn">
-              <span> Guest</span>
+              <span>Visitor | Resident </span>
               </div>
                
             </Button>
