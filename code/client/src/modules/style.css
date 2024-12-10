@@ -706,17 +706,12 @@ LOGIN
 .input-icon {
   font-size: 18px; 
   color: #3D52A0; 
-  margin-left: 8px; 
+  margin-left: 8px;
+  margin-right: 10px;
 }
 
 .input-container {
-  margin-bottom: 16px;
-}
-
-.input-label {
-  margin-bottom: 16px;
-  font-size: 14px;
-  color: #333;
+  margin-bottom: 16px; 
 }
 
 .input-field {
@@ -725,28 +720,30 @@ LOGIN
   border: 2px solid #768EC8;
   border-radius: 4px;
   padding: 8px;
+  height: 40px; 
+  box-sizing: border-box; 
 }
 
-.password-input {
-  border: none;
-  flex: 1;
-  font-size: 15px;
-  text-Align:"left";
-  outline: none;
+.input-icon {
+  font-size: 18px; 
+  color: #3D52A0; 
+  
 }
 
 .toggle-password {
   background: none;
   border: none;
   cursor: pointer;
-  color: #768ec8;
-  font-size: 18px;
-  padding: 0 8px;
+  color: #3D52A0; 
+  padding-left: 8px;
+  padding-right: 10px;
+ 
 }
 
 .toggle-password:focus {
   outline: none;
 }
+
 
 .divider {
   display: flex;

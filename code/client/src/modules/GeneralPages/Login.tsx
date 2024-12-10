@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import kirunaChurch from "../../assets/Kiruna_church.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Eye icons
+import { FaRegUser } from 'react-icons/fa'; // User icon
 import "../style.css";
 import "../../index.css";
 
@@ -10,6 +10,7 @@ export default function Login(props: any) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState(""); // Password state here
   const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -66,38 +67,40 @@ export default function Login(props: any) {
                <label className="input-label" style={{textAlign:"left",fontSize:"15px"}}>Username</label>
                  <div className="input-field">
                   <input
-                   type="email"
+                   type="text"
                    placeholder="e.g Planner"
                    value={username}
                    onChange={(event) => setUsername(event.target.value)}
                    />
-                    <span className="input-icon">@</span>
+                    <span className="input-icon">
+                    <FaRegUser size={16} />
+                     </span>
                  </div>
                </div>
                
                <div className="input-container">
                 <label className="input-label">Password</label>
-                <div className="input-field">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="password-input"
-                    placeholder="minimum 8 characters"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
-                  <button
+                 <div className="input-field">
+                 <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="minimum 8 characters"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                 />
+                   <button
                     type="button"
                     className="toggle-password"
                     onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <FontAwesomeIcon icon={faEyeSlash} />
+                   >
+                   {showPassword ? (
+                    <AiOutlineEyeInvisible   />
                     ) : (
-                      <FontAwesomeIcon icon={faEye} />
+                    <AiOutlineEye  />
                     )}
                   </button>
-                </div>
-              </div>
+               </div>
+               </div>
+
             
              </Form.Group>
              
@@ -105,14 +108,14 @@ export default function Login(props: any) {
               Login
             </Button>
              <div className="divider">
-              <span>or continue</span>
+              <span>or continue as</span>
               </div>
             <Button className="visitor-resident-btn"
               variant="link"
               onClick={props.loginAsGuest}
             >
               <div className="visitor-resident-btn">
-              <span>Visitor | Resident</span>
+              <span> Guest</span>
               </div>
                
             </Button>
