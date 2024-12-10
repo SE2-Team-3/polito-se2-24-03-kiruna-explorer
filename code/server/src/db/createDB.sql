@@ -64,17 +64,17 @@ CREATE TABLE DocumentAttachments (
 
 CREATE TABLE DocumentType (
 	documentTypeId INTEGER PRIMARY KEY AUTOINCREMENT,
-	documentTypeName TEXT NOT NULL
+	documentTypeName TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE NodeType (
 	nodeTypeId INTEGER PRIMARY KEY AUTOINCREMENT,
-	nodeTypeName TEXT NOT NULL
+	nodeTypeName TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE Stakeholder (
 	stakeholderId INTEGER PRIMARY KEY AUTOINCREMENT,
-	stakeholderName TEXT NOT NULL
+	stakeholderName TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE DocumentStakeholders (
