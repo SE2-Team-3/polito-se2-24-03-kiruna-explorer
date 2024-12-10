@@ -107,6 +107,7 @@ class DocumentController {
 
   async getFilteredDocuments(filters: {
     title?: string;
+    description?: string;
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];

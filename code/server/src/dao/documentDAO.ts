@@ -17,80 +17,148 @@ class DocumentDAO {
     georeferenceName: string | null
   ): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      try {
-        const documentIdSql =
-          "SELECT MAX(documentId) AS documentId FROM Document";
-        const georeferenceIdSql =
-          "SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference";
-        const createDocumentSql =
-          "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, georeferenceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const createGeoreferenceSql =
-          "INSERT INTO Georeference (georeferenceId, coordinates, georeferenceName, isArea) VALUES (?, ?, ?, ?)";
+      db.serialize(() => {
+        db.run("BEGIN TRANSACTION");
 
-        let documentId = 1;
-        const coordinates = JSON.stringify(georeference);
-        let georeferenceId = georeference ? 1 : null;
-        const stakeholdersString = JSON.stringify(stakeholders);
+        // Retrieve DocumentTypeId
+        const getDocTypeId = `SELECT documentTypeId FROM DocumentType WHERE documentTypeName = ?`;
+        db.get(getDocTypeId, [documentType], (err: Error | null, docTypeRow: any) => {
+          if (err) {
+            db.run("ROLLBACK");
+            return reject(err);
+          }
+          if (!docTypeRow) {
+            db.run("ROLLBACK");
+            return reject(new Error("Invalid documentType"));
+          }
+          const documentTypeId = docTypeRow.documentTypeId;
 
-        let isArea = false;
-        if (georeference && georeference.length > 2) {
-          isArea = true;
-        }
+          // Retrieve NodeTypeId
+          const getNodeTypeId = `SELECT nodeTypeId FROM NodeType WHERE nodeTypeName = ?`;
+          db.get(getNodeTypeId, [nodeType], (err: Error | null, nodeTypeRow: any) => {
+            if (err) {
+              db.run("ROLLBACK");
+              return reject(err);
+            }
+            if (!nodeTypeRow) {
+              db.run("ROLLBACK");
+              return reject(new Error("Invalid nodeType"));
+            }
+            const nodeTypeId = nodeTypeRow.nodeTypeId;
 
-        db.get(documentIdSql, [], (err: Error | null, row: any) => {
-          if (err) return reject(err);
-          if (row.documentId) documentId = row.documentId + 1;
-          db.get(georeferenceIdSql, [], (err: Error | null, row: any) => {
-            if (err) return reject(err);
-            if (row.georeferenceId)
-              georeferenceId = georeference ? row.georeferenceId + 1 : null;
-            db.run(
-              createDocumentSql,
-              [
-                documentId,
-                title,
-                description,
-                documentType,
-                scale,
-                nodeType,
-                stakeholdersString,
-                issuanceDate,
-                language,
-                pages,
-                georeferenceId,
-              ],
-              (err: Error | null) => {
-                if (err) return reject(err);
+            // Insert Georeference
+            const insertGeoreference = (): Promise<number | null> => {
+              return new Promise((resolveGeo, rejectGeo) => {
                 if (georeference) {
-                  const name = georeferenceName
-                    ? georeferenceName
-                    : "geo" + georeferenceId;
+                  const coordinates = JSON.stringify(georeference);
+                  const isArea = georeference.length > 1;
+                  const georeferenceIdSql = `SELECT MAX(georeferenceId) AS georeferenceId FROM Georeference`;
+                  const insertGeoSql = `
+                    INSERT INTO Georeference (georeferenceId, coordinates, georeferenceName, isArea)
+                    VALUES (?, ?, ?, ?)
+                  `;
+                  db.get(georeferenceIdSql, (err: Error | null, row: any) => {
+                    if (err) {
+                      db.run("ROLLBACK");
+                      return rejectGeo(err);
+                    }
+                    const georeferenceId = row.georeferenceId ? row.georeferenceId + 1 : 1;
+                    const name = georeferenceName ? georeferenceName : "geo" + georeferenceId;
+                    db.run(
+                      insertGeoSql,
+                      [georeferenceId, coordinates, name, isArea],
+                      function (err) {
+                        if (err) {
+                          db.run("ROLLBACK");
+                          return rejectGeo(err);
+                        }
+                        resolveGeo(georeferenceId);
+                      }
+                    );
+                  });
+                } else {
+                  resolveGeo(null);
+                }
+              });
+            };
+
+            insertGeoreference()
+              .then((georeferenceId) => {
+                // Insert Document
+                const documentIdSql = `SELECT MAX(documentId) AS documentId FROM Document`;
+                const insertDocumentSql = `
+                  INSERT INTO Document 
+                  (documentId, title, description, documentTypeId, scale, nodeTypeId, issuanceDate, language, pages, georeferenceId)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `;
+                db.get(documentIdSql, (err: Error | null, row: any) => {
+                  if (err) return reject(err);
+                  const documentId = row.documentId ? row.documentId + 1 : 1;
                   db.run(
-                    createGeoreferenceSql,
-                    [georeferenceId, coordinates, name, isArea],
-                    (err: Error | null) => {
-                      if (err) return reject(err);
-                      return resolve({
-                        status: 201,
-                        documentId: documentId,
-                        message: "Document created successfully",
-                      });
+                    insertDocumentSql,
+                    [
+                      documentId,
+                      title,
+                      description,
+                      documentTypeId,
+                      scale,
+                      nodeTypeId,
+                      issuanceDate,
+                      language,
+                      pages,
+                      georeferenceId,
+                    ],
+                    function (err) {
+                      if (err) {
+                        db.run("ROLLBACK");
+                        return reject(err);
+                      }
+
+                      // Insert into DocumentStakeholders
+                      const insertStakeholder = (index: number) => {
+                        if (index >= stakeholders.length) {
+                          db.run("COMMIT", (err) => {
+                            if (err) {
+                              db.run("ROLLBACK");
+                              return reject(err);
+                            }
+                            resolve({
+                              status: 201,
+                              documentId: documentId,
+                              message: "Document created successfully",
+                            });
+                          });
+                          return;
+                        }
+
+                        const stakeholderName = stakeholders[index];
+                        const getStakeholderId = `SELECT stakeholderId FROM Stakeholder WHERE stakeholderName = ?`;
+                        db.get(getStakeholderId, [stakeholderName], (err: Error | null, stakeholderRow: any) => {
+                          if (err || !stakeholderRow) {
+                            db.run("ROLLBACK");
+                            return reject(new Error(`Invalid stakeholder: ${stakeholderName}`));
+                          }
+                          const stakeholderId = stakeholderRow.stakeholderId;
+                          const insertDocStakeSql = `INSERT INTO DocumentStakeholders (documentId, stakeholderId) VALUES (?, ?)`;
+                          db.run(insertDocStakeSql, [documentId, stakeholderId], (err) => {
+                            if (err) {
+                              db.run("ROLLBACK");
+                              return reject(err);
+                            }
+                            insertStakeholder(index + 1);
+                          });
+                        });
+                      };
+
+                      insertStakeholder(0);
                     }
                   );
-                } else {
-                  return resolve({
-                    status: 201,
-                    documentId: documentId,
-                    message: "Document created successfully",
-                  });
-                }
-              }
-            );
+                });
+              })
+              .catch(reject);
           });
         });
-      } catch (error) {
-        return reject(error);
-      }
+      });
     });
   }
 
@@ -117,18 +185,57 @@ class DocumentDAO {
     });
   }
 
-  getDocuments(): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      try {
-        const sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, D.georeferenceId, coordinates FROM Document D
-        LEFT JOIN Georeference G ON D.georeferenceId=G.georeferenceId`;
-        db.all(sql, (err: Error | null, rows: any) => {
-          if (err) return reject(err);
-          resolve(rows);
-        });
-      } catch (error) {
-        reject(error);
-      }
+  async getDocuments(): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `
+        SELECT 
+          D.documentId,
+          D.title,
+          D.description,
+          DT.documentTypeName,
+          D.scale,
+          NT.nodeTypeName,
+          D.issuanceDate,
+          D.language,
+          D.pages,
+          G.georeferenceId,
+          G.coordinates,
+          G.georeferenceName,
+          G.isArea,
+          GROUP_CONCAT(S.stakeholderName) AS stakeholders
+        FROM Document D
+        JOIN DocumentType DT ON D.documentTypeId = DT.documentTypeId
+        JOIN NodeType NT ON D.nodeTypeId = NT.nodeTypeId
+        LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId
+        LEFT JOIN DocumentStakeholders DS ON D.documentId = DS.documentId
+        LEFT JOIN Stakeholder S ON DS.stakeholderId = S.stakeholderId
+        GROUP BY D.documentId
+      `;
+
+      db.all(sql, [], (err: Error | null, rows: any[]) => {
+        if (err) {
+          return reject(err);
+        }
+
+        const documents = rows.map(row => ({
+          documentId: row.documentId,
+          title: row.title,
+          description: row.description,
+          documentType: row.documentTypeName,
+          scale: row.scale,
+          nodeType: row.nodeTypeName,
+          issuanceDate: row.issuanceDate,
+          language: row.language,
+          pages: row.pages,
+          georeferenceId: row.georeferenceId,
+          coordinates: row.coordinates,
+          stakeholders: row.stakeholders
+            ? JSON.stringify(row.stakeholders.split(',').map((stake: string) => stake.trim()))
+            : "[]"
+        }));
+
+        resolve(documents);
+      });
     });
   }
 
@@ -154,22 +261,62 @@ class DocumentDAO {
     });
   }
 
-  getDocumentById(documentId: number): Promise<any> {
+  async getDocumentById(documentId: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      try {
-        const sql = `
+      const sql = `
         SELECT 
-          D.documentId, D.title, D.description, D.documentType, D.scale, D.nodeType, D.stakeholders, D.issuanceDate, D.language, D.pages, G.coordinates
+          D.documentId,
+          D.title,
+          D.description,
+          DT.documentTypeName,
+          D.scale,
+          NT.nodeTypeName,
+          D.issuanceDate,
+          D.language,
+          D.pages,
+          G.georeferenceId,
+          G.coordinates,
+          G.georeferenceName,
+          G.isArea,
+          GROUP_CONCAT(S.stakeholderName) AS stakeholders
         FROM Document D
+        JOIN DocumentType DT ON D.documentTypeId = DT.documentTypeId
+        JOIN NodeType NT ON D.nodeTypeId = NT.nodeTypeId
         LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId
-        WHERE D.documentId = ?`;
-        db.get(sql, [documentId], (err: Error | null, rows: any) => {
-          if (err) return reject(err);
-          resolve(rows);
-        });
-      } catch (error) {
-        reject(error);
-      }
+        LEFT JOIN DocumentStakeholders DS ON D.documentId = DS.documentId
+        LEFT JOIN Stakeholder S ON DS.stakeholderId = S.stakeholderId
+        WHERE D.documentId = ?
+        GROUP BY D.documentId
+      `;
+
+      db.get(sql, [documentId], (err: Error | null, row: any) => {
+        if (err) {
+          return reject(err);
+        }
+
+        if (!row) {
+          return resolve(null);
+          //return reject(new Error("Document not found"));
+        }
+
+        const document = {
+          documentId: row.documentId,
+          title: row.title,
+          description: row.description,
+          documentType: row.documentTypeName,
+          scale: row.scale,
+          nodeType: row.nodeTypeName,
+          issuanceDate: row.issuanceDate,
+          language: row.language,
+          pages: row.pages,
+          coordinates: row.coordinates,
+          stakeholders: row.stakeholders
+            ? JSON.stringify(row.stakeholders.split(",").map((stake: string) => stake.trim()))
+            : "[]",
+        };
+
+        resolve(document);
+      });
     });
   }
 
@@ -374,6 +521,7 @@ class DocumentDAO {
 
   async getFilteredDocuments(filters: {
     title?: string;
+    description?: string;
     documentType?: string;
     nodeType?: string;
     stakeholders?: string[];
@@ -382,57 +530,121 @@ class DocumentDAO {
     language?: string[];
   }): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
-      try {
-        let sql = `SELECT documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, D.georeferenceId, coordinates FROM Document D
-                   LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId WHERE 1=1`;
-        const params: any[] = [];
+      let sql = `
+        SELECT 
+          D.documentId,
+          D.title,
+          D.description,
+          DT.documentTypeName,
+          D.scale,
+          NT.nodeTypeName,
+          D.issuanceDate,
+          D.language,
+          D.pages,
+          G.georeferenceId,
+          G.coordinates,
+          G.georeferenceName,
+          G.isArea,
+          GROUP_CONCAT(S.stakeholderName) AS stakeholders
+        FROM Document D
+        JOIN DocumentType DT ON D.documentTypeId = DT.documentTypeId
+        JOIN NodeType NT ON D.nodeTypeId = NT.nodeTypeId
+        LEFT JOIN Georeference G ON D.georeferenceId = G.georeferenceId
+        LEFT JOIN DocumentStakeholders DS ON D.documentId = DS.documentId
+        LEFT JOIN Stakeholder S ON DS.stakeholderId = S.stakeholderId
+      `;
 
-        if (filters.title) {
-          sql += ` AND title LIKE ?`;
-          params.push(`%${filters.title}%`);
-        }
-        if (filters.documentType) {
-          sql += ` AND documentType = ?`;
-          params.push(filters.documentType);
-        }
-        if (filters.nodeType) {
-          sql += ` AND nodeType = ?`;
-          params.push(filters.nodeType);
-        }
-        if (filters.issuanceDateStart && filters.issuanceDateEnd) {
-          sql += " AND issuanceDate BETWEEN ? AND ?";
-          params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
-        } else if (filters.issuanceDateStart) {
-          sql += " AND issuanceDate >= ?";
-          params.push(filters.issuanceDateStart);
-        } else if (filters.issuanceDateEnd) {
-          sql += " AND issuanceDate <= ?";
-          params.push(filters.issuanceDateEnd);
-        }
-        if (filters.stakeholders && filters.stakeholders.length > 0) {
-          const stakeholderConditions = filters.stakeholders
-            .map(() => `stakeholders LIKE ?`)
-            .join(" AND ");
-          sql += ` AND (${stakeholderConditions})`;
-          filters.stakeholders.forEach((s) => params.push(`%${s}%`));
-        }
-        if (filters.language && filters.language.length > 0) {
-          const languageConditions = filters.language
-            .map(() => `language LIKE ?`)
-            .join(" OR ");
-          sql += ` AND (${languageConditions})`;
-          filters.language.forEach((l) => params.push(`%${l}%`));
-        }
+      const conditions: string[] = [];
+      const params: any[] = [];
 
-        console.log(sql, params);
-
-        db.all(sql, params, (err: Error | null, rows: any[]) => {
-          if (err) return reject(err);
-          resolve(rows);
-        });
-      } catch (error) {
-        reject(error);
+      // Filter: Title
+      if (filters.title) {
+        conditions.push(`D.title LIKE ?`);
+        params.push(`%${filters.title}%`);
       }
+
+      // Filter: Description
+      if (filters.description) {
+        conditions.push(`D.description LIKE ?`);
+        params.push(`%${filters.description}%`);
+      }
+
+      // Filter: Document Type
+      if (filters.documentType) {
+        conditions.push(`DT.documentTypeName = ?`);
+        params.push(filters.documentType);
+      }
+
+      // Filter: Node Type
+      if (filters.nodeType) {
+        conditions.push(`NT.nodeTypeName = ?`);
+        params.push(filters.nodeType);
+      }
+
+      // Filter: Language
+      if (filters.language && filters.language.length > 0) {
+        const placeholders = filters.language.map(() => '?').join(',');
+        conditions.push(`D.language IN (${placeholders})`);
+        params.push(...filters.language);
+      }
+
+      // Filter: Issuance Date Range
+      if (filters.issuanceDateStart && filters.issuanceDateEnd) {
+        conditions.push(`D.issuanceDate BETWEEN ? AND ?`);
+        params.push(filters.issuanceDateStart, filters.issuanceDateEnd);
+      } else if (filters.issuanceDateStart) {
+        conditions.push(`D.issuanceDate >= ?`);
+        params.push(filters.issuanceDateStart);
+      } else if (filters.issuanceDateEnd) {
+        conditions.push(`D.issuanceDate <= ?`);
+        params.push(filters.issuanceDateEnd);
+      }
+
+      // Apply conditions
+      if (conditions.length > 0) {
+        sql += ` WHERE ` + conditions.join(' AND ');
+      }
+
+      sql += ` GROUP BY D.documentId `;
+
+      // Filter: Stakeholders
+      if (filters.stakeholders && filters.stakeholders.length > 0) {
+        // Ensure the document has all specified stakeholders
+        const stakeholderCount = filters.stakeholders.length;
+        sql += `
+          HAVING COUNT(DISTINCT CASE WHEN S.stakeholderName IN (${filters.stakeholders.map(() => '?').join(',')}) THEN S.stakeholderName END) = ?
+        `;
+        params.push(...filters.stakeholders, stakeholderCount);
+      }
+
+      db.all(sql, params, (err: Error | null, rows: any[]) => {
+        if (err) {
+          return reject(err);
+        }
+
+        const documents = rows.map(row => ({
+          documentId: row.documentId,
+          title: row.title,
+          description: row.description,
+          documentType: row.documentTypeName,
+          scale: row.scale,
+          nodeType: row.nodeTypeName,
+          issuanceDate: row.issuanceDate,
+          language: row.language,
+          pages: row.pages,
+          georeference: row.georeferenceId ? {
+            georeferenceId: row.georeferenceId,
+            coordinates: JSON.parse(row.coordinates),
+            georeferenceName: row.georeferenceName,
+            isArea: !!row.isArea
+          } : null,
+          stakeholders: row.stakeholders
+            ? JSON.stringify(row.stakeholders.split(',').map((stake: string) => stake.trim()))
+            : "[]"
+        }));
+
+        resolve(documents);
+      });
     });
   }
 
@@ -508,47 +720,137 @@ class DocumentDAO {
     georeferenceId: number | null
   ): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      try {
-        const documentIdSql =
-          "SELECT MAX(documentId) AS documentId FROM Document";
-        const createDocumentSql =
-          "INSERT INTO Document (documentId, title, description, documentType, scale, nodeType, stakeholders, issuanceDate, language, pages, georeferenceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      db.serialize(() => {
+        db.run("BEGIN TRANSACTION", (err: Error | null) => {
+          if (err) {
+            return reject(err);
+          }
 
-        let documentId = 1;
-        const stakeholdersString = JSON.stringify(stakeholders);
-
-        db.get(documentIdSql, [], (err: Error | null, row: any) => {
-          if (err) return reject(err);
-          if (row.documentId) documentId = row.documentId + 1;
-
-          db.run(
-            createDocumentSql,
-            [
-              documentId,
-              title,
-              description,
-              documentType,
-              scale,
-              nodeType,
-              stakeholdersString,
-              issuanceDate,
-              language,
-              pages,
-              georeferenceId,
-            ],
-            (err: Error | null) => {
-              if (err) return reject(err);
-              return resolve({
-                status: 201,
-                documentId: documentId,
-                message: "Document created successfully",
-              });
+          // Retrieve DocumentTypeId
+          const getDocTypeId = `SELECT documentTypeId FROM DocumentType WHERE documentTypeName = ?`;
+          db.get(getDocTypeId, [documentType], (err: Error | null, docTypeRow: any) => {
+            if (err) {
+              db.run("ROLLBACK");
+              return reject(err);
             }
-          );
+            if (!docTypeRow) {
+              db.run("ROLLBACK");
+              return reject(new Error("Invalid documentType"));
+            }
+            const documentTypeId = docTypeRow.documentTypeId;
+
+            // Retrieve NodeTypeId
+            const getNodeTypeId = `SELECT nodeTypeId FROM NodeType WHERE nodeTypeName = ?`;
+            db.get(getNodeTypeId, [nodeType], (err: Error | null, nodeTypeRow: any) => {
+              if (err) {
+                db.run("ROLLBACK");
+                return reject(err);
+              }
+              if (!nodeTypeRow) {
+                db.run("ROLLBACK");
+                return reject(new Error("Invalid nodeType"));
+              }
+              const nodeTypeId = nodeTypeRow.nodeTypeId;
+
+              // Verify GeoreferenceId
+              if (georeferenceId !== null) {
+                const verifyGeoSql = `SELECT georeferenceId FROM Georeference WHERE georeferenceId = ?`;
+                db.get(verifyGeoSql, [georeferenceId], (err: Error | null, geoRow: any) => {
+                  if (err) {
+                    db.run("ROLLBACK");
+                    return reject(err);
+                  }
+                  if (!geoRow) {
+                    db.run("ROLLBACK");
+                    return reject(new Error("Invalid georeferenceId"));
+                  }
+                  proceedWithInsert();
+                });
+              } else {
+                proceedWithInsert();
+              }
+
+              function proceedWithInsert() {
+                // Insert Document
+                const documentIdSql = `SELECT MAX(documentId) AS documentId FROM Document`;
+                const insertDocumentSql = `
+                  INSERT INTO Document 
+                  (documentId, title, description, documentTypeId, scale, nodeTypeId, issuanceDate, language, pages, georeferenceId)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `;
+                db.get(documentIdSql, (err: Error | null, row: any) => {
+                  if (err) {
+                    db.run("ROLLBACK");
+                    return reject(err);
+                  }
+                  const documentId = row.documentId ? row.documentId + 1 : 1;
+                  db.run(
+                    insertDocumentSql,
+                    [
+                      documentId,
+                      title,
+                      description,
+                      documentTypeId,
+                      scale,
+                      nodeTypeId,
+                      issuanceDate,
+                      language,
+                      pages,
+                      georeferenceId,
+                    ],
+                    function (err: Error | null) {
+                      if (err) {
+                        db.run("ROLLBACK");
+                        return reject(err);
+                      }
+
+                      // Insert into DocumentStakeholders
+                      insertStakeholders(documentId, 0);
+                    }
+                  );
+                });
+              }
+
+              function insertStakeholders(documentId: number, index: number) {
+                if (index >= stakeholders.length) {
+                  // All stakeholders inserted, commit transaction
+                  db.run("COMMIT", (err) => {
+                    if (err) {
+                      db.run("ROLLBACK");
+                      return reject(err);
+                    }
+                    resolve({ documentId });
+                  });
+                  return;
+                }
+
+                const stakeholderName = stakeholders[index];
+                const getStakeholderId = `SELECT stakeholderId FROM Stakeholder WHERE stakeholderName = ?`;
+                db.get(getStakeholderId, [stakeholderName], (err, stakeholderRow: any) => {
+                  if (err) {
+                    db.run("ROLLBACK");
+                    return reject(err);
+                  }
+                  if (!stakeholderRow) {
+                    db.run("ROLLBACK");
+                    return reject(new Error(`Invalid stakeholder: ${stakeholderName}`));
+                  }
+                  const stakeholderId = stakeholderRow.stakeholderId;
+                  const insertDocStakeSql = `INSERT INTO DocumentStakeholders (documentId, stakeholderId) VALUES (?, ?)`;
+                  db.run(insertDocStakeSql, [documentId, stakeholderId], (err) => {
+                    if (err) {
+                      db.run("ROLLBACK");
+                      return reject(err);
+                    }
+                    // Insert next stakeholder
+                    insertStakeholders(documentId, index + 1);
+                  });
+                });
+              }
+            });
+          });
         });
-      } catch (error) {
-        return reject(error);
-      }
+      });
     });
   }
 

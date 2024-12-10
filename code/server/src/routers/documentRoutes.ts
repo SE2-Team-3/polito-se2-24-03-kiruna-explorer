@@ -191,23 +191,13 @@ class DocumentRoutes {
     this.router.get(
       "/filtered",
       query("title").optional().isString(),
+      query("description").optional().isString(),
       query("documentType")
         .optional()
-        .isString()
-        .isIn(["Text", "Concept", "Architectural plan", "Blueprints/actions"]),
+        .isString(),
       query("nodeType")
         .optional()
-        .isString()
-        .isIn([
-          "Design document",
-          "Informative document",
-          "Prescriptive document",
-          "Technical document",
-          "Agreement",
-          "Conflict",
-          "Consultation",
-          "Action",
-        ]),
+        .isString(),
       query("stakeholders")
         .optional()
         .customSanitizer((value) => {
@@ -236,6 +226,7 @@ class DocumentRoutes {
       (req: any, res: any, next: any) => {
         const filters = {
           title: req.query.title,
+          description: req.query.description,
           documentType: req.query.documentType,
           nodeType: req.query.nodeType,
           stakeholders: req.query.stakeholders,
