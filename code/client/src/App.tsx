@@ -1,7 +1,6 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Home from "./modules/GeneralPages/Home";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
 import { SidebarProvider } from "./components/SidebarContext";
@@ -21,6 +20,7 @@ import DiagramWrapper from "./modules/GeneralPages/Diagram/DiagramWrapper";
 import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 import Document from "./models/document";
 import ViewAll from "./assets/icons/eye-off.svg";
+import HomePage from "./modules/GeneralPages/Homepage/Homepage";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -74,7 +74,7 @@ function App() {
         setLoggedIn(false);
         setUser(undefined);
         setIsLoaded(true);
-        navigate("/login");
+        navigate("/home");
       }
     };
 
@@ -106,7 +106,7 @@ function App() {
   const doLoginAsGuest = function () {
     setLoggedIn(false);
     setUser(undefined);
-    navigate("/explore-map");
+    navigate("/home");
   };
 
   const doLogOut = async () => {
@@ -123,14 +123,13 @@ function App() {
         <Container>
           <SidebarProvider>
             <UserContext.Provider value={user}>
-              <NavBar setSearchTitle={setSearchTitle} />
-              <LeftSideBar logout={doLogOut} />
+              <NavBar setSearchTitle={setSearchTitle} loggedIn={loggedIn} doLogOut={doLogOut} />
+              {location.pathname !== "/home" && location.pathname !== "/" && (
+                <LeftSideBar logout={doLogOut} />
+              )}
               <Routes>
-                {/* default page is login page */}
-                <Route
-                  path="/"
-                  element={loggedIn ? <Navigate to="/explore-map" /> : <Navigate to="/login" />}
-                />
+                {/* default page is home page */}
+                <Route path="/" element={<Navigate to="/home" />} />
                 {/* login page */}
                 <Route
                   path="/login"
@@ -144,7 +143,7 @@ function App() {
                   }
                 />
                 {/* no login required */}
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/diagram" element={<DiagramWrapper />} />
                 <Route path="/documents/:documentId" element={<DocumentDetails />} />
                 <Route

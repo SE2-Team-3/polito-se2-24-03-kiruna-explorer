@@ -1,0 +1,75 @@
+.home-page {
+  background-color: white;
+  color: #3d52a0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.home-content {
+  max-width: 600px;
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #3d52a0;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #768ec8;
+}
+
+.button-explore-map,
+.button-explore-map:hover,
+.button-explore-map:active {
+  background-color: #3d52a0 !important;
+  opacity: 0.9;
+  color: white;
+}
+
+.button-view-diagram,
+.button-view-diagram:hover,
+.button-view-diagram:active {
+  background-color: transparent !important;
+  border: 15px, #3d52a0;
+  color: #3d52a0;
+}
+
+.navigate-home-button,
+.navigate-home-button:hover,
+.navigate-home-button:active {
+  background-color: transparent !important;
+  border: none !important;
+  width: 100% !important;
+}
+
+.login-row {
+  display: flex;
+  margin-left: auto;
+}
+.login-row button {
+  background-color: transparent;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 38px;
+}
+
+.login-row button:hover,
+.login-row button:active {
+  background-color: transparent !important;
+}

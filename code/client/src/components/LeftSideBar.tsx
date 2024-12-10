@@ -273,9 +273,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   <span className="user-name">Guest</span>
                   <span className="user-role">Visitor</span>
                 </Row>
-                <span className="logout-icon-box" onClick={() => navigate("/login")}>
-                  <CiLogin />
-                </span>
+                <span></span>
               </div>
             )}
           </Col>
