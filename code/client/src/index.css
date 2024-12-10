@@ -508,3 +508,11 @@ input {
   font-family: "sharp-grotesk";
   src: url("./assets/custom-font/SharpGrotesk-SemiBold20.otf") format("opentype");
 }
+
+.map-view-selector {
+  z-index: 1000;
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  font-family: "montserrat", sans-serif;
+}

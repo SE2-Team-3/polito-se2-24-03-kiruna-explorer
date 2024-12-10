@@ -17,6 +17,7 @@ interface ExploreMapProps {
   setIsViewLinkedDocuments: React.Dispatch<React.SetStateAction<boolean>>;
   filteredDocuments: Document[];
   setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+  currentLayer: "streets" | "satellite" | "terrain";
 }
 
 const ExploreMap = ({
@@ -25,6 +26,7 @@ const ExploreMap = ({
   setIsViewLinkedDocuments,
   filteredDocuments,
   setFilteredDocuments,
+  currentLayer,
 }: ExploreMapProps) => {
   const { isSidebarOpen } = useSidebar();
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -53,6 +55,23 @@ const ExploreMap = ({
     }
   }, [mapRef.current]);
 
+  // Definizione dei layer disponibili
+  const tileLayers = {
+    streets: {
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+    satellite: {
+      url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+      attribution: '&copy; <a href="https://www.esri.com/en-us/home">Esri</a>',
+    },
+    terrain: {
+      url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+      attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+    },
+  };
+
   return (
     <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <MapContainer
@@ -65,12 +84,16 @@ const ExploreMap = ({
         className="map-container"
         ref={mapRef}
       >
-        <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
+        {currentLayer === "satellite" && (
+          <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
+        )}
+        {/* TileLayer dinamico basato sullo stato */}
         <TileLayer
-          attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>'
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+          url={tileLayers[currentLayer].url}
+          attribution={tileLayers[currentLayer].attribution}
         />
 
+        {/* MarkerClusterGroup per raggruppare i marker vicini */}
         <MarkerClusterGroup>
           {filteredDocuments.map((document) => (
             <DraggableMarker

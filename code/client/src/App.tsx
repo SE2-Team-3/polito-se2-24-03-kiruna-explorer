@@ -1,4 +1,4 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
@@ -32,6 +32,7 @@ function App() {
   const location = useLocation();
   const [isViewLinkedDocuments, setIsViewLinkedDocuments] = useState(false);
   const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
+  const [currentLayer, setCurrentLayer] = useState<keyof typeof tileLayers>("satellite"); // Stato per il layer selezionato
 
   const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
@@ -47,6 +48,23 @@ function App() {
     pages: "",
     georeference: [[]],
   });
+
+  // Definizione dei layer disponibili
+  const tileLayers = {
+    streets: {
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+    satellite: {
+      url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+      attribution: '&copy; <a href="https://www.esri.com/en-us/home">Esri</a>',
+    },
+    terrain: {
+      url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+      attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+    },
+  };
 
   const handleSetDocuments = async () => {
     setIsViewLinkedDocuments(false);
@@ -159,6 +177,7 @@ function App() {
                       setIsViewLinkedDocuments={setIsViewLinkedDocuments}
                       filteredDocuments={filteredDocuments}
                       setFilteredDocuments={setFilteredDocuments}
+                      currentLayer={currentLayer}
                     />
                   }
                 />
@@ -224,6 +243,39 @@ function App() {
             </Button>
           </Row>
         ) : null}
+        {location.pathname === "/explore-map" && (
+          <Row>
+            {/* <Dropdown className="map-view-selector">
+              <Dropdown.Toggle>Select view</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {Object.keys(tileLayers).map((layer) => (
+                  <Dropdown.Item
+                    key={layer}
+                    onClick={() => setCurrentLayer(layer as keyof typeof tileLayers)}
+                  >
+                    {layer}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown> */}
+
+            <Col>
+              <Dropdown className="map-view-selector">
+                <Dropdown.Toggle>View</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {Object.keys(tileLayers).map((layer) => (
+                    <Dropdown.Item
+                      key={layer}
+                      onClick={() => setCurrentLayer(layer as keyof typeof tileLayers)}
+                    >
+                      {layer}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+        )}
       </Col>
     </>
   );

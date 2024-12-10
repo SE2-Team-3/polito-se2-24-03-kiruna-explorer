@@ -1,6 +1,6 @@
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "./HomePage.css"; // Aggiungi eventuali stili personalizzati
+import "./homepage.css";
 import Flag from "../../../assets/icons/kirunaflag.svg";
 import MapButton from "../../../assets/map02.png";
 import DiagramButton from "../../../assets/diag02.png";
