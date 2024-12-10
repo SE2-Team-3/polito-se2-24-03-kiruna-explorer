@@ -245,20 +245,6 @@ function App() {
         ) : null}
         {location.pathname === "/explore-map" && (
           <Row>
-            {/* <Dropdown className="map-view-selector">
-              <Dropdown.Toggle>Select view</Dropdown.Toggle>
-              <Dropdown.Menu>
-                {Object.keys(tileLayers).map((layer) => (
-                  <Dropdown.Item
-                    key={layer}
-                    onClick={() => setCurrentLayer(layer as keyof typeof tileLayers)}
-                  >
-                    {layer}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown> */}
-
             <Col>
               <Dropdown className="map-view-selector">
                 <Dropdown.Toggle>View</Dropdown.Toggle>
