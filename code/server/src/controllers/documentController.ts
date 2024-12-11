@@ -190,5 +190,9 @@ class DocumentController {
   async getStakeholders(): Promise<any[]> {
     return this.documentDAO.getStakeholders();
   }
+
+  async deleteDocumentConnection(documentId1: number, documentId2: number, connection: string): Promise<boolean> {
+    return this.documentDAO.deleteDocumentConnection(documentId1, documentId2, connection);
+  }
 }
 export default DocumentController;

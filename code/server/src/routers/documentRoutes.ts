@@ -415,6 +415,43 @@ class DocumentRoutes {
           .then((stakeholders) => res.status(200).json(stakeholders))
           .catch((error: any) => next(error))
     );
+
+    this.router.delete(
+      "/link",
+      this.authenticator.isLoggedIn,
+      body("documentId1")
+        .isInt({ gt: 0 })
+        .withMessage("documentId1 must be a positive integer"),
+      body("documentId2")
+        .isInt({ gt: 0 })
+        .withMessage("documentId2 must be a positive integer"),
+      body("linkType")
+        .isString()
+        .notEmpty()
+        .withMessage("linkType must be a non-empty string"),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .deleteDocumentConnection(
+            req.body.documentId1,
+            req.body.documentId2,
+            req.body.linkType
+          )
+          .then((success: boolean) => {
+            if (success) {
+              res.status(200).json({
+                status: "success",
+                message: "Document connection deleted successfully",
+              });
+            } else {
+              res.status(404).json({
+                status: "fail",
+                message: "Document connection not found",
+              });
+            }
+          })
+          .catch((error: any) => next(error))
+    );
   }
 }
 
