@@ -173,10 +173,11 @@ const DraggableMarker = ({
 
   return (
     <>
+      {console.log("Georeference: ", georeference)}
       {isPolygon && document.coordinates && isPolygonVisible && (
         <Polygon
           positions={JSON.parse(document.coordinates)}
-          color={georeference?.areaColor}
+          color={georeference?.areaColor ? georeference.areaColor : "#3d52a0"}
           fillOpacity={0.2}
           dashArray={"5, 10"}
           weight={5}
@@ -205,6 +206,7 @@ const DraggableMarker = ({
             <p>Scale: {document.scale}</p>
             <p>Type: {document.nodeType}</p>
             <p>Issuance Date: {document.issuanceDate}</p>
+            {georeference?.isArea === 1 && <p>Area name: {georeference.georeferenceName}</p>}
             <Row>
               <Col>
                 <Button className="view-linked-documents-button" onClick={handleViewConnections}>

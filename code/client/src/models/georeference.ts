@@ -2,14 +2,14 @@ class Georeference {
   georeferenceId: number;
   coordinates: string;
   georeferenceName: string;
-  isArea: boolean;
+  isArea: number;
   areaColor: string;
 
   constructor(
     georeferenceId: number,
     coordinates: string,
     georeferenceName: string,
-    isArea: boolean,
+    isArea: number,
     areaColor: string
   ) {
     this.georeferenceId = georeferenceId;
