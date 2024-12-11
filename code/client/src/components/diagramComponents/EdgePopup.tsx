@@ -2,10 +2,9 @@ import React from "react";
 
 interface PopupProps {
   linkTypes: string[];
-  onClose: () => void;
 }
 
-const EdgePopup: React.FC<PopupProps> = ({ linkTypes, onClose }) => {
+const EdgePopup: React.FC<PopupProps> = ({ linkTypes }) => {
   return (
     <div
       style={{
@@ -21,15 +20,12 @@ const EdgePopup: React.FC<PopupProps> = ({ linkTypes, onClose }) => {
         zIndex: 9999,
       }}
     >
-      <h3>Link Types</h3>
+      <h3>{linkTypes.length === 1 ? "Connection Type" : "Connection Types"}</h3>
       <ul className="font-size-20">
         {linkTypes.map((linkType, index) => (
           <li key={index}>{linkType}</li>
         ))}
       </ul>
-      <button onClick={onClose} className="button-small mt-2">
-        Close
-      </button>
     </div>
   );
 };

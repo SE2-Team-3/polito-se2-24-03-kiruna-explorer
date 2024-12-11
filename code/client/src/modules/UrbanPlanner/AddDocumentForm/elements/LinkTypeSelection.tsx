@@ -15,24 +15,17 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const linkTypeList = [
-    "direct consequence",
-    "collateral consequence",
-    "prevision",
-    "update",
-  ];
+  const linkTypeList = ["direct consequence", "collateral consequence", "prevision", "update"];
 
   const toggleLinkType = (type: string) => {
     setLinkType(
-      linkType.includes(type)
-        ? linkType.filter((lt) => lt !== type)
-        : [...linkType, type]
+      linkType.includes(type) ? linkType.filter((lt) => lt !== type) : [...linkType, type]
     );
   };
 
   return (
     <Form.Group as={Col} controlId="formGridLinkType">
-      <Form.Label className="font-size-18">Link Types</Form.Label>
+      <Form.Label className="font-size-18">Connection Types</Form.Label>
 
       <Dropdown
         show={isDropdownOpen}
@@ -72,9 +65,7 @@ const LinkTypeSelection: React.FC<LinkTypeSelectionProps> = ({
       </Dropdown>
 
       {linkType.length === 0 && validated && (
-        <div className="invalid-feedback d-block">
-          Please select at least one link type.
-        </div>
+        <div className="invalid-feedback d-block">Please select at least one link type.</div>
       )}
     </Form.Group>
   );

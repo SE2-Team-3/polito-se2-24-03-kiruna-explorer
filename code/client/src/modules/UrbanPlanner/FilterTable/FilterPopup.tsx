@@ -27,6 +27,7 @@ const FilterTable: FC<FilterProps> = (props) => {
     issuanceDateStart: "",
     issuanceDateEnd: "",
     language: "",
+    description: "",
   });
   console.log(filters);
 
@@ -37,6 +38,7 @@ const FilterTable: FC<FilterProps> = (props) => {
     issuanceDateStart?: string;
     issuanceDateEnd?: string;
     language?: string;
+    description?: string;
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -48,6 +50,14 @@ const FilterTable: FC<FilterProps> = (props) => {
         return {
           ...prevFilters,
           documentType: checked ? value : "",
+        };
+      }
+
+      if (type === "checkbox" && name === "language") {
+        // Permetti una sola selezione per le checkbox di "language"
+        return {
+          ...prevFilters,
+          language: checked ? value : "",
         };
       }
 
@@ -72,10 +82,23 @@ const FilterTable: FC<FilterProps> = (props) => {
     });
   };
 
+  const handleReset = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFilters({
+      documentType: "",
+      nodeType: "",
+      stakeholders: [],
+      issuanceDateStart: "",
+      issuanceDateEnd: "",
+      language: "",
+      description: "",
+    });
+  };
+
   return (
     <div className="filter-table">
       <h3>Filters</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
         {/* Type Document */}
         <div className="filter-group">
           <label>Scale</label>
@@ -134,13 +157,25 @@ const FilterTable: FC<FilterProps> = (props) => {
             <Row>
               <Col>
                 <label>
-                  <input type="checkbox" name="language" value="English" onChange={handleChange} />
+                  <input
+                    type="checkbox"
+                    name="language"
+                    value="English"
+                    checked={filters.language === "English"}
+                    onChange={handleChange}
+                  />
                   English
                 </label>
               </Col>
               <Col>
                 <label>
-                  <input type="checkbox" name="language" value="Swedish" onChange={handleChange} />
+                  <input
+                    type="checkbox"
+                    name="language"
+                    value="Swedish"
+                    checked={filters.language === "Swedish"}
+                    onChange={handleChange}
+                  />
                   Swedish
                 </label>
               </Col>
@@ -152,44 +187,80 @@ const FilterTable: FC<FilterProps> = (props) => {
         <div className="filter-group">
           <label>Stakeholders</label>
           <div>
-            <label>
-              <input type="checkbox" name="stakeholders" value="LKAB" onChange={handleChange} />
-              LKAB
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="stakeholders"
-                value="Municipality"
-                onChange={handleChange}
-              />
-              Municipality
-            </label>
-            <label>
-              <input type="checkbox" name="stakeholders" value="Citizen" onChange={handleChange} />
-              Citizen
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="stakeholders"
-                value="Architecture firms"
-                onChange={handleChange}
-              />
-              Architecture firms
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="stakeholders"
-                value="Regional authority"
-                onChange={handleChange}
-              />
-              Regional authority
-            </label>
+            <Row>
+              <Col>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="stakeholders"
+                    value="LKAB"
+                    checked={filters.stakeholders?.includes("LKAB")}
+                    onChange={handleChange}
+                  />
+                  LKAB
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="stakeholders"
+                    value="Municipality"
+                    checked={filters.stakeholders?.includes("Municipality")}
+                    onChange={handleChange}
+                  />
+                  Municipality
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="stakeholders"
+                    value="Citizen"
+                    checked={filters.stakeholders?.includes("Citizen")}
+                    onChange={handleChange}
+                  />
+                  Citizen
+                </label>
+              </Col>
+              <Col>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="stakeholders"
+                    value="Architecture firms"
+                    checked={filters.stakeholders?.includes("Architecture firms")}
+                    onChange={handleChange}
+                  />
+                  Architecture firms
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="stakeholders"
+                    value="Regional authority"
+                    checked={filters.stakeholders?.includes("Regional authority")}
+                    onChange={handleChange}
+                  />
+                  Regional authority
+                </label>
+              </Col>
+            </Row>
           </div>
         </div>
-
+        <div className="filter-group">
+          <label>Description</label>
+          <Row>
+            <Col>
+              <div>
+                <input
+                  type="text"
+                  name="description"
+                  placeholder="Enter keywords"
+                  value={filters.description}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
         {/* Node Type */}
 
         <div className="filter-group">
@@ -197,7 +268,7 @@ const FilterTable: FC<FilterProps> = (props) => {
           <div>
             <Dropdown>
               <Row>
-                <Col md={8}>
+                <Col>
                   <Dropdown.Toggle
                     variant="success"
                     id="dropdown-basic"
@@ -218,16 +289,6 @@ const FilterTable: FC<FilterProps> = (props) => {
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
-                </Col>
-                <Col md={4}>
-                  <Button
-                    className="clear-button"
-                    onClick={() => {
-                      setFilters({ ...filters, nodeType: "" });
-                    }}
-                  >
-                    <img src={ClearIcon} alt="Clear" />
-                  </Button>
                 </Col>
               </Row>
             </Dropdown>
@@ -257,6 +318,10 @@ const FilterTable: FC<FilterProps> = (props) => {
         {/* Submit Button */}
         <button type="submit" className="btn-filter">
           Filter
+        </button>
+        {/* Clear Button */}
+        <button type="reset" className="btn-filter-reset">
+          Clear
         </button>
       </form>
     </div>

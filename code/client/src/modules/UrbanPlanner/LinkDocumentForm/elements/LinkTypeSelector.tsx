@@ -15,7 +15,7 @@ export default function LinkTypeSelector({ linkType, setLinkType }: any) {
 
   return (
     <Row className="row-box">
-      <Form.Label className="black-text">Link Type *</Form.Label>
+      <Form.Label className="black-text">Connection Type *</Form.Label>
       <Col>
         {/* Direct consequence checkbox */}
         <Form.Check

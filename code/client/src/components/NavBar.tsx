@@ -1,16 +1,21 @@
-import { Col, Row } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { Button, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../index.css";
 import Logo from "../assets/icons/logo.svg";
 import { Dispatch, FC, SetStateAction } from "react";
+import { LogInIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 
 interface NavBarProps {
   setSearchTitle: Dispatch<SetStateAction<string>>;
+  loggedIn: Boolean;
+  doLogOut: () => void;
 }
 
 const NavBar: FC<NavBarProps> = (props) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const navigate = useNavigate();
 
   const handleChange = () => {
     var value = (document.getElementById("input") as HTMLInputElement).value;
@@ -25,6 +30,8 @@ const NavBar: FC<NavBarProps> = (props) => {
   const showSearchBar =
     location.pathname === "/urban-planner/documents-list" || location.pathname === "/explore-map";
 
+  const loggedIn = props.loggedIn;
+
   if (isLoginPage) {
     return null;
   }
@@ -32,17 +39,21 @@ const NavBar: FC<NavBarProps> = (props) => {
   return (
     <div className="navbar-container">
       <Row className="navbar-row">
-        <Col>
-          <img src={Logo} alt="logo" className="logo" />
-        </Col>
-        <Col>
-          <style>
-            @import
-            url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-          </style>
-          <span className="title-kiruna">Kiruna</span>
-          <span className="title-explorer">Explorer</span>
-        </Col>
+        <Button className="navigate-home-button" onClick={() => navigate("/home")}>
+          <Row className="navbar-row">
+            <Col>
+              <img src={Logo} alt="logo" className="logo" />
+            </Col>
+            <style>
+              @import
+              url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+            </style>
+            <Col>
+              <span className="title-kiruna">Kiruna</span>
+              <span className="title-explorer">Explorer</span>
+            </Col>
+          </Row>
+        </Button>
       </Row>
       {showSearchBar && (
         <Row className="search-bar-row">
@@ -87,6 +98,24 @@ const NavBar: FC<NavBarProps> = (props) => {
               Search
             </button>
           </Col>
+        </Row>
+      )}
+      {!loggedIn && (
+        <Row className="login-row">
+          <Button className="login-button" onClick={() => navigate("/login")}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Login</Tooltip>}>
+              <LogInIcon size={24} color="#3d52a0" />
+            </OverlayTrigger>
+          </Button>
+        </Row>
+      )}
+      {loggedIn && (
+        <Row className="login-row">
+          <Button className="login-button" onClick={props.doLogOut}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Logout</Tooltip>}>
+              <LogOutIcon size={24} color="#3d52a0" />
+            </OverlayTrigger>
+          </Button>
         </Row>
       )}
     </div>

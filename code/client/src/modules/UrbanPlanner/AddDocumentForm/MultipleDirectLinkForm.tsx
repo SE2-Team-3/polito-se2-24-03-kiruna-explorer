@@ -24,9 +24,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
   const [validated, setValidated] = useState(false);
   const [validatedSecondForm, setValidatedSecondForm] = useState(false); // Add validatedSecondForm state
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [linkEntries, setLinkEntries] = useState<LinkEntry[]>([
-    { documentId: 0, linkType: [] },
-  ]);
+  const [linkEntries, setLinkEntries] = useState<LinkEntry[]>([{ documentId: 0, linkType: [] }]);
   const showToast = useToast();
 
   useEffect(() => {
@@ -47,9 +45,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     );
 
     if (hasErrors) {
-      setErrorMessage(
-        "Please select a document and at least one link type for each entry."
-      );
+      setErrorMessage("Please select a document and at least one link type for each entry.");
       return;
     }
 
@@ -67,11 +63,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
         })
         .catch((error) => {
           console.error(error.error);
-          showToast(
-            "An error occurred while linking the documents.",
-            error.error,
-            true
-          );
+          showToast("An error occurred while linking the documents.", error.error, true);
         });
     });
   };
@@ -105,17 +97,13 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
     <>
       <Row className="description-container">
         <span className="step-title">
-          Link one or more documents to the newly created document:{" "}
+          Connect one or more documents to the newly created document:{" "}
           {documents.find((doc) => doc.documentId === props.newDocID)?.title}
         </span>
       </Row>
       <Form id="LinkMultipleDocumentForm" onSubmit={handleSubmit} noValidate>
         {errorMessage && (
-          <Alert
-            variant="danger"
-            dismissible
-            onClose={() => setErrorMessage("")}
-          >
+          <Alert variant="danger" dismissible onClose={() => setErrorMessage("")}>
             {errorMessage}
           </Alert>
         )}
@@ -126,8 +114,7 @@ const MultipleLinkForm = (props: MultipleLinkFormProps) => {
             (doc) =>
               doc.documentId !== props.newDocID && // Exclude current document (newDocID)
               !linkEntries.some(
-                (link, linkIndex) =>
-                  linkIndex !== index && link.documentId === doc.documentId
+                (link, linkIndex) => linkIndex !== index && link.documentId === doc.documentId
               ) // Exclude already selected documents in other entries
           );
 

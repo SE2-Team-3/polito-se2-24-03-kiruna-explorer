@@ -42,8 +42,20 @@
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
 }
+.filter-group input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+}
+.filter-group input::placeholder {
+  color: #3d52a0;
+}
 
-.btn-filter {
+.btn-filter,
+.btn-filter-reset {
   background-color: #3d52a0;
   color: white;
   padding: 10px 20px;
@@ -54,8 +66,16 @@
   cursor: pointer;
 }
 
+.btn-filter-reset {
+  margin-left: 10px;
+  background-color: #900d09;
+}
+
 .btn-filter:hover {
   background-color: #2c3e78;
+}
+.btn-filter-reset:hover {
+  background-color: #420c09;
 }
 
 .dropdown-item-filter {

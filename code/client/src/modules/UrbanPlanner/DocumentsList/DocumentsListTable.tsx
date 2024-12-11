@@ -150,7 +150,7 @@ export default function DocumentsListTable(props: any) {
                       <td data-label="Language">{item.language}</td>
                       <td data-label="Pages">{item.pages}</td>
                       <td data-label="Actions">
-                        <OverlayTrigger placement="top" overlay={<Tooltip>Link</Tooltip>}>
+                        <OverlayTrigger placement="top" overlay={<Tooltip>Connect</Tooltip>}>
                           <Button
                             variant="link"
                             onClick={() => navigate("/urban-planner/link-documents")}

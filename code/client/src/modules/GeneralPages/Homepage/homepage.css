@@ -1,0 +1,108 @@
+.home-page {
+  /* background-image: url("https://i.guim.co.uk/img/media/30e82ea3c6839b6162bcc07e61b3aa1357c1535b/0_254_4493_2697/master/4493.jpg?width=1200&quality=85&auto=format&fit=max&s=c61691072b232bbe3cb82ff1c5457068");
+  background-repeat: no-repeat;
+  background-size: cover; */
+  background-color: white;
+  color: #3d52a0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.home-content {
+  height: 100%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.title-explorer-homepage {
+  font-family: "sharp-grotesk", sans-serif;
+  font-size: 7rem;
+  color: #3d52a0;
+  font-weight: bold;
+}
+
+.username-span {
+  font-weight: bold;
+  color: #3d52a0;
+}
+
+.kiruna-flag {
+  margin-inline: 2px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  color: black;
+}
+
+.button-explore-map,
+.button-explore-map:hover,
+.button-explore-map:active {
+  background-color: transparent !important;
+  width: 186px !important;
+  border: none !important;
+}
+
+.button-view-diagram,
+.button-view-diagram:hover,
+.button-view-diagram:active {
+  background-color: transparent !important;
+  width: 186px !important;
+  border: none !important;
+}
+
+.map-button {
+  width: 186px;
+  height: 186px;
+}
+.diagram-button {
+  width: 186px;
+  height: 186px;
+}
+
+.navigate-home-button,
+.navigate-home-button:hover,
+.navigate-home-button:active {
+  background-color: transparent !important;
+  border: none !important;
+  width: 100% !important;
+}
+
+.login-row {
+  display: flex;
+  width: 260px;
+}
+.login-row button {
+  background-color: transparent;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 38px;
+  display: flex;
+  justify-content: end;
+}
+
+.login-row button:hover,
+.login-row button:active {
+  background-color: transparent !important;
+}
+
+.row-buttons-map-diagram {
+  margin-inline: 20% !important;
+}
