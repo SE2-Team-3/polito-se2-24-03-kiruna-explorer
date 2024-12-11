@@ -425,17 +425,17 @@ class DocumentRoutes {
       body("documentId2")
         .isInt({ gt: 0 })
         .withMessage("documentId2 must be a positive integer"),
-      body("connection")
+      body("linkType")
         .isString()
         .notEmpty()
-        .withMessage("connection must be a non-empty string"),
+        .withMessage("linkType must be a non-empty string"),
       this.errorHandler.validateRequest,
       (req: any, res: any, next: any) =>
         this.controller
           .deleteDocumentConnection(
             req.body.documentId1,
             req.body.documentId2,
-            req.body.connection
+            req.body.linkType
           )
           .then((success: boolean) => {
             if (success) {
