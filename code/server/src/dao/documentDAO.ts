@@ -933,6 +933,27 @@ class DocumentDAO {
       });
     });
   }
+
+  async deleteDocumentConnection(documentId1: number, documentId2: number, connection: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const sql = `
+        DELETE FROM DocumentConnections
+        WHERE (documentId1 = ? AND documentId2 = ? AND connection = ?)
+           OR (documentId1 = ? AND documentId2 = ? AND connection = ?)
+      `;
+      db.run(
+        sql,
+        [documentId1, documentId2, connection, documentId2, documentId1, connection],
+        function(err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(this.changes > 0);
+          }
+        }
+      );
+    });
+  }
 }
 
 export default DocumentDAO;
