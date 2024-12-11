@@ -10,6 +10,7 @@ import markers from "../../../models/documentTypeMarkers";
 import { Button, Col, Row } from "react-bootstrap";
 import DocumentDetail from "../../../models/documentDetail";
 import ViewConnections from "../../../assets/icons/scan-eye-1.svg";
+import Georeference from "../../../models/georeference";
 
 const logoIcon = new L.Icon({
   iconUrl: Logo,
@@ -44,6 +45,7 @@ const DraggableMarker = ({
   const [documentSelected, setDocumentSelected] = useState<DocumentDetail>();
   const [allDocuments, setAllDocuments] = useState<Document[]>([]);
   const [isPolygonVisible, setIsPolygonVisible] = useState(false);
+  const [georeference, setGeoreference] = useState<Georeference>();
 
   const markerEventHandlers = useMemo(
     () => ({
@@ -60,6 +62,13 @@ const DraggableMarker = ({
   useEffect(() => {
     API.getDocumentById(document.documentId).then((doc) => setDocumentSelected(doc));
   }, [isViewLinkedDocuments]);
+
+  useEffect(() => {
+    API.getGeoreferences().then((georeferences) => {
+      const georef = georeferences.find((g) => g.georeferenceId === document.georeferenceId);
+      setGeoreference(georef);
+    });
+  }, [documentSelected]);
 
   const handleViewConnections = async () => {
     setIsViewLinkedDocuments(true);
@@ -158,13 +167,19 @@ const DraggableMarker = ({
     setDraggable((prev) => !prev);
   };
 
+  // TODO - Aggiustare la visualizzazione dell'area
+
+  // TODO - Highlight del marker quando viene selezionato
+
   return (
     <>
       {isPolygon && document.coordinates && isPolygonVisible && (
         <Polygon
           positions={JSON.parse(document.coordinates)}
-          color="#3d52a0"
-          fillOpacity={0.5}
+          color={georeference?.areaColor}
+          fillOpacity={0.2}
+          dashArray={"5, 10"}
+          weight={5}
           eventHandlers={{
             click: (e) => {
               // Prevent the popup from opening on click of the polygon
