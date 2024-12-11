@@ -12,13 +12,6 @@ import DocumentDetail from "../../../models/documentDetail";
 import ViewConnections from "../../../assets/icons/scan-eye-1.svg";
 import Georeference from "../../../models/georeference";
 
-const logoIcon = new L.Icon({
-  iconUrl: Logo,
-  iconSize: [40, 40],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
-
 const kirunaPosition: [number, number] = [67.85572, 20.22513];
 
 interface DraggableMarkerProps {
@@ -27,6 +20,8 @@ interface DraggableMarkerProps {
   isViewLinkedDocuments: boolean;
   setIsViewLinkedDocuments: React.Dispatch<React.SetStateAction<boolean>>;
   mapRef: React.RefObject<L.Map | null>;
+  selectedMarkerId: number | null;
+  setSelectedMarkerId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const DraggableMarker = ({
@@ -35,6 +30,8 @@ const DraggableMarker = ({
   isViewLinkedDocuments,
   setIsViewLinkedDocuments,
   mapRef,
+  selectedMarkerId,
+  setSelectedMarkerId,
 }: DraggableMarkerProps) => {
   const user = useContext(UserContext);
   const showToast = useToast();
@@ -167,13 +164,38 @@ const DraggableMarker = ({
     setDraggable((prev) => !prev);
   };
 
-  // TODO - Aggiustare la visualizzazione dell'area
+  const handleMarkerClick = () => {
+    setSelectedMarkerId(document.documentId);
+  };
 
-  // TODO - Highlight del marker quando viene selezionato
+  const handlePopupClose = () => {
+    setSelectedMarkerId(null);
+  };
+
+  const isSelected = selectedMarkerId === document.documentId;
+
+  const customIcon = new L.Icon({
+    iconUrl: Logo,
+    iconSize: isSelected ? [55, 55] : [40, 40], // Cambia la dimensione del logo se selezionato
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  });
+
+  const getCustomIcon = (documentType: string, isSelected: boolean) => {
+    const baseIcon = markers.get(documentType);
+    if (!baseIcon) return undefined;
+
+    return new L.Icon({
+      iconUrl: baseIcon.options.iconUrl,
+      iconSize: isSelected ? [55, 55] : baseIcon.options.iconSize, // Cambia la dimensione del logo se selezionato
+      iconAnchor: isSelected ? [22, 44] : baseIcon.options.iconAnchor,
+      popupAnchor: baseIcon.options.popupAnchor,
+    });
+  };
 
   return (
     <>
-      {console.log("Georeference: ", georeference)}
+      {console.log(isSelected)}
       {isPolygon && document.coordinates && isPolygonVisible && (
         <Polygon
           positions={JSON.parse(document.coordinates)}
@@ -191,10 +213,15 @@ const DraggableMarker = ({
       )}
       <Marker
         draggable={draggable}
-        eventHandlers={{ ...eventHandlers, ...markerEventHandlers }}
+        eventHandlers={{
+          ...eventHandlers,
+          ...markerEventHandlers,
+          click: handleMarkerClick,
+          popupclose: handlePopupClose,
+        }}
         position={position}
         ref={markerRef}
-        icon={document.nodeType ? markers.get(document.nodeType) : logoIcon}
+        icon={document.nodeType ? getCustomIcon(document.nodeType, isSelected) : customIcon}
       >
         <Tooltip direction="top" offset={[0, -30]} opacity={1} permanent={false}>
           {document.title}
