@@ -169,9 +169,12 @@ The `App` component defines a set of routes to handle navigation between differe
     - [2.1. Map](#21-map)
       - [Draggable Marker](#draggable-marker)
       - [Explore Map](#explore-map)
-    - [Diagram](#diagram)
+      - [Mini Map Detail](#mini-map-detail)
+    - [2.2. Diagram](#diagram)
+      - [Diagram](#diagram)
+      - [Diagram Wrapper](#diagram-wrapper)
     - [Document Details](#document-details)
-    - [Home](#home)
+    - [Home Page](#home-page)
     - [Login](#login)
     - [Toast Provider](#toast-provider)
   - [3. Urban Planner](#4-urban-planner)
@@ -320,9 +323,24 @@ The component  provides functionality for displaying documents as markers on a c
 
 ---
 
+### Mini Map Detail
+**File**: `modules/GeneralPagaes/Map/MiniMapDetail.tsx`  
+This component renders a small map. It allows for visualizing one or more coordinates either as a marker (for a single coordinate) or a polyline (for multiple coordinates)
+
+---
+
+### 2.2. Diagram
+This folder contains components for Georeferencing documents on diagram:
+
 ### Diagram
 **File**: `modules/GeneralPagaes/Diagram/Diagram.tsx`  
 The component displays a graphical representation of documents and their connections as nodes and edges, respectively. The component also provides various interactive features and contextual tools to enhance the user experience
+
+---
+
+### Diagram Wrapper
+**File**: `modules/GeneralPagaes/Diagram/DiagramWrapper.tsx`  
+The component handles the data fetching, processing, and initialization logic for a diagramming interface.
 
 ---
 
@@ -332,8 +350,8 @@ The component displays detailed information about a specific document that is ch
 ---
 
 ### Home 
-**File**: `modules/GeneralPagaes/Home.tsx`  
-This component serves as a welcome page for users after they log in to have access to their modules.
+**File**: `modules/GeneralPagaes/Homepage.tsx`  
+This component renders the homepage of the application. It also provides navigation buttons to different sections of the app: a map exploration and a diagram view.
 
 ---
 

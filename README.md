@@ -11,6 +11,7 @@
 - [Retrospectives](./Retrospectives/)
   - [Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
   - [Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
+  - [Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
 
 # Kiruna Explorer
 
