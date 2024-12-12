@@ -55,7 +55,6 @@ const AddDocumentForm = (props: Props) => {
         georeferenceName: props.document.georeferenceName,
         areaColor: props.document.areaColor,
       };
-
       API.addDocument(document).then((response) => {
         const { documentId, message } = response;
         setNewDocID(documentId);

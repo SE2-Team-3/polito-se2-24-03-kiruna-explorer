@@ -7,17 +7,17 @@ import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../../../../style.css";
 
 interface Props {
-  showMiniMap: boolean;
-  setShowMiniMap: (show: boolean) => void;
-  setLatitude: (lat: number) => void;
-  setLongitude: (lon: number) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][]) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapPointModal = ({
-  showMiniMap,
-  setShowMiniMap,
-  setLatitude,
-  setLongitude,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
   const [validationMessage, setValidationMessage] = useState("");
 
@@ -35,7 +35,10 @@ const MiniMapPointModal = ({
     popupAnchor: [0, -32],
   });
 
-  const handleClose = () => setShowMiniMap(false);
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
+  };
 
   const validateLocation = (lat: number, lon: number) => {
     return kirunaBounds.contains([lat, lon]);
@@ -48,12 +51,11 @@ const MiniMapPointModal = ({
       },
       click(e) {
         if (validateLocation(e.latlng.lat, e.latlng.lng)) {
-          setLatitude(e.latlng.lat);
-          setLongitude(e.latlng.lng);
-          setShowMiniMap(false);
+          setCoordinates([[e.latlng.lat, e.latlng.lng]]);
+          setShowMap(false);
         } else {
           setValidationMessage("Please select a location within Kiruna");
-          setShowMiniMap(true);
+          setShowMap(true);
         }
       },
     });
@@ -63,10 +65,10 @@ const MiniMapPointModal = ({
 
   useEffect(() => {
     setValidationMessage("");
-  }, [showMiniMap]);
+  }, [showMap]);
 
   return (
-    <Modal show={showMiniMap} onHide={handleClose} size="lg">
+    <Modal show={showMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select a location on the map</Modal.Title>
       </Modal.Header>

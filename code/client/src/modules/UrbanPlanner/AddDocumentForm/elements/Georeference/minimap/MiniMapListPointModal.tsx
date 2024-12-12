@@ -9,17 +9,17 @@ import API from "../../../../../../API/API";
 import Georeference from "../../../../../../models/georeference";
 
 interface Props {
-  showMiniMap: boolean;
-  setShowMiniMap: (show: boolean) => void;
-  setLatitude: (lat: number) => void;
-  setLongitude: (lon: number) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][]) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapListPointModal = ({
-  showMiniMap,
-  setShowMiniMap,
-  setLatitude,
-  setLongitude,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
   const [listPoint, SetList] = useState<Georeference[]>([]);
 
@@ -32,7 +32,10 @@ const MiniMapListPointModal = ({
     popupAnchor: [0, -32],
   });
 
-  const handleClose = () => setShowMiniMap(false);
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
+  };
 
   useEffect(() => {
     API.getGeoreferences(false).then((geo) => {
@@ -41,7 +44,7 @@ const MiniMapListPointModal = ({
   }, []);
 
   return (
-    <Modal show={showMiniMap} onHide={handleClose} size="lg">
+    <Modal show={showMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select one point location</Modal.Title>
       </Modal.Header>
@@ -73,9 +76,8 @@ const MiniMapListPointModal = ({
                   icon={logoIcon}
                   eventHandlers={{
                     click: () => {
-                      setLatitude(lat);
-                      setLongitude(lng);
-                      setShowMiniMap(false);
+                      setCoordinates([[lat, lng]]);
+                      setShowMap(false);
                     },
                   }}
                 ></Marker>

@@ -7,23 +7,23 @@ import API from "../../../../../../API/API";
 import Georeference from "../../../../../../models/georeference";
 
 interface Props {
-  setPolygonName: (polygonName: string) => void;
-  showPolygonMap: boolean;
-  setShowPolygonMap: (show: boolean) => void;
-  setPolygonCoordinates: (coords: [number, number][]) => void;
+  setName: (polygonName: string) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][]) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapListAreaModal = ({
-  setPolygonName,
-  showPolygonMap,
-  setShowPolygonMap,
-  setPolygonCoordinates,
+  setName,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
   const [listArea, SetList] = useState<Georeference[]>([]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
-
-  const handleClose = () => setShowPolygonMap(false);
 
   useEffect(() => {
     API.getGeoreferences(true).then((geo) => {
@@ -31,18 +31,13 @@ const MiniMapListAreaModal = ({
     });
   }, []);
 
-  /*
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };*/
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
+  };
 
   return (
-    <Modal show={showPolygonMap} onHide={handleClose} size="lg">
+    <Modal show={showMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select an area location</Modal.Title>
       </Modal.Header>
@@ -83,9 +78,9 @@ const MiniMapListAreaModal = ({
                       coord.lng,
                     ]);
 
-                    setPolygonCoordinates(formattedCoords);
-                    setPolygonName(area.georeferenceName);
-                    setShowPolygonMap(false);
+                    setCoordinates(formattedCoords);
+                    setName(area.georeferenceName);
+                    setShowMap(false);
                   },
                 }}
               ></Polygon>

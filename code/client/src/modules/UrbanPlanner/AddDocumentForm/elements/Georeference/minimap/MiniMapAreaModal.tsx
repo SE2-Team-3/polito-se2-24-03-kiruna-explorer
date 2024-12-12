@@ -5,17 +5,20 @@ import L, { LatLngBounds } from "leaflet";
 import "leaflet-draw";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
+import LocalGeoJSONReader from "../MunicipalityArea";
 
 interface Props {
-  showPolygonMap: boolean;
-  setShowPolygonMap: (show: boolean) => void;
-  setPolygonCoordinates: (coords: [number, number][]) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][] | null) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapAreaModal = ({
-  showPolygonMap,
-  setShowPolygonMap,
-  setPolygonCoordinates,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
@@ -38,18 +41,18 @@ const MiniMapAreaModal = ({
       setValidationMessage(
         "All points of the polygon must be within the Kiruna bounds."
       );
-      setShowPolygonMap(true);
+      setShowMap(true);
       return;
     }
-    setPolygonCoordinates(
+    setCoordinates(
       polygon.map((coord: [number, number]) => [coord[1], coord[0]])
     );
-    setShowPolygonMap(false);
+    setShowMap(false);
   };
 
   useEffect(() => {
     setValidationMessage("");
-  }, [showPolygonMap]);
+  }, [showMap]);
 
   const MapWithDrawControl = () => {
     const map = useMap();
@@ -98,12 +101,13 @@ const MiniMapAreaModal = ({
     return null;
   };
 
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
+  };
+
   return (
-    <Modal
-      show={showPolygonMap}
-      onHide={() => setShowPolygonMap(false)}
-      size="lg"
-    >
+    <Modal show={showMap} onHide={() => setShowMap(false)} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select an area on the map</Modal.Title>
       </Modal.Header>
@@ -132,7 +136,7 @@ const MiniMapAreaModal = ({
         <Button
           variant="secondary"
           className="button-small"
-          onClick={() => setShowPolygonMap(false)}
+          onClick={handleClose}
         >
           Close
         </Button>
