@@ -57,12 +57,16 @@ const DraggableMarker = ({
   );
 
   useEffect(() => {
-    API.getDocumentById(document.documentId).then((doc) => setDocumentSelected(doc));
+    API.getDocumentById(document.documentId).then((doc) =>
+      setDocumentSelected(doc)
+    );
   }, [isViewLinkedDocuments]);
 
   useEffect(() => {
     API.getGeoreferences().then((georeferences) => {
-      const georef = georeferences.find((g) => g.georeferenceId === document.georeferenceId);
+      const georef = georeferences.find(
+        (g) => g.georeferenceId === document.georeferenceId
+      );
       setGeoreference(georef);
     });
   }, [documentSelected]);
@@ -89,11 +93,14 @@ const DraggableMarker = ({
 
       // Filtra i documenti duplicati per documentId
       const uniqueDocuments = linkedDocuments.filter(
-        (doc, index, self) => index === self.findIndex((d) => d?.documentId === doc?.documentId)
+        (doc, index, self) =>
+          index === self.findIndex((d) => d?.documentId === doc?.documentId)
       );
 
       // Filtra i documenti collegati e aggiorna lo stato
-      setDocuments(uniqueDocuments.filter((doc): doc is Document => doc !== undefined));
+      setDocuments(
+        uniqueDocuments.filter((doc): doc is Document => doc !== undefined)
+      );
     }
     // Imposta la vista della mappa alla posizione e zoom predefiniti
     if (mapRef.current) {
@@ -125,7 +132,9 @@ const DraggableMarker = ({
       newCoordinates[1] >= 20.1 &&
       newCoordinates[1] <= 20.35
     ) {
-      API.updateDocumentGeoreference(document.documentId, [newCoordinates]).then((response) => {
+      API.updateDocumentGeoreference(document.documentId, [
+        newCoordinates,
+      ]).then((response) => {
         const { message } = response;
         setDocuments((prevDocuments) =>
           prevDocuments.map((doc) =>
@@ -140,7 +149,11 @@ const DraggableMarker = ({
         showToast("Success!", "Georeference updated successfully", false);
       });
     } else {
-      showToast("Cannot update coordinates", "Please choose coordinates within Kiruna area", true);
+      showToast(
+        "Cannot update coordinates",
+        "Please choose coordinates within Kiruna area",
+        true
+      );
     }
   };
 
@@ -195,7 +208,6 @@ const DraggableMarker = ({
 
   return (
     <>
-      {console.log(isSelected)}
       {isPolygon && document.coordinates && isPolygonVisible && (
         <Polygon
           positions={JSON.parse(document.coordinates)}
@@ -221,9 +233,18 @@ const DraggableMarker = ({
         }}
         position={position}
         ref={markerRef}
-        icon={document.nodeType ? getCustomIcon(document.nodeType, isSelected) : customIcon}
+        icon={
+          document.nodeType
+            ? getCustomIcon(document.nodeType, isSelected)
+            : customIcon
+        }
       >
-        <Tooltip direction="top" offset={[0, -30]} opacity={1} permanent={false}>
+        <Tooltip
+          direction="top"
+          offset={[0, -30]}
+          opacity={1}
+          permanent={false}
+        >
           {document.title}
         </Tooltip>
         <Popup autoClose={false} closeButton={true}>
@@ -233,10 +254,15 @@ const DraggableMarker = ({
             <p>Scale: {document.scale}</p>
             <p>Type: {document.nodeType}</p>
             <p>Issuance Date: {document.issuanceDate}</p>
-            {georeference?.isArea === 1 && <p>Area name: {georeference.georeferenceName}</p>}
+            {georeference?.isArea === 1 && (
+              <p>Area name: {georeference.georeferenceName}</p>
+            )}
             <Row>
               <Col>
-                <Button className="view-linked-documents-button" onClick={handleViewConnections}>
+                <Button
+                  className="view-linked-documents-button"
+                  onClick={handleViewConnections}
+                >
                   <img
                     className="view-linked-documents-icon"
                     src={ViewConnections}
@@ -247,7 +273,10 @@ const DraggableMarker = ({
               </Col>
               <Row>
                 {user && (
-                  <button className="draggable-toggle-btn" onClick={toggleDraggable}>
+                  <button
+                    className="draggable-toggle-btn"
+                    onClick={toggleDraggable}
+                  >
                     {draggable ? "Stop Moving" : "Update georeference"}
                   </button>
                 )}
