@@ -1,11 +1,18 @@
 import { useRef, useEffect, useState } from "react";
 import { Modal, Button, Alert } from "react-bootstrap";
-import { MapContainer, TileLayer, FeatureGroup, useMap } from "react-leaflet";
-import L, { LatLngBounds } from "leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  FeatureGroup,
+  useMap,
+  Polygon,
+} from "react-leaflet";
+import L, { LatLngExpression } from "leaflet";
 import "leaflet-draw";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import LocalGeoJSONReader from "../MunicipalityArea";
+import { validateLocation } from "./Validation";
 
 interface Props {
   showMap: boolean;
@@ -22,28 +29,62 @@ const MiniMapAreaModal = ({
 }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
-  const kirunaBounds: LatLngBounds = new LatLngBounds([
-    [67.821, 20.182], // Southwest corner
-    [67.89, 20.32], // Northeast corner
-  ]);
-  const validateLocation = (lat: number, lon: number) => {
-    return kirunaBounds.contains([lat, lon]);
-  };
+  const [municipalityArea, setMunicipalityArea] = useState<
+    LatLngExpression[][]
+  >([]);
+
+  useEffect(() => {
+    const geoJsonData = LocalGeoJSONReader(); // Assuming this returns number[][][][]
+    const allCoordinatesPerMultiPolygon: [number, number][][] = []; // Array di array di coordinate
+
+    geoJsonData.forEach((multiPolygon) => {
+      const singleMultiPolygonCoordinates: [number, number][] = []; // Coordinate per il multi-poligono corrente
+
+      if (Array.isArray(multiPolygon)) {
+        multiPolygon.forEach((polygon) => {
+          if (Array.isArray(polygon)) {
+            polygon.forEach((coord) => {
+              if (Array.isArray(coord) && coord.length === 2) {
+                const [lon, lat] = coord;
+                singleMultiPolygonCoordinates.push([lat, lon]); // Invertito lat e lon
+              }
+            });
+          }
+        });
+      }
+
+      allCoordinatesPerMultiPolygon.push(singleMultiPolygonCoordinates);
+    });
+    setMunicipalityArea(allCoordinatesPerMultiPolygon);
+  }, []);
 
   const handleSave = () => {
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
     const polygon = drawnItems.features?.[0]?.geometry?.coordinates[0] || [];
-    // check if all points are within Kiruna bounds
-    const isValid = polygon.every(([lon, lat]: [number, number]) =>
-      validateLocation(lat, lon)
-    );
-    if (!isValid) {
+
+    if (
+      polygon.length < 3 ||
+      polygon[0][0] !== polygon[polygon.length - 1][0]
+    ) {
       setValidationMessage(
-        "All points of the polygon must be within the Kiruna bounds."
+        "Please ensure the polygon has at least 3 points and is closed."
       );
       setShowMap(true);
       return;
     }
+
+    const isValid = polygon.every(([lon, lat]: [number, number]) =>
+      validateLocation(municipalityArea, lat, lon)
+    );
+
+    if (!isValid) {
+      setValidationMessage(
+        "All points of the polygon must be within the municipality area of Kiruna."
+      );
+      setShowMap(true);
+      return;
+    }
+
     setCoordinates(
       polygon.map((coord: [number, number]) => [coord[1], coord[0]])
     );
@@ -58,7 +99,6 @@ const MiniMapAreaModal = ({
     const map = useMap();
 
     useEffect(() => {
-      // Rimuovi controlli esistenti (se presenti)
       map.eachLayer((layer) => {
         if (layer instanceof L.Control.Draw) {
           map.removeControl(layer);
@@ -88,13 +128,13 @@ const MiniMapAreaModal = ({
 
       map.on(L.Draw.Event.CREATED, (e: any) => {
         const layer = e.layer;
-        featureGroupRef.current?.clearLayers(); // Assicura un solo poligono alla volta
+        featureGroupRef.current?.clearLayers(); // Allow only one polygon
         featureGroupRef.current?.addLayer(layer);
       });
 
       return () => {
-        map.off(L.Draw.Event.CREATED); // Pulizia eventi
-        map.removeControl(drawControl); // Rimuovi controllo al dismount
+        map.off(L.Draw.Event.CREATED);
+        map.removeControl(drawControl);
       };
     }, [map]);
 
@@ -113,9 +153,9 @@ const MiniMapAreaModal = ({
       </Modal.Header>
       <Modal.Body>
         <MapContainer
-          center={[67.85572, 20.22513]} // Posizione iniziale Kiruna
-          zoom={13}
-          minZoom={12}
+          center={[67.85572, 20.22513]}
+          zoom={12}
+          minZoom={7}
           style={{ height: "400px", width: "100%" }}
         >
           <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}" />
@@ -125,6 +165,19 @@ const MiniMapAreaModal = ({
           />
           <FeatureGroup ref={featureGroupRef}></FeatureGroup>
           <MapWithDrawControl />
+          {municipalityArea.map((polygonCoords, index) => (
+            <Polygon
+              key={`polygon-${index}`}
+              positions={polygonCoords}
+              pathOptions={{
+                color: "#3d52a0",
+                weight: 3,
+                opacity: 1,
+                fillColor: "transparent",
+                fillOpacity: 0,
+              }}
+            />
+          ))}
         </MapContainer>
         {validationMessage && (
           <Alert variant="danger" className="mt-3">

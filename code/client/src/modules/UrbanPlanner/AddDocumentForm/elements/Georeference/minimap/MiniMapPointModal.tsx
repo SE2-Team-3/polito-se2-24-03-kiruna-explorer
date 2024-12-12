@@ -1,10 +1,18 @@
-import { LatLngBounds, LatLngExpression, LatLng } from "leaflet";
+import { LatLngExpression, LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
-import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+  Marker,
+  Polygon,
+} from "react-leaflet";
 import L from "leaflet";
 import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../../../../style.css";
+import LocalGeoJSONReader from "../MunicipalityArea";
+import { validateLocation } from "./Validation";
 
 interface Props {
   showMap: boolean;
@@ -22,10 +30,9 @@ const MiniMapPointModal = ({
   const [validationMessage, setValidationMessage] = useState("");
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
-  const kirunaBounds: LatLngBounds = new LatLngBounds([
-    [67.821, 20.182], // Southwest corner
-    [67.89, 20.32], // Northeast corner
-  ]);
+  const [municipalityArea, setMunicipalityArea] = useState<
+    LatLngExpression[][]
+  >([]);
 
   const [cursorPosition, setCursorPosition] = useState<LatLng | null>(null);
   const logoIcon = new L.Icon({
@@ -40,21 +47,42 @@ const MiniMapPointModal = ({
     setGeoType("Default");
   };
 
-  const validateLocation = (lat: number, lon: number) => {
-    return kirunaBounds.contains([lat, lon]);
-  };
+  useEffect(() => {
+    const geoJsonData = LocalGeoJSONReader(); // Assuming this returns number[][][][]
+    const allCoordinatesPerMultiPolygon: [number, number][][] = []; // Array di array di coordinate
+
+    geoJsonData.forEach((multiPolygon) => {
+      const singleMultiPolygonCoordinates: [number, number][] = []; // Coordinate per il multi-poligono corrente
+
+      if (Array.isArray(multiPolygon)) {
+        multiPolygon.forEach((polygon) => {
+          if (Array.isArray(polygon)) {
+            polygon.forEach((coord) => {
+              if (Array.isArray(coord) && coord.length === 2) {
+                const [lon, lat] = coord;
+                singleMultiPolygonCoordinates.push([lat, lon]); // Invertito lat e lon
+              }
+            });
+          }
+        });
+      }
+
+      allCoordinatesPerMultiPolygon.push(singleMultiPolygonCoordinates);
+    });
+    setMunicipalityArea(allCoordinatesPerMultiPolygon);
+  }, []);
 
   const LocationMarker = () => {
     useMapEvents({
       mousemove(e) {
-        setCursorPosition(e.latlng); // Update the cursor position
+        setCursorPosition(e.latlng);
       },
       click(e) {
-        if (validateLocation(e.latlng.lat, e.latlng.lng)) {
+        if (validateLocation(municipalityArea, e.latlng.lat, e.latlng.lng)) {
           setCoordinates([[e.latlng.lat, e.latlng.lng]]);
           setShowMap(false);
         } else {
-          setValidationMessage("Please select a location within Kiruna");
+          setValidationMessage("Please select a location within Kiruna.");
           setShowMap(true);
         }
       },
@@ -62,7 +90,6 @@ const MiniMapPointModal = ({
 
     return null;
   };
-
   useEffect(() => {
     setValidationMessage("");
   }, [showMap]);
@@ -76,8 +103,8 @@ const MiniMapPointModal = ({
         <MapContainer
           center={kirunaPosition}
           attributionControl={false}
-          zoom={13}
-          minZoom={12}
+          zoom={12}
+          minZoom={7}
           zoomControl={true}
           scrollWheelZoom={true}
           style={{ height: "400px", maxHeight: "400px", width: "100%" }}
@@ -91,6 +118,19 @@ const MiniMapPointModal = ({
           {cursorPosition && (
             <Marker position={cursorPosition} icon={logoIcon} />
           )}
+          {municipalityArea.map((polygonCoords, index) => (
+            <Polygon
+              key={`polygon-${index}`}
+              positions={polygonCoords}
+              pathOptions={{
+                color: "#3d52a0",
+                weight: 3,
+                opacity: 1,
+                fillColor: "transparent",
+                fillOpacity: 0,
+              }}
+            />
+          ))}
         </MapContainer>
         {validationMessage && (
           <Alert variant="danger" className="mt-3">

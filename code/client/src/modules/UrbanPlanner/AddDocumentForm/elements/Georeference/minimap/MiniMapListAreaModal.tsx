@@ -45,8 +45,8 @@ const MiniMapListAreaModal = ({
         <MapContainer
           center={kirunaPosition}
           attributionControl={false}
-          zoom={13}
-          minZoom={12}
+          zoom={12}
+          minZoom={7}
           zoomControl={true}
           scrollWheelZoom={true}
           style={{ height: "400px", maxHeight: "400px", width: "100%" }}
