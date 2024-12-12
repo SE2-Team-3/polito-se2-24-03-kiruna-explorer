@@ -422,6 +422,47 @@ class DocumentRoutes {
           })
           .catch((error: any) => next(error))
     );
+
+    this.router.post(
+      "/:documentId/upload-attachment",
+      this.authenticator.isLoggedIn,
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      upload.array("files"),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .uploadAttachment(req.params.documentId, req.files)
+          .then((data: any) => res.status(201).json(data))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/attachment/:attachmentId",
+      param("attachmentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getAttachment(parseInt(req.params.attachmentId, 10))
+          .then((attachment) => res.status(200).json(attachment))
+          .catch((error: any) => next(error))
+    );
+
+    this.router.get(
+      "/:documentId/attachments",
+      param("documentId")
+        .isInt()
+        .custom((value) => value > 0),
+      this.errorHandler.validateRequest,
+      (req: any, res: any, next: any) =>
+        this.controller
+          .getAttachments(parseInt(req.params.documentId, 10))
+          .then((attachments) => res.status(200).json(attachments))
+          .catch((error: any) => next(error))
+    );
   }
 }
 
