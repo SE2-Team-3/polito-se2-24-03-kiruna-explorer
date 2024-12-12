@@ -50,7 +50,7 @@ const ScaleSelection = (props: Props) => {
           <option value="Text">Text</option>
           <option value="Concept">Concept</option>
           <option value="Architectural plan">Architectural plan</option>
-          <option value="Actions">Blueprints/actions</option>
+          <option value="Blueprints/actions">Blueprints/actions</option>
         </Form.Select>
         {documentType === "Architectural plan" && (
           <>
