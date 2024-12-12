@@ -906,6 +906,90 @@ class DocumentDAO {
       );
     });
   }
+
+  async uploadAttachment(documentId: number, files: Express.Multer.File[]): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      try {
+        const checkDocumentSql = "SELECT 1 FROM Document WHERE documentId = ?";
+        const insertAttachmentSql = "INSERT INTO Attachment (data) VALUES (?)";
+        const insertDocAttSql =
+          "INSERT INTO DocumentAttachments (documentId, attachmentId, fileType, fileName) VALUES (?, ?, ?, ?)";
+
+        if (!files || files.length === 0) return reject(new Error("No file uploaded"));
+
+        db.get(checkDocumentSql, [documentId], (err: Error | null, row: any) => {
+          if (err) return reject(err);
+          if (!row) return reject(new Error("Document not found"));
+
+          const uploadPromises = files.map((file) => {
+            return new Promise<any>((res, rej) => {
+              db.run(insertAttachmentSql, [file.buffer], function (err: Error | null) {
+                if (err) return rej(err);
+                const attachmentId = this.lastID;
+                db.run(
+                  insertDocAttSql,
+                  [documentId, attachmentId, file.mimetype, file.originalname],
+                  (err: Error | null) => {
+                    if (err) return rej(err);
+                    res({
+                      attachmentId: attachmentId,
+                      fileName: file.originalname,
+                      fileType: file.mimetype,
+                      message: "Attachment uploaded successfully",
+                    });
+                  }
+                );
+              });
+            });
+          });
+
+          Promise.all(uploadPromises)
+            .then((results) =>
+              resolve({
+                status: 201,
+                attachments: results,
+                message: "All attachments uploaded successfully",
+              })
+            )
+            .catch((error) => reject(error));
+        });
+      } catch (error) {
+        console.error("Unexpected error in uploadAttachment:", error);
+        reject(error);
+      }
+    });
+  }
+
+  async getAttachmentById(attachmentId: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const sql = `
+        SELECT DocumentAttachments.fileName, DocumentAttachments.fileType, Attachment.data
+        FROM Attachment
+        JOIN DocumentAttachments ON Attachment.attachmentId = DocumentAttachments.attachmentId
+        WHERE Attachment.attachmentId = ?
+      `;
+      db.get(sql, [attachmentId], (err: Error | null, row: any) => {
+        if (err) return reject(err);
+        if (row) resolve(row);
+        else reject(new Error("Attachment not found"));
+      });
+    });
+  }
+
+  async getAttachmentsByDocumentId(documentId: number): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
+      const sql = `
+        SELECT Attachment.attachmentId, DocumentAttachments.fileType, DocumentAttachments.fileName, Attachment.data
+        FROM Attachment
+        JOIN DocumentAttachments ON Attachment.attachmentId = DocumentAttachments.attachmentId
+        WHERE DocumentAttachments.documentId = ?
+      `;
+      db.all(sql, [documentId], (err: Error | null, rows: any[]) => {
+        if (err) return reject(err);
+        resolve(rows);
+      });
+    });
+  }
 }
 
 export default DocumentDAO;
