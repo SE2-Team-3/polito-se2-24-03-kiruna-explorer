@@ -187,8 +187,8 @@ const MiniMapAreaModal = ({
       </Modal.Body>
       <Modal.Footer>
         <Button
-          variant="secondary"
-          className="button-small"
+          variant="primary"
+          className="button-small-cancel"
           onClick={handleClose}
         >
           Close

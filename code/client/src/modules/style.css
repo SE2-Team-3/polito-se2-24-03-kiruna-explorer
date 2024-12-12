@@ -227,8 +227,8 @@ BUTTON STYLE
   transform: scale(0.95);
 }
 
-.button-small,
-.button-small:hover {
+.button-small-cancel,
+.button-small-cancel:hover {
   background-color: transparent;
   border-color: #3d52a0;
   color: #3d52a0;

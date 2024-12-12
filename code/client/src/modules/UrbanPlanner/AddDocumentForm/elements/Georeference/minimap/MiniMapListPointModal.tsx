@@ -89,7 +89,7 @@ const MiniMapListPointModal = ({
       <Modal.Footer>
         <Button
           variant="secondary"
-          className="button-small"
+          className="button-small-cancel"
           onClick={handleClose}
         >
           Close
