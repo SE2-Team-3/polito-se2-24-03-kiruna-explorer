@@ -30,9 +30,7 @@ const MiniMapPointModal = ({
   const [validationMessage, setValidationMessage] = useState("");
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
-  const [municipalityArea, setMunicipalityArea] = useState<
-    LatLngExpression[][]
-  >([]);
+  const municipalityArea: LatLngExpression[][] = LocalGeoJSONReader();
 
   const [cursorPosition, setCursorPosition] = useState<LatLng | null>(null);
   const logoIcon = new L.Icon({
@@ -46,31 +44,6 @@ const MiniMapPointModal = ({
     setShowMap(false);
     setGeoType("Default");
   };
-
-  useEffect(() => {
-    const geoJsonData = LocalGeoJSONReader(); // Assuming this returns number[][][][]
-    const allCoordinatesPerMultiPolygon: [number, number][][] = []; // Array di array di coordinate
-
-    geoJsonData.forEach((multiPolygon) => {
-      const singleMultiPolygonCoordinates: [number, number][] = []; // Coordinate per il multi-poligono corrente
-
-      if (Array.isArray(multiPolygon)) {
-        multiPolygon.forEach((polygon) => {
-          if (Array.isArray(polygon)) {
-            polygon.forEach((coord) => {
-              if (Array.isArray(coord) && coord.length === 2) {
-                const [lon, lat] = coord;
-                singleMultiPolygonCoordinates.push([lat, lon]); // Invertito lat e lon
-              }
-            });
-          }
-        });
-      }
-
-      allCoordinatesPerMultiPolygon.push(singleMultiPolygonCoordinates);
-    });
-    setMunicipalityArea(allCoordinatesPerMultiPolygon);
-  }, []);
 
   const LocationMarker = () => {
     useMapEvents({
@@ -90,6 +63,7 @@ const MiniMapPointModal = ({
 
     return null;
   };
+
   useEffect(() => {
     setValidationMessage("");
   }, [showMap]);

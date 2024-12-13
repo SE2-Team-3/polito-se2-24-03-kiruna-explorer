@@ -11,6 +11,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import DocumentDetail from "../../../models/documentDetail";
 import ViewConnections from "../../../assets/icons/scan-eye-1.svg";
 import Georeference from "../../../models/georeference";
+import { useNavigate } from "react-router-dom";
 
 const kirunaPosition: [number, number] = [67.85572, 20.22513];
 
@@ -43,6 +44,7 @@ const DraggableMarker = ({
   const [allDocuments, setAllDocuments] = useState<Document[]>([]);
   const [isPolygonVisible, setIsPolygonVisible] = useState(false);
   const [georeference, setGeoreference] = useState<Georeference>();
+  const navigate = useNavigate();
 
   const markerEventHandlers = useMemo(
     () => ({
@@ -185,6 +187,10 @@ const DraggableMarker = ({
     setSelectedMarkerId(null);
   };
 
+  const handleDocumentClick = (nodeId: string) => {
+    navigate(`/documents/${nodeId}`);
+  };
+
   const isSelected = selectedMarkerId === document.documentId;
 
   const customIcon = new L.Icon({
@@ -271,6 +277,16 @@ const DraggableMarker = ({
                 </Button>
                 <p>View Connections</p>
               </Col>
+              <Row>
+                <button
+                  className="draggable-toggle-btn"
+                  onClick={() =>
+                    handleDocumentClick(document.documentId.toString())
+                  }
+                >
+                  Document detail
+                </button>
+              </Row>
               <Row>
                 {user && (
                   <button

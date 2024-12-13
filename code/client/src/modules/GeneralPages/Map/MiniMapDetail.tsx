@@ -5,15 +5,19 @@ import {
   Marker,
   Polyline,
   useMap,
+  Polygon,
 } from "react-leaflet";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../style.css";
+import LocalGeoJSONReader from "../../UrbanPlanner/AddDocumentForm/elements/Georeference/MunicipalityArea";
 
 interface Props {
-  coordinates: [number, number][];
+  coordinates: [number, number][] | null;
 }
 
 const MiniMapDetail = ({ coordinates }: Props) => {
+  const municipalityArea: LatLngExpression[][] = LocalGeoJSONReader();
+
   const logoIcon = new L.Icon({
     iconUrl: Logo,
     iconSize: [40, 40],
@@ -30,18 +34,20 @@ const MiniMapDetail = ({ coordinates }: Props) => {
   const MapZoom = () => {
     const map = useMap();
 
-    if (coordinates.length > 0) {
-      if (coordinates.length === 1) {
-        // For single point, set zoom to 15
-        map.setView(coordinates[0], 15);
+    if (coordinates && coordinates?.length > 0) {
+      if (coordinates?.length === 1) {
+        // For single point, set zoom to 12
+        map.setView(coordinates[0], 12);
       } else {
         // For polyline
         const bounds = L.latLngBounds(coordinates);
         map.fitBounds(bounds, { padding: [10, 10] });
 
         const polylineCenter = calculatePolylineCenter(coordinates);
-        map.setView(polylineCenter, 14); // Set zoom level 13
+        map.setView(polylineCenter, 11); // Set zoom level 11
       }
+    } else {
+      map.setView([68.3, 20.22513], 5);
     }
 
     return null;
@@ -50,7 +56,7 @@ const MiniMapDetail = ({ coordinates }: Props) => {
   return (
     <MapContainer
       attributionControl={false}
-      minZoom={11}
+      minZoom={5}
       zoomControl={true}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
@@ -60,16 +66,28 @@ const MiniMapDetail = ({ coordinates }: Props) => {
         attribution='&copy; <a href="https://www.esri.com/en-us/home">Esri</a>'
         url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
       />
-
       <MapZoom />
-
-      {coordinates.length === 1 && (
-        <Marker position={coordinates[0]} icon={logoIcon} />
-      )}
-
-      {coordinates.length > 1 && (
-        <Polyline positions={coordinates} color="red" weight={3} />
-      )}
+      {coordinates && coordinates?.length > 0 ? (
+        coordinates?.length === 1 ? (
+          <Marker position={coordinates[0]} icon={logoIcon} />
+        ) : (
+          <Polyline positions={coordinates} color="red" weight={3} />
+        )
+      ) : (
+        municipalityArea.map((polygonCoords, index) => (
+          <Polygon
+            key={`polygon-${index}`}
+            positions={polygonCoords}
+            pathOptions={{
+              color: "#3d52a0",
+              weight: 3,
+              opacity: 1,
+              fillColor: "transparent",
+              fillOpacity: 0,
+            }}
+          />
+        ))
+      )}{" "}
     </MapContainer>
   );
 };

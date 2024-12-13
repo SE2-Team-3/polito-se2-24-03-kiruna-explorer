@@ -29,34 +29,8 @@ const MiniMapAreaModal = ({
 }: Props) => {
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const [validationMessage, setValidationMessage] = useState("");
-  const [municipalityArea, setMunicipalityArea] = useState<
-    LatLngExpression[][]
-  >([]);
 
-  useEffect(() => {
-    const geoJsonData = LocalGeoJSONReader(); // Assuming this returns number[][][][]
-    const allCoordinatesPerMultiPolygon: [number, number][][] = []; // Array di array di coordinate
-
-    geoJsonData.forEach((multiPolygon) => {
-      const singleMultiPolygonCoordinates: [number, number][] = []; // Coordinate per il multi-poligono corrente
-
-      if (Array.isArray(multiPolygon)) {
-        multiPolygon.forEach((polygon) => {
-          if (Array.isArray(polygon)) {
-            polygon.forEach((coord) => {
-              if (Array.isArray(coord) && coord.length === 2) {
-                const [lon, lat] = coord;
-                singleMultiPolygonCoordinates.push([lat, lon]); // Invertito lat e lon
-              }
-            });
-          }
-        });
-      }
-
-      allCoordinatesPerMultiPolygon.push(singleMultiPolygonCoordinates);
-    });
-    setMunicipalityArea(allCoordinatesPerMultiPolygon);
-  }, []);
+  const municipalityArea: LatLngExpression[][] = LocalGeoJSONReader();
 
   const handleSave = () => {
     const drawnItems = featureGroupRef.current?.toGeoJSON() as any;
