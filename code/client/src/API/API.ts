@@ -267,6 +267,18 @@ async function getGeoreferences(isArea?: boolean) {
   }
 }
 
+async function uploadAttachments(documentId: number, resources: File[]) {
+  const data = new FormData();
+  for (const res of resources) {
+    data.append("files", res);
+  }
+  await fetch(baseURL + "documents/" + documentId + "/upload-attachment", {
+    method: "POST",
+    credentials: "include",
+    body: data,
+  });
+}
+
 const API = {
   login,
   logOut,
@@ -280,6 +292,7 @@ const API = {
   getConnections,
   getFilteredDocuments,
   getGeoreferences,
+  uploadAttachments
 };
 
 export default API;
