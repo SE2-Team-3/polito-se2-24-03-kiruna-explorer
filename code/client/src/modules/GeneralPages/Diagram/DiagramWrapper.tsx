@@ -1,7 +1,11 @@
-import { Node, Edge } from "@xyflow/react";
-
-import { useEffect, useState } from "react";
-
+import {
+  type Node,
+  type Edge,
+  useNodesState,
+  useEdgesState,
+} from "@xyflow/react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../../components/UserContext";
 import Document from "../../../models/document";
 import Connection from "../../../models/Connection";
 import API from "../../../API/API";
@@ -14,18 +18,20 @@ import { useOccupiedPositions } from "../../../components/diagramComponents/util
 import Diagram from "./Diagram";
 
 const DiagramWrapper = () => {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
-
+  const [nodes, setNodes] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const [scrollWidth, setScrollWidth] = useState<number>(1);
 
   const { getAvailablePosition } = useOccupiedPositions();
+  const user = useContext(UserContext);
 
   useEffect(() => {
     async function getDocs() {
       const initialDocs: Document[] = await API.getDocuments();
       const initialConnections: Connection[] = await API.getConnections();
+
+      const showEdges = user ? true : false;
       if (initialDocs.length) {
         let newNodes: Node[] = [];
         for (const d of initialDocs) {
@@ -43,7 +49,7 @@ const DiagramWrapper = () => {
             data: {
               nodeType: d.nodeType,
               stakeholder: d.stakeholders,
-              showEdges: false,
+              showEdges: showEdges,
             },
             width: 30,
             position: { x, y },
@@ -62,7 +68,9 @@ const DiagramWrapper = () => {
             counts[year - 2004]++;
           }
         }
-        const calculatedYearWidths = years.map((y) => 75 + counts[y - 2004] * 50);
+        const calculatedYearWidths = years.map(
+          (y) => 75 + counts[y - 2004] * 50
+        );
         setYearWidths(calculatedYearWidths);
 
         let x = 200;

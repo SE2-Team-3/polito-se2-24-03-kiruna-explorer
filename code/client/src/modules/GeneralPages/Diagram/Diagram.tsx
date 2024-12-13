@@ -4,15 +4,20 @@ import { useNavigate } from "react-router-dom";
 import {
   ViewportPortal,
   ReactFlow,
-  addEdge,
   applyNodeChanges,
   applyEdgeChanges,
   Node,
+  OnConnect,
 } from "@xyflow/react";
 import DiagramTable from "../../../components/diagramComponents/DiagramTable";
-import { nodeTypes, edgeTypes } from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
+import {
+  nodeTypes,
+  edgeTypes,
+} from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
 import EdgePopup from "../../../components/diagramComponents/EdgePopup";
+import ConnectionPopup from "../../../components/diagramComponents/ConnectionPopup";
 import API from "../../../API/API";
+import Connection from "../../../models/Connection";
 
 const Diagram = (props: any) => {
   const setNodes = props.setNodes;
@@ -29,11 +34,20 @@ const Diagram = (props: any) => {
 
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
+  const [connectionPopupVisible, setConnectionPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
-  const [tooltip, setTooltip] = useState<{ visible: boolean; title: string; x: number; y: number }>(
-    { visible: false, title: "", x: 0, y: 0 }
-  );
+  const [tooltip, setTooltip] = useState<{
+    visible: boolean;
+    title: string;
+    x: number;
+    y: number;
+  }>({ visible: false, title: "", x: 0, y: 0 });
   const { isSidebarOpen } = useSidebar();
+  const [newConnection, setNewConnection] = useState<Connection>({
+    documentId1: 0,
+    documentId2: 0,
+    connection: "",
+  });
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
@@ -45,7 +59,19 @@ const Diagram = (props: any) => {
     []
   );
 
-  const onConnect = useCallback((params: any) => setEdges((eds: any) => addEdge(params, eds)), []);
+  const onConnect: OnConnect = useCallback(
+    async (params) => {
+      let source: number = parseInt(params.source, 10);
+      let target: number = parseInt(params.target, 10);
+      setNewConnection({
+        documentId1: source,
+        documentId2: target,
+        connection: "",
+      });
+      setConnectionPopupVisible(true);
+    },
+    [edges]
+  );
 
   const onEdgeHover = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
@@ -64,7 +90,12 @@ const Diagram = (props: any) => {
       setTooltip({ visible: true, title, x: clientX, y: clientY });
     } catch (error) {
       console.error("Error fetching document title:", error);
-      setTooltip({ visible: true, title: "Error loading title", x: clientX, y: clientY });
+      setTooltip({
+        visible: true,
+        title: "Error loading title",
+        x: clientX,
+        y: clientY,
+      });
     }
   };
 
@@ -117,14 +148,22 @@ const Diagram = (props: any) => {
             defaultViewport={{ x: 0, y: 0, zoom: 1 }}
             translateExtent={[
               [0, 0],
-              [yearWidths.reduce((partialSum: number, a: number) => partialSum + a, 200), 750],
+              [
+                yearWidths.reduce(
+                  (partialSum: number, a: number) => partialSum + a,
+                  200
+                ),
+                750,
+              ],
             ]}
             nodeExtent={[
               [200, 50],
               [+Infinity, 750],
             ]}
             minZoom={1}
-            onNodeMouseEnter={(event, node) => handleNodeMouseEnter(event, node)}
+            onNodeMouseEnter={(event, node) =>
+              handleNodeMouseEnter(event, node)
+            }
             onNodeMouseLeave={handleNodeMouseLeave}
             onEdgeMouseEnter={onEdgeHover}
             onEdgeMouseLeave={() => setPopupVisible(false)}
@@ -132,6 +171,14 @@ const Diagram = (props: any) => {
             nodesDraggable={true}
           >
             {popupVisible && <EdgePopup linkTypes={linkTypesForPopup} />}
+            {connectionPopupVisible && (
+              <ConnectionPopup
+                newConnection={newConnection}
+                setEdges={setEdges}
+                setConnectionPopupVisible={setConnectionPopupVisible}
+                setNewConnection={setNewConnection}
+              />
+            )}
             <ViewportPortal>
               <DiagramTable yearWidths={yearWidths} />
             </ViewportPortal>
