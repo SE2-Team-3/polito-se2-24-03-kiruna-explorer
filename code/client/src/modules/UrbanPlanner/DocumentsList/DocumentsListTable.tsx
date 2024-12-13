@@ -16,9 +16,11 @@ import {
 import LinkDocument from "../../../assets/icons/link selected.svg";
 import UploadDocument from "../../../assets/icons/upload.svg";
 import FilterIcon from "../../../assets/icons/filter.svg";
+import { CgAttachment } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../components/SidebarContext";
 import FilterTable from "../FilterTable/FilterPopup";
+import AddAttachment from "../AddAttachmentForm/AddAttachment";
 
 export default function DocumentsListTable(props: any) {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -27,6 +29,7 @@ export default function DocumentsListTable(props: any) {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
   const [visibleFilterTable, setVisibleFilterTable] = useState(false);
   const { isSidebarOpen } = useSidebar();
+  const [attachmentDocumentId, setAttachmentDocumentId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,6 +76,11 @@ export default function DocumentsListTable(props: any) {
     props.setUploadDocumentId(documentId);
     navigate("/urban-planner/add-resource");
   };
+  
+  const handleClickAttachment = (documentId: number) => {
+    setAttachmentDocumentId(documentId); // Set the document for attachment
+    navigate("/urban-planner/add-attachment");
+  };
 
   // Funzione per calcolare il numero totale di pagine
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
@@ -97,7 +105,7 @@ export default function DocumentsListTable(props: any) {
     }
     return items;
   };
-
+  
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Row {...(visibleFilterTable ? { className: "row-full-width-document-list" } : null)}>
@@ -158,6 +166,7 @@ export default function DocumentsListTable(props: any) {
                             <img src={LinkDocument} alt="link document" />
                           </Button>
                         </OverlayTrigger>
+                    
                         <OverlayTrigger
                           placement="top"
                           overlay={<Tooltip>{"Upload resource(s)"}</Tooltip>}
@@ -166,6 +175,16 @@ export default function DocumentsListTable(props: any) {
                             <img src={UploadDocument} alt="upload resource" />
                           </Button>
                         </OverlayTrigger>
+                       
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip>{"Upload attachment(s)"}</Tooltip>}
+                        >
+                          <Button variant="link" onClick={() => handleClickAttachment(item.documentId)}>
+                            <CgAttachment color="#3D52A0" />
+                          </Button>
+                        </OverlayTrigger>
+
                       </td>
                     </tr>
                   ))}
@@ -212,6 +231,10 @@ export default function DocumentsListTable(props: any) {
           </Col>
         ) : null}
       </Row>
+      {/* Show AddAttachment component if a document is selected */}
+      {attachmentDocumentId !== null && (
+        <AddAttachment documentId={attachmentDocumentId} />
+      )}
     </div>
   );
 }

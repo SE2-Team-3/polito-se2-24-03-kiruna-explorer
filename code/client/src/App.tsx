@@ -27,6 +27,7 @@ import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 import Document from "./models/document";
 import ViewAll from "./assets/icons/eye-off.svg";
 import HomePage from "./modules/GeneralPages/Homepage/Homepage";
+import AddAttachment from "./modules/UrbanPlanner/AddAttachmentForm/AddAttachment";
 import Satellite from "./assets/icons/satellite.svg";
 import StreetView from "./assets/icons/street_view.svg";
 import Terrain from "./assets/icons/terrain.svg";
@@ -259,7 +260,22 @@ function App() {
                     )
                   }
                 />
+                <Route
+              path="/urban-planner/add-attachment"
+              element={
+              loggedIn ? (
+              <AddAttachment /> // A new component for uploading attachments
+              ) : (
+             <Navigate to="/login" />
+                   )
+                 }
+               />
               </Routes>
+              
+
+
+              
+
             </UserContext.Provider>
           </SidebarProvider>
         </Container>
