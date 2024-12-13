@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../style.css";
-import LocalGeoJSONReader from "../../UrbanPlanner/AddDocumentForm/elements/Georeference/MunicipalityArea";
+import LocalGeoJSONReader from "../../../components/municipalityArea/MunicipalityArea";
 
 interface Props {
   coordinates: [number, number][] | null;

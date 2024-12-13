@@ -11,8 +11,8 @@ import {
 import L from "leaflet";
 import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../../../../style.css";
-import LocalGeoJSONReader from "../MunicipalityArea";
-import { validateLocation } from "./Validation";
+import LocalGeoJSONReader from "../../../../../../components/municipalityArea/MunicipalityArea";
+import { validateLocation } from "../../../../../../components/municipalityArea/Validation";
 
 interface Props {
   showMap: boolean;
