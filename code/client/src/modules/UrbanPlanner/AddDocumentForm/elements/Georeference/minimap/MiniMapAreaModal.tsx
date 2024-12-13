@@ -11,8 +11,8 @@ import L, { LatLngExpression } from "leaflet";
 import "leaflet-draw";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import LocalGeoJSONReader from "../MunicipalityArea";
-import { validateLocation } from "./Validation";
+import LocalGeoJSONReader from "../../../../../../components/municipalityArea/MunicipalityArea";
+import { validateLocation } from "../../../../../../components/municipalityArea/Validation";
 
 interface Props {
   showMap: boolean;
