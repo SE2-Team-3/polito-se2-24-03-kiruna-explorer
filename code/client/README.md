@@ -1,5 +1,6 @@
 # Kiruna-Explorer
 This document lists all components and routes that compose the Kiruna Explorer application.
+
 # Table of Contents
 - [Kiruna-Explorer](#kiruna-explorer)
 - [Table of Contents](#table-of-contents)
@@ -211,6 +212,7 @@ The `App` component defines a set of routes to handle navigation between differe
     - [3.4. Documents List](#34-documents-lists)
     - [3.5. Add Resource Form](#35-add-resource-form)
     - [3.6. Filter Popup](#36-filter-popup)
+    - [3.7. Add Attachment Form](#37-add-attachment-form)
 
 ## 1. General Components
 
@@ -556,6 +558,12 @@ This component is used to upload resources (files) for a specific document. It a
 ### 3.6. Filter Popup
 **File**: `modules/UrbanPlanner/FilterTable/FilterPopup.tsx`  
 The component provides a user interface for filtering documents based on various criteria includes documentType, nodeType, stakeholders, issuanceDateStart, issuanceDateEnd, language.
+
+---
+
+### 3.7. Add Attachment Form 
+**File**: `modules/UrbanPlanner/AddAttachmentForm/AddAttachment.tsx`  
+This component is designed to let a user upload attachment files to a specific document.
 
 ---
 
