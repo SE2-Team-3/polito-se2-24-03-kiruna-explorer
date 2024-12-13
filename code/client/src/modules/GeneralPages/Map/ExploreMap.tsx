@@ -1,6 +1,6 @@
 import { LatLngExpression } from "leaflet";
 import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Polygon, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSidebar } from "../../../components/SidebarContext";
 import "../../style.css";
@@ -10,6 +10,8 @@ import "./map.css";
 import API from "../../../API/API";
 import Document from "../../../models/document";
 import DraggableMarker from "./DraggableMarker";
+import { Button } from "react-bootstrap";
+import Georeference from "../../../models/georeference";
 
 interface ExploreMapProps {
   searchTitle: string;
@@ -32,6 +34,8 @@ const ExploreMap = ({
   const [documents, setDocuments] = useState<Document[]>([]);
   const mapRef = useRef<L.Map | null>(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
+  const [showAreas, setShowAreas] = useState<boolean>(false);
+  const [listArea, setList] = useState<Georeference[]>([]);
 
   useEffect(() => {
     API.getDocuments().then((docs) => {
@@ -56,6 +60,29 @@ const ExploreMap = ({
     }
   }, [mapRef.current]);
 
+  useEffect(() => {
+    API.getGeoreferences(true).then((geo) => {
+      setList(
+        geo.reduce((acc: Georeference[], current: Georeference) => {
+          const coord = JSON.parse(current.coordinates);
+          if (
+            !acc.some(
+              (area) =>
+                JSON.stringify(area.coordinates) === JSON.stringify(coord)
+            )
+          ) {
+            acc.push(current);
+          }
+          return acc;
+        }, [])
+      );
+    });
+  }, []);
+
+  const ShowAreasOnMap = () => {
+    setShowAreas(!showAreas);
+  };
+
   // Definizione dei layer disponibili
   const tileLayers = {
     streets: {
@@ -75,6 +102,19 @@ const ExploreMap = ({
 
   return (
     <div className={`map-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
+      <Button
+        variant="primary"
+        className={`button-map ${showAreas ? "show" : "hide"}`}
+        onClick={() => ShowAreasOnMap()}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "110px",
+          zIndex: 1000,
+        }}
+      >
+        {showAreas ? "Hide Areas" : "Show Areas"}
+      </Button>
       <MapContainer
         attributionControl={false}
         center={kirunaPosition}
@@ -109,6 +149,28 @@ const ExploreMap = ({
             />
           ))}
         </MarkerClusterGroup>
+        {showAreas &&
+          listArea.map((area, index) => {
+            const coords = JSON.parse(area.coordinates);
+
+            return coords.length > 2 ? (
+              <Polygon
+                key={`${index}-${area.georeferenceId}`}
+                positions={coords}
+                pathOptions={{
+                  color: "#3d52a0",
+                  weight: 3,
+                  opacity: 0.7,
+                  fillColor: "#3d52a0",
+                  fillOpacity: 0.3,
+                }}
+              >
+                <Tooltip sticky direction="top" opacity={1}>
+                  {area.georeferenceName}
+                </Tooltip>
+              </Polygon>
+            ) : null;
+          })}
       </MapContainer>
     </div>
   );

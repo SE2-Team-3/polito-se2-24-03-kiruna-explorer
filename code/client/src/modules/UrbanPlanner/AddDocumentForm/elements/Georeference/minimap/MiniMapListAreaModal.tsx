@@ -21,13 +21,26 @@ const MiniMapListAreaModal = ({
   setCoordinates,
   setGeoType,
 }: Props) => {
-  const [listArea, SetList] = useState<Georeference[]>([]);
+  const [listArea, setList] = useState<Georeference[]>([]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
 
   useEffect(() => {
     API.getGeoreferences(true).then((geo) => {
-      SetList(geo);
+      setList(
+        geo.reduce((acc: Georeference[], current: Georeference) => {
+          const coord = JSON.parse(current.coordinates);
+          if (
+            !acc.some(
+              (area) =>
+                JSON.stringify(area.coordinates) === JSON.stringify(coord)
+            )
+          ) {
+            acc.push(current);
+          }
+          return acc;
+        }, [])
+      );
     });
   }, []);
 
@@ -72,11 +85,16 @@ const MiniMapListAreaModal = ({
                 }}
                 eventHandlers={{
                   click: (e) => {
-                    const polygonCoords = e.target.getLatLngs()[0];
-                    const formattedCoords = polygonCoords.map((coord: any) => [
-                      coord.lat,
-                      coord.lng,
-                    ]);
+                    const polygonCoords: L.LatLng[] = e.target.getLatLngs()[0];
+                    const firstCoord: L.LatLng = e.target.getLatLngs()[0][0];
+
+                    const concatenatedCoords: L.LatLng[] = [
+                      ...polygonCoords,
+                      firstCoord,
+                    ];
+
+                    const formattedCoords: [number, number][] =
+                      concatenatedCoords.map((coord) => [coord.lat, coord.lng]);
 
                     setCoordinates(formattedCoords);
                     setName(area.georeferenceName);
