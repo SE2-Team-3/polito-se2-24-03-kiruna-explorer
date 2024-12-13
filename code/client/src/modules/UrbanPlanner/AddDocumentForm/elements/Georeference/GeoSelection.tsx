@@ -53,6 +53,7 @@ const GeoSelection: React.FC<GeoSelectionProps> = ({
 
   const handleDeselect = () => {
     setGeoType("Default");
+    setName("");
     setCoordinates(null);
   };
 
