@@ -23,3 +23,18 @@ export interface Props {
   //showMiniMap: boolean;
   //setShowMiniMap: (show: boolean) => void;
 }
+
+export interface StakeholderProps {
+  props: Props;
+  stakeholdersList: string[];
+}
+
+export interface ScaleProps {
+  props: Props;
+  scalesList: string[];
+}
+
+export interface NodeTypeProps {
+  props: Props;
+  nodeTypesList: string[];
+}

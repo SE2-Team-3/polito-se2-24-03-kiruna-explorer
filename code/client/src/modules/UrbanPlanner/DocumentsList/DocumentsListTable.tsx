@@ -40,7 +40,7 @@ export default function DocumentsListTable(props: any) {
   useEffect(() => {
     const filtered = documents.filter((doc) =>
       // doc.title.toLowerCase().startsWith(props.searchTitle.toLowerCase());
-      doc.title.toLowerCase().includes(props.searchTitle.toLowerCase())
+      doc.title.toLowerCase().includes(props.searchTitle.toLowerCase()) || doc.description.toLocaleLowerCase().includes(props.searchTitle.toLowerCase())
     );
     setFilteredDocuments(filtered);
     setCurrentPage(1); // Torna alla prima pagina dopo un filtro

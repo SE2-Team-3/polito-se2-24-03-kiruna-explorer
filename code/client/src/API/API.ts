@@ -267,6 +267,77 @@ async function getGeoreferences(isArea?: boolean) {
   }
 }
 
+async function getStakeholders() {
+  const response=await fetch(baseURL+ "documents/types/stakeholders", {
+    credentials: "include"
+  })
+  if (response.ok) {
+    const stakeholders: any = await response.json()
+    return stakeholders.map((s:any)=>s.stakeholderName)
+  } else {
+    const errDetail = await response.json()
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+
+async function addStakeholder(stakeholder:string) {
+  await fetch(baseURL + "documents/types/stakeholders", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({stakeholder:stakeholder}),
+  });
+}
+
+async function getScales() {
+  const response=await fetch(baseURL+ "documents/types/document-types", {
+    credentials: "include"
+  })
+  if (response.ok) {
+    const scales: any = await response.json()
+    console.log(scales)
+    return scales.map((d:any)=>d.documentTypeName)
+  } else {
+    const errDetail = await response.json()
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+
+async function addScale(documentType:string) {
+  await fetch(baseURL + "documents/types/document-types", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({documentType:documentType}),
+  });
+}
+
+async function getNodeTypes() {
+  const response=await fetch(baseURL+ "documents/types/node-types", {
+    credentials: "include"
+  })
+  if (response.ok) {
+    const nodeTypes: any = await response.json()
+    console.log(nodeTypes)
+    return nodeTypes.map((n:any)=>n.nodeTypeName)
+  } else {
+    const errDetail = await response.json()
+    if (errDetail.error) throw errDetail.error;
+    if (errDetail.message) throw errDetail.message;
+    throw new Error("Error. Please reload the page");
+  }
+}
+
+async function addNodeType(nodeType:string) {
+  await fetch(baseURL + "documents/types/node-types", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({nodeType:nodeType}),
+  });
+}
+
 const API = {
   login,
   logOut,
@@ -280,6 +351,12 @@ const API = {
   getConnections,
   getFilteredDocuments,
   getGeoreferences,
+  getStakeholders,
+  addStakeholder,
+  getScales,
+  addScale,
+  getNodeTypes,
+  addNodeType
 };
 
 export default API;
