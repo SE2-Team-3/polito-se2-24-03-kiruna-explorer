@@ -261,15 +261,15 @@ function App() {
                   }
                 />
                 <Route
-              path="/urban-planner/add-attachment"
-              element={
-              loggedIn ? (
-              <AddAttachment /> // A new component for uploading attachments
-              ) : (
-             <Navigate to="/login" />
-                   )
-                 }
-               />
+                  path="/urban-planner/add-attachment"
+                  element={
+                    loggedIn ? (
+                      <AddAttachment documentId={uploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
               </Routes>
               
 

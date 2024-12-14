@@ -196,9 +196,6 @@ const DocumentDetails = () => {
                     }`}
                   >
                     <span className="document-title">{resource.fileName}</span>
-                    <span className="document-connection">
-                      {resource.fileType}
-                    </span>
                   </div>
                 ))}
               </div>
@@ -221,9 +218,6 @@ const DocumentDetails = () => {
                   >
                     <span className="document-title">
                       {attachment.fileName}
-                    </span>
-                    <span className="document-connection">
-                      {attachment.fileType}
                     </span>
                   </div>
                 ))}
