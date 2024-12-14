@@ -288,6 +288,15 @@ BUTTON STYLE
   margin-top: 5px;
 }
 
+.popup-remove-link-button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  color: red;
+  margin-top: 5px;
+  margin-left: 5px;
+}
 /*
 STEP PROGESS BAR
 */

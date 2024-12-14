@@ -48,6 +48,11 @@ const Diagram = (props: any) => {
     documentId2: 0,
     connection: "",
   });
+  const [deleteConnection, setDeleteConnection] = useState<Connection>({
+    documentId1: 0,
+    documentId2: 0,
+    connection: "",
+  });
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
@@ -73,8 +78,13 @@ const Diagram = (props: any) => {
     [edges]
   );
 
-  const onEdgeHover = useCallback((event: any, edge: any) => {
+  const onEdgeClick = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
+      setDeleteConnection({
+        documentId1: edge.source,
+        documentId2: edge.target,
+        connection: "",
+      });
       setLinkTypesForPopup(edge.data.linkTypes);
       setPopupVisible(true);
     }
@@ -165,12 +175,19 @@ const Diagram = (props: any) => {
               handleNodeMouseEnter(event, node)
             }
             onNodeMouseLeave={handleNodeMouseLeave}
-            onEdgeMouseEnter={onEdgeHover}
-            onEdgeMouseLeave={() => setPopupVisible(false)}
+            onEdgeClick={onEdgeClick}
             onNodeClick={(event, node) => handleNodeClick(node.id)}
             nodesDraggable={true}
           >
-            {popupVisible && <EdgePopup linkTypes={linkTypesForPopup} />}
+            {popupVisible && (
+              <EdgePopup
+                linkTypes={linkTypesForPopup}
+                setPopupVisible={setPopupVisible}
+                setEdges={setEdges}
+                deleteConnection={deleteConnection}
+                setDeleteConnection={setDeleteConnection}
+              />
+            )}
             {connectionPopupVisible && (
               <ConnectionPopup
                 newConnection={newConnection}
