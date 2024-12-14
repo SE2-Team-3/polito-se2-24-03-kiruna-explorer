@@ -40,7 +40,11 @@ export default function AddResourceForm(props: any) {
     for (const v of val) {
       //implement better search for duplicates, this doesn't account for different files with same name
       if (resources.find((r) => r.name == v.name)) {
-        showToast("One of the files is already present in the selected ones", "", true);
+        showToast(
+          "One of the files is already present in the selected ones",
+          "",
+          true
+        );
         return;
       }
     }
@@ -54,17 +58,22 @@ export default function AddResourceForm(props: any) {
   console.log(props.documentId);
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      <Form className="form-container document-form" onSubmit={handleSubmit} noValidate>
+      <Form
+        className="form-container document-form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <Row className="form-title">Upload resources</Row>
         <Row style={{ margin: 0 }}>
-          <Dropzone onDrop={(acceptedFiles: File[]) => handleSelect(acceptedFiles)}>
+          <Dropzone
+            onDrop={(acceptedFiles: File[]) => handleSelect(acceptedFiles)}
+          >
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className="drop-zone">
                 <input {...getInputProps()} />
                 <img src={UploadDocument} />
                 <div>
-                  Drag and Drop or{" "}
-                  <u className="choose-file">Choose file</u>
+                  Drag and Drop or <u className="choose-file">Choose file</u>
                 </div>
               </div>
             )}
@@ -76,14 +85,18 @@ export default function AddResourceForm(props: any) {
             ? resources.map((res) => {
                 return (
                   <Row key={res.name} className="uploaded-doc-row">
-                    <Col style={{maxWidth:"fit-content"}}>
-                      <img src={Tick}/>
+                    <Col style={{ maxWidth: "fit-content" }}>
+                      <img src={Tick} />
                     </Col>
-                    <Col style={{overflow:"hidden"}}>
+                    <Col style={{ overflow: "hidden" }}>
                       <p className="uploaded-doc-name">{res.name}</p>
                     </Col>
-                    <Col style={{maxWidth:"fit-content"}}>
-                      <img src={Close} onClick={() => handleRemove(res.name)} role="button" />
+                    <Col style={{ maxWidth: "fit-content" }}>
+                      <img
+                        src={Close}
+                        onClick={() => handleRemove(res.name)}
+                        role="button"
+                      />
                     </Col>
                   </Row>
                 );
