@@ -36,8 +36,11 @@ CREATE TABLE DocumentConnections (
 	documentId1 INTEGER,
 	documentId2 INTEGER,
 	connection TEXT NOT NULL,
-	PRIMARY KEY (documentId1, documentId2, connection)
+	PRIMARY KEY (documentId1, documentId2, connection),
+	FOREIGN KEY(documentId1) REFERENCES Document(documentId) ON DELETE CASCADE,
+	FOREIGN KEY(documentId2) REFERENCES Document(documentId) ON DELETE CASCADE
 );
+
 
 CREATE TABLE Resource (
 	resourceId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -81,5 +84,7 @@ CREATE TABLE Stakeholder (
 CREATE TABLE DocumentStakeholders (
 	documentId INTEGER,
 	stakeholderId INTEGER,
-	PRIMARY KEY (documentId, stakeholderId)
+	PRIMARY KEY (documentId, stakeholderId),
+	FOREIGN KEY(documentId) REFERENCES Document(documentId) ON DELETE CASCADE
+
 );
