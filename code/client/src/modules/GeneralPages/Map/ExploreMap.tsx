@@ -109,7 +109,7 @@ const ExploreMap = ({
         style={{
           position: "absolute",
           top: "20px",
-          right: "110px",
+          right: "120px",
           zIndex: 1000,
         }}
       >
