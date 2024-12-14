@@ -10,6 +10,7 @@ import Tick from "../../../assets/icons/single tick.svg";
 import { CgAttachment } from "react-icons/cg";
 import { useToast } from "../../ToastProvider";
 
+
 export default function AddAttachment(props: any) {
   const navigate = useNavigate();
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -62,10 +63,12 @@ export default function AddAttachment(props: any) {
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className="drop-zone">
                 <input {...getInputProps()} />
-                <CgAttachment color="#3D52A0" />
-                <div>
-                  Drag and Drop or <u>Choose file</u>
+                <CgAttachment color="#3D52A0" size={30}/>
+                 <div>
+                  Drag and Drop or{" "}
+                  <u className="choose-file">Choose file</u>
                 </div>
+
               </div>
             )}
           </Dropzone>

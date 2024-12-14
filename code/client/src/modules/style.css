@@ -1104,6 +1104,16 @@ MAP
   border-bottom-right-radius: 8px;
 }
 
+.choose-file {
+  text-decoration: none; /* Remove default underline */
+  cursor: pointer; /* Show a pointer cursor on hover */
+}
+
+.choose-file:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #2c3e7f; /* Optionally change the color on hover */
+}
+
 /* Badge per le icone colorate */
 .badge {
   width: 32px;

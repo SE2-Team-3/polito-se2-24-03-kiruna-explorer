@@ -63,7 +63,8 @@ export default function AddResourceForm(props: any) {
                 <input {...getInputProps()} />
                 <img src={UploadDocument} />
                 <div>
-                  Drag and Drop or <u>Choose file</u>
+                  Drag and Drop or{" "}
+                  <u className="choose-file">Choose file</u>
                 </div>
               </div>
             )}
