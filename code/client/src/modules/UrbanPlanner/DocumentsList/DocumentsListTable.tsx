@@ -20,7 +20,7 @@ import { CgAttachment } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../components/SidebarContext";
 import FilterTable from "../FilterTable/FilterPopup";
-import AddAttachment from "../AddAttachmentForm/AddAttachment";
+//import AddAttachment from "../AddAttachmentForm/AddAttachment";
 
 export default function DocumentsListTable(props: any) {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -29,7 +29,7 @@ export default function DocumentsListTable(props: any) {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Elementi per pagina
   const [visibleFilterTable, setVisibleFilterTable] = useState(false);
   const { isSidebarOpen } = useSidebar();
-  const [attachmentDocumentId, setAttachmentDocumentId] = useState<number | null>(null);
+  //const [attachmentDocumentId, setAttachmentDocumentId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,9 +78,9 @@ export default function DocumentsListTable(props: any) {
   };
   
   const handleClickAttachment = (documentId: number) => {
-    setAttachmentDocumentId(documentId); // Set the document for attachment
-    navigate("/urban-planner/add-attachment");
+    navigate("/urban-planner/add-attachment", { state: { documentId } }); // Pass documentId via state
   };
+
 
   // Funzione per calcolare il numero totale di pagine
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
@@ -231,10 +231,7 @@ export default function DocumentsListTable(props: any) {
           </Col>
         ) : null}
       </Row>
-      {/* Show AddAttachment component if a document is selected */}
-      {attachmentDocumentId !== null && (
-        <AddAttachment documentId={attachmentDocumentId} />
-      )}
+      
     </div>
   );
 }
