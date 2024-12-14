@@ -17,7 +17,7 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
   - 🏁 [Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
 
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites 🛠️
 ...
@@ -85,7 +85,7 @@ If you are using docker environment, please make sure that you have the followin
   Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
   Generally, we dedicate mostly 20% of the estimations in each user story to technical debt.
 
-## ✨ Features
+## Features
 
 ### 📝 Document Management
 
@@ -127,7 +127,7 @@ If you are using docker environment, please make sure that you have the followin
 - ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# ** 🖼️ UI Application screenshots**
+# ** UI Application screenshots**
 
 ### 🔑 Login page
 
