@@ -15,10 +15,13 @@ import Diagram from "./Diagram";
 
 const DiagramWrapper = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
+  const [initialNodes, setInitialNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const [scrollWidth, setScrollWidth] = useState<number>(1);
+
+  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
 
   const { getAvailablePosition } = useOccupiedPositions();
 
@@ -71,6 +74,7 @@ const DiagramWrapper = () => {
         else setScrollWidth(document.documentElement.clientWidth - 75);
 
         setNodes(newNodes);
+        setInitialNodes(newNodes);
       }
       if (initialConnections.length) {
         const connectionsMap: Record<string, string[]> = {};
@@ -115,6 +119,7 @@ const DiagramWrapper = () => {
 
   return (
     <Diagram
+      initialNodes={initialNodes}
       setNodes={setNodes}
       setEdges={setEdges}
       scrollWidth={scrollWidth}

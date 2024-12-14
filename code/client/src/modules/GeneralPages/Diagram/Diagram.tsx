@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,19 +13,20 @@ import DiagramTable from "../../../components/diagramComponents/DiagramTable";
 import { nodeTypes, edgeTypes } from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
 import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 import API from "../../../API/API";
+import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
+import Document from "../../../models/document";
+import FilterIcon from "../../../assets/icons/filter.svg";
+import Close from "../../../assets/icons/close.svg";
+import { Col, Row } from "react-bootstrap";
 
 const Diagram = (props: any) => {
+  const initialNodes = props.initialNodes;
   const setNodes = props.setNodes;
   const setEdges = props.setEdges;
   const scrollWidth = props.scrollWidth;
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
-
-  const scrollHeight =
-    750 > document.documentElement.clientHeight - 100
-      ? document.documentElement.clientHeight - 100
-      : 750;
 
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
@@ -34,6 +35,9 @@ const Diagram = (props: any) => {
     { visible: false, title: "", x: 0, y: 0 }
   );
   const { isSidebarOpen } = useSidebar();
+  const [filterTableVisible, setFilterTableVisible] = useState(false);
+  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
+  const filterButtonRef = useRef<HTMLButtonElement>(null); // Ref for filter button
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
@@ -76,6 +80,23 @@ const Diagram = (props: any) => {
     navigate(`/documents/${nodeId}`);
   };
 
+  // Update nodes based on filtered documents
+  useEffect(() => {
+    if (filteredDocuments.length > 0) {
+      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
+      console.log("Filtered node ids:", filteredNodeIds);
+      console.log(
+        "Original nodes ids:",
+        nodes.map((node: Node) => Number(node.id))
+      );
+      console.log("iniatial nodes:", initialNodes);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+    } else {
+      setNodes(nodes); // Reset to original nodes if no filters are applied
+    }
+  }, [filteredDocuments]);
+
   return (
     <>
       {tooltip.visible && (
@@ -91,6 +112,29 @@ const Diagram = (props: any) => {
           }}
         >
           {tooltip.title}
+        </div>
+      )}
+      <Row>
+        <Col>
+          <button
+            className="open-filter-table-button"
+            onClick={() => setFilterTableVisible(!filterTableVisible)}
+          >
+            Filter <img src={FilterIcon} alt="filter" />
+          </button>
+        </Col>
+        <Col>
+          <button className="reset-filter-table-button" onClick={() => setNodes(initialNodes)}>
+            Reset <img src={Close} alt="close" />
+          </button>
+        </Col>
+      </Row>
+      {filterTableVisible && (
+        <div className="popup-diagram">
+          <FilterTable
+            setFilteredDocuments={setFilteredDocuments}
+            setFilterTableVisible={setFilterTableVisible}
+          />
         </div>
       )}
       <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>

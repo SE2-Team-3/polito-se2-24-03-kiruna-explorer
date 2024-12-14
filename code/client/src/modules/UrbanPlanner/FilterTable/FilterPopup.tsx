@@ -6,6 +6,7 @@ import { Button, Col, Dropdown, Row } from "react-bootstrap";
 import ClearIcon from "../../../assets/icons/close.svg";
 interface FilterProps {
   setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
+  setFilterTableVisible?: Dispatch<SetStateAction<boolean>>;
 }
 
 const nodeTypes = [
@@ -29,7 +30,6 @@ const FilterTable: FC<FilterProps> = (props) => {
     language: "",
     description: "",
   });
-  console.log(filters);
 
   interface Filters {
     documentType?: string;
@@ -80,6 +80,9 @@ const FilterTable: FC<FilterProps> = (props) => {
     API.getFilteredDocuments(filters).then((docs) => {
       props.setFilteredDocuments(docs);
     });
+    if (props.setFilterTableVisible) {
+      props.setFilterTableVisible(false);
+    }
   };
 
   const handleReset = (e: React.FormEvent) => {
