@@ -267,9 +267,9 @@ async function getGeoreferences(isArea?: boolean) {
   }
 }
 
-async function uploadAttachments(documentId: number, resources: File[]) {
+async function uploadAttachments(documentId: number, attachments: File[]) {
   const data = new FormData();
-  for (const res of resources) {
+  for (const res of attachments) {
     data.append("files", res);
   }
   await fetch(baseURL + "documents/" + documentId + "/upload-attachment", {
