@@ -243,7 +243,8 @@ BUTTON STYLE
   font-size: 18px;
 }
 
-.button-map {
+.button-map,
+.button-map:hover {
   font-size: 16px;
   padding: 6px;
   border-radius: 5px;
@@ -251,13 +252,15 @@ BUTTON STYLE
   width: 120px;
 }
 
-.button-map.hide {
+.button-map.hide,
+.button-map.hide:hover {
   color: #1e1e1e;
   background-color: white;
   border: 2px solide #1e1e1e;
 }
 
-.button-map.show {
+.button-map.show,
+.button-map.show:hover {
   background-color: #333;
   color: white;
   border: 2px solid white;

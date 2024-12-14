@@ -65,12 +65,7 @@ const ExploreMap = ({
       setList(
         geo.reduce((acc: Georeference[], current: Georeference) => {
           const coord = JSON.parse(current.coordinates);
-          if (
-            !acc.some(
-              (area) =>
-                JSON.stringify(area.coordinates) === JSON.stringify(coord)
-            )
-          ) {
+          if (!acc.some((area) => JSON.stringify(area.coordinates) === JSON.stringify(coord))) {
             acc.push(current);
           }
           return acc;
@@ -158,11 +153,11 @@ const ExploreMap = ({
                 key={`${index}-${area.georeferenceId}`}
                 positions={coords}
                 pathOptions={{
-                  color: "#3d52a0",
-                  weight: 3,
-                  opacity: 0.7,
-                  fillColor: "#3d52a0",
-                  fillOpacity: 0.3,
+                  color: area.areaColor,
+                  weight: 5,
+                  opacity: 0.8,
+                  dashArray: "5, 10",
+                  fillOpacity: 0.2,
                 }}
               >
                 <Tooltip sticky direction="top" opacity={1}>
