@@ -78,7 +78,7 @@ export default function DocumentsListTable(props: any) {
 
   const handleClickAttachment = (documentId: number) => {
     props.setUploadDocumentId(documentId);
-    navigate("/urban-planner/add-attachment", { state: { documentId } });
+    navigate("/urban-planner/add-attachment");
   };
 
   // Funzione per calcolare il numero totale di pagine
