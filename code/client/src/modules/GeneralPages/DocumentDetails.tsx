@@ -169,9 +169,16 @@ const DocumentDetails = () => {
                   >
                     <span
                       className="document-title"
+                      role="button"
+                      tabIndex={0}
                       onClick={() =>
                         navigate(`/documents/${linkedDoc.documentId}`)
                       }
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          navigate(`/documents/${linkedDoc.documentId}`);
+                        }
+                      }}
                     >
                       {linkedDoc.title}
                     </span>
