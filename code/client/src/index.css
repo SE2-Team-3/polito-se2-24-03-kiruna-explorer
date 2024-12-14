@@ -456,7 +456,8 @@ input {
   color: #4a69b3; /* Colore dell'icona di cancellazione */
 }
 
-.search-button {
+.search-button,
+.filter-button-diagram {
   background-color: #3d52a0;
   color: white;
   padding: 0.5rem 1rem;
@@ -467,8 +468,14 @@ input {
   height: 38px;
 }
 
-.search-button:hover {
+.search-button:hover,
+.filter-button-diagram:hover {
   background-color: #3d52a0;
+}
+
+.undo-filter-button-diagram {
+  background-color: transparent;
+  border: none;
 }
 
 /*

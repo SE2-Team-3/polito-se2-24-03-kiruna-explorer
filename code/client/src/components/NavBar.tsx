@@ -5,11 +5,17 @@ import Logo from "../assets/icons/logo.svg";
 import { Dispatch, FC, SetStateAction } from "react";
 import { LogInIcon } from "lucide-react";
 import { LogOutIcon } from "lucide-react";
+import Document from "../models/document";
+import { Undo2Icon } from "lucide-react";
 
 interface NavBarProps {
   setSearchTitle: Dispatch<SetStateAction<string>>;
   loggedIn: Boolean;
   doLogOut: () => void;
+  filterTableVisible: boolean;
+  setFilterTableVisible: Dispatch<SetStateAction<boolean>>;
+  filteredDocuments: Document[];
+  setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
 }
 
 const NavBar: FC<NavBarProps> = (props) => {
@@ -26,6 +32,13 @@ const NavBar: FC<NavBarProps> = (props) => {
     (document.getElementById("input") as HTMLInputElement).value = "";
     props.setSearchTitle("");
   };
+
+  const handleResetNodes = () => {
+    props.setFilteredDocuments([]);
+    props.setFilterTableVisible(false);
+  };
+
+  console.log(props.filteredDocuments);
 
   const showSearchBar =
     location.pathname === "/urban-planner/documents-list" ||
@@ -100,6 +113,23 @@ const NavBar: FC<NavBarProps> = (props) => {
               Search
             </button>
           </Col>
+          {location.pathname === "/diagram" && (
+            <Col>
+              <button
+                className="filter-button-diagram"
+                onClick={() => props.setFilterTableVisible(!props.filterTableVisible)}
+              >
+                Filter
+              </button>
+            </Col>
+          )}
+          {location.pathname === "/diagram" && props.filteredDocuments.length > 0 && (
+            <Col>
+              <button className="undo-filter-button-diagram" onClick={handleResetNodes}>
+                <Undo2Icon size={24} color="#3d52a0" />
+              </button>
+            </Col>
+          )}
         </Row>
       )}
       {!loggedIn && (

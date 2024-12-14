@@ -19,6 +19,8 @@ import Document from "../../../models/document";
 import { Col, Row } from "react-bootstrap";
 
 interface DiagramProps {
+  filterTableVisible: boolean;
+  setFilterTableVisible: React.Dispatch<React.SetStateAction<boolean>>;
   filteredDocuments: Document[];
   setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
   searchTitle: string;
@@ -32,6 +34,8 @@ interface DiagramProps {
 }
 
 const Diagram = (props: DiagramProps) => {
+  const filterTableVisible = props.filterTableVisible;
+  const setFilterTableVisible = props.setFilterTableVisible;
   const filteredDocuments = props.filteredDocuments;
   const setFilteredDocuments = props.setFilteredDocuments;
   const searchTitle = props.searchTitle;
@@ -50,7 +54,6 @@ const Diagram = (props: DiagramProps) => {
     { visible: false, title: "", x: 0, y: 0 }
   );
   const { isSidebarOpen } = useSidebar();
-  const [filterTableVisible, setFilterTableVisible] = useState(false);
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
@@ -94,14 +97,19 @@ const Diagram = (props: DiagramProps) => {
   };
 
   const handleResetNodes = () => {
-    setNodes(initialNodes);
+    setFilteredDocuments([]);
+    setFilterTableVisible(false);
   };
 
   // Update nodes based on filtered documents
   useEffect(() => {
-    const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-    const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
-    setNodes(updatedNodes);
+    if (filteredDocuments.length > 0) {
+      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+    } else {
+      setNodes(initialNodes);
+    }
   }, [filteredDocuments]);
 
   // update documents list based on searchTitle
@@ -139,23 +147,6 @@ const Diagram = (props: DiagramProps) => {
           {tooltip.title}
         </div>
       )}
-      <Row>
-        <Col>
-          <button
-            className="open-filter-table-button"
-            onClick={() => setFilterTableVisible(!filterTableVisible)}
-          >
-            Filter
-            {/* <img src={FilterIcon} alt="filter" /> */}
-          </button>
-        </Col>
-        <Col>
-          <button className="reset-filter-table-button" onClick={handleResetNodes}>
-            Reset
-            {/* <img src={Close} alt="close" /> */}
-          </button>
-        </Col>
-      </Row>
       {filterTableVisible && (
         <div className="popup-diagram">
           <FilterTable

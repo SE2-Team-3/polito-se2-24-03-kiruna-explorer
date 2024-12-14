@@ -36,7 +36,7 @@ function App() {
   const [isViewLinkedDocuments, setIsViewLinkedDocuments] = useState(false);
   const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
   const [currentLayer, setCurrentLayer] = useState<keyof typeof tileLayers>("satellite"); // Stato per il layer selezionato
-
+  const [filterTableVisible, setFilterTableVisible] = useState(false);
   const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
@@ -152,7 +152,15 @@ function App() {
         <Container>
           <SidebarProvider>
             <UserContext.Provider value={user}>
-              <NavBar setSearchTitle={setSearchTitle} loggedIn={loggedIn} doLogOut={doLogOut} />
+              <NavBar
+                setSearchTitle={setSearchTitle}
+                loggedIn={loggedIn}
+                doLogOut={doLogOut}
+                filterTableVisible={filterTableVisible}
+                setFilterTableVisible={setFilterTableVisible}
+                filteredDocuments={filteredDocuments}
+                setFilteredDocuments={setFilteredDocuments}
+              />
               {location.pathname !== "/home" && location.pathname !== "/" && (
                 <LeftSideBar logout={doLogOut} />
               )}
@@ -183,6 +191,8 @@ function App() {
                       searchTitle={searchTitle}
                       filteredDocuments={filteredDocuments}
                       setFilteredDocuments={setFilteredDocuments}
+                      filterTableVisible={filterTableVisible}
+                      setFilterTableVisible={setFilterTableVisible}
                     />
                   }
                 />

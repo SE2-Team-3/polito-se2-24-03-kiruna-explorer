@@ -205,8 +205,9 @@ const DraggableMarker = ({
           positions={polygonCoords}
           pathOptions={{
             color: "#3d52a0",
-            weight: 3,
+            weight: 5,
             opacity: 1,
+            dashArray: "5, 10",
             fillColor: "transparent",
             fillOpacity: 0,
           }}
