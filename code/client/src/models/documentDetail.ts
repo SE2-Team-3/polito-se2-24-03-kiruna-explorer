@@ -11,6 +11,7 @@ class DocumentDetail {
   pages: string;
   coordinates: [number, number][];
   resources: Resource[];
+  attachments: Attachment[];
   linkedDocuments: LinkedDocument[];
 
   constructor(
@@ -26,6 +27,7 @@ class DocumentDetail {
     pages: string,
     coordinates: [number, number][],
     resources: Resource[],
+    attachments: Attachment[],
     linkedDocuments: LinkedDocument[]
   ) {
     this.documentId = documentId;
@@ -40,6 +42,7 @@ class DocumentDetail {
     this.pages = pages;
     this.coordinates = coordinates;
     this.resources = resources;
+    this.attachments = attachments;
     this.linkedDocuments = linkedDocuments;
   }
 }
@@ -57,6 +60,25 @@ class Resource {
     data: { type: string; data: number[] }
   ) {
     this.resourceId = resourceId;
+    this.fileType = fileType;
+    this.fileName = fileName;
+    this.data = data;
+  }
+}
+
+class Attachment {
+  attachmentId: number;
+  fileType: string;
+  fileName: string;
+  data: { type: string; data: number[] };
+
+  constructor(
+    attachmentId: number,
+    fileType: string,
+    fileName: string,
+    data: { type: string; data: number[] }
+  ) {
+    this.attachmentId = attachmentId;
     this.fileType = fileType;
     this.fileName = fileName;
     this.data = data;
