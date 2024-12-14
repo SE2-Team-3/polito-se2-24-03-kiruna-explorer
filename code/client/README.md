@@ -2,8 +2,6 @@
 This document lists all components and routes that compose the Kiruna Explorer application.
 
 # Table of Contents
-- [Kiruna-Explorer](#kiruna-explorer)
-- [Table of Contents](#table-of-contents)
 - [React + TypeScript + Vite](#react--typescript--vite)
 - [Expanding the ESLint configuration](#expanding-the-eslint-configuration)
 - [Client Application Routes](#client-application-routes)
@@ -162,6 +160,7 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Icon](#icon)
       - [Sidebar](#sidebar)
       - [Edge Popup](#edge-popup)
+      - [Connection Popup](#connection-popup)
     - [Left Side Bar](#left-side-bar)
     - [Nav Bar](#nav-bar)
     - [User Context](#user-context)
@@ -278,7 +277,13 @@ This component renders a sidebar displaying a list of document types. It serves 
 
 ### Edge popup  
 **File**: `components/diagramComponents/EdgePopup.tsx`
-This component serves as a popup modal displaying a list of "link types" and includes a button to close the moda
+This component serves as a popup modal displaying a list of "link types" and includes a button to close the modal.
+
+---
+
+### Connection popup  
+**File**: `components/diagramComponents/ConnectionPopup.tsx`
+This  component lets users create connections between documents on the diagram.
 
 ---
 
