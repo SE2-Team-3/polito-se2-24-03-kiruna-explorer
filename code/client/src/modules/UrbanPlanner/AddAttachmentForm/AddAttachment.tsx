@@ -9,21 +9,33 @@ import Close from "../../../assets/icons/close.svg";
 import Tick from "../../../assets/icons/single tick.svg";
 import { CgAttachment } from "react-icons/cg";
 import { useToast } from "../../ToastProvider";
+import { useLocation } from "react-router-dom"; // Import useLocation to get documentId from state
 
-
-export default function AddAttachment(props: any) {
+export default function AddAttachment() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const documentId = location.state?.documentId; // Retrieve documentId from navigation state
   const [attachments, setAttachments] = useState<File[]>([]);
   const { isSidebarOpen } = useSidebar();
 
   const showToast = useToast();
 
+  // Handle missing documentId
+  if (!documentId) {
+    console.error("Document ID is missing!");
+    showToast("Error: Missing Document ID", "", true);
+    navigate("/urban-planner/documents-list"); // Redirect to documents list
+    return null; // Prevent rendering
+  }
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (attachments.length) {
-      API.uploadAttachments(props.documentId, attachments).then(() => {
+      API.uploadAttachments(documentId, attachments).then(() => {
         navigate("/urban-planner/documents-list");
         showToast("Attachment(s) uploaded successfully", "", false);
+      }).catch(() => {
+        showToast("Failed to upload attachments. Please try again.", "", true);
       });
     } else {
       showToast("Upload at least one attachment", "", true);
@@ -52,7 +64,7 @@ export default function AddAttachment(props: any) {
     const updatedAttachments = attachments.filter((att) => att.name !== name);
     setAttachments(updatedAttachments);
   };
-  console.log(props.documentId);
+  
   
   return (
     <div className={`main-page ${isSidebarOpen ? "sidebar-open" : ""}`}>
