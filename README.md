@@ -4,10 +4,10 @@
 Kiruna Explorer is a web application designed to help urban planners, residents, and visitors explore, analyze, and understand documents related to urban planning and geographical information in the Kiruna region. The application offers tools to visualize, link, and interact with various documents on both maps and diagrams, supporting a deeper study of their relationships, geolocation, and impact over time.
 
 # 📚 Table of Contents
-- 🚀 [Getting Started](#getting-started)
-- 🛠️ [Technical Debt Management](#technical-debt-management)
-- ✨ [Features](#features)
-- 🖼️ [UI Application screenshots-first release](#ui-application-screenshots)
+- 🚀 [Getting Started](#🚀-getting-started)
+- 🛠️ [Technical Debt Management](#🛠️-technical-debt-management)
+- ✨ [Features](#✨-features)
+- 🖼️ [UI Application screenshots-first release](#🖼️-ui-application-screenshots)
 - 📊 [Diagrams](./assets/diagrams/)
   - 🖍️ [Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
   - 🧩 [Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
@@ -17,9 +17,9 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
   - 🏁 [Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
 
 
-## Getting Started
+## 🚀 Getting Started 
 
-### Prerequisites 🛠️
+### 🛠️ Prerequisites 
 ...
 
 
@@ -31,38 +31,38 @@ If you are using docker environment, please make sure that you have the followin
 
 - [Docker](https://www.docker.com/get-started)
 
-### Running the Application (local machine)
+### 🔌 Running the Application (local machine)
 
-1. **Clone the repository**:
+1. **📂 Clone the repository**:
    ```sh
    git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
-2. **Run the client-side server**:
+2. **🖥️ Run the client-side server**:
    ```
    cd code/client/
    npm run dev
    ```
-3. **Run the server-side server**:
+3. **🔧 Run the server-side server**:
    ```
    cd code/server/
    npm start
    ```
 
-### Running the Application (Docker environment)
+### 🐳 Running the Application (Docker environment)
 
-1. **Clone the repository**:
+1. **📂 Clone the repository**:
    ```sh
    git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
-2. **Run the container**:
+2. **⚙️ Run the container**:
    ```
    docker-compose up --build
    ```
-   Happy coding!
+   🔥 Happy coding!
 
-## Technical Debt Management
+## 🛠️ Technical Debt Management
 
 ### Team TD Strategies
 
@@ -85,7 +85,7 @@ If you are using docker environment, please make sure that you have the followin
   Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
   Generally, we dedicate mostly 20% of the estimations in each user story to technical debt.
 
-## Features
+## ✨ Features
 
 ### 📝 Document Management
 
@@ -127,7 +127,7 @@ If you are using docker environment, please make sure that you have the followin
 - ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# ** UI Application screenshots**
+# **🖼️ UI Application screenshots**
 
 ### 🔑 Login page
 
