@@ -3,10 +3,11 @@ import Document from "../../../models/document";
 import "./FilterPopup.css";
 import API from "../../../API/API";
 import { Button, Col, Dropdown, Row } from "react-bootstrap";
-import ClearIcon from "../../../assets/icons/close.svg";
+
 interface FilterProps {
   setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
   setFilterTableVisible?: Dispatch<SetStateAction<boolean>>;
+  handleResetNodes?: () => void;
 }
 
 const nodeTypes = [
@@ -96,6 +97,9 @@ const FilterTable: FC<FilterProps> = (props) => {
       language: "",
       description: "",
     });
+    if (props.handleResetNodes) {
+      props.handleResetNodes();
+    }
   };
 
   return (

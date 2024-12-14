@@ -80,6 +80,10 @@ const Diagram = (props: any) => {
     navigate(`/documents/${nodeId}`);
   };
 
+  const handleResetNodes = () => {
+    setNodes(initialNodes);
+  };
+
   // Update nodes based on filtered documents
   useEffect(() => {
     if (filteredDocuments.length > 0) {
@@ -120,12 +124,14 @@ const Diagram = (props: any) => {
             className="open-filter-table-button"
             onClick={() => setFilterTableVisible(!filterTableVisible)}
           >
-            Filter <img src={FilterIcon} alt="filter" />
+            Filter
+            {/* <img src={FilterIcon} alt="filter" /> */}
           </button>
         </Col>
         <Col>
-          <button className="reset-filter-table-button" onClick={() => setNodes(initialNodes)}>
-            Reset <img src={Close} alt="close" />
+          <button className="reset-filter-table-button" onClick={handleResetNodes}>
+            Reset
+            {/* <img src={Close} alt="close" /> */}
           </button>
         </Col>
       </Row>
@@ -134,6 +140,7 @@ const Diagram = (props: any) => {
           <FilterTable
             setFilteredDocuments={setFilteredDocuments}
             setFilterTableVisible={setFilterTableVisible}
+            handleResetNodes={handleResetNodes}
           />
         </div>
       )}

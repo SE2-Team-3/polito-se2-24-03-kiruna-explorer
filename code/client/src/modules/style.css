@@ -1573,13 +1573,12 @@ DOCUMENT DETAILS
 .open-filter-table-button,
 .open-filter-table-button:hover {
   z-index: 9999 !important;
-  background-color: white;
-  color: #3d52a0;
+  background-color: #3d52a0;
+  color: white;
   position: fixed;
   top: 90px;
   right: 150px;
-  border: none;
-  margin-top: 5px;
+  border: 1px solid white;
 }
 
 .reset-filter-table-button,
@@ -1589,6 +1588,6 @@ DOCUMENT DETAILS
   color: #3d52a0;
   position: fixed;
   top: 90px;
-  right: 20px;
-  border: none;
+  right: 50px;
+  border: 1px solid #3d52a0;
 }
