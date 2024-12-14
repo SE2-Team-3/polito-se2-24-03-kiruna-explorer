@@ -7,42 +7,50 @@ import API from "../../../../../../API/API";
 import Georeference from "../../../../../../models/georeference";
 
 interface Props {
-  setPolygonName: (polygonName: string) => void;
-  showPolygonMap: boolean;
-  setShowPolygonMap: (show: boolean) => void;
-  setPolygonCoordinates: (coords: [number, number][]) => void;
+  setName: (polygonName: string) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][]) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapListAreaModal = ({
-  setPolygonName,
-  showPolygonMap,
-  setShowPolygonMap,
-  setPolygonCoordinates,
+  setName,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
-  const [listArea, SetList] = useState<Georeference[]>([]);
+  const [listArea, setList] = useState<Georeference[]>([]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
 
-  const handleClose = () => setShowPolygonMap(false);
-
   useEffect(() => {
     API.getGeoreferences(true).then((geo) => {
-      SetList(geo);
+      setList(
+        geo.reduce((acc: Georeference[], current: Georeference) => {
+          const coord = JSON.parse(current.coordinates);
+          if (
+            !acc.some(
+              (area) =>
+                JSON.stringify(area.coordinates) === JSON.stringify(coord)
+            )
+          ) {
+            acc.push(current);
+          }
+          return acc;
+        }, [])
+      );
     });
   }, []);
 
-  /*
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };*/
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
+  };
 
   return (
-    <Modal show={showPolygonMap} onHide={handleClose} size="lg">
+    <Modal show={showMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select an area location</Modal.Title>
       </Modal.Header>
@@ -50,8 +58,8 @@ const MiniMapListAreaModal = ({
         <MapContainer
           center={kirunaPosition}
           attributionControl={false}
-          zoom={13}
-          minZoom={12}
+          zoom={12}
+          minZoom={7}
           zoomControl={true}
           scrollWheelZoom={true}
           style={{ height: "400px", maxHeight: "400px", width: "100%" }}
@@ -77,15 +85,20 @@ const MiniMapListAreaModal = ({
                 }}
                 eventHandlers={{
                   click: (e) => {
-                    const polygonCoords = e.target.getLatLngs()[0];
-                    const formattedCoords = polygonCoords.map((coord: any) => [
-                      coord.lat,
-                      coord.lng,
-                    ]);
+                    const polygonCoords: L.LatLng[] = e.target.getLatLngs()[0];
+                    const firstCoord: L.LatLng = e.target.getLatLngs()[0][0];
 
-                    setPolygonCoordinates(formattedCoords);
-                    setPolygonName(area.georeferenceName);
-                    setShowPolygonMap(false);
+                    const concatenatedCoords: L.LatLng[] = [
+                      ...polygonCoords,
+                      firstCoord,
+                    ];
+
+                    const formattedCoords: [number, number][] =
+                      concatenatedCoords.map((coord) => [coord.lat, coord.lng]);
+
+                    setCoordinates(formattedCoords);
+                    setName(area.georeferenceName);
+                    setShowMap(false);
                   },
                 }}
               ></Polygon>
@@ -96,7 +109,7 @@ const MiniMapListAreaModal = ({
       <Modal.Footer>
         <Button
           variant="secondary"
-          className="button-small"
+          className="button-small-cancel"
           onClick={handleClose}
         >
           Close
