@@ -58,7 +58,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -227,8 +228,8 @@ BUTTON STYLE
   transform: scale(0.95);
 }
 
-.button-small,
-.button-small:hover {
+.button-small-cancel,
+.button-small-cancel:hover {
   background-color: transparent;
   border-color: #3d52a0;
   color: #3d52a0;
@@ -241,6 +242,26 @@ BUTTON STYLE
   border-color: #3d52a0;
   color: white;
   font-size: 18px;
+}
+
+.button-map {
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  width: 120px;
+}
+
+.button-map.hide {
+  color: #1e1e1e;
+  background-color: white;
+  border: 2px solide #1e1e1e;
+}
+
+.button-map.show {
+  background-color: #333;
+  color: white;
+  border: 2px solid white;
 }
 
 .add-link-button {
@@ -1209,7 +1230,8 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */
+      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }

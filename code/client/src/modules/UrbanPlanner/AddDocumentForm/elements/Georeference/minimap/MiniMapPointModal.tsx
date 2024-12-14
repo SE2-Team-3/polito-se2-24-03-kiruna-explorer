@@ -1,31 +1,36 @@
-import { LatLngBounds, LatLngExpression, LatLng } from "leaflet";
+import { LatLngExpression, LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
-import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+  Marker,
+  Polygon,
+} from "react-leaflet";
 import L from "leaflet";
 import Logo from "../../../../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../../../../style.css";
+import LocalGeoJSONReader from "../../../../../../components/municipalityArea/MunicipalityArea";
+import { validateLocation } from "../../../../../../components/municipalityArea/Validation";
 
 interface Props {
-  showMiniMap: boolean;
-  setShowMiniMap: (show: boolean) => void;
-  setLatitude: (lat: number) => void;
-  setLongitude: (lon: number) => void;
+  showMap: boolean;
+  setShowMap: (show: boolean) => void;
+  setCoordinates: (coords: [number, number][]) => void;
+  setGeoType: (value: string) => void;
 }
 
 const MiniMapPointModal = ({
-  showMiniMap,
-  setShowMiniMap,
-  setLatitude,
-  setLongitude,
+  showMap,
+  setShowMap,
+  setCoordinates,
+  setGeoType,
 }: Props) => {
   const [validationMessage, setValidationMessage] = useState("");
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513];
-  const kirunaBounds: LatLngBounds = new LatLngBounds([
-    [67.821, 20.182], // Southwest corner
-    [67.89, 20.32], // Northeast corner
-  ]);
+  const municipalityArea: LatLngExpression[][] = LocalGeoJSONReader();
 
   const [cursorPosition, setCursorPosition] = useState<LatLng | null>(null);
   const logoIcon = new L.Icon({
@@ -35,25 +40,23 @@ const MiniMapPointModal = ({
     popupAnchor: [0, -32],
   });
 
-  const handleClose = () => setShowMiniMap(false);
-
-  const validateLocation = (lat: number, lon: number) => {
-    return kirunaBounds.contains([lat, lon]);
+  const handleClose = () => {
+    setShowMap(false);
+    setGeoType("Default");
   };
 
   const LocationMarker = () => {
     useMapEvents({
       mousemove(e) {
-        setCursorPosition(e.latlng); // Update the cursor position
+        setCursorPosition(e.latlng);
       },
       click(e) {
-        if (validateLocation(e.latlng.lat, e.latlng.lng)) {
-          setLatitude(e.latlng.lat);
-          setLongitude(e.latlng.lng);
-          setShowMiniMap(false);
+        if (validateLocation(municipalityArea, e.latlng.lat, e.latlng.lng)) {
+          setCoordinates([[e.latlng.lat, e.latlng.lng]]);
+          setShowMap(false);
         } else {
-          setValidationMessage("Please select a location within Kiruna");
-          setShowMiniMap(true);
+          setValidationMessage("Please select a location within Kiruna.");
+          setShowMap(true);
         }
       },
     });
@@ -63,10 +66,10 @@ const MiniMapPointModal = ({
 
   useEffect(() => {
     setValidationMessage("");
-  }, [showMiniMap]);
+  }, [showMap]);
 
   return (
-    <Modal show={showMiniMap} onHide={handleClose} size="lg">
+    <Modal show={showMap} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Select a location on the map</Modal.Title>
       </Modal.Header>
@@ -74,8 +77,8 @@ const MiniMapPointModal = ({
         <MapContainer
           center={kirunaPosition}
           attributionControl={false}
-          zoom={13}
-          minZoom={12}
+          zoom={12}
+          minZoom={7}
           zoomControl={true}
           scrollWheelZoom={true}
           style={{ height: "400px", maxHeight: "400px", width: "100%" }}
@@ -89,6 +92,19 @@ const MiniMapPointModal = ({
           {cursorPosition && (
             <Marker position={cursorPosition} icon={logoIcon} />
           )}
+          {municipalityArea.map((polygonCoords, index) => (
+            <Polygon
+              key={`polygon-${index}`}
+              positions={polygonCoords}
+              pathOptions={{
+                color: "#3d52a0",
+                weight: 3,
+                opacity: 1,
+                fillColor: "transparent",
+                fillOpacity: 0,
+              }}
+            />
+          ))}
         </MapContainer>
         {validationMessage && (
           <Alert variant="danger" className="mt-3">
@@ -99,7 +115,7 @@ const MiniMapPointModal = ({
       <Modal.Footer>
         <Button
           variant="secondary"
-          className="button-small"
+          className="button-small-cancel"
           onClick={handleClose}
         >
           Close
