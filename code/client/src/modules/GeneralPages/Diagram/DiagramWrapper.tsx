@@ -13,15 +13,19 @@ import {
 import { useOccupiedPositions } from "../../../components/diagramComponents/utils/positionUtils";
 import Diagram from "./Diagram";
 
-const DiagramWrapper = () => {
+interface DiagramWrapperProps {
+  searchTitle: string;
+  filteredDocuments: Document[];
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+}
+
+const DiagramWrapper = (props: DiagramWrapperProps) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [initialNodes, setInitialNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const [scrollWidth, setScrollWidth] = useState<number>(1);
-
-  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
 
   const { getAvailablePosition } = useOccupiedPositions();
 
@@ -119,6 +123,9 @@ const DiagramWrapper = () => {
 
   return (
     <Diagram
+      filteredDocuments={props.filteredDocuments}
+      setFilteredDocuments={props.setFilteredDocuments}
+      searchTitle={props.searchTitle}
       initialNodes={initialNodes}
       setNodes={setNodes}
       setEdges={setEdges}

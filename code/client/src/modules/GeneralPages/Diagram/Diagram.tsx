@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
   Node,
+  Edge,
 } from "@xyflow/react";
 import DiagramTable from "../../../components/diagramComponents/DiagramTable";
 import { nodeTypes, edgeTypes } from "../../../components/diagramComponents/utils/nodeAndEdgeTypes";
@@ -15,11 +16,25 @@ import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 import API from "../../../API/API";
 import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
 import Document from "../../../models/document";
-import FilterIcon from "../../../assets/icons/filter.svg";
-import Close from "../../../assets/icons/close.svg";
 import { Col, Row } from "react-bootstrap";
 
-const Diagram = (props: any) => {
+interface DiagramProps {
+  filteredDocuments: Document[];
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+  searchTitle: string;
+  initialNodes: Node[];
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
+  scrollWidth: number;
+  nodes: Node[];
+  edges: Edge[];
+  yearWidths: number[];
+}
+
+const Diagram = (props: DiagramProps) => {
+  const filteredDocuments = props.filteredDocuments;
+  const setFilteredDocuments = props.setFilteredDocuments;
+  const searchTitle = props.searchTitle;
   const initialNodes = props.initialNodes;
   const setNodes = props.setNodes;
   const setEdges = props.setEdges;
@@ -36,8 +51,6 @@ const Diagram = (props: any) => {
   );
   const { isSidebarOpen } = useSidebar();
   const [filterTableVisible, setFilterTableVisible] = useState(false);
-  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
-  const filterButtonRef = useRef<HTMLButtonElement>(null); // Ref for filter button
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds: any) => applyNodeChanges(changes, nds)),
@@ -86,20 +99,28 @@ const Diagram = (props: any) => {
 
   // Update nodes based on filtered documents
   useEffect(() => {
-    if (filteredDocuments.length > 0) {
-      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-      console.log("Filtered node ids:", filteredNodeIds);
-      console.log(
-        "Original nodes ids:",
-        nodes.map((node: Node) => Number(node.id))
+    const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
+    const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+    setNodes(updatedNodes);
+  }, [filteredDocuments]);
+
+  // update documents list based on searchTitle
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const allDocs = await API.getDocuments();
+      const filtered = allDocs.filter((doc) =>
+        doc.title.toLowerCase().includes(searchTitle.toLowerCase())
       );
-      console.log("iniatial nodes:", initialNodes);
+      const filteredNodeIds = filtered.map((doc) => doc.documentId);
       const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
       setNodes(updatedNodes);
-    } else {
-      setNodes(nodes); // Reset to original nodes if no filters are applied
-    }
-  }, [filteredDocuments]);
+      if (searchTitle === "") {
+        setNodes(initialNodes);
+      }
+    };
+
+    fetchDocuments();
+  }, [searchTitle]);
 
   return (
     <>

@@ -28,7 +28,9 @@ const NavBar: FC<NavBarProps> = (props) => {
   };
 
   const showSearchBar =
-    location.pathname === "/urban-planner/documents-list" || location.pathname === "/explore-map";
+    location.pathname === "/urban-planner/documents-list" ||
+    location.pathname === "/explore-map" ||
+    location.pathname === "/diagram";
 
   const loggedIn = props.loggedIn;
 

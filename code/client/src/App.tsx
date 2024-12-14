@@ -1,11 +1,5 @@
 import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import LeftSideBar from "./components/LeftSideBar";
@@ -41,12 +35,9 @@ function App() {
   const location = useLocation();
   const [isViewLinkedDocuments, setIsViewLinkedDocuments] = useState(false);
   const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
-  const [currentLayer, setCurrentLayer] =
-    useState<keyof typeof tileLayers>("satellite"); // Stato per il layer selezionato
+  const [currentLayer, setCurrentLayer] = useState<keyof typeof tileLayers>("satellite"); // Stato per il layer selezionato
 
-  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(
-    undefined
-  );
+  const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
     title: "",
@@ -161,11 +152,7 @@ function App() {
         <Container>
           <SidebarProvider>
             <UserContext.Provider value={user}>
-              <NavBar
-                setSearchTitle={setSearchTitle}
-                loggedIn={loggedIn}
-                doLogOut={doLogOut}
-              />
+              <NavBar setSearchTitle={setSearchTitle} loggedIn={loggedIn} doLogOut={doLogOut} />
               {location.pathname !== "/home" && location.pathname !== "/" && (
                 <LeftSideBar logout={doLogOut} />
               )}
@@ -187,15 +174,19 @@ function App() {
                 {/* no login required */}
                 <Route
                   path="/home"
+                  element={<HomePage loggedIn={loggedIn} username={user?.username} />}
+                />
+                <Route
+                  path="/diagram"
                   element={
-                    <HomePage loggedIn={loggedIn} username={user?.username} />
+                    <DiagramWrapper
+                      searchTitle={searchTitle}
+                      filteredDocuments={filteredDocuments}
+                      setFilteredDocuments={setFilteredDocuments}
+                    />
                   }
                 />
-                <Route path="/diagram" element={<DiagramWrapper />} />
-                <Route
-                  path="/documents/:documentId"
-                  element={<DocumentDetails />}
-                />
+                <Route path="/documents/:documentId" element={<DocumentDetails />} />
                 <Route
                   path="/explore-map"
                   element={
@@ -213,18 +204,13 @@ function App() {
                 {/* urban-planner login required */}
                 <Route
                   path="/urban-planner"
-                  element={
-                    loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />
-                  }
+                  element={loggedIn ? <UrbanPlanner /> : <Navigate to="/login" />}
                 />
                 <Route
                   path="/urban-planner/add-document"
                   element={
                     loggedIn ? (
-                      <AddDocumentForm
-                        document={newDocument}
-                        setDocument={setNewDocument}
-                      />
+                      <AddDocumentForm document={newDocument} setDocument={setNewDocument} />
                     ) : (
                       <Navigate to="/login" />
                     )
@@ -232,9 +218,7 @@ function App() {
                 />
                 <Route
                   path="/urban-planner/link-documents"
-                  element={
-                    loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />
-                  }
+                  element={loggedIn ? <LinkDocumentForm /> : <Navigate to="/login" />}
                 />
                 <Route
                   path="/urban-planner/documents-list"
@@ -267,10 +251,7 @@ function App() {
       <Col>
         {loggedIn && location.pathname == "/explore-map" ? (
           <Row>
-            <Button
-              onClick={() => navigate("/urban-planner/add-document")}
-              className="add-button"
-            >
+            <Button onClick={() => navigate("/urban-planner/add-document")} className="add-button">
               <FaPlus color="white" size={25} />
             </Button>
           </Row>
@@ -278,11 +259,7 @@ function App() {
         {isViewLinkedDocuments && location.pathname == "/explore-map" ? (
           <Row>
             <Button onClick={handleSetDocuments} className="view-all-button">
-              <img
-                src={ViewAll}
-                alt="ViewAll"
-                style={{ width: "30px", height: "30px" }}
-              />
+              <img src={ViewAll} alt="ViewAll" style={{ width: "30px", height: "30px" }} />
             </Button>
           </Row>
         ) : null}
@@ -295,9 +272,7 @@ function App() {
                   {Object.keys(tileLayers).map((layer) => (
                     <Dropdown.Item
                       key={layer}
-                      onClick={() =>
-                        setCurrentLayer(layer as keyof typeof tileLayers)
-                      }
+                      onClick={() => setCurrentLayer(layer as keyof typeof tileLayers)}
                     >
                       <img
                         src={layerIcons[layer]}
