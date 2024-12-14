@@ -253,7 +253,7 @@ async function getGeoreferences(isArea?: boolean) {
   if (isArea !== undefined) {
     params.append("isArea", isArea.toString());
   }
-  const response = await fetch(baseURL + "documents/georeferences", {
+  const response = await fetch(baseURL + "documents/georeferences?" + params, {
     credentials: "include",
   });
   if (response.ok) {
