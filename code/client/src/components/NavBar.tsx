@@ -2,11 +2,12 @@ import { Button, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../index.css";
 import Logo from "../assets/icons/logo.svg";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { LogInIcon } from "lucide-react";
 import { LogOutIcon } from "lucide-react";
 import Document from "../models/document";
 import { Undo2Icon } from "lucide-react";
+import API from "../API/API";
 
 interface NavBarProps {
   setSearchTitle: Dispatch<SetStateAction<string>>;
@@ -22,6 +23,15 @@ const NavBar: FC<NavBarProps> = (props) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const navigate = useNavigate();
+  const [allDocs, setAllDocs] = useState<Document[]>([]);
+
+  useEffect(() => {
+    async function setInitialDocs() {
+      const allDocs = await API.getDocuments();
+      setAllDocs(allDocs);
+    }
+    setInitialDocs();
+  }, []);
 
   const handleChange = () => {
     var value = (document.getElementById("input") as HTMLInputElement).value;
@@ -33,12 +43,10 @@ const NavBar: FC<NavBarProps> = (props) => {
     props.setSearchTitle("");
   };
 
-  const handleResetNodes = () => {
-    props.setFilteredDocuments([]);
+  const handleResetNodes = async () => {
+    props.setFilteredDocuments(allDocs);
     props.setFilterTableVisible(false);
   };
-
-  console.log(props.filteredDocuments);
 
   const showSearchBar =
     location.pathname === "/urban-planner/documents-list" ||
@@ -123,7 +131,7 @@ const NavBar: FC<NavBarProps> = (props) => {
               </button>
             </Col>
           )}
-          {location.pathname === "/diagram" && props.filteredDocuments.length > 0 && (
+          {location.pathname === "/diagram" && props.filteredDocuments.length < allDocs.length && (
             <Col>
               <button className="undo-filter-button-diagram" onClick={handleResetNodes}>
                 <Undo2Icon size={24} color="#3d52a0" />

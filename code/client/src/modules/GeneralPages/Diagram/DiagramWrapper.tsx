@@ -34,6 +34,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
   useEffect(() => {
     async function getDocs() {
       const initialDocs: Document[] = await API.getDocuments();
+      props.setFilteredDocuments(initialDocs);
       const initialConnections: Connection[] = await API.getConnections();
       if (initialDocs.length) {
         let newNodes: Node[] = [];

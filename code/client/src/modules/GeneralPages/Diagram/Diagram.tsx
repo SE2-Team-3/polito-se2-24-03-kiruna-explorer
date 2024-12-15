@@ -16,7 +16,6 @@ import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 import API from "../../../API/API";
 import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
 import Document from "../../../models/document";
-import { Col, Row } from "react-bootstrap";
 
 interface DiagramProps {
   filterTableVisible: boolean;
@@ -50,6 +49,7 @@ const Diagram = (props: DiagramProps) => {
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
+  const [allDocs, setAllDocs] = useState<Document[]>([]);
   const [tooltip, setTooltip] = useState<{ visible: boolean; title: string; x: number; y: number }>(
     { visible: false, title: "", x: 0, y: 0 }
   );
@@ -66,6 +66,14 @@ const Diagram = (props: DiagramProps) => {
   );
 
   const onConnect = useCallback((params: any) => setEdges((eds: any) => addEdge(params, eds)), []);
+
+  useEffect(() => {
+    async function setInitialDocs() {
+      const allDocs = await API.getDocuments();
+      setAllDocs(allDocs);
+    }
+    setInitialDocs();
+  }, []);
 
   const onEdgeHover = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
@@ -96,18 +104,21 @@ const Diagram = (props: DiagramProps) => {
     navigate(`/documents/${nodeId}`);
   };
 
-  const handleResetNodes = () => {
-    setFilteredDocuments([]);
+  const handleResetNodes = async () => {
+    const allDocs = await API.getDocuments();
+    setFilteredDocuments(allDocs);
     setFilterTableVisible(false);
   };
 
   // Update nodes based on filtered documents
   useEffect(() => {
-    if (filteredDocuments.length > 0) {
+    if (filteredDocuments.length < allDocs.length) {
       const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
       const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
       setNodes(updatedNodes);
-    } else {
+    } else if (filteredDocuments.length === 0) {
+      setNodes([]);
+    } else if (filteredDocuments.length === allDocs.length) {
       setNodes(initialNodes);
     }
   }, [filteredDocuments]);
