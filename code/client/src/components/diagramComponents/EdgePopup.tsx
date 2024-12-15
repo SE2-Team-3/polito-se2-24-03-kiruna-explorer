@@ -115,25 +115,28 @@ const EdgePopup: React.FC<PopupProps> = ({
         zIndex: 9999,
       }}
     >
-      <h3>{linkTypes.length === 1 ? "Connection Type" : "Connection Types"}</h3>
-      <ul className="font-size-20" style={{ marginRight: "25px" }}>
-        {linkTypes.map((linkType, index) => (
-          <li key={index}>
-            {linkType}
-            {user ? (
-              <BsTrash
-                size={10}
-                type="button"
-                style={{ cursor: "pointer" }}
-                onClick={() => handleDeleteConnection(linkType)}
-                className="popup-remove-link-button"
-              />
-            ) : (
-              <></>
-            )}
-          </li>
-        ))}
-      </ul>
+      <h3 style={{ marginBottom: "20px" }}>{linkTypes.length === 1 ? "Connection Type" : "Connection Types"}</h3>
+      <div className="font-size-20" style={{ marginRight: "25px" ,marginBottom:"14px"}}>
+         {linkTypes.map((linkType, index) => (
+          <div
+            key={index}
+            style={{display:"block", alignItems: "end", marginBottom: "14px", }}
+           >
+              <span style={{alignItems: "flex-start", marginBottom:"14px"}}>
+              • {linkType}
+               </span>
+             {user && (
+               <BsTrash
+                 size={14} 
+                 type="button"
+                 style={{cursor: "pointer"}}
+                 onClick={() => handleDeleteConnection(linkType)}
+                 className="popup-remove-link-button"
+               />
+           )}
+           </div>
+           ))}
+        </div>
       <Row className="row-box-button">
         <Button onClick={handleCancel} className="button-white mt-3">
           Close
