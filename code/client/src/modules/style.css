@@ -43,6 +43,7 @@ PAGE STYLE
 
 .form-container-document-details {
   max-width: 90% !important;
+  min-width: 1000px;
 }
 
 .form-container,
@@ -52,7 +53,7 @@ PAGE STYLE
   backdrop-filter: blur(10px);
   border-radius: 10px;
   max-width: 1200px;
-  padding-inline: 70px;
+  padding-inline: 50px;
   padding-block: 30px;
   box-sizing: border-box;
   max-height: calc(100vh - 130px);
@@ -524,6 +525,10 @@ SMALL LAPTOP RESPONSIVE PAGE
     margin-top: 0px;
   }
 
+  .form-container-document-details {
+    min-width: 600px;
+  }
+
   .big-bold-text {
     font-size: 30px;
   }
@@ -602,6 +607,10 @@ TABLET RESPONSIVE PAGE
   .document-form {
     width: 100%;
     margin-top: 0px;
+  }
+
+  .form-container-document-details {
+    min-width: 300px;
   }
 
   .big-bold-text {
@@ -1127,6 +1136,16 @@ MAP
 .table tbody tr td:last-child {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+.choose-file {
+  text-decoration: none; /* Remove default underline */
+  cursor: pointer; /* Show a pointer cursor on hover */
+}
+
+.choose-file:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #2c3e7f; /* Optionally change the color on hover */
 }
 
 /* Badge per le icone colorate */

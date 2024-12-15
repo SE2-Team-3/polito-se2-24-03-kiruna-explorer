@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import DocumentDetail from "../../models/documentDetail";
 import Flag from "react-world-flags";
 import LinkDocument from "../../assets/icons/link selected.svg";
-import UploadDocument from "../../assets/icons/upload.svg";
+import Attachment from "../../assets/icons/attachment.svg";
+import Resource from "../../assets/icons/resource.svg";
 import Scale from "../../assets/icons/scale.svg";
 import Language from "../../assets/icons/language.svg";
 import MiniMapDetail from "./Map/MiniMapDetail";
@@ -14,11 +15,13 @@ import DocumentType from "../../assets/icons/document type.svg";
 import Calendar from "../../assets/icons/date.svg";
 import PersonBlue from "../../assets/icons/person blue.svg";
 import Book from "../../assets/icons/book.svg";
+import { useNavigate } from "react-router-dom";
 
 const DocumentDetails = () => {
   const { isSidebarOpen } = useSidebar();
   const { documentId } = useParams();
   const [document, setDocument] = useState<DocumentDetail>();
+  const navigate = useNavigate();
 
   const docId = Number(documentId);
 
@@ -124,62 +127,7 @@ const DocumentDetails = () => {
         </Row>
         <br />
         <Row className="table-container">
-          <Col xs={12} md={4} className="linked-documents margintop-15px">
-            <strong>
-              <img src={LinkDocument} alt="link document" />
-              Linked Documents
-            </strong>
-            {document?.linkedDocuments &&
-            document?.linkedDocuments.length > 0 ? (
-              <div className="linked-documents-table">
-                {document?.linkedDocuments?.length > 0 ? (
-                  document.linkedDocuments.map((linkedDoc, index) => (
-                    <div
-                      key={`${index}-${linkedDoc.documentId}`}
-                      className={`table-row ${
-                        index % 2 === 0 ? "dark-row" : "light-row"
-                      }`}
-                    >
-                      <span className="document-title">{linkedDoc.title}</span>
-                      <span className="document-connection">
-                        {" - "}
-                        {linkedDoc.connection}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="no-documents">No linked documents found.</div>
-                )}
-              </div>
-            ) : (
-              <div className="no-documents">No linked documents found.</div>
-            )}
-          </Col>
-          <Col xs={12} md={4} className="resources margintop-15px">
-            <strong>
-              <img src={UploadDocument} alt="upload resource" /> Resources
-            </strong>
-            {document?.resources && document?.resources.length > 0 ? (
-              <div className="linked-documents-table">
-                {document?.resources.map((resource, index) => (
-                  <div
-                    key={`${index}-${resource.resourceId}`}
-                    className={`table-row ${
-                      index % 2 === 0 ? "dark-row" : "light-row"
-                    }`}
-                  >
-                    <span className="document-title">{resource.fileName}</span>
-                    <span className="document-connection">
-                      {resource.fileType}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="no-documents">No resources found.</div>
-            )}
-          </Col>
-          <Col xs={12} md={4} className="stakeholders margintop-15px">
+          <Col xs={12} md={3} className="stakeholders margintop-15px">
             <strong>
               <img src={PersonBlue} alt="person" /> Stakeholders
             </strong>
@@ -195,6 +143,95 @@ const DocumentDetails = () => {
                 </div>
               ))}
             </div>
+          </Col>
+
+          <Col xs={12} md={3} className="linked-documents margintop-15px">
+            <strong>
+              <img src={LinkDocument} alt="link document" />
+              Linked Docs
+            </strong>
+            {document?.linkedDocuments &&
+            document?.linkedDocuments.length > 0 ? (
+              <div className="linked-documents-table">
+                {[
+                  ...new Map(
+                    document.linkedDocuments.map((linkedDoc) => [
+                      linkedDoc.documentId,
+                      linkedDoc,
+                    ])
+                  ).values(),
+                ].map((linkedDoc, index) => (
+                  <div
+                    key={`${index}-${linkedDoc.documentId}`}
+                    className={`table-row ${
+                      index % 2 === 0 ? "dark-row" : "light-row"
+                    }`}
+                  >
+                    <span
+                      className="document-title"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() =>
+                        navigate(`/documents/${linkedDoc.documentId}`)
+                      }
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          navigate(`/documents/${linkedDoc.documentId}`);
+                        }
+                      }}
+                    >
+                      {linkedDoc.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="no-documents">No linked documents found.</div>
+            )}
+          </Col>
+          <Col xs={12} md={3} className="resources margintop-15px">
+            <strong>
+              <img src={Resource} alt="upload resource" /> Resources
+            </strong>
+            {document?.resources && document?.resources.length > 0 ? (
+              <div className="linked-documents-table">
+                {document?.resources.map((resource, index) => (
+                  <div
+                    key={`${index}-${resource.resourceId}`}
+                    className={`table-row ${
+                      index % 2 === 0 ? "dark-row" : "light-row"
+                    }`}
+                  >
+                    <span className="document-title">{resource.fileName}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="no-documents">No resources found.</div>
+            )}
+          </Col>
+          <Col xs={12} md={3} className="resources margintop-15px">
+            <strong>
+              <img src={Attachment} alt="attachments" /> Attachments
+            </strong>
+            {document?.attachments && document?.attachments.length > 0 ? (
+              <div className="linked-documents-table">
+                {document?.attachments.map((attachment, index) => (
+                  <div
+                    key={`${index}-${attachment.attachmentId}`}
+                    className={`table-row ${
+                      index % 2 === 0 ? "dark-row" : "light-row"
+                    }`}
+                  >
+                    <span className="document-title">
+                      {attachment.fileName}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="no-documents">No attachments found.</div>
+            )}
           </Col>
         </Row>
       </div>

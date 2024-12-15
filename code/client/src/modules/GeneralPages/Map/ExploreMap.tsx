@@ -47,7 +47,7 @@ const ExploreMap = ({
   // update documents list based on searchTitle
   useEffect(() => {
     const filtered = documents.filter((doc) =>
-      doc.title.toLowerCase().includes(searchTitle.toLowerCase())
+      doc.title.toLowerCase().includes(searchTitle.toLowerCase()) || doc.description.toLocaleLowerCase().includes(searchTitle.toLocaleLowerCase())
     );
     setFilteredDocuments(filtered);
   }, [searchTitle, documents]);

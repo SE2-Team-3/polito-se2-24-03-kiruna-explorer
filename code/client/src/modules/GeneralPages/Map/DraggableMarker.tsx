@@ -202,7 +202,7 @@ const DraggableMarker = ({
 
   const getCustomIcon = (documentType: string, isSelected: boolean) => {
     const baseIcon = markers.get(documentType);
-    if (!baseIcon) return undefined;
+    if (!baseIcon) return customIcon;
 
     return new L.Icon({
       iconUrl: baseIcon.options.iconUrl,

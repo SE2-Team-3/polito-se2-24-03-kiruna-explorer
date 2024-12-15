@@ -1,19 +1,30 @@
-import { Col, Form, InputGroup } from "react-bootstrap";
+import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../style.css";
-import { Props, NewDocument } from "../interfaces/types";
+import { NewDocument, ScaleProps } from "../interfaces/types";
+import API from "../../../../API/API";
+import Tick from "../../../../assets/icons/single tick.svg";
+import Cancel from "../../../../assets/icons/close.svg";
 
-const ScaleSelection = (props: Props) => {
+const ScaleSelection = (props: ScaleProps) => {
+  const [scalesList, setScalesList] = useState<string[]>(props.scalesList);
+  const [adding, setAdding] = useState<boolean>(false);
+  const [newScale, setNewScale] = useState<string>("");
+
   const [documentType, setDocumentType] = useState(
-    props.document ? props.document.documentType : ""
+    props.props.document ? props.props.document.documentType : ""
   );
   const [scale, setScale] = useState(
-    props.document ? props.document.scale : ""
+    props.props.document ? props.props.document.scale : ""
   );
 
   const handleTypeChange = (value: string) => {
-    setDocumentType(value);
-    setScale(value === "Architectural plan" ? "" : value);
+    if (value == "add") {
+      setAdding(true);
+    } else {
+      setDocumentType(value);
+      setScale(value === "Architectural plan" ? "" : value);
+    }
   };
 
   const handleScaleChange = (value: string) => {
@@ -26,55 +37,102 @@ const ScaleSelection = (props: Props) => {
   };
 
   useEffect(() => {
-    if (props.setDocument) {
-      props.setDocument((prevDocument: NewDocument) => ({
+    if (props.props.setDocument) {
+      props.props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
         documentType: documentType,
         scale: scale,
       }));
     }
-  }, [documentType, scale, props.setDocument]);
+  }, [documentType, scale, props.props.setDocument]);
+
+  const handleAdd = () => {
+    handleTypeChange(newScale);
+    setAdding(false);
+    setScalesList([...scalesList, newScale]);
+    API.addScale(newScale);
+    setNewScale("");
+  };
+
+  const handleCancel = () => {
+    setNewScale("");
+    setAdding(false);
+  };
 
   return (
     <Form.Group as={Col} controlId="formGridScale">
       <Form.Label className="black-text">Scale *</Form.Label>
-      <InputGroup>
-        <Form.Select
-          required
-          value={documentType}
-          style={{ width: "50%" }}
-          onChange={(event) => handleTypeChange(event.target.value)}
-          className="font-size-20"
-        >
-          <option value="">Select scale</option>
-          <option value="Text">Text</option>
-          <option value="Concept">Concept</option>
-          <option value="Architectural plan">Architectural plan</option>
-          <option value="Blueprints/actions">Blueprints/actions</option>
-        </Form.Select>
-        {documentType === "Architectural plan" && (
-          <>
+      {!adding ? (
+        <InputGroup>
+          <Form.Select
+            required
+            value={documentType}
+            style={{ width: "50%" }}
+            onChange={(event) => handleTypeChange(event.target.value)}
+            className="font-size-20"
+          >
+            <option value="">Select scale</option>
+            {scalesList.map((s, index) => (
+              <option key={"sc-" + index} value={s}>
+                {s}
+              </option>
+            ))}
+            <option value="add">Add scale</option>
+          </Form.Select>
+          {documentType === "Architectural plan" && (
+            <>
+              <Form.Control
+                type="text"
+                placeholder="1:"
+                value="1:"
+                disabled
+                style={{ width: "15%", textAlign: "right" }}
+                className="mt-0 font-size-20"
+              />
+
+              <Form.Control
+                required
+                type="number"
+                placeholder="XXXX"
+                value={scale ? scale.split(":")[1] : ""}
+                onChange={(event) => handleScaleChange(event.target.value)}
+                className="mt-0 font-size-20"
+                style={{ width: "30%", textAlign: "left" }}
+              />
+            </>
+          )}
+        </InputGroup>
+      ) : (
+        <Row style={{ alignItems: "center" }}>
+          <Col style={{ maxWidth: "fit-content", padding: "0" }}>
+            <input
+              type="image"
+              alt="Cancel"
+              src={Cancel}
+              style={{ width: "40px" }}
+              onClick={() => handleCancel()}
+            />
+          </Col>
+          <Col style={{ paddingLeft: "0" }}>
             <Form.Control
               type="text"
-              placeholder="1:"
-              value="1:"
-              disabled
-              style={{ width: "15%", textAlign: "right" }}
-              className="mt-0 font-size-20"
+              value={newScale}
+              onChange={(event) => setNewScale(event.target.value)}
+              placeholder="New scale"
+              className="font-size-20"
             />
-
-            <Form.Control
-              required
-              type="number"
-              placeholder="XXXX"
-              value={scale ? scale.split(":")[1] : ""}
-              onChange={(event) => handleScaleChange(event.target.value)}
-              className="mt-0 font-size-20"
-              style={{ width: "30%", textAlign: "left" }}
+          </Col>
+          <Col style={{ maxWidth: "fit-content", padding: "0" }}>
+            <input
+              type="image"
+              alt="Confirm"
+              src={Tick}
+              style={{ width: "20px" }}
+              onClick={() => handleAdd()}
             />
-          </>
-        )}
-      </InputGroup>
+          </Col>
+        </Row>
+      )}
     </Form.Group>
   );
 };

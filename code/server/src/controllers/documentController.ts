@@ -1,3 +1,4 @@
+
 import { InvalidCoordinatesError } from "../errors/georeferenceError";
 import DocumentDAO from "../dao/documentDAO";
 import { InvalidLinkError } from "../errors/documentError";
@@ -64,12 +65,14 @@ class DocumentController {
   async getDocumentById(documentId: number): Promise<any> {
     const document = await this.documentDAO.getDocumentById(documentId);
     const documentResources = await this.documentDAO.getResourcesByDocumentId(documentId);
+    const documentAttachments = await this.documentDAO.getAttachmentsByDocumentId(documentId);
     const documentConnections = await this.documentDAO.getConnectionDetailsByDocumentId(documentId);
 
     const response = document
       ? {
           ...document,
           resources: documentResources,
+          attachments: documentAttachments,
           linkedDocuments: documentConnections,
         }
       : {};
@@ -184,5 +187,22 @@ class DocumentController {
   async deleteDocumentConnection(documentId1: number, documentId2: number, connection: string): Promise<boolean> {
     return this.documentDAO.deleteDocumentConnection(documentId1, documentId2, connection);
   }
+
+  async uploadAttachment(documentId: number, files: Express.Multer.File[]): Promise<any> {
+    if (!files || files.length === 0) throw new Error("No files uploaded");
+    return this.documentDAO.uploadAttachment(documentId, files);
+  }
+
+  async getAttachment(attachmentId: number): Promise<any> {
+    return this.documentDAO.getAttachmentById(attachmentId);
+  }
+
+  async getAttachments(documentId: number): Promise<any[]> {
+    if (!documentId || documentId <= 0) {
+      throw new Error("Invalid documentId");
+    }
+    return this.documentDAO.getAttachmentsByDocumentId(documentId);
+  }
 }
+
 export default DocumentController;

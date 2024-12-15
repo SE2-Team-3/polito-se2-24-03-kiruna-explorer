@@ -14,7 +14,6 @@ import PinMap from "../assets/icons/pin map not selected.svg";
 import PinMapSelected from "../assets/icons/pin map selected.svg";
 import Diagram from "../assets/icons/diagram not selected.svg";
 import DiagramSelected from "../assets/icons/diagram selected.svg";
-import { CiLogin } from "react-icons/ci";
 
 const LeftSideBar = (props: { logout: () => void }) => {
   const location = useLocation();

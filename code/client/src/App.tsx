@@ -19,7 +19,7 @@ import Login from "./modules/GeneralPages/Login";
 import LinkDocumentForm from "./modules/UrbanPlanner/LinkDocumentForm/LinkDocumentForm";
 import { ToastProvider } from "./modules/ToastProvider";
 import DocumentsListTable from "./modules/UrbanPlanner/DocumentsList/DocumentsListTable";
-import AddResourceForm from "./modules/UrbanPlanner/AddResourceForm/AddResourceForm";
+import AddResourceForm from "./modules/UrbanPlanner/FileUploadForm/AddResourceForm";
 import { FaEye, FaPlus } from "react-icons/fa";
 import ExploreMap from "./modules/GeneralPages/Map/ExploreMap";
 import DiagramWrapper from "./modules/GeneralPages/Diagram/DiagramWrapper";
@@ -27,6 +27,7 @@ import DocumentDetails from "./modules/GeneralPages/DocumentDetails";
 import Document from "./models/document";
 import ViewAll from "./assets/icons/eye-off.svg";
 import HomePage from "./modules/GeneralPages/Homepage/Homepage";
+import AddAttachment from "./modules/UrbanPlanner/FileUploadForm/AddAttachmentForm";
 import Satellite from "./assets/icons/satellite.svg";
 import StreetView from "./assets/icons/street_view.svg";
 import Terrain from "./assets/icons/terrain.svg";
@@ -259,7 +260,22 @@ function App() {
                     )
                   }
                 />
+                <Route
+                  path="/urban-planner/add-attachment"
+                  element={
+                    loggedIn ? (
+                      <AddAttachment documentId={uploadDocumentId} />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
               </Routes>
+              
+
+
+              
+
             </UserContext.Provider>
           </SidebarProvider>
         </Container>
