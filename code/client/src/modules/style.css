@@ -59,8 +59,7 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
-    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -245,7 +244,8 @@ BUTTON STYLE
   font-size: 18px;
 }
 
-.button-map {
+.button-map,
+.button-map:hover {
   font-size: 16px;
   padding: 6px;
   border-radius: 5px;
@@ -253,13 +253,15 @@ BUTTON STYLE
   width: 120px;
 }
 
-.button-map.hide {
+.button-map.hide,
+.button-map.hide:hover {
   color: #1e1e1e;
   background-color: white;
   border: 2px solide #1e1e1e;
 }
 
-.button-map.show {
+.button-map.show,
+.button-map.show:hover {
   background-color: #333;
   color: white;
   border: 2px solid white;
@@ -1249,8 +1251,7 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */
-      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }
@@ -1572,4 +1573,40 @@ DOCUMENT DETAILS
 }
 .col-color-wheel {
   width: 50px !important;
+}
+
+.popup-diagram {
+  position: fixed;
+  top: 58%;
+  right: 0%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
+  z-index: 1000;
+}
+
+.popup button {
+  margin-top: 10px;
+}
+
+.open-filter-table-button,
+.open-filter-table-button:hover {
+  z-index: 9999 !important;
+  background-color: #3d52a0;
+  color: white;
+  position: fixed;
+  top: 90px;
+  right: 150px;
+  border: 1px solid white;
+}
+
+.reset-filter-table-button,
+.reset-filter-table-button:hover {
+  z-index: 9999 !important;
+  background-color: white;
+  color: #3d52a0;
+  position: fixed;
+  top: 90px;
+  right: 50px;
+  border: 1px solid #3d52a0;
 }

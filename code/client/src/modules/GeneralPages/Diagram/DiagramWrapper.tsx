@@ -13,8 +13,17 @@ import {
 import { useOccupiedPositions } from "../../../components/diagramComponents/utils/positionUtils";
 import Diagram from "./Diagram";
 
-const DiagramWrapper = () => {
+interface DiagramWrapperProps {
+  searchTitle: string;
+  filteredDocuments: Document[];
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+  filterTableVisible: boolean;
+  setFilterTableVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const DiagramWrapper = (props: DiagramWrapperProps) => {
   const [nodes, setNodes] = useState<Node[]>([]);
+  const [initialNodes, setInitialNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
   const [yearWidths, setYearWidths] = useState<number[]>([]);
@@ -25,6 +34,7 @@ const DiagramWrapper = () => {
   useEffect(() => {
     async function getDocs() {
       const initialDocs: Document[] = await API.getDocuments();
+      props.setFilteredDocuments(initialDocs);
       const initialConnections: Connection[] = await API.getConnections();
       if (initialDocs.length) {
         let newNodes: Node[] = [];
@@ -71,6 +81,7 @@ const DiagramWrapper = () => {
         else setScrollWidth(document.documentElement.clientWidth - 75);
 
         setNodes(newNodes);
+        setInitialNodes(newNodes);
       }
       if (initialConnections.length) {
         const connectionsMap: Record<string, string[]> = {};
@@ -115,6 +126,12 @@ const DiagramWrapper = () => {
 
   return (
     <Diagram
+      filterTableVisible={props.filterTableVisible}
+      setFilterTableVisible={props.setFilterTableVisible}
+      filteredDocuments={props.filteredDocuments}
+      setFilteredDocuments={props.setFilteredDocuments}
+      searchTitle={props.searchTitle}
+      initialNodes={initialNodes}
       setNodes={setNodes}
       setEdges={setEdges}
       scrollWidth={scrollWidth}
