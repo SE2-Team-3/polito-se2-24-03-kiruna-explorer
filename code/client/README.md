@@ -155,12 +155,13 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Edge Prevision](#edge-prevision)
       - [Edge Update](#edge-update)
    - [1.2. Diagram Components](#12-diagram-components)
-      - [BG Table](#bg-table)
-      - [Header](#header)
-      - [Icon](#icon)
-      - [Sidebar](#sidebar)
+      - [Diagram Table](#diagram-table)
       - [Edge Popup](#edge-popup)
+      - [Icon](#icon)
       - [Connection Popup](#connection-popup)
+      - [Header](#header)
+      - [Sidebar](#sidebar)
+    - [Municipality Area](#municipality-area)  
     - [Left Side Bar](#left-side-bar)
     - [Nav Bar](#nav-bar)
     - [User Context](#user-context)
@@ -203,6 +204,7 @@ The `App` component defines a set of routes to handle navigation between differe
           - [Mini Map List Point Modal](#mini-map-list-point-modal)
           - [Mini Map Point Modal](#mini-map-point-modal)
           - [Georeference Type Selection](#georeference-type-selection)
+          - [GeoSelection](#geoselection)
     - [3.2. Link Document Form](#32-link-document-form)
       - [Document Selector](#document-selector)
       - [Link Type Selector](#link-type-selector)
@@ -251,27 +253,9 @@ The component provides edge for "Update" link type on diagram.
 ### 1.2. Diagram Components
 This folder contains components for Georeferencing documents on diagram:
 
-### BG Table 
-**File**: `components/diagramComponents/BGTable.tsx`  
-This component renders a large HTML table with a predefined structure.
-
----
-
-### Header  
-**File**: `components/diagramComponents/Header.tsx`  
-The component is  designed to render a table header containing a list of years.
-
----
-
-### Icon 
-**File**: `components/diagramComponents/Icon.tsx`
-This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
-
----
-
-### Sidebar  
-**File**: `components/diagramComponents/Sidebar.tsx`
-This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
+### Diagram Table 
+**File**: `components/diagramComponents/DiagramTable.tsx`  
+This component generates and renders a dynamic table for georeferncing data on the diagram.
 
 ---
 
@@ -281,9 +265,33 @@ This component serves as a popup modal displaying a list of "link types" and inc
 
 ---
 
+### Icon 
+**File**: `components/diagramComponents/Icon.tsx`
+This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
+
+---
+
 ### Connection popup  
 **File**: `components/diagramComponents/ConnectionPopup.tsx`
 This  component lets users create connections between documents on the diagram.
+
+---
+
+### Header  
+**File**: `components/diagramComponents/Header.tsx`  
+The component is  designed to render a table header containing a list of years.
+
+---
+
+### Sidebar  
+**File**: `components/diagramComponents/Sidebar.tsx`
+This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
+
+---
+
+### Municipality Area
+**Files**: `components/MunicipalityArea/MunicipalityArea.tsx`
+This component extracts MultiPolygon geometry coordinates and converts them into an array of latitude-longitude pairs, ensuring compatibility with tools that require coordinates in the [lat, lon] format, such as Leaflet maps.
 
 ---
 
@@ -522,6 +530,12 @@ This component is a modal-based map interface designed for selecting a single po
 ### Georeference Type Selection
 **File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoreferenceTypeSelection.tsx`  
 This component is used for selecting a georeference type for a document.
+
+---
+
+### GeoSelection
+**File**: `modules/UrbanPlanner/AddDocumentForm/elements/Georeference/GeoSelection.tsx`  
+This component serves as an interface for managing and displaying georeferenced data (like points, areas, or lists of points/areas) on a map. It allows users to input or select geographical features and customize their properties
 
 ---
 
