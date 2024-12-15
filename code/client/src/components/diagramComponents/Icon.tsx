@@ -7,7 +7,7 @@ import Design from "../../assets/icons/nodeType/design document.svg";
 import Informative from "../../assets/icons/nodeType/informative document.svg";
 import Prescriptive from "../../assets/icons/nodeType/prescriptive document.svg";
 import Technical from "../../assets/icons/nodeType/technical document.svg";
-import Logo from "../../assets/icons/Kiruna Icon - 2.svg";
+import Logo from "../../assets/icons/logo.svg";
 
 interface FunctionIconProps {
   data: {
@@ -91,7 +91,7 @@ const FunctionIcon = ({ data, isConnectable }: FunctionIconProps) => {
         <img
           src={iconClass}
           alt={`${data.nodeType} icon`}
-          style={{ marginLeft: "5px" }}
+          style={{ marginLeft: "5px", width: "20px", height: "20px" }}
         ></img>
       </div>
     </div>
