@@ -112,7 +112,7 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
       </Dropdown>:
       <Row style={{alignItems:"center"}}>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+          <img role="button" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()} alt="cancel button"/>
         </Col>
         <Col style={{paddingLeft:"0"}}>
           <Form.Control
@@ -128,7 +128,7 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
           />
         </Col>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
+          <img role="button" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()} alt="save button"/>
         </Col>
       </Row>}
 

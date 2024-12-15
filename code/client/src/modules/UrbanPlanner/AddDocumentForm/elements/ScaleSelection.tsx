@@ -72,7 +72,7 @@ const ScaleSelection = (props: ScaleProps) => {
           className="font-size-20"
         >
           <option value="">Select scale</option>
-          {scalesList.map((s,index)=>(<option key={index} value={s}>{s}</option>))}
+          {scalesList.map((s,index)=>(<option key={"sc-"+index} value={s}>{s}</option>))}
           <option value="add">Add scale</option>
         </Form.Select>
         {documentType === "Architectural plan" && (
@@ -100,7 +100,7 @@ const ScaleSelection = (props: ScaleProps) => {
       </InputGroup>:
       <Row style={{alignItems:"center"}}>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+          <img role="button" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()} alt="cancel button"/>
         </Col>
         <Col style={{paddingLeft:"0"}}>
           <Form.Control
@@ -116,7 +116,7 @@ const ScaleSelection = (props: ScaleProps) => {
           />
         </Col>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
+          <img role="button" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()} alt="save button"/>
         </Col>
       </Row>}
     </Form.Group>

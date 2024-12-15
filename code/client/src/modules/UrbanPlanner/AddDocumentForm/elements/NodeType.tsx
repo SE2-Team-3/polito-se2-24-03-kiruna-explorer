@@ -53,14 +53,14 @@ const NodeType = (props: NodeTypeProps) => {
         className="font-size-20"
       >
         <option value="">Select document type</option>
-        {nodeTypesList.map((n,index)=>(<option key={index} value={n}>{n}</option>))}
+        {nodeTypesList.map((n,index)=>(<option key={"nt-"+index} value={n}>{n}</option>))}
         <option value="add">
               Add document type
           </option>
       </Form.Select>:
       <Row style={{alignItems:"center"}}>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+          <img role="button" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()} alt="cancel button"/>
         </Col>
         <Col style={{paddingLeft:"0"}}>
           <Form.Control
@@ -72,7 +72,7 @@ const NodeType = (props: NodeTypeProps) => {
           />
         </Col>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
+          <img role="button" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()} alt="save button"/>
         </Col>
       </Row>}
       <Form.Control.Feedback type="invalid">
