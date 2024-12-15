@@ -104,6 +104,7 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
           <Dropdown.Item
             key="add"
             as="div"
+            role="button"
             className="dropdown-item"
             onClick={()=>setAdding(true)}>
             Add stakeholder
@@ -112,7 +113,7 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
       </Dropdown>:
       <Row style={{alignItems:"center"}}>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img role="button" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()} alt="cancel button"/>
+          <input type="image" alt="Cancel" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
         </Col>
         <Col style={{paddingLeft:"0"}}>
           <Form.Control
@@ -121,14 +122,10 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
           onChange={(event) => setNewStakeholder(event.target.value)}
           placeholder="New stakeholder"
           className="font-size-20"
-          onBlur={()=>{
-            setNewStakeholder("")
-            setAdding(false)
-          }}
           />
         </Col>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img role="button" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()} alt="save button"/>
+          <input type="image" alt="Confirm" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
         </Col>
       </Row>}
 

@@ -60,7 +60,7 @@ const NodeType = (props: NodeTypeProps) => {
       </Form.Select>:
       <Row style={{alignItems:"center"}}>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img role="button" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()} alt="cancel button"/>
+          <input type="image" alt="Cancel" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
         </Col>
         <Col style={{paddingLeft:"0"}}>
           <Form.Control
@@ -72,7 +72,7 @@ const NodeType = (props: NodeTypeProps) => {
           />
         </Col>
         <Col style={{maxWidth:"fit-content",padding:"0"}}>
-          <img role="button" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()} alt="save button"/>
+          <input type="image" alt="Confirm" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
         </Col>
       </Row>}
       <Form.Control.Feedback type="invalid">
