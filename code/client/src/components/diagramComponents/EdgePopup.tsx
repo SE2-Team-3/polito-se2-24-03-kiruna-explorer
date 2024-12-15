@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import API from "../../API/API";
 import { Button, Row } from "react-bootstrap";
-import { Edge } from "@xyflow/react";
-import { useToast } from "../../modules/ToastProvider";
-import Connection from "../../models/Connection";
-import { UserContext } from "../../components/UserContext";
 import { BsTrash } from "react-icons/bs";
+import { useToast } from "../../modules/ToastProvider";
+import { UserContext } from "../../components/UserContext";
+import { handleDeleteConnection, handleCancel } from "./utils/EdgePopupHandlers";
+import Connection from "../../models/Connection";
+import { Edge } from "@xyflow/react";
 
 interface PopupProps {
   linkTypes: string[];
@@ -24,81 +24,6 @@ const EdgePopup: React.FC<PopupProps> = ({
 }) => {
   const showToast = useToast();
   const user = useContext(UserContext);
-
-  const handleDeleteConnection = (linkType: string) => {
-    // Call API to delete the connection
-    API.unlinkDocuments(
-      deleteConnection.documentId1,
-      deleteConnection.documentId2,
-      linkType
-    )
-      .then((response) => {
-        const { message } = response;
-        showToast(message, "", false);
-
-        // Update edges: remove the deleted edge
-        setEdges((prevEdges) =>
-          prevEdges.filter((edge) => edge.type !== linkType)
-        );
-
-        // Fetch all connections and update the edges
-        return API.getConnections();
-      })
-      .then((updateConnections: Connection[]) => {
-        const connectionsMap: Record<string, string[]> = {};
-
-        updateConnections.forEach((connection) => {
-          const pairKey = `${connection.documentId1}-${connection.documentId2}`;
-          if (!connectionsMap[pairKey]) {
-            connectionsMap[pairKey] = [];
-          }
-          connectionsMap[pairKey].push(connection.connection);
-        });
-
-        // Create updated edges
-        const updateEdges: Edge[] = Object.entries(connectionsMap).map(
-          ([pairKey, linkTypes]) => {
-            const [source, target] = pairKey.split("-");
-            return linkTypes.length === 1
-              ? {
-                  id: `${source}-${target}-${linkTypes[0]}`,
-                  source,
-                  target,
-                  type: linkTypes[0],
-                  data: { linkTypes },
-                  zIndex: 4,
-                }
-              : {
-                  id: `${source}-${target}-default`,
-                  source,
-                  target,
-                  type: "default",
-                  data: {
-                    linkTypes,
-                    label: `${linkTypes.length} conn`,
-                  },
-                  zIndex: 4,
-                };
-          }
-        );
-
-        setEdges(updateEdges);
-        setPopupVisible(false);
-      })
-      .catch((error) => {
-        console.error("Error while deleting the connection:", error);
-        showToast(
-          "Error deleting the connection",
-          "This connection could not be removed or something went wrong",
-          true
-        );
-      });
-  };
-
-  const handleCancel = () => {
-    setPopupVisible(false);
-    setDeleteConnection({ documentId1: 0, documentId2: 0, connection: "" });
-  };
 
   return (
     <div
@@ -139,7 +64,15 @@ const EdgePopup: React.FC<PopupProps> = ({
                 size={14}
                 type="button"
                 style={{ cursor: "pointer" }}
-                onClick={() => handleDeleteConnection(linkType)}
+                onClick={() =>
+                  handleDeleteConnection(
+                    linkType,
+                    deleteConnection,
+                    setEdges,
+                    setPopupVisible,
+                    showToast
+                  )
+                }
                 className="popup-remove-link-button"
               />
             )}
@@ -147,7 +80,10 @@ const EdgePopup: React.FC<PopupProps> = ({
         ))}
       </div>
       <Row className="row-box-button">
-        <Button onClick={handleCancel} className="button-white mt-3">
+        <Button
+          onClick={() => handleCancel(setPopupVisible, setDeleteConnection)}
+          className="button-white mt-3"
+        >
           Close
         </Button>
       </Row>

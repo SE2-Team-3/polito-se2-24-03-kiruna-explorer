@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useToast } from "../../modules/ToastProvider";
-import { Edge } from "@xyflow/react";
-import API from "../../API/API";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import {
+  handleSaveConnection,
+  handleCancel,
+} from "./utils/ConnectionPopupHandlers";
 import Connection from "../../models/Connection";
+import { Edge } from "@xyflow/react";
 
 interface PopupProps {
   newConnection: Connection;
@@ -21,83 +24,7 @@ const ConnectionPopup: React.FC<PopupProps> = ({
   const showToast = useToast();
   const [linkType, setLinkType] = useState<string>("");
 
-  const handleSaveConnection = () => {
-    if (!linkType) {
-      showToast("Please select a connection type", "", true);
-      return;
-    }
-
-    API.linkDocuments(
-      newConnection.documentId1,
-      newConnection.documentId2,
-      linkType
-    )
-      .then((response) => {
-        const { message } = response;
-        showToast(message, "", false);
-
-        API.getConnections()
-          .then((updateConnections: Connection[]) => {
-            const connectionsMap: Record<string, string[]> = {};
-
-            updateConnections.forEach((connection) => {
-              const pairKey = `${connection.documentId1}-${connection.documentId2}`;
-              if (!connectionsMap[pairKey]) {
-                connectionsMap[pairKey] = [];
-              }
-              connectionsMap[pairKey].push(connection.connection);
-            });
-
-            const updatedEdges: Edge[] = Object.entries(connectionsMap).map(
-              ([pairKey, linkTypes]) => {
-                const [source, target] = pairKey.split("-");
-                return linkTypes.length === 1
-                  ? {
-                      id: `${source}-${target}-${linkTypes[0]}`,
-                      source,
-                      target,
-                      type: linkTypes[0],
-                      data: { linkTypes },
-                      zIndex: 4,
-                    }
-                  : {
-                      id: `${source}-${target}-default`,
-                      source,
-                      target,
-                      type: "default",
-                      data: {
-                        linkTypes,
-                        label: `${linkTypes.length} conn`,
-                      },
-                      zIndex: 4,
-                    };
-              }
-            );
-
-            setEdges(updatedEdges);
-            setConnectionPopupVisible(false);
-          })
-          .catch((error) => {
-            console.error("Error while fetching connections:", error);
-            showToast(
-              "Error fetching connections",
-              "Something went wrong while updating the graph.",
-              true
-            );
-          });
-      })
-      .catch((error) => {
-        console.error("Error while saving the connection:", error);
-        showToast(
-          "Error saving the connection",
-          "This connection already exists or something went wrong.",
-          true
-        );
-      });
-  };
-
-  const handleCancel = () => {
-    setConnectionPopupVisible(false);
+  const resetState = () => {
     setNewConnection({ documentId1: 0, documentId2: 0, connection: "" });
     setLinkType("");
   };
@@ -155,10 +82,24 @@ const ConnectionPopup: React.FC<PopupProps> = ({
         </Col>
       </Row>
       <Row className="row-box-button">
-        <Button onClick={handleCancel} className="button-white mt-3 me-5">
+        <Button
+          onClick={() => handleCancel(setConnectionPopupVisible, resetState)}
+          className="button-white mt-3 me-5"
+        >
           Cancel
         </Button>
-        <Button onClick={handleSaveConnection} className="button-blue mt-3">
+        <Button
+          onClick={() =>
+            handleSaveConnection(
+              linkType,
+              newConnection,
+              setEdges,
+              setConnectionPopupVisible,
+              showToast
+            )
+          }
+          className="button-blue mt-3"
+        >
           Submit
         </Button>
       </Row>
