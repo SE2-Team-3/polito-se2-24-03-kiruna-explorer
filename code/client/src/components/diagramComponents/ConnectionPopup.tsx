@@ -113,13 +113,14 @@ const ConnectionPopup: React.FC<PopupProps> = ({
         zIndex: 9999,
       }}
     >
-      <h3>Select one connection type:</h3>
+      <h3 style={{marginBottom:"20px"}}>Select one connection type:</h3>
       <Row>
         <Col>
           <Form.Check
             type="radio"
             label="Direct consequence"
             value="direct consequence"
+            className="radio-button"
             checked={linkType === "direct consequence"}
             onChange={(e) => setLinkType(e.target.value)}
           />
@@ -127,13 +128,15 @@ const ConnectionPopup: React.FC<PopupProps> = ({
             type="radio"
             label="Collateral consequence"
             value="collateral consequence"
+            className="radio-button"
             checked={linkType === "collateral consequence"}
-            onChange={(e) => setLinkType(e.target.value)}
+            onChange={(e) => setLinkType(e.target.value)}         
           />
           <Form.Check
             type="radio"
             label="Prevision"
             value="prevision"
+            className="radio-button"
             checked={linkType === "prevision"}
             onChange={(e) => setLinkType(e.target.value)}
           />
@@ -141,13 +144,14 @@ const ConnectionPopup: React.FC<PopupProps> = ({
             type="radio"
             label="Update"
             value="update"
+            className="radio-button"
             checked={linkType === "update"}
-            onChange={(e) => setLinkType(e.target.value)}
+            onChange={(e) => setLinkType(e.target.value)}   
           />
         </Col>
       </Row>
       <Row className="row-box-button">
-        <Button onClick={handleCancel} className="button-white mt-3 me-3">
+        <Button onClick={handleCancel} className="button-white mt-3 me-5">
           Cancel
         </Button>
         <Button onClick={handleSaveConnection} className="button-blue mt-3">
