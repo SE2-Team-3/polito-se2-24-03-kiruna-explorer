@@ -1,24 +1,23 @@
-import { Col, Form, Dropdown } from "react-bootstrap";
+import { Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "../../../style.css";
-import { Props, NewDocument } from "../interfaces/types";
+import { NewDocument, StakeholderProps } from "../interfaces/types";
+import API from "../../../../API/API";
+import Tick from "../../../../assets/icons/single tick.svg"
+import Cancel from "../../../../assets/icons/close.svg"
 
-const StakeholderSelection = forwardRef((props: Props, ref) => {
+const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
+
+  const [stakeholdersList,setStakeholdersList] = useState<string[]>(props.stakeholdersList)
+  const [adding,setAdding] = useState<boolean>(false)
+  const [newStakeholder,setNewStakeholder]=useState<string>("")
+
   const [stakeholders, setStakeholders] = useState<string[]>(
-    props.document ? props.document.stakeholders : []
+    props.props.document ? props.props.document.stakeholders : []
   );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [showValidation, setShowValidation] = useState(false);
-
-  const stakeholdersList = [
-    "LKAB",
-    "Municipality",
-    "Citizen",
-    "Architecture firms",
-    "Regional authority",
-    "Others",
-  ];
 
   // Funzione per gestire la selezione/deselezione
   const toggleStakeholder = (stakeholder: string) => {
@@ -30,15 +29,15 @@ const StakeholderSelection = forwardRef((props: Props, ref) => {
   };
 
   useEffect(() => {
-    if (props.setDocument) {
-      props.setDocument((prevDocument: NewDocument) => ({
+    if (props.props.setDocument) {
+      props.props.setDocument((prevDocument: NewDocument) => ({
         ...prevDocument,
         stakeholders: stakeholders,
       }));
     }
 
     setIsValid(stakeholders.length > 0);
-  }, [stakeholders, props.setDocument]);
+  }, [stakeholders, props.props.setDocument]);
 
   const handleValidationCheck = () => {
     if (!isValid) {
@@ -50,13 +49,26 @@ const StakeholderSelection = forwardRef((props: Props, ref) => {
   useImperativeHandle(ref, () => ({
     handleValidationCheck,
   }));
+  
+  const handleAdd = () => {
+    toggleStakeholder(newStakeholder)
+    setAdding(false)
+    setStakeholdersList([...stakeholdersList,newStakeholder])
+    API.addStakeholder(newStakeholder)
+    setNewStakeholder("")
+  }
+
+  const handleCancel = () => {
+    setNewStakeholder("")
+    setAdding(false)
+  }
 
   return (
     <Form.Group as={Col} controlId="formGridSH">
       <Form.Label className="black-text">Stakeholders *</Form.Label>
 
       {/* Dropdown Button with Custom Checkbox Options */}
-      <Dropdown
+      {!adding?<Dropdown
         show={isDropdownOpen}
         onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
         className="dropdown"
@@ -89,8 +101,33 @@ const StakeholderSelection = forwardRef((props: Props, ref) => {
               />
             </Dropdown.Item>
           ))}
+          <Dropdown.Item
+            key="add"
+            as="div"
+            role="button"
+            className="dropdown-item"
+            onClick={()=>setAdding(true)}>
+            Add stakeholder
+          </Dropdown.Item>
         </Dropdown.Menu>
-      </Dropdown>
+      </Dropdown>:
+      <Row style={{alignItems:"center"}}>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <input type="image" alt="Cancel" src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+        </Col>
+        <Col style={{paddingLeft:"0"}}>
+          <Form.Control
+          type="text"
+          value={newStakeholder}
+          onChange={(event) => setNewStakeholder(event.target.value)}
+          placeholder="New stakeholder"
+          className="font-size-20"
+          />
+        </Col>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <input type="image" alt="Confirm" src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
+        </Col>
+      </Row>}
 
       {/* Validation Feedback */}
       {!isValid && showValidation && (

@@ -6,6 +6,8 @@ import DateSelection from "../elements/DateSelection";
 import { Props } from "../interfaces/types";
 import { useToast } from "../../../ToastProvider";
 import GeoreferenceTypeSelection from "../elements/Georeference/GeoreferenceTypeSelection";
+import { useEffect, useState } from "react";
+import API from "../../../../API/API";
 
 interface StepTwoProps {
   document: Props["document"];
@@ -24,6 +26,28 @@ const StepTwo = ({
 }: StepTwoProps) => {
   const showToast = useToast();
 
+  const [stakeholdersList,setStakeholdersList] = useState<string[]>([])
+  const [scalesList,setScalesList] = useState<string[]>([])
+  const [nodeTypesList,setNodeTypesList] = useState<string[]>([])
+
+  useEffect(()=>{
+    async function init() {
+      API.getStakeholders().then((stakeholders:any)=>{
+        setStakeholdersList(stakeholders)
+      })
+      API.getScales().then((scales:any)=>{
+        setScalesList(scales)
+      })
+      API.getNodeTypes().then((nodeTypes:any)=>{
+        setNodeTypesList(nodeTypes)
+      })
+    }
+
+    if (!stakeholdersList.length) {
+      init()
+    }
+  },[])
+  
   const validateForm = (): boolean => {
     if (!document.stakeholders || document.stakeholders.length === 0) {
       showToast("Validation Error", "Stakeholders are required.", true);
@@ -44,16 +68,19 @@ const StepTwo = ({
     <>
       <form onSubmit={onSubmit}>
         <Row>
+          {stakeholdersList.length &&
           <StakeholderSelection
             ref={stakeholderSelectionRef}
-            document={document}
-            setDocument={setDocument}
-          />
+            props={{document:document,setDocument:setDocument}}
+            stakeholdersList={stakeholdersList}
+          />}
           <DateSelection document={document} setDocument={setDocument} />
         </Row>
         <Row>
-          <ScaleSelection document={document} setDocument={setDocument} />
-          <NodeType document={document} setDocument={setDocument} />
+          {scalesList.length &&
+          <ScaleSelection props={{document:document,setDocument:setDocument}} scalesList={scalesList}/>}
+          {nodeTypesList.length &&
+          <NodeType props={{document:document,setDocument:setDocument}} nodeTypesList={nodeTypesList}/>}
         </Row>
         <Row>
           <GeoreferenceTypeSelection document={document} setDocument={setDocument} />
