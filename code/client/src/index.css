@@ -99,7 +99,9 @@ body {
   background-color: rgba(61, 82, 160, 0.12);
   border-radius: 10px;
   margin-inline: 15px; /* Aggiungi un margine orizzontale per creare il rientro */
-  width: calc(100% - 30px); /* Riduce la larghezza per lasciare spazio ai margini */
+  width: calc(
+    100% - 30px
+  ); /* Riduce la larghezza per lasciare spazio ai margini */
   font-weight: bold;
 }
 
@@ -506,7 +508,8 @@ input {
 
 @font-face {
   font-family: "sharp-grotesk";
-  src: url("./assets/custom-font/SharpGrotesk-SemiBold20.otf") format("opentype");
+  src: url("./assets/custom-font/SharpGrotesk-SemiBold20.otf")
+    format("opentype");
 }
 
 .map-view-selector {
@@ -515,4 +518,9 @@ input {
   top: 120px;
   right: 20px;
   font-family: "montserrat", sans-serif;
+}
+
+.edgebutton-foreignobject {
+  border: 2px solid #3d52a0;
+  background-color: white;
 }

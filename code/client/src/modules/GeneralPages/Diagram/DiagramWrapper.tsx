@@ -110,7 +110,7 @@ const DiagramWrapper = () => {
               source,
               target,
               type: "default",
-              data: { linkTypes, label: `${linkTypes.length} connections` },
+              data: { linkTypes, label: `${linkTypes.length} conn` },
               zIndex: 4,
             });
           }

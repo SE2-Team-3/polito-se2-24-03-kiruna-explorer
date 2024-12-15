@@ -25,67 +25,74 @@ const EdgePopup: React.FC<PopupProps> = ({
   const showToast = useToast();
   const user = useContext(UserContext);
 
-  const handleDeleteConnection = async (linkType: string) => {
-    try {
-      // Call API to delete the connection
-      const response = await API.unlinkDocuments(
-        deleteConnection.documentId1,
-        deleteConnection.documentId2,
-        linkType
-      );
-      const { message } = response;
-      showToast(message, "", false);
+  const handleDeleteConnection = (linkType: string) => {
+    // Call API to delete the connection
+    API.unlinkDocuments(
+      deleteConnection.documentId1,
+      deleteConnection.documentId2,
+      linkType
+    )
+      .then((response) => {
+        const { message } = response;
+        showToast(message, "", false);
 
-      // Update edges: remove the deleted edge
-      setEdges((prevEdges) =>
-        prevEdges.filter((edge) => edge.type !== linkType)
-      );
+        // Update edges: remove the deleted edge
+        setEdges((prevEdges) =>
+          prevEdges.filter((edge) => edge.type !== linkType)
+        );
 
-      // Fetch all connections and update the edges
-      const updateConnections: Connection[] = await API.getConnections();
-      const connectionsMap: Record<string, string[]> = {};
+        // Fetch all connections and update the edges
+        return API.getConnections();
+      })
+      .then((updateConnections: Connection[]) => {
+        const connectionsMap: Record<string, string[]> = {};
 
-      updateConnections.forEach((connection) => {
-        const pairKey = `${connection.documentId1}-${connection.documentId2}`;
-        if (!connectionsMap[pairKey]) {
-          connectionsMap[pairKey] = [];
-        }
-        connectionsMap[pairKey].push(connection.connection);
+        updateConnections.forEach((connection) => {
+          const pairKey = `${connection.documentId1}-${connection.documentId2}`;
+          if (!connectionsMap[pairKey]) {
+            connectionsMap[pairKey] = [];
+          }
+          connectionsMap[pairKey].push(connection.connection);
+        });
+
+        // Create updated edges
+        const updateEdges: Edge[] = Object.entries(connectionsMap).map(
+          ([pairKey, linkTypes]) => {
+            const [source, target] = pairKey.split("-");
+            return linkTypes.length === 1
+              ? {
+                  id: `${source}-${target}-${linkTypes[0]}`,
+                  source,
+                  target,
+                  type: linkTypes[0],
+                  data: { linkTypes },
+                  zIndex: 4,
+                }
+              : {
+                  id: `${source}-${target}-default`,
+                  source,
+                  target,
+                  type: "default",
+                  data: {
+                    linkTypes,
+                    label: `${linkTypes.length} connections`,
+                  },
+                  zIndex: 4,
+                };
+          }
+        );
+
+        setEdges(updateEdges);
+        setPopupVisible(false);
+      })
+      .catch((error) => {
+        console.error("Error while deleting the connection:", error);
+        showToast(
+          "Error deleting the connection",
+          "This connection could not be removed or something went wrong",
+          true
+        );
       });
-
-      const updateEdges: Edge[] = Object.entries(connectionsMap).map(
-        ([pairKey, linkTypes]) => {
-          const [source, target] = pairKey.split("-");
-          return linkTypes.length === 1
-            ? {
-                id: `${source}-${target}-${linkTypes[0]}`,
-                source,
-                target,
-                type: linkTypes[0],
-                data: { linkTypes },
-                zIndex: 4,
-              }
-            : {
-                id: `${source}-${target}-default`,
-                source,
-                target,
-                type: "default",
-                data: { linkTypes, label: `${linkTypes.length} connections` },
-                zIndex: 4,
-              };
-        }
-      );
-
-      setEdges(updateEdges);
-
-      setPopupVisible(false);
-    } catch (error) {
-      showToast(
-        "Error deleting the connection",
-        "This connection could not be removed or something went wrong",
-        true
-      );
-    }
   };
 
   const handleCancel = () => {

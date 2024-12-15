@@ -21,81 +21,85 @@ const ConnectionPopup: React.FC<PopupProps> = ({
   const showToast = useToast();
   const [linkType, setLinkType] = useState<string>("");
 
-  const handleSaveConnection = async () => {
+  const handleSaveConnection = () => {
     if (!linkType) {
       showToast("Please select a connection type", "", true);
       return;
     }
 
-    try {
-      // Save new edge in the backend
-      const response = await API.linkDocuments(
-        newConnection.documentId1,
-        newConnection.documentId2,
-        linkType
-      );
-      const { message, data } = response;
-      showToast(message, "", false);
+    API.linkDocuments(
+      newConnection.documentId1,
+      newConnection.documentId2,
+      linkType
+    )
+      .then((response) => {
+        const { message } = response;
+        showToast(message, "", false);
 
-      // Update edges
-      const newEdge = {
-        id: `${data.documentId1}-${data.documentId2}`,
-        source: data.documentId1.toString(),
-        target: data.documentId2.toString(),
-        type: data.linkType,
-      };
-      setEdges((prevEdges) => [...prevEdges, newEdge]);
+        API.getConnections()
+          .then((updateConnections: Connection[]) => {
+            const connectionsMap: Record<string, string[]> = {};
 
-      // Fetch all connections and update the edges
-      const updateConnections: Connection[] = await API.getConnections();
-      const connectionsMap: Record<string, string[]> = {};
-
-      updateConnections.forEach((connection) => {
-        const pairKey = `${connection.documentId1}-${connection.documentId2}`;
-        if (!connectionsMap[pairKey]) {
-          connectionsMap[pairKey] = [];
-        }
-        connectionsMap[pairKey].push(connection.connection);
-      });
-
-      const updateEdges: Edge[] = Object.entries(connectionsMap).map(
-        ([pairKey, linkTypes]) => {
-          const [source, target] = pairKey.split("-");
-          return linkTypes.length === 1
-            ? {
-                id: `${source}-${target}-${linkTypes[0]}`,
-                source,
-                target,
-                type: linkTypes[0],
-                data: { linkTypes },
-                zIndex: 4,
+            updateConnections.forEach((connection) => {
+              const pairKey = `${connection.documentId1}-${connection.documentId2}`;
+              if (!connectionsMap[pairKey]) {
+                connectionsMap[pairKey] = [];
               }
-            : {
-                id: `${source}-${target}-default`,
-                source,
-                target,
-                type: "default",
-                data: { linkTypes, label: `${linkTypes.length} connections` },
-                zIndex: 4,
-              };
-        }
-      );
+              connectionsMap[pairKey].push(connection.connection);
+            });
 
-      setEdges(updateEdges);
-      setConnectionPopupVisible(false);
-    } catch (error) {
-      //console.error("Error while saving the connection:", error);
-      showToast(
-        "Error saving the connection",
-        "This connection already exists or something went wrong",
-        true
-      );
-    }
+            const updatedEdges: Edge[] = Object.entries(connectionsMap).map(
+              ([pairKey, linkTypes]) => {
+                const [source, target] = pairKey.split("-");
+                return linkTypes.length === 1
+                  ? {
+                      id: `${source}-${target}-${linkTypes[0]}`,
+                      source,
+                      target,
+                      type: linkTypes[0],
+                      data: { linkTypes },
+                      zIndex: 4,
+                    }
+                  : {
+                      id: `${source}-${target}-default`,
+                      source,
+                      target,
+                      type: "default",
+                      data: {
+                        linkTypes,
+                        label: `${linkTypes.length} conn`,
+                      },
+                      zIndex: 4,
+                    };
+              }
+            );
+
+            setEdges(updatedEdges);
+            setConnectionPopupVisible(false);
+          })
+          .catch((error) => {
+            console.error("Error while fetching connections:", error);
+            showToast(
+              "Error fetching connections",
+              "Something went wrong while updating the graph.",
+              true
+            );
+          });
+      })
+      .catch((error) => {
+        console.error("Error while saving the connection:", error);
+        showToast(
+          "Error saving the connection",
+          "This connection already exists or something went wrong.",
+          true
+        );
+      });
   };
 
   const handleCancel = () => {
     setConnectionPopupVisible(false);
     setNewConnection({ documentId1: 0, documentId2: 0, connection: "" });
+    setLinkType("");
   };
 
   return (
@@ -113,7 +117,7 @@ const ConnectionPopup: React.FC<PopupProps> = ({
         zIndex: 9999,
       }}
     >
-      <h3 style={{marginBottom:"20px"}}>Select one connection type:</h3>
+      <h3 style={{ marginBottom: "20px" }}>Select one connection type:</h3>
       <Row>
         <Col>
           <Form.Check
@@ -130,7 +134,7 @@ const ConnectionPopup: React.FC<PopupProps> = ({
             value="collateral consequence"
             className="radio-button"
             checked={linkType === "collateral consequence"}
-            onChange={(e) => setLinkType(e.target.value)}         
+            onChange={(e) => setLinkType(e.target.value)}
           />
           <Form.Check
             type="radio"
@@ -146,7 +150,7 @@ const ConnectionPopup: React.FC<PopupProps> = ({
             value="update"
             className="radio-button"
             checked={linkType === "update"}
-            onChange={(e) => setLinkType(e.target.value)}   
+            onChange={(e) => setLinkType(e.target.value)}
           />
         </Col>
       </Row>
