@@ -285,6 +285,9 @@ async function getStakeholders() {
 async function addStakeholder(stakeholder:string) {
   await fetch(baseURL + "documents/types/stakeholders", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     credentials: "include",
     body: JSON.stringify({stakeholder:stakeholder}),
   });
@@ -296,7 +299,6 @@ async function getScales() {
   })
   if (response.ok) {
     const scales: any = await response.json()
-    console.log(scales)
     return scales.map((d:any)=>d.documentTypeName)
   } else {
     const errDetail = await response.json()
@@ -309,6 +311,9 @@ async function getScales() {
 async function addScale(documentType:string) {
   await fetch(baseURL + "documents/types/document-types", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     credentials: "include",
     body: JSON.stringify({documentType:documentType}),
   });
@@ -320,7 +325,6 @@ async function getNodeTypes() {
   })
   if (response.ok) {
     const nodeTypes: any = await response.json()
-    console.log(nodeTypes)
     return nodeTypes.map((n:any)=>n.nodeTypeName)
   } else {
     const errDetail = await response.json()
@@ -333,6 +337,9 @@ async function getNodeTypes() {
 async function addNodeType(nodeType:string) {
   await fetch(baseURL + "documents/types/node-types", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     credentials: "include",
     body: JSON.stringify({nodeType:nodeType}),
   });

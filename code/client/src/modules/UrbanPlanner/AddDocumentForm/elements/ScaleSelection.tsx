@@ -1,9 +1,10 @@
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../style.css";
-import { Props, NewDocument, ScaleProps } from "../interfaces/types";
+import { NewDocument, ScaleProps } from "../interfaces/types";
 import API from "../../../../API/API";
 import Tick from "../../../../assets/icons/single tick.svg"
+import Cancel from "../../../../assets/icons/close.svg"
 
 const ScaleSelection = (props: ScaleProps) => {
 
@@ -54,6 +55,11 @@ const ScaleSelection = (props: ScaleProps) => {
     setNewScale("")
   }
 
+  const handleCancel = () => {
+    setNewScale("")
+    setAdding(false)
+  }
+
   return (
     <Form.Group as={Col} controlId="formGridScale">
       <Form.Label className="black-text">Scale *</Form.Label>
@@ -66,7 +72,7 @@ const ScaleSelection = (props: ScaleProps) => {
           className="font-size-20"
         >
           <option value="">Select scale</option>
-          {scalesList.map((s)=>(<option value={s}>{s}</option>))}
+          {scalesList.map((s,index)=>(<option key={index} value={s}>{s}</option>))}
           <option value="add">Add scale</option>
         </Form.Select>
         {documentType === "Architectural plan" && (
@@ -92,8 +98,11 @@ const ScaleSelection = (props: ScaleProps) => {
           </>
         )}
       </InputGroup>:
-      <Row>
-        <Col>
+      <Row style={{alignItems:"center"}}>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+        </Col>
+        <Col style={{paddingLeft:"0"}}>
           <Form.Control
           type="text"
           value={newScale}
@@ -106,8 +115,8 @@ const ScaleSelection = (props: ScaleProps) => {
           }}
           />
         </Col>
-        <Col style={{maxWidth:"fit-content"}}>
-          <img src={Tick} style={{height:"20px"}} onClick={()=>handleAdd()}/>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
         </Col>
       </Row>}
     </Form.Group>

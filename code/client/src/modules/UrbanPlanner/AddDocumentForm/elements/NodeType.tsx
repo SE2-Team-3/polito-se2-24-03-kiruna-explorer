@@ -1,9 +1,10 @@
 import { Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../../style.css";
-import { Props, NewDocument, NodeTypeProps } from "../interfaces/types";
+import { NewDocument, NodeTypeProps } from "../interfaces/types";
 import API from "../../../../API/API";
 import Tick from "../../../../assets/icons/single tick.svg"
+import Cancel from "../../../../assets/icons/close.svg"
 
 const NodeType = (props: NodeTypeProps) => {
   const [nodeType, setNodeType] = useState(
@@ -31,6 +32,11 @@ const NodeType = (props: NodeTypeProps) => {
     setNewNodeType("")
   }
 
+  const handleCancel = () => {
+    setNewNodeType("")
+    setAdding(false)
+  }
+
   return (
     <Form.Group as={Col} controlId="formGridDocType">
       <Form.Label className="black-text">Document Type *</Form.Label>
@@ -47,27 +53,26 @@ const NodeType = (props: NodeTypeProps) => {
         className="font-size-20"
       >
         <option value="">Select document type</option>
-        {nodeTypesList.map((n)=>(<option value={n}>{n}</option>))}
+        {nodeTypesList.map((n,index)=>(<option key={index} value={n}>{n}</option>))}
         <option value="add">
               Add document type
           </option>
       </Form.Select>:
-      <Row>
-        <Col>
+      <Row style={{alignItems:"center"}}>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+        </Col>
+        <Col style={{paddingLeft:"0"}}>
           <Form.Control
           type="text"
           value={newNodeType}
           onChange={(event) => setNewNodeType(event.target.value)}
           placeholder="New document type"
           className="font-size-20"
-          onBlur={()=>{
-            setNewNodeType("")
-            setAdding(false)
-          }}
           />
         </Col>
-        <Col style={{maxWidth:"fit-content"}}>
-          <img src={Tick} style={{height:"20px"}} onClick={()=>handleAdd()}/>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
         </Col>
       </Row>}
       <Form.Control.Feedback type="invalid">

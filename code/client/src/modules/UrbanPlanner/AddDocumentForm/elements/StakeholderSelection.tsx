@@ -1,9 +1,10 @@
 import { Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "../../../style.css";
-import { Props, NewDocument, StakeholderProps } from "../interfaces/types";
+import { NewDocument, StakeholderProps } from "../interfaces/types";
 import API from "../../../../API/API";
 import Tick from "../../../../assets/icons/single tick.svg"
+import Cancel from "../../../../assets/icons/close.svg"
 
 const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
 
@@ -57,6 +58,11 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
     setNewStakeholder("")
   }
 
+  const handleCancel = () => {
+    setNewStakeholder("")
+    setAdding(false)
+  }
+
   return (
     <Form.Group as={Col} controlId="formGridSH">
       <Form.Label className="black-text">Stakeholders *</Form.Label>
@@ -104,8 +110,11 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>:
-      <Row>
-        <Col>
+      <Row style={{alignItems:"center"}}>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Cancel} style={{width:"40px"}} onClick={()=>handleCancel()}/>
+        </Col>
+        <Col style={{paddingLeft:"0"}}>
           <Form.Control
           type="text"
           value={newStakeholder}
@@ -118,8 +127,8 @@ const StakeholderSelection = forwardRef((props: StakeholderProps, ref) => {
           }}
           />
         </Col>
-        <Col style={{maxWidth:"fit-content"}}>
-          <img src={Tick} style={{height:"20px"}} onClick={()=>handleAdd()}/>
+        <Col style={{maxWidth:"fit-content",padding:"0"}}>
+          <img src={Tick} style={{width:"20px"}} onClick={()=>handleAdd()}/>
         </Col>
       </Row>}
 
