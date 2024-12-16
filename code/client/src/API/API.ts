@@ -267,6 +267,30 @@ async function getGeoreferences(isArea?: boolean) {
   }
 }
 
+/**
+ * This function deletes a link between 2 documents in db.
+ */
+function unlinkDocuments(
+  documentId1: number,
+  documentId2: number,
+  linkType: string
+) {
+  return getJson(
+    fetch(baseURL + "documents/link", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        documentId1: documentId1,
+        documentId2: documentId2,
+        linkType: linkType,
+      }),
+    })
+  );
+}
+
 async function uploadAttachments(documentId: number, attachments: File[]) {
   const data = new FormData();
   for (const att of attachments) {
@@ -370,6 +394,7 @@ const API = {
   getConnections,
   getFilteredDocuments,
   getGeoreferences,
+  unlinkDocuments,
   uploadAttachments,
   getStakeholders,
   addStakeholder,

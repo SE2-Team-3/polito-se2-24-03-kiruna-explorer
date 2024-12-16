@@ -1,7 +1,11 @@
-import { Node, Edge } from "@xyflow/react";
-
-import { useEffect, useState } from "react";
-
+import {
+  type Node,
+  type Edge,
+  useNodesState,
+  useEdgesState,
+} from "@xyflow/react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../../components/UserContext";
 import Document from "../../../models/document";
 import Connection from "../../../models/Connection";
 import API from "../../../API/API";
@@ -22,20 +26,22 @@ interface DiagramWrapperProps {
 }
 
 const DiagramWrapper = (props: DiagramWrapperProps) => {
-  const [nodes, setNodes] = useState<Node[]>([]);
+  const [nodes, setNodes] = useNodesState<Node>([]);
   const [initialNodes, setInitialNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
-
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const [scrollWidth, setScrollWidth] = useState<number>(1);
 
   const { getAvailablePosition } = useOccupiedPositions();
+  const user = useContext(UserContext);
 
   useEffect(() => {
     async function getDocs() {
       const initialDocs: Document[] = await API.getDocuments();
       props.setFilteredDocuments(initialDocs);
       const initialConnections: Connection[] = await API.getConnections();
+
+      const showEdges = user ? true : false;
       if (initialDocs.length) {
         let newNodes: Node[] = [];
         for (const d of initialDocs) {
@@ -53,7 +59,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
             data: {
               nodeType: d.nodeType,
               stakeholder: d.stakeholders,
-              showEdges: false,
+              showEdges: showEdges,
             },
             width: 30,
             position: { x, y },
@@ -72,7 +78,9 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
             counts[year - 2004]++;
           }
         }
-        const calculatedYearWidths = years.map((y) => 75 + counts[y - 2004] * 50);
+        const calculatedYearWidths = years.map(
+          (y) => 75 + counts[y - 2004] * 50
+        );
         setYearWidths(calculatedYearWidths);
 
         let x = 200;
@@ -113,7 +121,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
               source,
               target,
               type: "default",
-              data: { linkTypes, label: `${linkTypes.length} connections` },
+              data: { linkTypes, label: `${linkTypes.length} conn` },
               zIndex: 4,
             });
           }
