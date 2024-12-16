@@ -42,7 +42,7 @@ describe("DocumentDAO unit tests", () => {
         "English",
         "1",
         null,
-        null
+        null,
       );
       expect(result.documentId).toBeDefined();
       expect(result.message).toBeDefined();
@@ -50,7 +50,7 @@ describe("DocumentDAO unit tests", () => {
       mockDBGet.mockRestore();
       mockDBRun.mockRestore();
     });
-
+    
     // KX3
     test("It should reolve new instance of document even if a valid georeference is provided", async () => {
       const firstDocumentIntance = {
@@ -87,7 +87,7 @@ describe("DocumentDAO unit tests", () => {
         "English",
         "1",
         ["67.8558, 20.2253"],
-        "test"
+        "test",
       );
 
       expect(result.documentId).toBeDefined();
@@ -97,7 +97,7 @@ describe("DocumentDAO unit tests", () => {
       mockDBRun.mockRestore();
     });
   });
-
+  
   // KX7 (Add original resource)
   describe("uploadResource", () => {
     it("should throw an exception when no files provided", async () => {
@@ -203,29 +203,37 @@ describe("DocumentDAO unit tests", () => {
           documentId: 1,
           title: "Test Title 1",
           description: "Test Description 1",
-          documentType: "Text",
+          documentTypeName: "Text",
           scale: "Text",
-          nodeType: "Design doc.",
+          nodeTypeName: "Design document",
           stakeholders: `["Municipality", "Architectural firm"]`,
           issuanceDate: "2023-11-13",
           language: "English",
           pages: "100",
-          georeferenceId: 101,
-          coordinates: "[1.1, 2.2]",
+          georeference: {
+            georeferenceId: 101,
+            coordinates: "[1.1, 2.2]",
+            georeferenceName: "Test Georeference 1",
+            isArea: 0,
+          }
         },
         {
           documentId: 2,
           title: "Test Title 2",
           description: "Test Description 2",
-          documentType: "Text",
+          documentTypeName: "Text",
           scale: "1:500",
-          nodeType: "Design doc.",
+          nodeTypeName: "Design document",
           stakeholders: `["Municipality"]`,
           issuanceDate: "2023-11-13",
           language: "Swedish",
           pages: "1-100",
-          georeferenceId: 151,
-          coordinates: "[1.1, 2.2]",
+          georeference: {
+            georeferenceId: 102,
+            coordinates: "[1.1, 2.2]",
+            georeferenceName: "Test Georeference 2",
+            isArea: 0,
+          }
         },
       ];
 
@@ -250,7 +258,7 @@ describe("DocumentDAO unit tests", () => {
       expect(result[0].issuanceDate).toBeDefined();
       expect(result[0].language).toBeDefined();
       expect(result[0].pages).toBeDefined();
-      expect(result[0].georeferenceId).toBeDefined();
+      expect(result[0].georeference).toBeDefined();
       mockDBAll.mockRestore();
     });
   });

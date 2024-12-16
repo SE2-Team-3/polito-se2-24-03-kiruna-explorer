@@ -55,6 +55,25 @@ const postResource = async () => {
   });
 };
 
+const postTypes = async () => {
+  const insertDocumentTypes = `INSERT INTO DocumentType (documentTypeName) VALUES ("Text")`;
+  const insertNodeTypes = `INSERT INTO NodeType (nodeTypeName) VALUES ("Design document")`;
+  const insertStakeholders = `INSERT INTO Stakeholder (stakeholderName) VALUES ("LKAB")`;
+  const insertStakeholders2 = `INSERT INTO Stakeholder (stakeholderName) VALUES ("Municipality")`;
+  db.run(insertDocumentTypes, [], (err) => {
+    if (err) console.log(err);
+    db.run(insertNodeTypes, [], (err) => {
+      if (err) console.log(err);
+      db.run(insertStakeholders, [], (err) => {
+        if (err) console.log(err);
+        db.run(insertStakeholders2, [], (err) => {
+          if (err) console.log(err);
+        });
+      });
+    });
+  });
+};
+
 const login = async (userInfo: any) => {
   return new Promise<string>((resolve, reject) => {
     request(app)
@@ -75,6 +94,7 @@ beforeAll(async () => {
   await postUser(planner);
   plannerCookie = await login(planner);
 
+  await postTypes();
   await postResource();
   await postDocument(testDocument, plannerCookie);
 });
