@@ -33,8 +33,11 @@ const HomePage = ({ loggedIn, username }: HomepageProps) => {
               </h1>
             </Row>
             <p className="subtitle">
-              👋 Welcome {loggedIn ? <span className="username-span">{username}</span> : null} to
-              the digital exploration of{" "}
+              👋 Welcome{" "}
+              {loggedIn ? (
+                <span className="username-span">{username}</span>
+              ) : null}{" "}
+              to the digital exploration of{" "}
               <span className="kiruna-flag">
                 <img src={Flag} alt="Kiruna Flag" className="kiruna-flag" />
               </span>
@@ -44,15 +47,22 @@ const HomePage = ({ loggedIn, username }: HomepageProps) => {
         </Row>
 
         <Row className="row-buttons-map-diagram">
-          <Col sm={6} className="mb-3">
-            <Button className="button-explore-map btn-lg w-100" onClick={handleMapRedirect}>
+          <Col sm={6} xs={6} className="mb-3">
+            <Button className="button-explore-map" onClick={handleMapRedirect}>
               <img src={MapButton} alt="Map Button" className="map-button" />
             </Button>
           </Col>
 
-          <Col sm={6} className="mb-3">
-            <Button className="button-view-diagram btn-lg w-100" onClick={handleDiagramRedirect}>
-              <img src={DiagramButton} alt="Diagram Button" className="diagram-button" />
+          <Col sm={6} xs={6} className="mb-3">
+            <Button
+              className="button-view-diagram"
+              onClick={handleDiagramRedirect}
+            >
+              <img
+                src={DiagramButton}
+                alt="Diagram Button"
+                className="diagram-button"
+              />
             </Button>
           </Col>
         </Row>

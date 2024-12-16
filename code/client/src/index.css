@@ -23,6 +23,11 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 10px;
+  }
+}
 /* Sidebar Container */
 .sidebar-container {
   background-color: white;
@@ -75,6 +80,26 @@ body {
   color: black;
   font-weight: 250;
   font-style: italic;
+}
+
+@media (max-width: 426px) {
+  .logo {
+    width: 25px;
+    height: 25px;
+  }
+  .title-kiruna {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    color: #3d52a0;
+    font-weight: bold;
+  }
+  .title-explorer {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    color: black;
+    font-weight: 250;
+    font-style: italic;
+  }
 }
 
 .bold-text {
@@ -251,8 +276,8 @@ body {
   /* Show menu icon on small screens */
   .menu-icon {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 25px;
+    right: 60px;
     font-size: 34px;
     color: #3d52a0;
     cursor: pointer;
@@ -410,6 +435,8 @@ button:focus-visible {
 .search-bar-row {
   display: flex;
   align-items: center;
+  width: 550px;
+  margin-left: 20px;
 }
 
 .search-bar {
@@ -419,7 +446,7 @@ button:focus-visible {
   border-radius: 5px;
   padding: 0 12px;
   height: 40px;
-  width: 300px; /* Puoi cambiare la larghezza */
+  width: 275px; /* Puoi cambiare la larghezza */
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -478,6 +505,19 @@ input {
 .undo-filter-button-diagram {
   background-color: transparent;
   border: none;
+}
+
+.login-button {
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    width: 230px;
+  }
+
+  .login-button {
+    display: none;
+  }
 }
 
 /*
