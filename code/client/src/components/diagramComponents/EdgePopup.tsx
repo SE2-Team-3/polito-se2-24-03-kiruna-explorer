@@ -41,44 +41,39 @@ const EdgePopup: React.FC<PopupProps> = ({
       }}
     >
       <h3 style={{ marginBottom: "20px" }}>
-        {linkTypes.length === 1 ? "Connection Type" : "Connection Types"}
+      {linkTypes.length === 1 ? "Connection Type" : "Connection Types"}
       </h3>
-      <div
-        className="font-size-20"
-        style={{ marginRight: "25px", marginBottom: "14px" }}
-      >
+      <ul
+       className="font-size-20"
+       style={{ marginRight: "25px", marginBottom: "14px"}}
+        >
         {linkTypes.map((linkType, index) => (
-          <div
-            key={index}
-            style={{
-              display: "block",
-              alignItems: "end",
-              marginBottom: "14px",
-            }}
-          >
-            <span style={{ alignItems: "flex-start", marginBottom: "14px" }}>
-              • {linkType}
-            </span>
-            {user && (
-              <BsTrash
+          <li
+           key={index}
+           style={{alignItems: "center",marginBottom: "14px", }}
+           >
+            <span style={{ flex: 1 }}>{linkType}</span>
+             {user && (
+               <BsTrash
                 size={14}
                 type="button"
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  handleDeleteConnection(
-                    linkType,
-                    deleteConnection,
-                    setEdges,
-                    setPopupVisible,
-                    showToast
-                  )
-                }
                 className="popup-remove-link-button"
-              />
-            )}
-          </div>
-        ))}
-      </div>
+                style={{cursor: "pointer"}}
+                onClick={() =>
+                handleDeleteConnection(
+                linkType,
+                deleteConnection,
+                setEdges,
+                setPopupVisible,
+                showToast
+               )
+               }
+             />
+              )}
+          </li>
+          ))}
+       </ul>
+
       <Row className="row-box-button">
         <Button
           onClick={() => handleCancel(setPopupVisible, setDeleteConnection)}
