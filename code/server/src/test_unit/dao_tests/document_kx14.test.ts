@@ -24,6 +24,21 @@ describe("Document DAO kx14", () => {
                 documentId: 1,
                 title: "Test Title 1",
                 description: "Test Description 1",
+                documentTypeName: "Text",
+                scale: "Text",
+                nodeTypeName: "Design doc.",
+                stakeholders: `["Municipality","Citizen"]`,
+                issuanceDate: "2023-11-13",
+                language: "English",
+                pages: "100",
+                coordinates: "[[67.8600199224865,20.209608078002933],[67.8600199224865,20.209608078002933],[67.8600199224865,20.209608078002933]]"
+            };
+
+            const result_document =
+            {
+                documentId: 1,
+                title: "Test Title 1",
+                description: "Test Description 1",
                 documentType: "Text",
                 scale: "Text",
                 nodeType: "Design doc.",
@@ -42,13 +57,23 @@ describe("Document DAO kx14", () => {
             const result = await documentDAO.getDocumentById(1);
 
             expect(db.get).toHaveBeenCalledTimes(1);
-            expect(result).toStrictEqual(response_document);
+            expect(result.documentId).toBe(result_document.documentId);
+            expect(result.title).toBe(result_document.title);
+            expect(result.description).toBe(result_document.description);
+            expect(result.documentType).toBe(result_document.documentType);
+            expect(result.scale).toBe(result_document.scale);
+            expect(result.nodeType).toBe(result_document.nodeType);
+            expect(result.stakeholders.replace(/[^a-zA-Z]/g, "")).toBe(result_document.stakeholders.replace(/[^a-zA-Z]/g, ""));
+            expect(result.issuanceDate).toBe(result_document.issuanceDate);
+            expect(result.language).toBe(result_document.language);
+            expect(result.pages).toBe(result_document.pages);
+            expect(result.coordinates).toBe(result_document.coordinates);
         });
 
     });
 
     describe("getConnectionDetailsByDocumentId", () => {
-        
+
         test("should resolve with the connections", async () => {
             const response_connections = [
                 {

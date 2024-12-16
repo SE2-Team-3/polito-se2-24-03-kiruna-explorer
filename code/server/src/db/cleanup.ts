@@ -21,7 +21,28 @@ export function cleanup() {
               if (err) return reject(err);
               db.run("DELETE FROM DocumentResources", (err) => {
                 if (err) return reject(err);
-                resolve();
+                db.run("DELETE FROM DocumentType", (err) => {
+                  if (err) return reject(err);
+                  db.run("DELETE FROM NodeType", (err) => {
+                    if (err) return reject(err);
+                    db.run("DELETE FROM Stakeholder", (err) => {
+                      if (err) return reject(err);
+                      db.run("DELETE FROM Georeference", (err) => {
+                        if (err) return reject(err);
+                        db.run("DELETE FROM Attachment", (err) => {
+                          if (err) return reject(err);
+                          db.run("DELETE FROM DocumentAttachments", (err) => {
+                            if (err) return reject(err);
+                            db.run("DELETE FROM DocumentStakeholders", (err) => {
+                              if (err) return reject(err);
+                              resolve();
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
               });
             });
           });
