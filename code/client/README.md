@@ -67,9 +67,7 @@ The `App` component defines a set of routes to handle navigation between differe
 
 ### **Root Route (`/`)**
 - **Functionality**:  
-  When a user navigates to the root path (`/`), this route checks if the user is logged in:  
-  - **If logged in**: Redirects the user to the `/explore-map` route.  
-  - **If not logged in**: Redirects the user to the `/explore-map` route.
+  Redirects the user to the `/home` route and acts as the default page of the application..
 
 ---
 
@@ -77,27 +75,53 @@ The `App` component defines a set of routes to handle navigation between differe
 - **Functionality**:  
   Displays the `Login` component, which provides a login form.  
   - This route is accessible when the user is not logged in.  
+  - Allows users to log in or log in as a guest.
+  - Displays messages for login-related actions.
   - If the login is successful, the user is redirected to `/explore-map`.
 
 ---
 
 ### **Home Route (`/home`)**
 - **Functionality**:  
-  Displays the `Home` component, which is a general public landing page.  
-  - This route does not require login and can be accessed by any user.
+  Displays the `HomePage` component.
+  - Shows basic information about the application.
+  - Displays the logged-in user's username if available.
+  - Accessible without login.
+
+---
+
+### **Diagram Route (`/diagram`)**
+- **Functionality**:  
+  Displays the `DiagramWrapper` component.
+  - Allows filtering and searching of documents.
+  - Manages the visibility of the filter table.
+  - Accessible without login.
+
+---
+
+### **Document Details Route (`/documents/:documentId`)**
+- **Functionality**:  
+  Displays the `DocumentDetails` component.
+  - Shows detailed information about a specific document identified by its `documentId`.
+  - Accessible without login.
 
 ---
 
 ### **Explore Map Route (`/explore-map`)**
 - **Functionality**:  
-  Renders the `ExploreMap` component, allowing all users to explore the map.  
+  Renders the `ExploreMap` component.
+  - Provides an interactive map interface for exploring linked documents.
+  - Allows users to view and manage linked documents.
+  - Supports filtering of documents and switching between map layers.
+  - Accessible without login.  
   
 
 ---
 
 ### **Urban Planner Route (`/urban-planner`)**
 - **Functionality**:  
-  Displays the `UrbanPlanner` component, providing tools and views specifically designed for urban planners.  
+  Displays the `UrbanPlanner` component
+  - Provides tools and views specifically designed for urban planners.  
   - Requires the user to be logged in.  
   - If not logged in, the user is redirected to `/login`.
 
@@ -105,7 +129,8 @@ The `App` component defines a set of routes to handle navigation between differe
 
 ### **Add Document Route (`/urban-planner/add-document`)**
 - **Functionality**:  
-  Loads the `AddDocumentForm` component, allowing logged-in users to add a new document.  
+  Loads the `AddDocumentForm` component.
+  - Allows logged-in users to create ad a new document.  
   - If not logged in, the user is redirected to `/login`.
 
 ---
@@ -119,17 +144,26 @@ The `App` component defines a set of routes to handle navigation between differe
 
 ### **Documents List Route (`/urban-planner/documents-list`)**
 - **Functionality**:  
-  Displays the `DocumentsListTable` component, which lists all documents available to the user.  
-  - Allows the user to select a document for further actions, such as uploading resources.  
-  - Requires the user to be logged in.  
+  Displays the `DocumentsListTable` component, 
+  - Allows logged-in users to view a table of documents. 
+  - Allows the user to select a document for further actions, such as uploading resources, add attachment or link selected document to other documents.
+  - Provides filtering and search options using `searchTitle`.   
   - If not logged in, the user is redirected to `/login`.
 
 ---
 
 ### **Add Resource Route (`/urban-planner/add-resource`)**
 - **Functionality**:  
-  Loads the `AddResourceForm` component, allowing the user to add resources to a specific document.  
-  - This route is restricted to logged-in users.  
+  Loads the `AddResourceForm` component.
+  - Allows logged-in users to add resources to a document.    
+  - If not logged in, the user is redirected to `/login`.
+
+---
+
+### **Add Attachment Route (`/urban-planner/add-attachment`)**
+- **Functionality**:  
+  Loads the `AddAttachment` component.
+  - Allows logged-in users to add an attachment to a document..    
   - If not logged in, the user is redirected to `/login`.
 
 ---
