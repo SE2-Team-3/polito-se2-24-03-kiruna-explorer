@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSidebar } from "../../../components/SidebarContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
   applyEdgeChanges,
   Node,
   OnConnect,
+  Edge,
 } from "@xyflow/react";
 import DiagramTable from "../../../components/diagramComponents/DiagramTable";
 import {
@@ -18,8 +19,31 @@ import EdgePopup from "../../../components/diagramComponents/EdgePopup";
 import ConnectionPopup from "../../../components/diagramComponents/ConnectionPopup";
 import API from "../../../API/API";
 import Connection from "../../../models/Connection";
+import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
+import Document from "../../../models/document";
 
-const Diagram = (props: any) => {
+interface DiagramProps {
+  filterTableVisible: boolean;
+  setFilterTableVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  filteredDocuments: Document[];
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+  searchTitle: string;
+  initialNodes: Node[];
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
+  scrollWidth: number;
+  nodes: Node[];
+  edges: Edge[];
+  yearWidths: number[];
+}
+
+const Diagram = (props: DiagramProps) => {
+  const filterTableVisible = props.filterTableVisible;
+  const setFilterTableVisible = props.setFilterTableVisible;
+  const filteredDocuments = props.filteredDocuments;
+  const setFilteredDocuments = props.setFilteredDocuments;
+  const searchTitle = props.searchTitle;
+  const initialNodes = props.initialNodes;
   const setNodes = props.setNodes;
   const setEdges = props.setEdges;
   const scrollWidth = props.scrollWidth;
@@ -27,21 +51,14 @@ const Diagram = (props: any) => {
   const edges = props.edges;
   const yearWidths = props.yearWidths;
 
-  const scrollHeight =
-    750 > document.documentElement.clientHeight - 100
-      ? document.documentElement.clientHeight - 100
-      : 750;
-
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
   const [connectionPopupVisible, setConnectionPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
-  const [tooltip, setTooltip] = useState<{
-    visible: boolean;
-    title: string;
-    x: number;
-    y: number;
-  }>({ visible: false, title: "", x: 0, y: 0 });
+  const [allDocs, setAllDocs] = useState<Document[]>([]);
+  const [tooltip, setTooltip] = useState<{ visible: boolean; title: string; x: number; y: number }>(
+    { visible: false, title: "", x: 0, y: 0 }
+  );
   const { isSidebarOpen } = useSidebar();
   const [newConnection, setNewConnection] = useState<Connection>({
     documentId1: 0,
@@ -77,6 +94,13 @@ const Diagram = (props: any) => {
     },
     [edges]
   );
+  useEffect(() => {
+    async function setInitialDocs() {
+      const allDocs = await API.getDocuments();
+      setAllDocs(allDocs);
+    }
+    setInitialDocs();
+  }, []);
 
   const onEdgeClick = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
@@ -117,6 +141,43 @@ const Diagram = (props: any) => {
     navigate(`/documents/${nodeId}`);
   };
 
+  const handleResetNodes = async () => {
+    const allDocs = await API.getDocuments();
+    setFilteredDocuments(allDocs);
+    setFilterTableVisible(false);
+  };
+
+  // Update nodes based on filtered documents
+  useEffect(() => {
+    if (filteredDocuments.length < allDocs.length) {
+      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+    } else if (filteredDocuments.length === 0) {
+      setNodes([]);
+    } else if (filteredDocuments.length === allDocs.length) {
+      setNodes(initialNodes);
+    }
+  }, [filteredDocuments]);
+
+  // update documents list based on searchTitle
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const allDocs = await API.getDocuments();
+      const filtered = allDocs.filter((doc) =>
+        doc.title.toLowerCase().includes(searchTitle.toLowerCase())
+      );
+      const filteredNodeIds = filtered.map((doc) => doc.documentId);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+      if (searchTitle === "") {
+        setNodes(initialNodes);
+      }
+    };
+
+    fetchDocuments();
+  }, [searchTitle]);
+
   return (
     <>
       {tooltip.visible && (
@@ -132,6 +193,15 @@ const Diagram = (props: any) => {
           }}
         >
           {tooltip.title}
+        </div>
+      )}
+      {filterTableVisible && (
+        <div className="popup-diagram">
+          <FilterTable
+            setFilteredDocuments={setFilteredDocuments}
+            setFilterTableVisible={setFilterTableVisible}
+            handleResetNodes={handleResetNodes}
+          />
         </div>
       )}
       <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
