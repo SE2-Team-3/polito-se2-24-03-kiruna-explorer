@@ -446,7 +446,7 @@ button:focus-visible {
   border-radius: 5px;
   padding: 0 12px;
   height: 40px;
-  width: 275px; /* Puoi cambiare la larghezza */
+  width: 250px; /* Puoi cambiare la larghezza */
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }

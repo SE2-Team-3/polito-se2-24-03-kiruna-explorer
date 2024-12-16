@@ -62,7 +62,10 @@ const NavBar: FC<NavBarProps> = (props) => {
   return (
     <div className="navbar-container">
       <Row className="navbar-row">
-        <Button className="navigate-home-button" onClick={() => navigate("/home")}>
+        <Button
+          className="navigate-home-button"
+          onClick={() => navigate("/home")}
+        >
           <Row className="navbar-row">
             <Col>
               <img src={Logo} alt="logo" className="logo" />
@@ -80,7 +83,7 @@ const NavBar: FC<NavBarProps> = (props) => {
       </Row>
       {showSearchBar && (
         <Row className="search-bar-row">
-          <Col>
+          <Col sm={6}>
             <div className="search-bar">
               <svg
                 className="search-icon"
@@ -116,34 +119,43 @@ const NavBar: FC<NavBarProps> = (props) => {
               </button>
             </div>
           </Col>
-          <Col>
+          <Col sm={2}>
             <button className="search-button" onClick={handleChange}>
               Search
             </button>
           </Col>
           {location.pathname === "/diagram" && (
-            <Col>
+            <Col sm={2}>
               <button
                 className="filter-button-diagram"
-                onClick={() => props.setFilterTableVisible(!props.filterTableVisible)}
+                onClick={() =>
+                  props.setFilterTableVisible(!props.filterTableVisible)
+                }
               >
                 Filter
               </button>
             </Col>
           )}
-          {location.pathname === "/diagram" && props.filteredDocuments.length < allDocs.length && (
-            <Col>
-              <button className="undo-filter-button-diagram" onClick={handleResetNodes}>
-                <Undo2Icon size={24} color="#3d52a0" />
-              </button>
-            </Col>
-          )}
+          {location.pathname === "/diagram" &&
+            props.filteredDocuments.length < allDocs.length && (
+              <Col sm={2}>
+                <button
+                  className="undo-filter-button-diagram"
+                  onClick={handleResetNodes}
+                >
+                  <Undo2Icon size={24} color="#3d52a0" />
+                </button>
+              </Col>
+            )}
         </Row>
       )}
       {!loggedIn && (
         <Row className="login-row">
           <Button className="login-button" onClick={() => navigate("/login")}>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Login</Tooltip>}>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Login</Tooltip>}
+            >
               <LogInIcon size={24} color="#3d52a0" />
             </OverlayTrigger>
           </Button>
@@ -152,7 +164,10 @@ const NavBar: FC<NavBarProps> = (props) => {
       {loggedIn && (
         <Row className="login-row">
           <Button className="login-button" onClick={props.doLogOut}>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Logout</Tooltip>}>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Logout</Tooltip>}
+            >
               <LogOutIcon size={24} color="#3d52a0" />
             </OverlayTrigger>
           </Button>
