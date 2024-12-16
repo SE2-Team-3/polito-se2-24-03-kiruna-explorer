@@ -1228,12 +1228,14 @@ DIAGRAM
   transition: margin-left 0.3s ease;
 }
 
+/* IT FIXES SOME ISSUES WITH DIAGRAM
 .sidebar-container.open ~ .diagram-wrapper {
   left: 75px;
 }
 .sidebar-container:hover ~ .diagram-wrapper {
   left: 350px;
 }
+*/
 
 .react-flow__pane {
   background-color: white;

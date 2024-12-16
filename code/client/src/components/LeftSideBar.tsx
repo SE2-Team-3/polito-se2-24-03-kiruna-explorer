@@ -165,7 +165,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/diagram" ? "highlighted" : ""
+                    location.pathname.match("/^\/diagram.*$/") ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -177,7 +177,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   }}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/diagram" ? (
+                    {location.pathname === "/^\/diagram.*$/" ? (
                       <img src={DiagramSelected} alt="diagram selected" />
                     ) : (
                       <img src={Diagram} alt="diagram not selected" />
