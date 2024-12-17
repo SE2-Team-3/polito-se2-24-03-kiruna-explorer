@@ -82,7 +82,7 @@ const DraggableMarker = ({
 
       // Filter linked documents from allDocs
       const linkedDocuments = documentSelected.linkedDocuments.map((linkedDoc) => {
-        return allDocuments.find((doc) => doc.documentId === linkedDoc.documentId);
+        return allDocs.find((doc) => doc.documentId === linkedDoc.documentId);
       });
 
       // Filter unique documents by documentId
