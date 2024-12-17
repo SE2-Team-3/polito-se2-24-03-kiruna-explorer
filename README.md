@@ -4,17 +4,17 @@
 Kiruna Explorer is a web application designed to help urban planners, residents, and visitors explore, analyze, and understand documents related to urban planning and geographical information in the Kiruna region. The application offers tools to visualize, link, and interact with various documents on both maps and diagrams, supporting a deeper study of their relationships, geolocation, and impact over time.
 
 # 📚 Table of Contents
-- 🚀 [Getting Started](#🚀-getting-started)
-- 🛠️ [Technical Debt Management](#🛠️-technical-debt-management)
-- ✨ [Features](#✨-features)
-- 🖼️ [UI Application screenshots-first release](#🖼️-ui-application-screenshots)
-- 📊 [Diagrams](./assets/diagrams/)
-  - 🖍️ [Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
-  - 🧩 [Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
-- 🌀 [Retrospectives](./Retrospectives/)
-  - 🏁 [Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
-  - 🏁 [Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
-  - 🏁 [Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
+- [🚀 Getting Started](#🚀-getting-started)
+- [🛠️ Technical Debt Management](#🛠️-technical-debt-management)
+- [✨ Features](#✨-features)
+- [🖼️ UI Application screenshots-first release](#🖼️-ui-application-screenshots)
+- [📊 Diagrams](./assets/diagrams/)
+  - [🖍️ Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
+  - [🧩 Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
+- [🌀 Retrospectives](./Retrospectives/)
+  - [🏁 Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
+  - [🏁 Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
+  - [🏁 Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
 
 
 ## 🚀 Getting Started 

@@ -1,13 +1,13 @@
-# Kiruna-Explorer
+# 🇸🇪 Kiruna-Explorer
 This document lists all components and routes that compose the Kiruna Explorer application.
 
-# Table of Contents
-- [React + TypeScript + Vite](#react--typescript--vite)
-- [Expanding the ESLint configuration](#expanding-the-eslint-configuration)
-- [Client Application Routes](#client-application-routes)
-- [Client Application Components](#client-application-components)
+# 📚 Table of Contents
+- [⚛️ React + TypeScript + Vite](#⚛️-react--typescript--vite)
+- [🔧 Expanding the ESLint configuration](#🔧-expanding-the-eslint-configuration)
+- [🛤️ Client Application Routes](#🛤️-client-application-routes)
+- [🧑‍💻 Client Application Components](#🧑‍💻-client-application-components)
 
-# React + TypeScript + Vite
+# ⚛️ React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -16,7 +16,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# Expanding the ESLint configuration
+# 🔧 Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
@@ -57,9 +57,9 @@ export default tseslint.config({
   },
 });
 ```
+<br/>
 
-
-# **Client Application Routes**
+# 🛤️ **Client Application Routes**
 
 The `App` component defines a set of routes to handle navigation between different parts of the application.
 
@@ -175,12 +175,12 @@ The `App` component defines a set of routes to handle navigation between differe
   - The current route is `/explore-map`.  
   - Clicking this button navigates the user to `/urban-planner/add-document`.
 
----
+<br/>
 
 
-# Client Application Components
+# 🧑‍💻 Client Application Components
 
- - [Back to table of contents](#table-of-contents)
+ - [Back to table of contents](#📚-table-of-contents)
  - [1. General Components](#1-general-components)
    - [1.1. Custom Edge](#11-custom-edge)
       - [Edge Collateral Consequence](#edge-collateral-consequence)
@@ -189,30 +189,28 @@ The `App` component defines a set of routes to handle navigation between differe
       - [Edge Prevision](#edge-prevision)
       - [Edge Update](#edge-update)
    - [1.2. Diagram Components](#12-diagram-components)
+      - [Connection Popup](#connection-popup)
       - [Diagram Table](#diagram-table)
       - [Edge Popup](#edge-popup)
       - [Icon](#icon)
-      - [Connection Popup](#connection-popup)
-      - [Header](#header)
-      - [Sidebar](#sidebar)
     - [Municipality Area](#municipality-area)  
     - [Left Side Bar](#left-side-bar)
     - [Nav Bar](#nav-bar)
-    - [User Context](#user-context)
     - [Sidebar Context](#sidebar-context)
+    - [User Context](#user-context)
   - [2. General Pages](#2-general-pages)
-    - [2.1. Map](#21-map)
+    - [2.1. Diagram](#diagram)
+      - [Diagram](#diagram)
+      - [Diagram Wrapper](#diagram-wrapper)
+    - [Home Page](#home-page)
+    - [2.2. Map](#21-map)
       - [Draggable Marker](#draggable-marker)
       - [Explore Map](#explore-map)
       - [Mini Map Detail](#mini-map-detail)
-    - [2.2. Diagram](#diagram)
-      - [Diagram](#diagram)
-      - [Diagram Wrapper](#diagram-wrapper)
     - [Document Details](#document-details)
-    - [Home Page](#home-page)
     - [Login](#login)
     - [Toast Provider](#toast-provider)
-  - [3. Urban Planner](#4-urban-planner)
+  - [3. Urban Planner](#3-urban-planner)
     - [3.1. Add Document Form](#31-add-document-form)
       - [Data Selection](#data-selection)
       - [Document Details](#document-details)
@@ -239,16 +237,18 @@ The `App` component defines a set of routes to handle navigation between differe
           - [Mini Map Point Modal](#mini-map-point-modal)
           - [Georeference Type Selection](#georeference-type-selection)
           - [GeoSelection](#geoselection)
-    - [3.2. Link Document Form](#32-link-document-form)
+    - [3.2. Documents List](#32-documents-list)
+    - [3.3. File Upload Form](#33-file-upload-form)
+      - [Add Attachment Form](#add-attachment-form)
+      - [Add Resource Form](#add-resource-form)
+      - [File Upload](#file-upload)
+    - [3.4. Filter Popup](#34-filter-popup)
+    - [3.5. Link Document Form](#35-link-document-form)
       - [Document Selector](#document-selector)
       - [Link Type Selector](#link-type-selector)
       - [Link Document Form](#link-document-form)
-    - [3.3. Urban Planner Dashboard](#33-urban-planner-dashboard)
-    - [3.4. Documents List](#34-documents-lists)
-    - [3.5. Add Resource Form](#35-add-resource-form)
-    - [3.6. Filter Popup](#36-filter-popup)
-    - [3.7. Add Attachment Form](#37-add-attachment-form)
-
+    - [3.6. Urban Planner Dashboard](#36-urban-planner-dashboard)
+    
 ## 1. General Components
 
 ### 1.1. Custom Edge
@@ -287,6 +287,12 @@ The component provides edge for "Update" link type on diagram.
 ### 1.2. Diagram Components
 This folder contains components for Georeferencing documents on diagram:
 
+### Connection popup  
+**File**: `components/diagramComponents/ConnectionPopup.tsx`
+This  component lets users create connections between documents on the diagram.
+
+---
+
 ### Diagram Table 
 **File**: `components/diagramComponents/DiagramTable.tsx`  
 This component generates and renders a dynamic table for georeferncing data on the diagram.
@@ -302,24 +308,6 @@ This component serves as a popup modal displaying a list of "link types" and inc
 ### Icon 
 **File**: `components/diagramComponents/Icon.tsx`
 This component creates interactive flow diagrams or node-based UIs. It includes handles for connecting edges, along with an icon and label.
-
----
-
-### Connection popup  
-**File**: `components/diagramComponents/ConnectionPopup.tsx`
-This  component lets users create connections between documents on the diagram.
-
----
-
-### Header  
-**File**: `components/diagramComponents/Header.tsx`  
-The component is  designed to render a table header containing a list of years.
-
----
-
-### Sidebar  
-**File**: `components/diagramComponents/Sidebar.tsx`
-This component renders a sidebar displaying a list of document types. It serves as a simple UI element to show the document types in a tabular format, likely to support navigation or filtering in the application.
 
 ---
 
@@ -343,21 +331,43 @@ The NavBar component renders a simple navigation bar with a title. It helps main
 
 ---
 
-### User Context 
-**File**: `components/UserContext.tsx`  
-This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
-
----
-
 ### Sidebar Context 
 **File**: `components/SidebarContext.tsx`  
 This component manages the sidebar's open/closed state across the application.
 
 ---
 
+### User Context 
+**File**: `components/UserContext.tsx`  
+This component hold information about a user. This setup allows other components to access user information by subscribing to `UserContext`.
+
+---
+
 ## 2. General Pages
 
-### 2.1. Map
+### 2.1. Diagram
+This folder contains components for Georeferencing documents on diagram:
+
+### Diagram
+**File**: `modules/GeneralPagaes/Diagram/Diagram.tsx`  
+The component displays a graphical representation of documents and their connections as nodes and edges, respectively. The component also provides various interactive features and contextual tools to enhance the user experience
+
+---
+
+### Diagram Wrapper
+**File**: `modules/GeneralPagaes/Diagram/DiagramWrapper.tsx`  
+The component handles the data fetching, processing, and initialization logic for a diagramming interface.
+
+---
+
+### Home 
+**File**: `modules/GeneralPagaes/Homepage.tsx`  
+This component renders the homepage of the application. It also provides navigation buttons to different sections of the app: a map exploration and a diagram view.
+
+---
+
+
+### 2.2. Map
 This folder contains components for Georeferencing documents on map:
 
 ### Draggable Marker
@@ -378,29 +388,9 @@ This component renders a small map. It allows for visualizing one or more coordi
 
 ---
 
-### 2.2. Diagram
-This folder contains components for Georeferencing documents on diagram:
-
-### Diagram
-**File**: `modules/GeneralPagaes/Diagram/Diagram.tsx`  
-The component displays a graphical representation of documents and their connections as nodes and edges, respectively. The component also provides various interactive features and contextual tools to enhance the user experience
-
----
-
-### Diagram Wrapper
-**File**: `modules/GeneralPagaes/Diagram/DiagramWrapper.tsx`  
-The component handles the data fetching, processing, and initialization logic for a diagramming interface.
-
----
-
 ### Document Details
 **File**: `modules/GeneralPagaes/DocumentDetails.tsx`  
 The component displays detailed information about a specific document that is chosen on the diagram.
----
-
-### Home 
-**File**: `modules/GeneralPagaes/Homepage.tsx`  
-This component renders the homepage of the application. It also provides navigation buttons to different sections of the app: a map exploration and a diagram view.
 
 ---
 
@@ -573,9 +563,41 @@ This component serves as an interface for managing and displaying georeferenced 
 
 ---
 
-### 3.2. Link Document Form
+### 3.2. Documents List
+**File**: `modules/UrbanPlanner/DocumentsLists/DocumentsListTable.tsx`  
+This component allows users to view, navigate, and interact with document-related actions.
+
+---
+
+### 3.3. File Upload Form
+This folder contains components for uploading file for a document:
+
+### Add Attachment Form 
+**File**: `modules/UrbanPlanner/AddAttachmentForm/AddAttachment.tsx`  
+This component is designed to let a user upload attachment files to a specific document.
+
+---
+
+### Add resource Form
+**File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
+This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
+
+---
+
+### File Upload
+**File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
+This component provides a file upload interface such as drag-and-drop, file validation, removal, and form submission.
+
+---
+
+### 3.4. Filter Popup
+**File**: `modules/UrbanPlanner/FilterTable/FilterPopup.tsx`  
+The component provides a user interface for filtering documents based on various criteria includes documentType, nodeType, stakeholders, issuanceDateStart, issuanceDateEnd, language.
+
+---
+### 3.5. Link Document Form
 This folder contains components for linking existing documents:
-   
+
 ### Document Selector
 **File**: `modules/UrbanPlanner/LinkDosumentForm/elements/DocumentSelector.tsx`  
 The component provides the functionality for selecting two documents from a list. 
@@ -592,32 +614,6 @@ The component allows users to select multiple link types for the documents they 
 This component allows users to link two documents by selecting them from a list of available documents and specifying the type(s) of link between them.
 
 ---
-### 3.3. Urban Planner Dashboard
+### 3.6. Urban Planner Dashboard
 **File**: `modules/UrbanPlanner/UrbanPlannerDashboard.tsx`  
 This component provides urban planner module to intract with the application.
-
----
-### 3.4. Documents List
-**File**: `modules/UrbanPlanner/DocumentsLists/DocumentsListTable.tsx`  
-This component allows users to view, navigate, and interact with document-related actions.
-
----
-### 3.5. Add resource Form
-**File**: `modules/UrbanPlanner/AddResourceForm/AddResourceForm.tsx`  
-This component is used to upload resources (files) for a specific document. It allows users to select files, view the selected files, and then submit the files.
-
----
-
-### 3.6. Filter Popup
-**File**: `modules/UrbanPlanner/FilterTable/FilterPopup.tsx`  
-The component provides a user interface for filtering documents based on various criteria includes documentType, nodeType, stakeholders, issuanceDateStart, issuanceDateEnd, language.
-
----
-
-### 3.7. Add Attachment Form 
-**File**: `modules/UrbanPlanner/AddAttachmentForm/AddAttachment.tsx`  
-This component is designed to let a user upload attachment files to a specific document.
-
----
-
-
