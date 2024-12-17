@@ -5,6 +5,7 @@ import { app } from "../../../index";
 import DocumentController from "../../../src/controllers/documentController";
 import Authenticator from "../../../src/routers/auth";
 import ErrorHandler from "../../../src/helper";
+import { body } from "express-validator/src";
 const baseURL = "/api";
 
 jest.mock("../../../src/controllers/documentController");
@@ -637,5 +638,194 @@ describe("GET /api/documents/filtered", () => {
     );
     expect(response.status).toBe(200);
     expect(DocumentController.prototype.getResources).toHaveBeenCalled();
+  });
+});
+
+describe("GET /api/documents/types/document-types", () => {
+  test("It should return document types", async () => {
+
+    const dt = [
+      {
+        documentTypeId: "1",
+        documentTypeName: "DT_1",
+      },
+      {
+        documentTypeId: "2",
+        documentTypeName: "DT_2",
+      }
+    ]
+
+    jest
+      .spyOn(DocumentController.prototype, "getDocumentTypes")
+      .mockResolvedValueOnce(dt as any);
+
+    const response = await request(app).get(
+      baseURL +
+        `/documents/types/document-types`
+    );
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(dt)
+    expect(DocumentController.prototype.getDocumentTypes).toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/documents/types/document-types", () => {
+  test("It should return 201", async () => {
+
+    const dt = {documentType:"DT_1"}
+
+    jest
+      .spyOn(DocumentController.prototype, "createDocumentType")
+      .mockResolvedValueOnce(true as any);
+
+      jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app).post(
+      baseURL +
+        `/documents/types/document-types`,
+    ).send(dt);
+    expect(response.status).toBe(201);
+    expect(DocumentController.prototype.createDocumentType).toHaveBeenCalled();
+  });
+});
+
+describe("GET /api/documents/types/node-types", () => {
+  test("It should return node types", async () => {
+
+    const nt = [
+      {
+        documentTypeId: "1",
+        documentTypeName: "NT_1",
+      },
+      {
+        documentTypeId: "2",
+        documentTypeName: "NT_2",
+      }
+    ]
+
+    jest
+      .spyOn(DocumentController.prototype, "getNodeTypes")
+      .mockResolvedValueOnce(nt as any);
+
+    const response = await request(app).get(
+      baseURL +
+        `/documents/types/node-types`
+    );
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(nt)
+    expect(DocumentController.prototype.getDocumentTypes).toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/documents/types/node-types", () => {
+  test("It should return 201", async () => {
+
+    const nt = {nodeType:"DT_1"}
+
+    jest
+      .spyOn(DocumentController.prototype, "createNodeType")
+      .mockResolvedValueOnce(true as any);
+
+      jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app).post(
+      baseURL +
+        `/documents/types/node-types`,
+    ).send(nt);
+    expect(response.status).toBe(201);
+    expect(DocumentController.prototype.createDocumentType).toHaveBeenCalled();
+  });
+});
+
+describe("GET /api/documents/types/stakeholders", () => {
+  test("It should return stakeholders", async () => {
+
+    const sh = [
+      {
+        stakeholderId: "1",
+        stakeholderName: "SH_1",
+      },
+      {
+        stakeholderId: "2",
+        stakeholderName: "SH_2",
+      }
+    ]
+
+    jest
+      .spyOn(DocumentController.prototype, "getStakeholders")
+      .mockResolvedValueOnce(sh as any);
+
+    const response = await request(app).get(
+      baseURL +
+        `/documents/types/stakeholders`
+    );
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(sh)
+    expect(DocumentController.prototype.getDocumentTypes).toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/documents/types/stakeholders", () => {
+  test("It should return 201", async () => {
+
+    const sh = {stakeholder:"SH_1"}
+
+    jest
+      .spyOn(DocumentController.prototype, "createStakeholder")
+      .mockResolvedValueOnce(true as any);
+
+      jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app).post(
+      baseURL +
+        `/documents/types/stakeholders`,
+    ).send(sh);
+    expect(response.status).toBe(201);
+    expect(DocumentController.prototype.createDocumentType).toHaveBeenCalled();
   });
 });

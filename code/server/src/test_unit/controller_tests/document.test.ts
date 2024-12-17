@@ -43,6 +43,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.language,
         testDocument.pages,
         null,
+        null,
         null
       );
 
@@ -57,6 +58,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        null,
         null,
         null
       );
@@ -102,6 +104,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.language,
         testDocument.pages,
         testDocument.georeference,
+        null,
         null
       );
 
@@ -268,6 +271,160 @@ describe("Document Controller Unit Tests", () => {
       expect(DocumentDAO.prototype.getFilteredDocuments).toHaveBeenCalledWith(
         filters
       );
+    });
+
+
+    describe("getStakeholders", () => {
+      it("should return the stakeholders", async () => {
+        const sh: any = [
+          {
+            stakeholderId: "1",
+            stakeholderName: "SH_1",
+          },
+          {
+            stakeholderId: "2",
+            stakeholderName: "SH_2",
+          },
+        ];
+
+        jest
+          .spyOn(DocumentDAO.prototype, "getStakeholders")
+          .mockResolvedValueOnce(sh);
+
+        const controller = new DocumentController();
+
+        const response = await controller.getStakeholders();
+
+        expect(DocumentDAO.prototype.getStakeholders).toHaveBeenCalledTimes(
+          1
+        );
+        expect(response).toEqual(sh)
+      });
+    });
+  });
+
+  describe("getDocumentTypes", () => {
+    it("should return the document types", async () => {
+      const dt: any = [
+        {
+          documentTypeId: "1",
+          documentTypeName: "DT_1",
+        },
+        {
+          documentTypeId: "2",
+          documentTypeName: "DT_2",
+        }
+      ]
+
+      jest
+        .spyOn(DocumentDAO.prototype, "getDocumentTypes")
+        .mockResolvedValueOnce(dt);
+
+      const controller = new DocumentController();
+
+      const response = await controller.getDocumentTypes();
+
+      expect(DocumentDAO.prototype.getDocumentTypes).toHaveBeenCalledTimes(
+        1
+      );
+      expect(response).toEqual(dt)
+    });
+  });
+
+  describe("getNodeTypes", () => {
+    it("should return the node types", async () => {
+      const nt: any = [
+        {
+          nodeTypeId: "1",
+          nodeTypeName: "NT_1",
+        },
+        {
+          nodeTypeId: "2",
+          nodeTypeName: "NT_2",
+        }
+      ]
+
+      jest
+        .spyOn(DocumentDAO.prototype, "getNodeTypes")
+        .mockResolvedValueOnce(nt);
+
+      const controller = new DocumentController();
+
+      const response = await controller.getNodeTypes();
+
+      expect(DocumentDAO.prototype.getNodeTypes).toHaveBeenCalledTimes(
+        1
+      );
+      expect(response).toEqual(nt)
+    });
+  });
+
+  describe("createDocumentType", () => {
+    it("should return true", async () => {
+      const dt: any = {
+        documentTypeId: "1",
+        documentTypeName: "DT_1",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "createDocumentType")
+        .mockResolvedValueOnce(true);
+
+      const controller = new DocumentController();
+
+      const response = await controller.createDocumentType(dt);
+
+      expect(DocumentDAO.prototype.getNodeTypes).toHaveBeenCalledTimes(
+        1
+      );
+      expect(DocumentDAO.prototype.createDocumentType).toHaveBeenCalledWith(dt)
+      expect(response).toEqual(true)
+    });
+  });
+
+  describe("createNodeType", () => {
+    it("should return true", async () => {
+      const nt: any = {
+        nodeTypeId: "1",
+        nodeTypeName: "NT_1",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "createNodeType")
+        .mockResolvedValueOnce(true);
+
+      const controller = new DocumentController();
+
+      const response = await controller.createNodeType(nt);
+
+      expect(DocumentDAO.prototype.createNodeType).toHaveBeenCalledTimes(
+        1
+      );
+      expect(DocumentDAO.prototype.createNodeType).toHaveBeenCalledWith(nt)
+      expect(response).toEqual(true)
+    });
+  });
+
+  describe("createStakeholder", () => {
+    it("should return true", async () => {
+      const sh: any = {
+        nodeTypeId: "1",
+        nodeTypeName: "SH_1",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "createStakeholder")
+        .mockResolvedValueOnce(true);
+
+      const controller = new DocumentController();
+
+      const response = await controller.createStakeholder(sh);
+
+      expect(DocumentDAO.prototype.createStakeholder).toHaveBeenCalledTimes(
+        1
+      );
+      expect(DocumentDAO.prototype.createStakeholder).toHaveBeenCalledWith(sh)
+      expect(response).toEqual(true)
     });
   });
 });
