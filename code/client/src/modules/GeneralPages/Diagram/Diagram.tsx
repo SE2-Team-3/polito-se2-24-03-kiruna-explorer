@@ -35,7 +35,9 @@ interface DiagramProps {
   nodes: Node[];
   edges: Edge[];
   yearWidths: number[];
+  defaultViewport: any;
 }
+
 
 const Diagram = (props: DiagramProps) => {
   const filterTableVisible = props.filterTableVisible;
@@ -50,6 +52,7 @@ const Diagram = (props: DiagramProps) => {
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
+  const defaultViewport = props.defaultViewport
 
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
@@ -102,6 +105,35 @@ const Diagram = (props: DiagramProps) => {
     setInitialDocs();
   }, []);
 
+  // Update nodes based on filtered documents
+  useEffect(() => {
+    if (filteredDocuments.length === 0) {
+      setNodes([]);
+    } else if (filteredDocuments.length < allDocs.length) {
+      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+    } else {
+      setNodes(initialNodes);
+    }
+  }, [filteredDocuments]);
+
+  // update documents list based on searchTitle
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const allDocs = await API.getDocuments();
+      const filtered = allDocs.filter((doc) => doc.title.toLowerCase().includes(searchTitle.toLowerCase()));
+      const filteredNodeIds = filtered.map((doc) => doc.documentId);
+      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      setNodes(updatedNodes);
+    };
+    if (searchTitle === "") {
+      setNodes(initialNodes);
+    } else {
+      fetchDocuments();
+    }
+  }, [searchTitle]);
+
   const onEdgeClick = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
       setDeleteConnection({
@@ -146,37 +178,6 @@ const Diagram = (props: DiagramProps) => {
     setFilteredDocuments(allDocs);
     setFilterTableVisible(false);
   };
-
-  // Update nodes based on filtered documents
-  useEffect(() => {
-    if (filteredDocuments.length < allDocs.length) {
-      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
-      setNodes(updatedNodes);
-    } else if (filteredDocuments.length === 0) {
-      setNodes([]);
-    } else if (filteredDocuments.length === allDocs.length) {
-      setNodes(initialNodes);
-    }
-  }, [filteredDocuments]);
-
-  // update documents list based on searchTitle
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      const allDocs = await API.getDocuments();
-      const filtered = allDocs.filter((doc) =>
-        doc.title.toLowerCase().includes(searchTitle.toLowerCase())
-      );
-      const filteredNodeIds = filtered.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
-      setNodes(updatedNodes);
-      if (searchTitle === "") {
-        setNodes(initialNodes);
-      }
-    };
-
-    fetchDocuments();
-  }, [searchTitle]);
 
   return (
     <>
@@ -225,7 +226,8 @@ const Diagram = (props: DiagramProps) => {
             panOnScroll={true}
             preventScrolling={false}
             onConnect={onConnect}
-            defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+            defaultViewport={defaultViewport}
+            minZoom={0.5}
             translateExtent={[
               [0, 0],
               [
@@ -238,12 +240,12 @@ const Diagram = (props: DiagramProps) => {
             ]}
             nodeExtent={[
               [200, 50],
-              [+Infinity, 750],
+              [yearWidths.reduce(
+                (partialSum: number, a: number) => partialSum + a,
+                200
+              ), 750],
             ]}
-            minZoom={1}
-            onNodeMouseEnter={(event, node) =>
-              handleNodeMouseEnter(event, node)
-            }
+            onNodeMouseEnter={(event, node) => handleNodeMouseEnter(event, node)}
             onNodeMouseLeave={handleNodeMouseLeave}
             onEdgeClick={onEdgeClick}
             onNodeClick={(event, node) => handleNodeClick(node.id)}

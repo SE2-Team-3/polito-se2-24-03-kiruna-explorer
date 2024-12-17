@@ -176,6 +176,10 @@ const DraggableMarker = ({
     navigate(`/documents/${nodeId}`);
   };
 
+  const viewOnDiagram = (nodeId:any) => {
+    navigate(`/diagram/${nodeId}`);
+  }
+
   const isSelected = selectedMarkerId === document.documentId;
 
   const customIcon = new L.Icon({
@@ -284,6 +288,7 @@ const DraggableMarker = ({
                     {draggable ? "Stop Moving" : "Update georeference"}
                   </button>
                 )}
+                <button className="draggable-toggle-btn" onClick={()=>viewOnDiagram(document.documentId)}>View on diagram</button>
               </Row>
             </Row>
           </div>
