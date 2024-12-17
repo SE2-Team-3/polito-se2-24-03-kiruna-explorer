@@ -40,16 +40,25 @@ const ExploreMap = ({
   useEffect(() => {
     API.getDocuments().then((docs) => {
       setDocuments(docs);
-      setFilteredDocuments(docs); // Inizializza con tutti i documenti
+      if (filteredDocuments.length === 0) {
+        setFilteredDocuments(docs);
+      } // Inizializza con tutti i documenti
     });
+    console.log("inside first useEffect");
   }, []);
 
   // update documents list based on searchTitle
   useEffect(() => {
-    const filtered = documents.filter((doc) =>
-      doc.title.toLowerCase().includes(searchTitle.toLowerCase()) || doc.description.toLocaleLowerCase().includes(searchTitle.toLocaleLowerCase())
+    const filtered = documents.filter(
+      (doc) =>
+        doc.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
+        doc.description.toLocaleLowerCase().includes(searchTitle.toLocaleLowerCase())
     );
-    setFilteredDocuments(filtered);
+    if (filteredDocuments.length === 0) {
+      setFilteredDocuments(filtered);
+    }
+
+    console.log("inside second useEffect");
   }, [searchTitle, documents]);
 
   const kirunaPosition: LatLngExpression = [67.85572, 20.22513]; // Default position (Kiruna)
