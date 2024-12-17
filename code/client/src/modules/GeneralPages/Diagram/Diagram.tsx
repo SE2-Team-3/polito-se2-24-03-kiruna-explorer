@@ -134,35 +134,6 @@ const Diagram = (props: DiagramProps) => {
     }
   }, [searchTitle]);
 
-  // Update nodes based on filtered documents
-  useEffect(() => {
-    if (filteredDocuments.length === 0) {
-      setNodes([]);
-    } else if (filteredDocuments.length < allDocs.length) {
-      const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
-      setNodes(updatedNodes);
-    } else {
-      setNodes(initialNodes);
-    }
-  }, [filteredDocuments]);
-
-  // update documents list based on searchTitle
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      const allDocs = await API.getDocuments();
-      const filtered = allDocs.filter((doc) => doc.title.toLowerCase().includes(searchTitle.toLowerCase()));
-      const filteredNodeIds = filtered.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
-      setNodes(updatedNodes);
-    };
-    if (searchTitle === "") {
-      setNodes(initialNodes);
-    } else {
-      fetchDocuments();
-    }
-  }, [searchTitle]);
-
   const onEdgeClick = useCallback((event: any, edge: any) => {
     if (edge?.data?.linkTypes) {
       setDeleteConnection({
@@ -256,7 +227,7 @@ const Diagram = (props: DiagramProps) => {
             preventScrolling={false}
             onConnect={onConnect}
             defaultViewport={defaultViewport}
-            minZoom={1}
+            minZoom={0.5}
             translateExtent={[
               [0, 0],
               [
@@ -269,7 +240,10 @@ const Diagram = (props: DiagramProps) => {
             ]}
             nodeExtent={[
               [200, 50],
-              [+Infinity, 750],
+              [yearWidths.reduce(
+                (partialSum: number, a: number) => partialSum + a,
+                200
+              ), 750],
             ]}
             onNodeMouseEnter={(event, node) => handleNodeMouseEnter(event, node)}
             onNodeMouseLeave={handleNodeMouseLeave}
