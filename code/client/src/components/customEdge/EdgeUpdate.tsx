@@ -1,4 +1,6 @@
-import { EdgeProps, getBezierPath } from "@xyflow/react";
+import { EdgeProps, getBezierPath, getEdgeCenter } from "@xyflow/react";
+
+const foreignObjectSize = 16;
 
 const EdgeUpdate = ({
   id,
@@ -18,15 +20,33 @@ const EdgeUpdate = ({
     targetPosition,
   });
 
+  const [edgeCenterX, edgeCenterY] = getEdgeCenter({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
+
   return (
-    <path
-      id={id}
-      d={edgePath}
-      stroke="#000"
-      strokeWidth={2}
-      fill="none"
-      strokeDasharray="10,5,2,5"
-    />
+    <>
+      <path
+        id={id}
+        d={edgePath}
+        stroke="#000"
+        strokeWidth={2}
+        fill="none"
+        strokeDasharray="10,5,2,5"
+      />
+      <foreignObject
+        width={foreignObjectSize}
+        height={foreignObjectSize}
+        x={edgeCenterX - foreignObjectSize / 2}
+        y={edgeCenterY - foreignObjectSize / 2}
+        className="edgebutton-foreignobject"
+        style={{ borderRadius: "50%" }}
+        requiredExtensions="http://www.w3.org/1999/xhtml"
+      />
+    </>
   );
 };
 

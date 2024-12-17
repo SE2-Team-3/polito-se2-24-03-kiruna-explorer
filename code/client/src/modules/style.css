@@ -291,6 +291,40 @@ BUTTON STYLE
   margin-top: 5px;
 }
 
+.popup-remove-link-button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  color: red;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.radio-button 
+{
+  border: 2px; /* Border thickness */
+  border-color: #3d52a0; /* Define custom border color */
+  border-radius: 50%;    /* Make it circular */
+  margin-bottom: 14px;   /* Adjust spacing */
+  outline: none;         /* Remove focus outline */
+  cursor: pointer;       /* Pointer cursor for interactivity */
+}
+
+.radio-button:checked {
+  border-color: #3d52a0; /* Keep the border color the same when selected */
+  background-color: #3d52a0; /* Add a filled color when selected */
+}
+
+.radio-button:focus {
+  outline: 2px solid #3d52a0; /* Optional: Add focus outline for accessibility */
+}
+
+.radio-button:hover {
+  border-color: #2c3b8c; /* Optional: Slightly darker border on hover */
+}
+
+
 /*
 STEP PROGESS BAR
 */

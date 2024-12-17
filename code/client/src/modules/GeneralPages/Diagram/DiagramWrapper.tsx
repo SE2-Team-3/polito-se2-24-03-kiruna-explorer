@@ -1,7 +1,11 @@
-import { Node, Edge, ReactFlowProvider } from "@xyflow/react";
-
-import { useEffect, useState } from "react";
-
+import {
+  Node,
+  Edge, ReactFlowProvider,
+  useNodesState,
+  useEdgesState,
+} from "@xyflow/react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../../components/UserContext";
 import Document from "../../../models/document";
 import Connection from "../../../models/Connection";
 import API from "../../../API/API";
@@ -30,14 +34,15 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
   const [initialConnections,setInitialConnections]=useState<Connection[]>([])
   const [loaded,setLoaded]=useState<boolean>(false)
   const [defaultViewport, setDefaultViewport] = useState({ x: 0, y: 0, zoom: 1 })
-  const [nodes, setNodes] = useState<Node[]>([]);
+  const [nodes, setNodes] = useNodesState<Node>([]);
   const [initialNodes, setInitialNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
-
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [yearWidths, setYearWidths] = useState<number[]>([]);
   const [scrollWidth, setScrollWidth] = useState<number>(1);
 
   const { getAvailablePosition } = useOccupiedPositions();
+  const user = useContext(UserContext);
+  const showEdges = user ? true : false;
 
   useEffect(() => {
     async function getDocs() {
@@ -45,6 +50,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
       props.setFilteredDocuments(initialDocs);
       setInitialDocs(initialDocs)
       const initialConnections: Connection[] = await API.getConnections();
+
       setInitialConnections(initialConnections)
       const years = Array.from({ length: 22 }, (_, index) => 2004 + index);
       const counts: number[] = new Array(23).fill(0);
@@ -84,7 +90,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
             data: {
               nodeType: d.nodeType,
               stakeholder: d.stakeholders,
-              showEdges: false,
+              showEdges: showEdges,
             },
             width: 30,
             position: { x, y },
@@ -132,7 +138,7 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
               source,
               target,
               type: "default",
-              data: { linkTypes, label: `${linkTypes.length} connections` },
+              data: { linkTypes, label: `${linkTypes.length} conn` },
               zIndex: 4,
             });
           }
