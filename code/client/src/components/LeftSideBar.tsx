@@ -165,7 +165,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/diagram" ? "highlighted" : ""
+                    location.pathname.match("^\/diagram\/?[0-9]*$") ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -177,7 +177,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   }}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/diagram" ? (
+                    {location.pathname.match("^\/diagram\/?[0-9]*$") ? (
                       <img src={DiagramSelected} alt="diagram selected" />
                     ) : (
                       <img src={Diagram} alt="diagram not selected" />
@@ -216,7 +216,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
               <Row>
                 <div
                   className={`menu-text-container ${
-                    location.pathname === "/diagram" ? "highlighted" : ""
+                    location.pathname.match("^\/diagram\/?[0-9]*$") ? "highlighted" : ""
                   }`}
                   role="button"
                   tabIndex={0}
@@ -228,7 +228,7 @@ const LeftSideBar = (props: { logout: () => void }) => {
                   }}
                 >
                   <span className="file-icon-box">
-                    {location.pathname === "/diagram" ? (
+                    {location.pathname.match("^\/diagram\/?[0-9]*$") ? (
                       <img src={DiagramSelected} alt="diagram selected2" />
                     ) : (
                       <img src={Diagram} alt="diagram not selected2" />

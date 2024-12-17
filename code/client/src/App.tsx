@@ -186,7 +186,19 @@ function App() {
                   element={<HomePage loggedIn={loggedIn} username={user?.username} />}
                 />
                 <Route
-                  path="/diagram"
+                  path="/diagram/"
+                  element={
+                    <DiagramWrapper
+                      searchTitle={searchTitle}
+                      filteredDocuments={filteredDocuments}
+                      setFilteredDocuments={setFilteredDocuments}
+                      filterTableVisible={filterTableVisible}
+                      setFilterTableVisible={setFilterTableVisible}
+                    />
+                  }
+                />
+                <Route
+                  path="/diagram/:id"
                   element={
                     <DiagramWrapper
                       searchTitle={searchTitle}
