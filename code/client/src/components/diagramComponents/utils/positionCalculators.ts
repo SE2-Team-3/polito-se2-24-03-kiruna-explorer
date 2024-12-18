@@ -1,25 +1,21 @@
-export const xPosCalculator = (date: string | null) => {
+export const xPosCalculator = (date: string | null,yearWidths:number[]) => {
   if (date == null) return 200;
   let month = 0,
     day = 0,
     x = 200,
-    y = 2004,
-    temp;
+    y = 2004
   const year = parseInt(date.slice(0, 4));
   while (y < year) {
-    temp = document.getElementById(`head-${y}`)?.offsetWidth;
-    if (temp) x = x + temp;
+    x = x + yearWidths[y-2004];
     y++;
   }
   if (date.length >= 6) {
     month = parseInt(date.split("-")[1]) - 1;
-    temp = document.getElementById(`head-${year}`)?.offsetWidth;
-    if (temp) x = x + (month * temp) / 12;
+    x = x + (month * yearWidths[y-2004]) / 12;
   }
   if (date.length >= 8) {
     day = parseInt(date.split("-")[2]) - 1;
-    temp = document.getElementById(`head-${year}`)?.offsetWidth;
-    if (temp) x = x + (day * temp) / 12 / 30;
+    x = x + (day * yearWidths[y-2004]) / 12 / 30;
   }
   return x;
 };

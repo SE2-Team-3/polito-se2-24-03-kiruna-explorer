@@ -85,13 +85,9 @@ const DraggableMarker = ({
       setAllDocuments(allDocs);
 
       // Filter linked documents from allDocs
-      const linkedDocuments = documentSelected.linkedDocuments.map(
-        (linkedDoc) => {
-          return allDocuments.find(
-            (doc) => doc.documentId === linkedDoc.documentId
-          );
-        }
-      );
+      const linkedDocuments = documentSelected.linkedDocuments.map((linkedDoc) => {
+        return allDocs.find((doc) => doc.documentId === linkedDoc.documentId);
+      });
 
       // Filter unique documents by documentId
       const uniqueDocuments = linkedDocuments.filter(
@@ -190,6 +186,10 @@ const DraggableMarker = ({
   const handleDocumentClick = (nodeId: string) => {
     navigate(`/documents/${nodeId}`);
   };
+
+  const viewOnDiagram = (nodeId:any) => {
+    navigate(`/diagram/${nodeId}`);
+  }
 
   const isSelected = selectedMarkerId === document.documentId;
 
@@ -315,6 +315,7 @@ const DraggableMarker = ({
                     {draggable ? "Stop Moving" : "Update georeference"}
                   </button>
                 )}
+                <button className="draggable-toggle-btn" onClick={()=>viewOnDiagram(document.documentId)}>View on diagram</button>
               </Row>
             </Row>
           </div>
