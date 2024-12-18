@@ -2,8 +2,8 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import request from "supertest";
 import { app } from "../../index";
 import { cleanup } from "../../src/db/cleanup";
-
-const routePath = "/api";
+import db from "../../src/db/db";
+import { postUser, postDocument, postTypes, login, routePath } from "./testUtility";
 
 const planner = {
     username: "planner",
@@ -15,26 +15,35 @@ const planner = {
     role: "UrbanPlanner",
 };
 
+const testDocument = {
+    title: "doc-test",
+    description: "doc-test",
+    documentType: "Text",
+    scale: "Text",
+    nodeType: "Design document",
+    stakeholders: ["LKAB"],
+    issuanceDate: "2024-11-06",
+    language: "English",
+    pages: "1",
+    georeference: [[67.8558, 20.2253]],
+    georeferenceName: "test",
+};
+
+const testDocument2 = {
+    title: "doc-test2",
+    description: "doc-test2",
+    documentType: "Text",
+    scale: "Text",
+    nodeType: "Design document",
+    stakeholders: ["LKAB"],
+    issuanceDate: "2024-11-06",
+    language: "English",
+    pages: "1",
+    georeference: [[67.8558, 20.2253]],
+    georeferenceName: "test",
+};
+
 let plannerCookie: string;
-
-const postUser = async (userInfo: any) => {
-    await request(app).post(`${routePath}/users`).send(userInfo).expect(200);
-};
-
-const login = async (userInfo: any) => {
-    return new Promise<string>((resolve, reject) => {
-        request(app)
-            .post(`${routePath}/sessions`)
-            .send(userInfo)
-            .expect(200)
-            .end((err, res) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(res.header["set-cookie"][0]);
-            });
-    });
-};
 
 describe("Document Route kx2 integration tests", () => {
 
@@ -42,6 +51,9 @@ describe("Document Route kx2 integration tests", () => {
         await cleanup();
         await postUser(planner);
         plannerCookie = await login(planner);
+        await postTypes();
+        await postDocument(testDocument, plannerCookie);
+        await postDocument(testDocument2, plannerCookie);
     });
 
     afterAll(async () => {
@@ -54,7 +66,7 @@ describe("Document Route kx2 integration tests", () => {
             const reqInput: any = {
                 documentId1: 1,
                 documentId2: 2,
-                linkType: "direct consequence",
+                linkType: "update",
             };
 
             const response = await request(app)

@@ -43,6 +43,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.language,
         testDocument.pages,
         null,
+        null,
         null
       );
 
@@ -57,6 +58,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        null,
         null,
         null
       );
@@ -102,6 +104,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.language,
         testDocument.pages,
         testDocument.georeference,
+        null,
         null
       );
 
@@ -116,6 +119,7 @@ describe("Document Controller Unit Tests", () => {
         testDocument.issuanceDate,
         testDocument.language,
         testDocument.pages,
+        testDocument.georeference,
         null,
         null
       );
