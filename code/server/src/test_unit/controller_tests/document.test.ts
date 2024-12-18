@@ -333,5 +333,39 @@ describe("Document Controller Unit Tests", () => {
         expect(error.message).toBe("No files uploaded");
       }
     });
-  })
+  });
+
+  // KX13 (Unlink Documents)
+  describe("deleteDocumentConnection", () => {
+    test("should resolve true", async () => {
+      const testConnection = {
+        documentId1: 1,
+        documentId2: 2,
+        linkType: "direct consequence",
+      };
+
+      jest
+        .spyOn(DocumentDAO.prototype, "deleteDocumentConnection")
+        .mockResolvedValueOnce(true);
+      const controller = new DocumentController();
+
+      const response = await controller.deleteDocumentConnection(
+        testConnection.documentId1,
+        testConnection.documentId2,
+        testConnection.linkType
+      );
+
+      expect(
+        DocumentDAO.prototype.deleteDocumentConnection
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        DocumentDAO.prototype.deleteDocumentConnection
+      ).toHaveBeenCalledWith(
+        testConnection.documentId1,
+        testConnection.documentId2,
+        testConnection.linkType
+      );
+      expect(response).toEqual(true);
+    });
+  });
 });
