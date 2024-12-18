@@ -21,9 +21,11 @@ describe("DocumentDAO unit tests", () => {
           return {} as Database;
         });
 
-      const mockSerialize = jest.spyOn(db, "serialize").mockImplementationOnce((fn) => {
-        fn();
-      });
+      const mockSerialize = jest
+        .spyOn(db, "serialize")
+        .mockImplementationOnce((fn) => {
+          fn();
+        });
 
       const mockDBbeginTransaction = jest
         .spyOn(db, "run")
@@ -36,7 +38,7 @@ describe("DocumentDAO unit tests", () => {
         .mockImplementationOnce((sql, callback) => {
           callback(null, { documentId: 1 });
           return {} as Database;
-        })
+        });
 
       const mockDBRunDoc = jest
         .spyOn(db, "run")
@@ -50,7 +52,7 @@ describe("DocumentDAO unit tests", () => {
         .mockImplementationOnce((sql, params, callback) => {
           callback(null, { stakeholderId: 1 });
           return {} as Database;
-        })
+        });
 
       const mockDBRunStakeholder = jest
         .spyOn(db, "run")
@@ -108,9 +110,11 @@ describe("DocumentDAO unit tests", () => {
           return {} as Database;
         });
 
-      const mockSerialize = jest.spyOn(db, "serialize").mockImplementationOnce((fn) => {
-        fn();
-      });
+      const mockSerialize = jest
+        .spyOn(db, "serialize")
+        .mockImplementationOnce((fn) => {
+          fn();
+        });
 
       const mockDBbeginTransaction = jest
         .spyOn(db, "run")
@@ -123,7 +127,7 @@ describe("DocumentDAO unit tests", () => {
         .mockImplementationOnce((sql, callback) => {
           callback(null, { georeferenceId: 1 });
           return {} as Database;
-        })
+        });
 
       const mockDBRunGeo = jest
         .spyOn(db, "run")
@@ -137,7 +141,7 @@ describe("DocumentDAO unit tests", () => {
         .mockImplementationOnce((sql, callback) => {
           callback(null, { documentId: 1 });
           return {} as Database;
-        })
+        });
 
       const mockDBRunDoc = jest
         .spyOn(db, "run")
@@ -151,7 +155,7 @@ describe("DocumentDAO unit tests", () => {
         .mockImplementationOnce((sql, params, callback) => {
           callback(null, { stakeholderId: 1 });
           return {} as Database;
-        })
+        });
 
       const mockDBRunStakeholder = jest
         .spyOn(db, "run")
@@ -377,6 +381,39 @@ describe("DocumentDAO unit tests", () => {
         expect(error).toBeDefined();
         expect(error.message).toBe("No file uploaded");
       }
+    });
+  });
+
+  // KX13 (Unlink document)
+  describe("getResourceById", () => {
+    it("should return the result of unlink process", async () => {
+      const testConnection = {
+        documentId1: 1,
+        documentId2: 2,
+        linkType: "direct consequence",
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBRun = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce(function (this: any, sql, params, callback) {
+          callback({ changes: 1 }, null);
+          return {} as Database;
+        });
+
+      try {
+        const result = await documentDAO.deleteDocumentConnection(
+          testConnection.documentId1,
+          testConnection.documentId2,
+          testConnection.linkType
+        );
+        expect(result).toBeDefined();
+        expect(result).toBe(true);
+      } catch (error) {
+        expect(error).toBeDefined();
+      }
+      mockDBRun.mockRestore();
     });
   });
 });

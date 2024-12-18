@@ -743,3 +743,119 @@ describe("POST /api/documents/:documentId/upload-attachment", () => {
     expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
   });
 });
+
+// KX13 (unlink documents)
+describe("DELETE /api/documents/link", () => {
+  test("It returns 200 if the connection unlinked successfully", async () => {
+    const reqInput: any = {
+      documentId1: 1,
+      documentId2: 2,
+      linkType: "direct consequence",
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "deleteDocumentConnection")
+      .mockResolvedValueOnce(true);
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      body: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+        isArray: () => ({ isString: () => ({}) }),
+      })),
+    }));
+
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .delete(baseURL + "/documents/link")
+      .send(reqInput);
+
+    expect(response.status).toBe(200);
+    expect(
+      DocumentController.prototype.deleteDocumentConnection
+    ).toHaveBeenCalledTimes(1);
+  });
+
+  test("It returns 422 if a documentId is invalid", async () => {
+    const reqInput: any = {
+      documentId1: 1,
+      documentId2: 0,
+      linkType: "direct consequence",
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "deleteDocumentConnection")
+      .mockResolvedValueOnce(true);
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      body: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+        isArray: () => ({ isString: () => ({}) }),
+      })),
+    }));
+
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .delete(baseURL + "/documents/link")
+      .send(reqInput);
+
+    expect(response.status).toBe(422);
+  });
+
+  test("It returns 422 if a field is not provided", async () => {
+    const reqInput: any = {
+      documentId1: 1,
+      linkType: "direct consequence",
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "deleteDocumentConnection")
+      .mockResolvedValueOnce(true);
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      body: jest.fn().mockImplementation(() => ({
+        isString: () => ({ isLength: () => ({}) }),
+        isArray: () => ({ isString: () => ({}) }),
+      })),
+    }));
+
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .delete(baseURL + "/documents/link")
+      .send(reqInput);
+
+    expect(response.status).toBe(422);
+  });
+});
