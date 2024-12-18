@@ -1,4 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import Document from "../../../models/document";
 import "./FilterPopup.css";
 import API from "../../../API/API";
@@ -10,17 +16,6 @@ interface FilterProps {
   handleResetNodes?: () => void;
 }
 
-const nodeTypes = [
-  "Design document",
-  "Informative document",
-  "Prescriptive document",
-  "Technical document",
-  "Agreement",
-  "Conflict",
-  "Consultation",
-  "Action",
-];
-
 const FilterTable: FC<FilterProps> = (props) => {
   const [filters, setFilters] = useState<Filters>({
     documentType: "",
@@ -31,6 +26,24 @@ const FilterTable: FC<FilterProps> = (props) => {
     language: "",
     description: "",
   });
+  const [stakeholdersList, setStakeholdersList] = useState<string[]>([]);
+  const [scalesList, setScalesList] = useState<string[]>([]);
+  const [nodeTypesList, setNodeTypesList] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function init() {
+      const stakeholders = await API.getStakeholders();
+      const scales = await API.getScales();
+      const nodeTypes = await API.getNodeTypes();
+
+      setStakeholdersList(stakeholders);
+      setScalesList(scales);
+      setNodeTypesList(nodeTypes);
+    }
+    init();
+
+
+  }, []);
 
   interface Filters {
     documentType?: string;
@@ -42,27 +55,14 @@ const FilterTable: FC<FilterProps> = (props) => {
     description?: string;
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
 
     setFilters((prevFilters) => {
-      if (type === "checkbox" && name === "documentType") {
-        // Permetti una sola selezione per le checkbox di "documentType"
-        return {
-          ...prevFilters,
-          documentType: checked ? value : "",
-        };
-      }
-
-      if (type === "checkbox" && name === "language") {
-        // Permetti una sola selezione per le checkbox di "language"
-        return {
-          ...prevFilters,
-          language: checked ? value : "",
-        };
-      }
-
       const key = name as keyof Filters;
+
       if (type === "checkbox") {
         const updatedList = checked
           ? [...(prevFilters[key] as string[]), value]
@@ -77,7 +77,6 @@ const FilterTable: FC<FilterProps> = (props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //onFilterApply(filters); // Applica i filtri passando i dati al componente padre
     API.getFilteredDocuments(filters).then((docs) => {
       props.setFilteredDocuments(docs);
     });
@@ -106,55 +105,36 @@ const FilterTable: FC<FilterProps> = (props) => {
     <div className="filter-table">
       <h3>Filters</h3>
       <form onSubmit={handleSubmit} onReset={handleReset}>
-        {/* Type Document */}
+        {/* Scale Dropdown */}
         <div className="filter-group">
           <label>Scale</label>
-          <Row>
-            <Col>
-              <label>
-                <input
-                  type="checkbox"
-                  name="documentType"
-                  value="Text"
-                  checked={filters.documentType === "Text"}
-                  onChange={handleChange}
-                />
-                Text
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="documentType"
-                  value="Concept"
-                  checked={filters.documentType === "Concept"}
-                  onChange={handleChange}
-                />
-                Concept
-              </label>
-            </Col>
-            <Col>
-              <label>
-                <input
-                  type="checkbox"
-                  name="documentType"
-                  value="Architectural plan"
-                  checked={filters.documentType === "Architectural plan"}
-                  onChange={handleChange}
-                />
-                Architectural plan
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="documentType"
-                  value="Blueprints/actions"
-                  checked={filters.documentType === "Blueprints/actions"}
-                  onChange={handleChange}
-                />
-                Blueprints
-              </label>
-            </Col>
-          </Row>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="success"
+              id="scale-dropdown"
+              className="dropdown-toggle-filter"
+            >
+              {filters.documentType || "Select Scale"}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {/* Option to Deselect */}
+              <Dropdown.Item
+                onClick={() => setFilters({ ...filters, documentType: "" })}
+              >
+                Select scale
+              </Dropdown.Item>
+              {scalesList.map((scale, index) => (
+                <Dropdown.Item
+                  key={index}
+                  onClick={() =>
+                    setFilters({ ...filters, documentType: scale })
+                  }
+                >
+                  {scale}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
 
         {/* Language */}
@@ -162,30 +142,28 @@ const FilterTable: FC<FilterProps> = (props) => {
           <label>Language</label>
           <div>
             <Row>
-              <Col>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="language"
-                    value="English"
-                    checked={filters.language === "English"}
-                    onChange={handleChange}
-                  />
-                  English
-                </label>
-              </Col>
-              <Col>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="language"
-                    value="Swedish"
-                    checked={filters.language === "Swedish"}
-                    onChange={handleChange}
-                  />
-                  Swedish
-                </label>
-              </Col>
+              <label>
+                <input
+                  type="checkbox"
+                  name="language"
+                  value="English"
+                  checked={filters.language === "English"}
+                  onChange={handleChange}
+                />
+                English
+              </label>
+            </Row>
+            <Row>
+              <label>
+                <input
+                  type="checkbox"
+                  name="language"
+                  value="Swedish"
+                  checked={filters.language === "Swedish"}
+                  onChange={handleChange}
+                />
+                Swedish
+              </label>
             </Row>
           </div>
         </div>
@@ -193,65 +171,47 @@ const FilterTable: FC<FilterProps> = (props) => {
         {/* Stakeholders */}
         <div className="filter-group">
           <label>Stakeholders</label>
-          <div>
-            <Row>
-              <Col>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="stakeholders"
-                    value="LKAB"
-                    checked={filters.stakeholders?.includes("LKAB")}
-                    onChange={handleChange}
-                  />
-                  LKAB
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="stakeholders"
-                    value="Municipality"
-                    checked={filters.stakeholders?.includes("Municipality")}
-                    onChange={handleChange}
-                  />
-                  Municipality
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="stakeholders"
-                    value="Citizen"
-                    checked={filters.stakeholders?.includes("Citizen")}
-                    onChange={handleChange}
-                  />
-                  Citizen
-                </label>
-              </Col>
-              <Col>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="stakeholders"
-                    value="Architecture firms"
-                    checked={filters.stakeholders?.includes("Architecture firms")}
-                    onChange={handleChange}
-                  />
-                  Architecture firms
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="stakeholders"
-                    value="Regional authority"
-                    checked={filters.stakeholders?.includes("Regional authority")}
-                    onChange={handleChange}
-                  />
-                  Regional authority
-                </label>
-              </Col>
-            </Row>
-          </div>
+          <Row>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="success"
+                id="stakeholder-type-dropdown"
+                className="dropdown-toggle-filter"
+              >
+                {filters.stakeholders?.length || "Select Stakeholder(s)"}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {/* Option to Deselect */}
+                <Dropdown.Item
+                  onClick={() => setFilters({ ...filters, stakeholders: "" })}
+                >
+                  Select stakeholder
+                </Dropdown.Item>
+
+                {stakeholdersList.map((stakeholder, index) => (
+                  <Dropdown.Item
+                    key={index}
+                    as="div"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="stakeholders"
+                        value={stakeholder}
+                        checked={filters.stakeholders?.includes(stakeholder)}
+                        onChange={handleChange}
+                      />
+                      {stakeholder}
+                    </label>
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Row>
         </div>
+
+        {/* Description */}
         <div className="filter-group">
           <label>Description</label>
           <Row>
@@ -268,38 +228,37 @@ const FilterTable: FC<FilterProps> = (props) => {
             </Col>
           </Row>
         </div>
-        {/* Node Type */}
 
+        {/* Node Type Dropdown */}
         <div className="filter-group">
           <label>Node Type</label>
-          <div>
-            <Dropdown>
-              <Row>
-                <Col>
-                  <Dropdown.Toggle
-                    variant="success"
-                    id="dropdown-basic"
-                    className="dropdown-toggle-filter"
-                  >
-                    {filters.nodeType || "Select Node Type"}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {nodeTypes.map((nodeType) => (
-                      <Dropdown.Item
-                        className="dropdown-item-filter"
-                        key={nodeType}
-                        onClick={() => {
-                          setFilters({ ...filters, nodeType });
-                        }}
-                      >
-                        {nodeType}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Col>
-              </Row>
-            </Dropdown>
-          </div>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="success"
+              id="node-type-dropdown"
+              className="dropdown-toggle-filter"
+            >
+              {filters.nodeType || "Select Node Type"}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {/* Option to Deselect */}
+              <Dropdown.Item
+                onClick={() => setFilters({ ...filters, nodeType: "" })}
+              >
+                Select node type
+              </Dropdown.Item>
+
+              {/* Dynamic List of Node Types */}
+              {nodeTypesList.map((nodeType, index) => (
+                <Dropdown.Item
+                  key={index}
+                  onClick={() => setFilters({ ...filters, nodeType })}
+                >
+                  {nodeType}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
 
         {/* Start Date and End Date */}

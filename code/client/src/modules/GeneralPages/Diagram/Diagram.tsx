@@ -21,6 +21,8 @@ import API from "../../../API/API";
 import Connection from "../../../models/Connection";
 import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
 import Document from "../../../models/document";
+import { Button } from "react-bootstrap";
+import Legend from "../../../components/diagramComponents/Legend";
 
 interface DiagramProps {
   filterTableVisible: boolean;
@@ -38,7 +40,6 @@ interface DiagramProps {
   defaultViewport: any;
 }
 
-
 const Diagram = (props: DiagramProps) => {
   const filterTableVisible = props.filterTableVisible;
   const setFilterTableVisible = props.setFilterTableVisible;
@@ -52,16 +53,20 @@ const Diagram = (props: DiagramProps) => {
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
-  const defaultViewport = props.defaultViewport
+  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(false);
+  const defaultViewport = props.defaultViewport;
 
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
   const [connectionPopupVisible, setConnectionPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
   const [allDocs, setAllDocs] = useState<Document[]>([]);
-  const [tooltip, setTooltip] = useState<{ visible: boolean; title: string; x: number; y: number }>(
-    { visible: false, title: "", x: 0, y: 0 }
-  );
+  const [tooltip, setTooltip] = useState<{
+    visible: boolean;
+    title: string;
+    x: number;
+    y: number;
+  }>({ visible: false, title: "", x: 0, y: 0 });
   const { isSidebarOpen } = useSidebar();
   const [newConnection, setNewConnection] = useState<Connection>({
     documentId1: 0,
@@ -111,7 +116,9 @@ const Diagram = (props: DiagramProps) => {
       setNodes([]);
     } else if (filteredDocuments.length < allDocs.length) {
       const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      const updatedNodes = nodes.filter((node: Node) =>
+        filteredNodeIds.includes(Number(node.id))
+      );
       setNodes(updatedNodes);
     } else {
       setNodes(initialNodes);
@@ -122,9 +129,13 @@ const Diagram = (props: DiagramProps) => {
   useEffect(() => {
     const fetchDocuments = async () => {
       const allDocs = await API.getDocuments();
-      const filtered = allDocs.filter((doc) => doc.title.toLowerCase().includes(searchTitle.toLowerCase()));
+      const filtered = allDocs.filter((doc) =>
+        doc.title.toLowerCase().includes(searchTitle.toLowerCase())
+      );
       const filteredNodeIds = filtered.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      const updatedNodes = nodes.filter((node: Node) =>
+        filteredNodeIds.includes(Number(node.id))
+      );
       setNodes(updatedNodes);
     };
     if (searchTitle === "") {
@@ -205,6 +216,20 @@ const Diagram = (props: DiagramProps) => {
           />
         </div>
       )}
+      <Button
+        onClick={() => setIsLegendVisible(!isLegendVisible)}
+        className="legend-button"
+      >
+        <i className="bi bi-info-circle"></i>
+      </Button>
+
+      <div>
+        <Legend
+          isLegendVisible={isLegendVisible}
+          setIsLegendVisible={setIsLegendVisible}
+        />
+      </div>
+
       <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div
           style={{
@@ -227,7 +252,7 @@ const Diagram = (props: DiagramProps) => {
             preventScrolling={false}
             onConnect={onConnect}
             defaultViewport={defaultViewport}
-            minZoom={0.5}
+            minZoom={0.75}
             translateExtent={[
               [0, 0],
               [
@@ -240,12 +265,17 @@ const Diagram = (props: DiagramProps) => {
             ]}
             nodeExtent={[
               [200, 50],
-              [yearWidths.reduce(
-                (partialSum: number, a: number) => partialSum + a,
-                200
-              ), 750],
+              [
+                yearWidths.reduce(
+                  (partialSum: number, a: number) => partialSum + a,
+                  200
+                ),
+                750,
+              ],
             ]}
-            onNodeMouseEnter={(event, node) => handleNodeMouseEnter(event, node)}
+            onNodeMouseEnter={(event, node) =>
+              handleNodeMouseEnter(event, node)
+            }
             onNodeMouseLeave={handleNodeMouseLeave}
             onEdgeClick={onEdgeClick}
             onNodeClick={(event, node) => handleNodeClick(node.id)}

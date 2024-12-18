@@ -59,7 +59,8 @@ PAGE STYLE
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* ombra principale */ 0 8px 16px rgba(0, 0, 0, 0.1); /* ombra estesa */
 }
 
 .row-box-custom {
@@ -301,14 +302,13 @@ BUTTON STYLE
   margin-left: 5px;
 }
 
-.radio-button 
-{
+.radio-button {
   border: 2px; /* Border thickness */
   border-color: #3d52a0; /* Define custom border color */
-  border-radius: 50%;    /* Make it circular */
-  margin-bottom: 14px;   /* Adjust spacing */
-  outline: none;         /* Remove focus outline */
-  cursor: pointer;       /* Pointer cursor for interactivity */
+  border-radius: 50%; /* Make it circular */
+  margin-bottom: 14px; /* Adjust spacing */
+  outline: none; /* Remove focus outline */
+  cursor: pointer; /* Pointer cursor for interactivity */
 }
 
 .radio-button:checked {
@@ -323,7 +323,6 @@ BUTTON STYLE
 .radio-button:hover {
   border-color: #2c3b8c; /* Optional: Slightly darker border on hover */
 }
-
 
 /*
 STEP PROGESS BAR
@@ -1287,7 +1286,8 @@ DIAGRAM
 
   background: transparent;
   background-image: linear-gradient(#333 1px, transparent 0px),
-    /* Adjusted from em to px */ linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
+    /* Adjusted from em to px */
+      linear-gradient(90deg, #333 1px, transparent 0px); /* Adjusted from em to px */
   background-size: 140px 85px; /* Adjusted from em to px */
   z-index: -1;
 }
@@ -1645,4 +1645,39 @@ DOCUMENT DETAILS
   top: 90px;
   right: 50px;
   border: 1px solid #3d52a0;
+}
+
+.legend-button,
+.legend-button:hover,
+.legend-button:active,
+.legend-button:focus {
+  position: fixed;
+  background-color: white !important;
+  z-index: 1000;
+  right: 5px;
+  bottom: 5px;
+  border: none;
+}
+
+.legend-button i {
+  color: #3d52a0;
+  font-size: 24px;
+}
+
+.legend-popup {
+  position: fixed;
+  top: 150px;
+  right: -300px;
+  width: 250px;
+  background-color: white;
+  border: none;
+  z-index: 1000;
+  border: 2px solid #3d52a0;
+  border-radius: 20px;
+  padding: 20px;
+  transition: right 0.7s ease-in-out;
+}
+
+.legend-popup.visible {
+  right: 0;
 }

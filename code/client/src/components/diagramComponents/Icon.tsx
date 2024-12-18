@@ -20,7 +20,7 @@ interface FunctionIconProps {
 }
 
 // Map the icon
-const iconMap: { [key: string]: string } = {
+export const iconMap: { [key: string]: string } = {
   "Design document": Design,
   "Informative document": Informative,
   "Prescriptive document": Prescriptive,
@@ -31,12 +31,12 @@ const iconMap: { [key: string]: string } = {
   Action: Action,
 };
 
-const colorMap: { [key: string]: string } = {
+export const colorMap: { [key: string]: string } = {
   Municipality: "#3D52A0",
   LKAB: "#F9837C",
   Citizen: "#75DDDD",
   "Architecture firms": "#F1D302",
-  "Regional authority": "#F4D35E",
+  "Regional authority": "#9EE83E",
   Others: "#F1C8DB",
 };
 

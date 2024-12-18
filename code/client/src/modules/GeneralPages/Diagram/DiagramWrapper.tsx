@@ -1,6 +1,7 @@
 import {
   Node,
-  Edge, ReactFlowProvider,
+  Edge,
+  ReactFlowProvider,
   useNodesState,
   useEdgesState,
 } from "@xyflow/react";
@@ -27,13 +28,18 @@ interface DiagramWrapperProps {
 }
 
 const DiagramWrapper = (props: DiagramWrapperProps) => {
-
-  const selectedNode=useParams().id
-  const [show,setShow]=useState<boolean>(false)
-  const [initialDocs,setInitialDocs]=useState<Document[]>([])
-  const [initialConnections,setInitialConnections]=useState<Connection[]>([])
-  const [loaded,setLoaded]=useState<boolean>(false)
-  const [defaultViewport, setDefaultViewport] = useState({ x: 0, y: 0, zoom: 1 })
+  const selectedNode = useParams().id;
+  const [show, setShow] = useState<boolean>(false);
+  const [initialDocs, setInitialDocs] = useState<Document[]>([]);
+  const [initialConnections, setInitialConnections] = useState<Connection[]>(
+    []
+  );
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [defaultViewport, setDefaultViewport] = useState({
+    x: 0,
+    y: 0,
+    zoom: 1,
+  });
   const [nodes, setNodes] = useNodesState<Node>([]);
   const [initialNodes, setInitialNodes] = useState<Node[]>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -48,10 +54,10 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
     async function getDocs() {
       const initialDocs: Document[] = await API.getDocuments();
       props.setFilteredDocuments(initialDocs);
-      setInitialDocs(initialDocs)
+      setInitialDocs(initialDocs);
       const initialConnections: Connection[] = await API.getConnections();
 
-      setInitialConnections(initialConnections)
+      setInitialConnections(initialConnections);
       const years = Array.from({ length: 22 }, (_, index) => 2004 + index);
       const counts: number[] = new Array(23).fill(0);
       for (const d of initialDocs) {
@@ -66,25 +72,24 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
       for (const y of calculatedYearWidths) x += y;
       if (x < document.documentElement.clientWidth - 75) setScrollWidth(x);
       else setScrollWidth(document.documentElement.clientWidth - 75);
-      setLoaded(true)
+      setLoaded(true);
     }
     if (!loaded) getDocs();
   }, []);
-  
-  useEffect(()=>{
-    const loadData=()=>{
+
+  useEffect(() => {
+    const loadData = () => {
       if (initialDocs.length) {
-        
         let newNodes: Node[] = [];
         for (const d of initialDocs) {
           let { x, y } = {
-            x: xPosCalculator(d.issuanceDate,yearWidths),
+            x: xPosCalculator(d.issuanceDate, yearWidths),
             y: yPosCalculator(d.scale),
           };
           const availablePosition = getAvailablePosition(x, y);
           x = availablePosition.x;
           y = availablePosition.y;
-          
+
           newNodes.push({
             id: d.documentId.toString(),
             data: {
@@ -97,20 +102,21 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
             zIndex: 5,
             type: "icon",
           });
-          if (d.documentId.toString()==selectedNode) {            
+          if (d.documentId.toString() == selectedNode) {
             setDefaultViewport({
-              x:-2*x-75+document.documentElement.clientWidth/2,
-              y:-2*y-100+document.documentElement.clientHeight/2,
-              zoom:2})
+              x: -2 * x - 75 + document.documentElement.clientWidth / 2,
+              y: -2 * y - 100 + document.documentElement.clientHeight / 2,
+              zoom: 2,
+            });
           }
         }
-        
+
         setNodes(newNodes);
         setInitialNodes(newNodes);
       }
       if (initialConnections.length) {
         const connectionsMap: Record<string, string[]> = {};
-        
+
         for (const c of initialConnections) {
           const pairKey = `${c.documentId1}-${c.documentId2}`;
           if (!connectionsMap[pairKey]) {
@@ -118,11 +124,11 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
           }
           connectionsMap[pairKey].push(c.connection);
         }
-        
+
         let newEdges: Edge[] = [];
         for (const [pairKey, linkTypes] of Object.entries(connectionsMap)) {
           const [source, target] = pairKey.split("-");
-          
+
           if (linkTypes.length === 1) {
             newEdges.push({
               id: `${source}-${target}-${linkTypes[0]}`,
@@ -145,31 +151,32 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
         }
         setEdges(newEdges);
       }
-      setShow(true)
-    }
-    if (loaded) loadData()
-  },[loaded])
+      setShow(true);
+    };
+    if (loaded) loadData();
+  }, [loaded]);
 
   return (
-    (show && 
-    <ReactFlowProvider>
-      <Diagram
-        filterTableVisible={props.filterTableVisible}
-        setFilterTableVisible={props.setFilterTableVisible}
-        filteredDocuments={props.filteredDocuments}
-        setFilteredDocuments={props.setFilteredDocuments}
-        searchTitle={props.searchTitle}
-        initialNodes={initialNodes}
-        setNodes={setNodes}
-        setEdges={setEdges}
-        scrollWidth={scrollWidth}
-        nodes={nodes}
-        edges={edges}
-        yearWidths={yearWidths}
-        defaultViewport={defaultViewport}
+    show && (
+      <ReactFlowProvider>
+        <Diagram
+          filterTableVisible={props.filterTableVisible}
+          setFilterTableVisible={props.setFilterTableVisible}
+          filteredDocuments={props.filteredDocuments}
+          setFilteredDocuments={props.setFilteredDocuments}
+          searchTitle={props.searchTitle}
+          initialNodes={initialNodes}
+          setNodes={setNodes}
+          setEdges={setEdges}
+          scrollWidth={scrollWidth}
+          nodes={nodes}
+          edges={edges}
+          yearWidths={yearWidths}
+          defaultViewport={defaultViewport}
         />
-    </ReactFlowProvider>)
-    );
+      </ReactFlowProvider>
+    )
+  );
 };
 
 export default DiagramWrapper;
