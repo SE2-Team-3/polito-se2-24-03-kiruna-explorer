@@ -8,25 +8,60 @@ describe("DocumentDAO unit tests", () => {
   describe("createDocument", () => {
     // KX1
     test("It should reolve new instance of document", async () => {
-      const firstDocumentIntance = {
-        documentId: 1,
-      };
       const documentDAO = new DocumentDAO();
 
-      const mockDBGet = jest
+      const mockDBGetTypes = jest
         .spyOn(db, "get")
         .mockImplementationOnce((sql, params, callback) => {
-          callback(null, firstDocumentIntance);
+          callback(null, { documentTypeId: 1 });
           return {} as Database;
         })
         .mockImplementationOnce((sql, params, callback) => {
-          callback(null, { georeferenceId: 1 });
+          callback(null, { nodeTypeId: 1 });
           return {} as Database;
         });
 
-      const mockDBRun = jest
+      const mockSerialize = jest.spyOn(db, "serialize").mockImplementationOnce((fn) => {
+        fn();
+      });
+
+      const mockDBbeginTransaction = jest
         .spyOn(db, "run")
-        .mockImplementation((sql, params, callback) => {
+        .mockImplementationOnce((sql) => {
+          return {} as Database;
+        });
+
+      const mockDBGetDoc = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, { documentId: 1 });
+          return {} as Database;
+        })
+
+      const mockDBRunDoc = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const mockDBGetStakeholder = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, { stakeholderId: 1 });
+          return {} as Database;
+        })
+
+      const mockDBRunStakeholder = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const mockDBRunCommit = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, callback) => {
           callback(null);
           return {} as Database;
         });
@@ -42,36 +77,92 @@ describe("DocumentDAO unit tests", () => {
         "English",
         "1",
         null,
+        null,
         null
       );
       expect(result.documentId).toBeDefined();
       expect(result.message).toBeDefined();
       expect(result.status).toBeDefined();
-      mockDBGet.mockRestore();
-      mockDBRun.mockRestore();
+      mockDBGetTypes.mockRestore();
+      mockDBbeginTransaction.mockRestore();
+      mockDBGetDoc.mockRestore();
+      mockDBRunDoc.mockRestore();
+      mockDBGetStakeholder.mockRestore();
+      mockDBRunStakeholder.mockRestore();
+      mockDBRunCommit.mockRestore();
+      mockSerialize.mockRestore();
     });
 
     // KX3
-    test("It should reolve new instance of document even if a valid georeference is provided", async () => {
-      const firstDocumentIntance = {
-        documentId: 1,
-      };
+    test("It should reolve new instance of document", async () => {
       const documentDAO = new DocumentDAO();
 
-      const mockDBGet = jest
+      const mockDBGetTypes = jest
         .spyOn(db, "get")
         .mockImplementationOnce((sql, params, callback) => {
-          callback(null, firstDocumentIntance);
+          callback(null, { documentTypeId: 1 });
           return {} as Database;
         })
         .mockImplementationOnce((sql, params, callback) => {
-          callback(null, { georeferenceId: 1 });
+          callback(null, { nodeTypeId: 1 });
           return {} as Database;
         });
 
-      const mockDBRun = jest
+      const mockSerialize = jest.spyOn(db, "serialize").mockImplementationOnce((fn) => {
+        fn();
+      });
+
+      const mockDBbeginTransaction = jest
         .spyOn(db, "run")
-        .mockImplementation((sql, params, callback) => {
+        .mockImplementationOnce((sql) => {
+          return {} as Database;
+        });
+
+      const mockDBGetGeo = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, { georeferenceId: 1 });
+          return {} as Database;
+        })
+
+      const mockDBRunGeo = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const mockDBGetDoc = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, { documentId: 1 });
+          return {} as Database;
+        })
+
+      const mockDBRunDoc = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const mockDBGetStakeholder = jest
+        .spyOn(db, "get")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null, { stakeholderId: 1 });
+          return {} as Database;
+        })
+
+      const mockDBRunStakeholder = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const mockDBRunCommit = jest
+        .spyOn(db, "run")
+        .mockImplementationOnce((sql, callback) => {
           callback(null);
           return {} as Database;
         });
@@ -86,15 +177,23 @@ describe("DocumentDAO unit tests", () => {
         "2024-11-06",
         "English",
         "1",
-        ["67.8558, 20.2253"],
+        ["1.1,1.1"],
+        "test",
         "test"
       );
-
       expect(result.documentId).toBeDefined();
       expect(result.message).toBeDefined();
       expect(result.status).toBeDefined();
-      mockDBGet.mockRestore();
-      mockDBRun.mockRestore();
+      mockDBGetTypes.mockRestore();
+      mockDBbeginTransaction.mockRestore();
+      mockDBGetGeo.mockRestore();
+      mockDBRunGeo.mockRestore();
+      mockDBGetDoc.mockRestore();
+      mockDBRunDoc.mockRestore();
+      mockDBGetStakeholder.mockRestore();
+      mockDBRunStakeholder.mockRestore();
+      mockDBRunCommit.mockRestore();
+      mockSerialize.mockRestore();
     });
   });
 
