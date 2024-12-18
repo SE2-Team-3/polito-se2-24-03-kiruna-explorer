@@ -55,9 +55,7 @@ const ExploreMap = ({
           .toLocaleLowerCase()
           .includes(searchTitle.toLocaleLowerCase())
     );
-    setFilteredDocuments(filtered);
-
-    if (filteredDocuments.length === 0) {
+    if (filteredDocuments.length === 0 || searchTitle) {
       setFilteredDocuments(filtered);
     }
   }, [searchTitle, documents]);
