@@ -15,7 +15,7 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
   - [🏁 Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
   - [🏁 Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
   - [🏁 Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
-
+- [:shield: License](#shield-License)
 
 ## :rocket: Getting Started 
 
@@ -141,6 +141,6 @@ If you are using docker environment, please make sure that you have the followin
 
 ![Georeference document on map](Screenshots/Demo-2/Screenshot-3.png)
 
-# 🛡️ License
+# :shield: License
 
 Kiruna Explorer is licensed under the [📜 GNU GPL v3.0 License](LICENSE). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL.
