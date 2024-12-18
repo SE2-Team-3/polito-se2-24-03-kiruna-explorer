@@ -639,3 +639,107 @@ describe("GET /api/documents/filtered", () => {
     expect(DocumentController.prototype.getResources).toHaveBeenCalled();
   });
 });
+
+// KX18 (Add attachments)
+describe("POST /api/documents/:documentId/upload-attachment", () => {
+  test("It returns 201  if the attachment successfully uploaded  ", async () => {
+    const documentId = 1;
+    const reqInput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadAttachment")
+      .mockResolvedValueOnce({ documentId, reqInput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-attachment")
+      .send(reqInput);
+    expect(response.status).toBe(201);
+    expect(DocumentController.prototype.uploadAttachment).toHaveBeenCalled();
+  });
+  test("It returns 422  if documentId is not valid  ", async () => {
+    const documentId = 0;
+    const reqInput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadAttachment")
+      .mockResolvedValueOnce({ documentId, reqInput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-attachment")
+      .send(reqInput);
+    expect(response.status).toBe(422);
+    expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
+  });
+
+  test("It returns 422  if documentId is not valid  ", async () => {
+    const documentId = true;
+    const reqInput: any = {
+      files: [],
+    };
+
+    jest
+      .spyOn(DocumentController.prototype, "uploadAttachment")
+      .mockResolvedValueOnce({ documentId, reqInput });
+
+    jest
+      .spyOn(Authenticator.prototype, "isLoggedIn")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    jest.mock("express-validator", () => ({
+      param: jest.fn().mockImplementation(() => ({
+        isInt: () => ({ toInt: () => ({}) }),
+      })),
+    }));
+    jest
+      .spyOn(ErrorHandler.prototype, "validateRequest")
+      .mockImplementation((req, res, next) => {
+        return next();
+      });
+
+    const response = await request(app)
+      .post(baseURL + "/documents/" + documentId + "/upload-attachment")
+      .send(reqInput);
+    expect(response.status).toBe(422);
+    expect(DocumentController.prototype.uploadResource).toHaveBeenCalled();
+  });
+});
