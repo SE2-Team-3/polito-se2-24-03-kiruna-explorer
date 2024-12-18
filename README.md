@@ -1,24 +1,27 @@
-# Table of Contents
 
-- [Kiruna-Explorer](#kiruna-explorer)
-- [Getting Started](#getting-started)
-- [Technical Debt Management](#technical-debt-management)
-- [Features](#features)
-- [UI Application screenshots-first release](#ui-application-screenshots)
-- [Diagrams](./assets/diagrams/)
-  - [Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
-  - [Class Diagram](./assets/diagrams/ClassDiagramR1.jpeg)
-- [Retrospectives](./Retrospectives/)
-  - [Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
-  - [Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
-
-# Kiruna Explorer
+# 🇸🇪 Kiruna Explorer
 
 Kiruna Explorer is a web application designed to help urban planners, residents, and visitors explore, analyze, and understand documents related to urban planning and geographical information in the Kiruna region. The application offers tools to visualize, link, and interact with various documents on both maps and diagrams, supporting a deeper study of their relationships, geolocation, and impact over time.
 
-## Getting Started
+# 📚 Table of Contents
+- [:rocket: Getting Started](#rocket-getting-started)
+- [:hammer_and_wrench: Technical Debt Management](#hammer_and_wrench-technical-debt-management)
+- [:sparkles: Features](#sparkles-features)
+- [:framed_picture: UI Application screenshots-first release](#framed_picture-ui-application-screenshots)
+- [📊 Diagrams](./assets/diagrams/)
+  - [🖍️ Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
+  - [🧩 Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
+- [🌀 Retrospectives](./Retrospectives/)
+  - [🏁 Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
+  - [🏁 Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
+  - [🏁 Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
+- [:shield: License](#shield-License)
 
-### Prerequisites
+## :rocket: Getting Started 
+
+### 🛠️ Prerequisites 
+...
+
 
 Make sure you have the following installed on your machine:
 
@@ -28,38 +31,38 @@ If you are using docker environment, please make sure that you have the followin
 
 - [Docker](https://www.docker.com/get-started)
 
-### Running the Application (local machine)
+### 🔌 Running the Application (local machine)
 
-1. **Clone the repository**:
+1. **📂 Clone the repository**:
    ```sh
    git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
-2. **Run the client-side server**:
+2. **🖥️ Run the client-side server**:
    ```
    cd code/client/
    npm run dev
    ```
-3. **Run the server-side server**:
+3. **🔧 Run the server-side server**:
    ```
    cd code/server/
    npm start
    ```
 
-### Running the Application (Docker environment)
+### 🐳 Running the Application (Docker environment)
 
-1. **Clone the repository**:
+1. **📂 Clone the repository**:
    ```sh
    git clone https://github.com/SE2-Team-3/polito-se2-24-03-kiruna-explorer.git
    cd polito-se2-24-03-kiruna-explorer
    ```
-2. **Run the container**:
+2. **⚙️ Run the container**:
    ```
    docker-compose up --build
    ```
-   Happy coding!
+   🔥 Happy coding!
 
-## Technical Debt Management
+## :hammer_and_wrench: Technical Debt Management
 
 ### Team TD Strategies
 
@@ -82,62 +85,62 @@ If you are using docker environment, please make sure that you have the followin
   Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
   Generally, we dedicate mostly 20% of the estimations in each user story to technical debt.
 
-## Features
+## :sparkles: Features
 
-### Document Management
+### 📝 Document Management
 
-- ### Add New Document Descriptions:
+- ### 🆕 Add New Document Descriptions:
   Urban planners can add standardized document descriptions with predefined fields.
-- ### Link Documents:
+- ### 🔗 Link Documents:
   Users can link documents to each other, establishing relationships defined by different link types, as outlined in the documentation.
-- ### Georeference Documents:
+- ### 🧭  Georeference Documents:
   Documents can be georeferenced on a map, either during insertion or adjusted later, using coordinates or referencing the municipal area.
-- ### Add Original Resources and Attachments:
+- ### 📎 Add Original Resources and Attachments:
   Urban planners can upload additional resources or attachments to documents, such as maps, text documents, photos, and videos, to provide comprehensive context.
 
-### Document Visualization and Interaction on Maps
+### 🌐 Document Visualization and Interaction on Maps
 
-- ### View Documents on the Map:
+- ### 🗺️ View Documents on the Map:
   Urban planners, residents, and visitors can visualize documents on the map, allowing for an overview of their spatial relationships to areas of interest.
-- ### Define and Adjust Document Geolocation:
+- ### 📍 Define and Adjust Document Geolocation:
   Urban planners can define or refine the exact geolocation of documents to ensure accuracy in spatial representation.
-- ### Select and Interact with Documents:
+- ### 🖌️ Select and Interact with Documents:
   Users can click on documents displayed on the map to access further details and the document itself.
-- ### Filter Documents on the Map:
+- ### 🔍 Filter Documents on the Map:
   Users can filter the displayed documents based on project-defined filter types to focus on relevant data.
 
-### Document Visualization and Interaction on Diagrams
+### 📈 Document Visualization and Interaction on Diagrams
 
-- ### Visualize Document Relationships Over Time:
+- ### ⏳ Visualize Document Relationships Over Time:
   Users can visualize documents on a timeline, studying their temporal relationships and evolution over time.
-- ### Adjust Document Positions and Connections on Diagram:
+- ### 🖇️ Adjust Document Positions and Connections on Diagram:
   Urban planners can refine the layout and connections of documents on the diagram to improve readability and reflect updated relationships.
-- ### Click on and Access Documents via Diagram:
+- ### 📄 Click on and Access Documents via Diagram:
   Users can click on diagram entries to access documents, promoting easy exploration.
-- ### Filter Diagram Contents:
+- ### 📑 Filter Diagram Contents:
   The diagram can be filtered by document type, helping users focus on specific information.
 
-### Cross-Platform Document Navigation
+### 🛤️ Cross-Platform Document Navigation
 
-- ### Map-to-Diagram Linking:
+- ### 🪢 Map-to-Diagram Linking:
   Selecting a document on the map automatically highlights it in the diagram.
-- ### Diagram-to-Map Linking:
+- ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# **UI Application screenshots**
+# **:framed_picture: UI Application screenshots**
 
-### Login page
+### 🔑 Login page
 
 ![Login Page](Screenshots/Demo-2/Screenshot-1.png)
 
-### Add document page
+### ➕ Add document page
 
 ![Add document Page](Screenshots/Demo-2/Screenshot-2.png)
 
-### Georeference document on map
+### 🌍 Georeference document on map
 
 ![Georeference document on map](Screenshots/Demo-2/Screenshot-3.png)
 
-# License
+# :shield: License
 
-Kiruna Explorer is licensed under the [GNU GPL v3.0 License](LICENSE). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL.
+Kiruna Explorer is licensed under the [📜 GNU GPL v3.0 License](LICENSE). Under this license, you are free to use, modify, and distribute this software, provided any derivative works are also licensed under the GPL.
