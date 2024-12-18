@@ -5,9 +5,9 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
 
 # 📚 Table of Contents
 - [:rocket: Getting Started](#rocket-getting-started)
-- [🛠️ Technical Debt Management](#🛠️-technical-debt-management)
-- [✨ Features](#✨-features)
-- [🖼️ UI Application screenshots-first release](#🖼️-ui-application-screenshots)
+- [:hammer_and_wrench: Technical Debt Management](#hammer_and_wrench-technical-debt-management)
+- [:sparkles: Features](#sparkles-features)
+- [:framed_picture: UI Application screenshots-first release](#framed_picture-ui-application-screenshots)
 - [📊 Diagrams](./assets/diagrams/)
   - [🖍️ Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
   - [🧩 Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
@@ -17,7 +17,7 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
   - [🏁 Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
 
 
-## 🚀 Getting Started 
+## :rocket: Getting Started 
 
 ### 🛠️ Prerequisites 
 ...
@@ -62,7 +62,7 @@ If you are using docker environment, please make sure that you have the followin
    ```
    🔥 Happy coding!
 
-## 🛠️ Technical Debt Management
+## :hammer_and_wrench: Technical Debt Management
 
 ### Team TD Strategies
 
@@ -85,7 +85,7 @@ If you are using docker environment, please make sure that you have the followin
   Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
   Generally, we dedicate mostly 20% of the estimations in each user story to technical debt.
 
-## ✨ Features
+## :sparkles: Features
 
 ### 📝 Document Management
 
@@ -127,7 +127,7 @@ If you are using docker environment, please make sure that you have the followin
 - ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# **🖼️ UI Application screenshots**
+# **:framed_picture: UI Application screenshots**
 
 ### 🔑 Login page
 
