@@ -1,22 +1,24 @@
 import L, { LatLngExpression } from "leaflet";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Polyline,
-  useMap,
-  Polygon,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polyline, useMap, Polygon } from "react-leaflet";
 import Logo from "../../../assets/icons/Kiruna Icon - 2.svg";
 import "../../style.css";
 import LocalGeoJSONReader from "../../../components/municipalityArea/MunicipalityArea";
+import DocumentDetail from "../../../models/documentDetail";
+import Document from "../../../models/document";
+import { useEffect, useState } from "react";
+import API from "../../../API/API";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   coordinates: [number, number][] | null;
+  document?: DocumentDetail;
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
 }
 
-const MiniMapDetail = ({ coordinates }: Props) => {
+const MiniMapDetail = ({ coordinates, document, setFilteredDocuments }: Props) => {
   const municipalityArea: LatLngExpression[][] = LocalGeoJSONReader();
+  const [doc, setDoc] = useState<Document>();
+  const navigate = useNavigate();
 
   const logoIcon = new L.Icon({
     iconUrl: Logo,
@@ -53,6 +55,16 @@ const MiniMapDetail = ({ coordinates }: Props) => {
     return null;
   };
 
+  //retrive Document from DocumentDetail object
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const allDocs = await API.getDocuments();
+      const doc = allDocs.find((doc: Document) => doc.documentId === document?.documentId);
+      setDoc(doc);
+    };
+    fetchDocuments();
+  }, [document]);
+
   return (
     <MapContainer
       attributionControl={false}
@@ -69,9 +81,37 @@ const MiniMapDetail = ({ coordinates }: Props) => {
       <MapZoom />
       {coordinates && coordinates?.length > 0 ? (
         coordinates?.length === 1 ? (
-          <Marker position={coordinates[0]} icon={logoIcon} />
+          <Marker
+            position={coordinates[0]}
+            icon={logoIcon}
+            eventHandlers={{
+              click: () => {
+                if (doc) {
+                  setFilteredDocuments([doc]);
+                }
+                navigate("/explore-map");
+              },
+            }}
+          />
         ) : (
-          <Polyline positions={coordinates} color="red" weight={3} />
+          <Polygon
+            positions={coordinates}
+            pathOptions={{
+              color: "#3d52a0",
+              weight: 3,
+              opacity: 1,
+              fillColor: "transparent",
+              fillOpacity: 0,
+            }}
+            eventHandlers={{
+              click: () => {
+                if (doc) {
+                  setFilteredDocuments([doc]);
+                }
+                navigate("/explore-map");
+              },
+            }}
+          />
         )
       ) : (
         municipalityArea.map((polygonCoords, index) => (
@@ -84,6 +124,14 @@ const MiniMapDetail = ({ coordinates }: Props) => {
               opacity: 1,
               fillColor: "transparent",
               fillOpacity: 0,
+            }}
+            eventHandlers={{
+              click: () => {
+                if (doc) {
+                  setFilteredDocuments([doc]);
+                }
+                navigate("/explore-map");
+              },
             }}
           />
         ))

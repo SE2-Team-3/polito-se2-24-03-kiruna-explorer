@@ -1,4 +1,4 @@
-import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
@@ -209,7 +209,10 @@ function App() {
                     />
                   }
                 />
-                <Route path="/documents/:documentId" element={<DocumentDetails />} />
+                <Route
+                  path="/documents/:documentId"
+                  element={<DocumentDetails setFilteredDocuments={setFilteredDocuments} />}
+                />
                 <Route
                   path="/explore-map"
                   element={
@@ -277,11 +280,6 @@ function App() {
                   }
                 />
               </Routes>
-              
-
-
-              
-
             </UserContext.Provider>
           </SidebarProvider>
         </Container>
@@ -289,18 +287,34 @@ function App() {
       <Col>
         {loggedIn && location.pathname == "/explore-map" ? (
           <Row>
-            <Button onClick={() => navigate("/urban-planner/add-document")} className="add-button">
-              <FaPlus color="white" size={25} />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Add Document</Tooltip>}>
+              <Button
+                onClick={() => navigate("/urban-planner/add-document")}
+                className="add-button"
+              >
+                <FaPlus color="white" size={25} />
+              </Button>
+            </OverlayTrigger>
           </Row>
         ) : null}
         {isViewLinkedDocuments && location.pathname == "/explore-map" ? (
           <Row>
-            <Button onClick={handleSetDocuments} className="view-all-button">
-              <img src={ViewAll} alt="ViewAll" style={{ width: "30px", height: "30px" }} />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>View All</Tooltip>}>
+              <Button onClick={handleSetDocuments} className="view-all-button">
+                <img src={ViewAll} alt="ViewAll" style={{ width: "30px", height: "30px" }} />
+              </Button>
+            </OverlayTrigger>
           </Row>
         ) : null}
+        {location.pathname === "/explore-map" && filteredDocuments.length === 1 && (
+          <Row>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>View All</Tooltip>}>
+              <Button onClick={handleSetDocuments} className="view-all-button">
+                <img src={ViewAll} alt="ViewAll" style={{ width: "30px", height: "30px" }} />
+              </Button>
+            </OverlayTrigger>
+          </Row>
+        )}
         {location.pathname === "/explore-map" && (
           <Row>
             <Col>

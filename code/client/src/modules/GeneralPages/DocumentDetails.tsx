@@ -16,8 +16,13 @@ import Calendar from "../../assets/icons/date.svg";
 import PersonBlue from "../../assets/icons/person blue.svg";
 import Book from "../../assets/icons/book.svg";
 import { useNavigate } from "react-router-dom";
+import Document from "../../models/document";
 
-const DocumentDetails = () => {
+interface DocumentDetailsProps {
+  setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+}
+
+const DocumentDetails = (props: DocumentDetailsProps) => {
   const { isSidebarOpen } = useSidebar();
   const { documentId } = useParams();
   const [document, setDocument] = useState<DocumentDetail>();
@@ -50,33 +55,32 @@ const DocumentDetails = () => {
             <Row className="title-container">
               <Col md={4} className="field-box">
                 <img src={Calendar} alt="calendar" width={20} height={20} />
-                <span style={{ fontSize: "20px" }}>
-                  {document?.issuanceDate}
-                </span>
+                <span style={{ fontSize: "20px" }}>{document?.issuanceDate}</span>
               </Col>
               <Col md={6} className="field-box">
-                <img
-                  src={DocumentType}
-                  alt="node type"
-                  width={20}
-                  height={20}
-                />
+                <img src={DocumentType} alt="node type" width={20} height={20} />
                 <span style={{ fontSize: "20px" }}>{document?.nodeType}</span>
               </Col>
             </Row>
             <Row className="description-row">
               <strong>Description</strong>
-              <span style={{ fontSize: "18px", color: "black" }}>
-                {document?.description}
-              </span>
+              <span style={{ fontSize: "18px", color: "black" }}>{document?.description}</span>
             </Row>
           </Col>
           <Col md={5} style={{ height: "300px", padding: "20px" }}>
             {/* Display the MiniMap with georeference coordinates */}
             {document && document.coordinates?.length > 0 ? (
-              <MiniMapDetail coordinates={document.coordinates} />
+              <MiniMapDetail
+                coordinates={document.coordinates}
+                document={document}
+                setFilteredDocuments={props.setFilteredDocuments}
+              />
             ) : (
-              <MiniMapDetail coordinates={null} />
+              <MiniMapDetail
+                coordinates={null}
+                document={document}
+                setFilteredDocuments={props.setFilteredDocuments}
+              />
             )}
           </Col>
         </Row>
@@ -94,9 +98,7 @@ const DocumentDetails = () => {
               }}
             >
               {getLanguageFlag(document?.language)}
-              <span style={{ fontSize: "20px", verticalAlign: "flex" }}>
-                {document?.language}
-              </span>
+              <span style={{ fontSize: "20px", verticalAlign: "flex" }}>{document?.language}</span>
             </div>
           </Col>
           <Col xs={12} md={4} className="margintop-15px">
@@ -135,9 +137,7 @@ const DocumentDetails = () => {
               {document?.stakeholders?.map((stakeholder, index) => (
                 <div
                   key={`${index}-${stakeholder}`}
-                  className={`table-row ${
-                    index % 2 === 0 ? "dark-row" : "light-row"
-                  }`}
+                  className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                 >
                   <span className="document-title">{stakeholder}</span>
                 </div>
@@ -150,30 +150,22 @@ const DocumentDetails = () => {
               <img src={LinkDocument} alt="link document" />
               Linked Docs
             </strong>
-            {document?.linkedDocuments &&
-            document?.linkedDocuments.length > 0 ? (
+            {document?.linkedDocuments && document?.linkedDocuments.length > 0 ? (
               <div className="linked-documents-table">
                 {[
                   ...new Map(
-                    document.linkedDocuments.map((linkedDoc) => [
-                      linkedDoc.documentId,
-                      linkedDoc,
-                    ])
+                    document.linkedDocuments.map((linkedDoc) => [linkedDoc.documentId, linkedDoc])
                   ).values(),
                 ].map((linkedDoc, index) => (
                   <div
                     key={`${index}-${linkedDoc.documentId}`}
-                    className={`table-row ${
-                      index % 2 === 0 ? "dark-row" : "light-row"
-                    }`}
+                    className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                   >
                     <span
                       className="document-title"
                       role="button"
                       tabIndex={0}
-                      onClick={() =>
-                        navigate(`/documents/${linkedDoc.documentId}`)
-                      }
+                      onClick={() => navigate(`/documents/${linkedDoc.documentId}`)}
                       onKeyDown={(event) => {
                         if (event.key === "Enter" || event.key === " ") {
                           navigate(`/documents/${linkedDoc.documentId}`);
@@ -198,9 +190,7 @@ const DocumentDetails = () => {
                 {document?.resources.map((resource, index) => (
                   <div
                     key={`${index}-${resource.resourceId}`}
-                    className={`table-row ${
-                      index % 2 === 0 ? "dark-row" : "light-row"
-                    }`}
+                    className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                   >
                     <span className="document-title">{resource.fileName}</span>
                   </div>
@@ -219,13 +209,9 @@ const DocumentDetails = () => {
                 {document?.attachments.map((attachment, index) => (
                   <div
                     key={`${index}-${attachment.attachmentId}`}
-                    className={`table-row ${
-                      index % 2 === 0 ? "dark-row" : "light-row"
-                    }`}
+                    className={`table-row ${index % 2 === 0 ? "dark-row" : "light-row"}`}
                   >
-                    <span className="document-title">
-                      {attachment.fileName}
-                    </span>
+                    <span className="document-title">{attachment.fileName}</span>
                   </div>
                 ))}
               </div>
