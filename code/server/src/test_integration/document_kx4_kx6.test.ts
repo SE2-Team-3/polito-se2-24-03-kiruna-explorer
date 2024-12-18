@@ -2,8 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import request from "supertest";
 import { app } from "../../index";
 import { cleanup } from "../../src/db/cleanup";
-
-const routePath = "/api";
+import { routePath } from "./testUtility";
 
 describe("Document Route kx4 & kx6 integration tests", () => {
 
