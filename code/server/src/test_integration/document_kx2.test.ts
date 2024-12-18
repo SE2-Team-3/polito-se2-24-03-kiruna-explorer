@@ -3,8 +3,7 @@ import request from "supertest";
 import { app } from "../../index";
 import { cleanup } from "../../src/db/cleanup";
 import db from "../../src/db/db";
-
-const routePath = "/api";
+import { routePath } from "./testUtility";
 
 const planner = {
     username: "planner",
