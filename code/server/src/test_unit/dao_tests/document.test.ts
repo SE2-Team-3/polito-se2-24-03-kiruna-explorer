@@ -42,7 +42,7 @@ describe("DocumentDAO unit tests", () => {
         "English",
         "1",
         null,
-        null,
+        null
       );
       expect(result.documentId).toBeDefined();
       expect(result.message).toBeDefined();
@@ -50,7 +50,7 @@ describe("DocumentDAO unit tests", () => {
       mockDBGet.mockRestore();
       mockDBRun.mockRestore();
     });
-    
+
     // KX3
     test("It should reolve new instance of document even if a valid georeference is provided", async () => {
       const firstDocumentIntance = {
@@ -87,7 +87,7 @@ describe("DocumentDAO unit tests", () => {
         "English",
         "1",
         ["67.8558, 20.2253"],
-        "test",
+        "test"
       );
 
       expect(result.documentId).toBeDefined();
@@ -97,7 +97,7 @@ describe("DocumentDAO unit tests", () => {
       mockDBRun.mockRestore();
     });
   });
-  
+
   // KX7 (Add original resource)
   describe("uploadResource", () => {
     it("should throw an exception when no files provided", async () => {
@@ -215,7 +215,7 @@ describe("DocumentDAO unit tests", () => {
             coordinates: "[1.1, 2.2]",
             georeferenceName: "Test Georeference 1",
             isArea: 0,
-          }
+          },
         },
         {
           documentId: 2,
@@ -233,7 +233,7 @@ describe("DocumentDAO unit tests", () => {
             coordinates: "[1.1, 2.2]",
             georeferenceName: "Test Georeference 2",
             isArea: 0,
-          }
+          },
         },
       ];
 
@@ -260,6 +260,24 @@ describe("DocumentDAO unit tests", () => {
       expect(result[0].pages).toBeDefined();
       expect(result[0].georeference).toBeDefined();
       mockDBAll.mockRestore();
+    });
+  });
+
+  // KX18 (Add attachments)
+  describe("uploadAttachment", () => {
+    it("should throw an exception when no files provided", async () => {
+      const firstDocumentIntance = {
+        documentId: 1,
+      };
+
+      const documentDAO = new DocumentDAO();
+
+      try {
+        await documentDAO.uploadAttachment(firstDocumentIntance.documentId, []);
+      } catch (error) {
+        expect(error).toBeDefined();
+        expect(error.message).toBe("No file uploaded");
+      }
     });
   });
 });
