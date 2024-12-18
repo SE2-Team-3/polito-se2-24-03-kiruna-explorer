@@ -53,7 +53,7 @@ const Diagram = (props: DiagramProps) => {
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
-  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(true);
+  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(false);
   const defaultViewport = props.defaultViewport;
 
   const navigate = useNavigate();
@@ -252,7 +252,7 @@ const Diagram = (props: DiagramProps) => {
             preventScrolling={false}
             onConnect={onConnect}
             defaultViewport={defaultViewport}
-            minZoom={0.5}
+            minZoom={0.75}
             translateExtent={[
               [0, 0],
               [
