@@ -1,13 +1,13 @@
 # 🇸🇪 kiruna-explorer
 This document lists all APIs and database scheme that compose the Kiruna Explorer application.
 # 📚 Table of Contents
-- [🔐 Access APIs](#🔐-access-apis)
-- [🧑‍💻 User APIs](#🧑‍💻-user-apis)
-- [📑 Document APIs](#📑-document-apis)
-- [🗄️ Database Scheme](#🗄️-database-scheme)
+- [:closed_lock_with_key: Access APIs](#closed_lock_with_key-access-apis)
+- [:technologist: User APIs](#technologist-user-apis)
+- [:bookmark_tabs: Document APIs](#bookmark_tabs-document-apis)
+- [:file_cabinet: Database Scheme](#file_cabinet-database-scheme)
 
 ## API Server
-### 🔐 Access APIs
+### :closed_lock_with_key: Access APIs
 
 ##### POST `api/sessions`
 * Purpose: Authenticate a user with username and password.
@@ -25,7 +25,7 @@ This document lists all APIs and database scheme that compose the Kiruna Explore
 * Request parameters: None
 * 200 Ok: show user info.
 
-### 🧑‍💻 User APIs
+### :technologist: User APIs
 
 ##### POST `api/users`
 * Purpose: Creates a new user with the provided information.
@@ -33,7 +33,7 @@ This document lists all APIs and database scheme that compose the Kiruna Explore
 * 200 Ok: User is created.
 * 409 error: username is exists.
 
-### 📑 Document APIs
+### :bookmark_tabs: Document APIs
 
 ##### POST `api/documents`
 * Purpose: Creates a new document.
@@ -220,7 +220,7 @@ This document lists all APIs and database scheme that compose the Kiruna Explore
 * 20O OK :  List of attachments.
 
 
-# 🗄️ Database Scheme
+# :file_cabinet: Database Scheme
 
 | SQL Table | Columns |
 | --- | --- |
