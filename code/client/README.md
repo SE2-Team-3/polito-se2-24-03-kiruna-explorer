@@ -1,13 +1,13 @@
 # 🇸🇪 Kiruna-Explorer
 This document lists all components and routes that compose the Kiruna Explorer application.
 
-# 📚 Table of Contents
-- [⚛️ React + TypeScript + Vite](#⚛️-react--typescript--vite)
-- [🔧 Expanding the ESLint configuration](#🔧-expanding-the-eslint-configuration)
-- [🛤️ Client Application Routes](#🛤️-client-application-routes)
-- [🧑‍💻 Client Application Components](#🧑‍💻-client-application-components)
+# :books: Table of Contents
+- [:atom_symbol: React + TypeScript + Vite](#atom_symbol-react--typescript--vite)
+- [:wrench: Expanding the ESLint configuration](#wrench-expanding-the-eslint-configuration)
+- [:railway_track: Client Application Routes](#railway_track-client-application-routes)
+- [:technologist: Client Application Components](#technologist-client-application-components)
 
-# ⚛️ React + TypeScript + Vite
+# :atom_symbol: React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -16,7 +16,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# 🔧 Expanding the ESLint configuration
+# :wrench: Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
@@ -59,7 +59,7 @@ export default tseslint.config({
 ```
 <br/>
 
-# 🛤️ **Client Application Routes**
+# :railway_track: Client Application Routes
 
 The `App` component defines a set of routes to handle navigation between different parts of the application.
 
@@ -178,9 +178,9 @@ The `App` component defines a set of routes to handle navigation between differe
 <br/>
 
 
-# 🧑‍💻 Client Application Components
+# :technologist: Client Application Components
 
- - [Back to table of contents](#📚-table-of-contents)
+ - [:books: Back to table of contents](#books-table-of-contents)
  - [1. General Components](#1-general-components)
    - [1.1. Custom Edge](#11-custom-edge)
       - [Edge Collateral Consequence](#edge-collateral-consequence)
