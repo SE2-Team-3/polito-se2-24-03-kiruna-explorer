@@ -3,7 +3,13 @@ import request from "supertest";
 import { app } from "../../index";
 import { cleanup } from "../../src/db/cleanup";
 import db from "../../src/db/db";
-import { postUser, postDocument, postTypes, login, routePath } from "./testUtility";
+import {
+  postUser,
+  postDocument,
+  postTypes,
+  login,
+  routePath,
+} from "./testUtility";
 
 const planner = {
   username: "planner",
@@ -42,6 +48,13 @@ const postResource = async () => {
   });
 };
 
+const postDocumentConnection = async () => {
+  const insertDocumentConnection = `INSERT INTO DocumentConnections (documentId1, documentId2, linkType) VALUES (1, 2, "direct consequence")`;
+  db.run(insertDocumentConnection, [], (err) => {
+    if (err) console.log(err);
+  });
+};
+
 beforeAll(async () => {
   await cleanup();
 
@@ -50,11 +63,13 @@ beforeAll(async () => {
 
   await postTypes();
   await postResource();
+
   await postDocument(testDocument, plannerCookie);
+  await postDocumentConnection();
 });
 
 afterAll(async () => {
-  await cleanup();
+  // await cleanup();
 });
 
 describe("Document routes integration tests", () => {
@@ -208,48 +223,66 @@ describe("Document routes integration tests", () => {
     });
   });
 
-    // KX7 (Add attachments)
-    describe("POST /api/documents/:documentId/upload-attachment", () => {
-      test("It should return 201 if all attachments uploaded successfully", async () => {
-        const documnetId = 1;
-        const files: Express.Multer.File[] = [
-          {
-            fieldname: "file",
-            originalname: "test1.txt",
-            encoding: "7bit",
-            mimetype: "text/plain",
-            buffer: Buffer.from("test content 1"),
-            size: 16,
-            destination: "",
-            filename: "",
-            path: "",
-            stream: null,
-          },
-          {
-            fieldname: "file",
-            originalname: "test2.txt",
-            encoding: "7bit",
-            mimetype: "text/plain",
-            buffer: Buffer.from("test content 2"),
-            size: 24,
-            destination: "",
-            filename: "",
-            path: "",
-            stream: null,
-          },
-        ];
-  
-        let response = await request(app)
-          .post(`${routePath}/documents/${documnetId}/upload-attachment`)
-          .set("Cookie", plannerCookie)
-          .attach("files", files[0].buffer, files[0].originalname)
-          .attach("files", files[1].buffer, files[1].originalname)
-          .expect(201);
-  
-        expect(response.body).toBeDefined();
-        expect(response.body.status).toBeDefined();
-        expect(response.body.attachments).toBeDefined();
-        expect(response.body.message).toBeDefined();
-      });
+  // KX7 (Add attachments)
+  describe("POST /api/documents/:documentId/upload-attachment", () => {
+    test("It should return 201 if all attachments uploaded successfully", async () => {
+      const documnetId = 1;
+      const files: Express.Multer.File[] = [
+        {
+          fieldname: "file",
+          originalname: "test1.txt",
+          encoding: "7bit",
+          mimetype: "text/plain",
+          buffer: Buffer.from("test content 1"),
+          size: 16,
+          destination: "",
+          filename: "",
+          path: "",
+          stream: null,
+        },
+        {
+          fieldname: "file",
+          originalname: "test2.txt",
+          encoding: "7bit",
+          mimetype: "text/plain",
+          buffer: Buffer.from("test content 2"),
+          size: 24,
+          destination: "",
+          filename: "",
+          path: "",
+          stream: null,
+        },
+      ];
+
+      let response = await request(app)
+        .post(`${routePath}/documents/${documnetId}/upload-attachment`)
+        .set("Cookie", plannerCookie)
+        .attach("files", files[0].buffer, files[0].originalname)
+        .attach("files", files[1].buffer, files[1].originalname)
+        .expect(201);
+
+      expect(response.body).toBeDefined();
+      expect(response.body.status).toBeDefined();
+      expect(response.body.attachments).toBeDefined();
+      expect(response.body.message).toBeDefined();
     });
+  });
+
+  // kx13 (Unlink document)
+  test("It should return 404 if the link not found", async () => {
+    const testConnection = {
+      documentId1: 11,
+      documentId2: 12,
+      linkType: "direct consequence",
+    };
+
+    let result = await request(app)
+      .delete(`${routePath}/documents/link`)
+      .set("Cookie", plannerCookie)
+      .send(testConnection)
+      .expect(404);
+
+    expect(result.body).toBeDefined();
+    expect(result.body.message).toBe("Document connection not found");
+  });
 });
