@@ -207,4 +207,49 @@ describe("Document routes integration tests", () => {
       expect(response.body).toBeDefined();
     });
   });
+
+    // KX7 (Add attachments)
+    describe("POST /api/documents/:documentId/upload-attachment", () => {
+      test("It should return 201 if all attachments uploaded successfully", async () => {
+        const documnetId = 1;
+        const files: Express.Multer.File[] = [
+          {
+            fieldname: "file",
+            originalname: "test1.txt",
+            encoding: "7bit",
+            mimetype: "text/plain",
+            buffer: Buffer.from("test content 1"),
+            size: 16,
+            destination: "",
+            filename: "",
+            path: "",
+            stream: null,
+          },
+          {
+            fieldname: "file",
+            originalname: "test2.txt",
+            encoding: "7bit",
+            mimetype: "text/plain",
+            buffer: Buffer.from("test content 2"),
+            size: 24,
+            destination: "",
+            filename: "",
+            path: "",
+            stream: null,
+          },
+        ];
+  
+        let response = await request(app)
+          .post(`${routePath}/documents/${documnetId}/upload-attachment`)
+          .set("Cookie", plannerCookie)
+          .attach("files", files[0].buffer, files[0].originalname)
+          .attach("files", files[1].buffer, files[1].originalname)
+          .expect(201);
+  
+        expect(response.body).toBeDefined();
+        expect(response.body.status).toBeDefined();
+        expect(response.body.attachments).toBeDefined();
+        expect(response.body.message).toBeDefined();
+      });
+    });
 });
