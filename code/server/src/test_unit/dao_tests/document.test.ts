@@ -7,7 +7,7 @@ jest.mock("../../../src/db/db.ts");
 describe("DocumentDAO unit tests", () => {
   describe("createDocument", () => {
     // KX1
-    test("It should reolve new instance of document", async () => {
+    test("It should resolve new instance of document", async () => {
       const documentDAO = new DocumentDAO();
 
       const mockDBGetTypes = jest
@@ -94,7 +94,7 @@ describe("DocumentDAO unit tests", () => {
     });
 
     // KX3
-    test("It should reolve new instance of document", async () => {
+    test("It should resolve new instance of document with geo", async () => {
       const documentDAO = new DocumentDAO();
 
       const mockDBGetTypes = jest
