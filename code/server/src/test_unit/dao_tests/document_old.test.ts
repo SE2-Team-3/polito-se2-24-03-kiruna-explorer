@@ -6,6 +6,9 @@ import { Database } from "sqlite3";
 describe("Document DAO old", () => {
 
     let documentDAO: DocumentDAO;
+    const documentId = 1;
+    const georeference = ["[1.1,1.1]", "[2.2,2.2]", "[3.3,3.3]"];
+    const mockGeoreferenceId = 1;
 
     beforeEach(() => {
         documentDAO = new DocumentDAO();
@@ -19,10 +22,6 @@ describe("Document DAO old", () => {
     describe("georeferenceDocument", () => {
 
         test("should successfully georeference a document", async () => {
-            const documentId = 1;
-            const georeference = ["[1.1,1.1]", "[2.2,2.2]", "[3.3,3.3]"];
-            const mockGeoreferenceId = 1;
-
             jest.spyOn(db, "get").mockImplementation((sql, callback) => {
                 callback(null, { georeferenceId: mockGeoreferenceId });
                 return {} as Database;
@@ -44,8 +43,6 @@ describe("Document DAO old", () => {
         });
 
         test("should handle database get error", async () => {
-            const documentId = 1;
-            const georeference = ["[1.1,1.1]", "[2.2,2.2]", "[3.3,3.3]"];
             const mockError = new Error("DB get error");
 
             jest.spyOn(db, "get").mockImplementation((sql, callback) => {
@@ -65,9 +62,6 @@ describe("Document DAO old", () => {
         });
 
         test("should handle database run error during createGeoreference", async () => {
-            const documentId = 1;
-            const georeference = ["[1.1,1.1]", "[2.2,2.2]", "[3.3,3.3]"];
-            const mockGeoreferenceId = 1;
             const mockError = new Error("DB run error");
 
             jest.spyOn(db, "get").mockImplementation((sql, callback) => {
@@ -92,9 +86,7 @@ describe("Document DAO old", () => {
         });
 
         test("should handle database run error during updateDocument", async () => {
-            const documentId = 1;
-            const georeference = ["[1.1,1.1]", "[2.2,2.2]", "[3.3,3.3]"];
-            const mockGeoreferenceId = 1;
+            
             const mockError = new Error("DB update error");
 
             jest.spyOn(db, "get").mockImplementation((sql, callback) => {
