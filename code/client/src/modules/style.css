@@ -1644,3 +1644,38 @@ DOCUMENT DETAILS
   right: 50px;
   border: 1px solid #3d52a0;
 }
+
+.legend-button,
+.legend-button:hover,
+.legend-button:active,
+.legend-button:focus {
+  position: fixed;
+  background-color: white !important;
+  z-index: 1000;
+  right: 5px;
+  bottom: 5px;
+  border: none;
+}
+
+.legend-button i {
+  color: #3d52a0;
+  font-size: 24px;
+}
+
+.legend-popup {
+  position: fixed;
+  top: 150px;
+  right: -300px;
+  width: 250px;
+  background-color: white;
+  border: none;
+  z-index: 1000;
+  border: 2px solid #3d52a0;
+  border-radius: 20px;
+  padding: 20px;
+  transition: right 0.7s ease-in-out;
+}
+
+.legend-popup.visible {
+  right: 0;
+}

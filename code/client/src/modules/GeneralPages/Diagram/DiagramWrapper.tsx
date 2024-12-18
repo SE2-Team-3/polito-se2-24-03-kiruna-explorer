@@ -133,20 +133,22 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
   }, []);
 
   return (
-    <Diagram
-      filterTableVisible={props.filterTableVisible}
-      setFilterTableVisible={props.setFilterTableVisible}
-      filteredDocuments={props.filteredDocuments}
-      setFilteredDocuments={props.setFilteredDocuments}
-      searchTitle={props.searchTitle}
-      initialNodes={initialNodes}
-      setNodes={setNodes}
-      setEdges={setEdges}
-      scrollWidth={scrollWidth}
-      nodes={nodes}
-      edges={edges}
-      yearWidths={yearWidths}
-    />
+    <>
+      <Diagram
+        filterTableVisible={props.filterTableVisible}
+        setFilterTableVisible={props.setFilterTableVisible}
+        filteredDocuments={props.filteredDocuments}
+        setFilteredDocuments={props.setFilteredDocuments}
+        searchTitle={props.searchTitle}
+        initialNodes={initialNodes}
+        setNodes={setNodes}
+        setEdges={setEdges}
+        scrollWidth={scrollWidth}
+        nodes={nodes}
+        edges={edges}
+        yearWidths={yearWidths}
+      />
+    </>
   );
 };
 

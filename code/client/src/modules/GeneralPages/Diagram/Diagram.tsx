@@ -21,6 +21,8 @@ import API from "../../../API/API";
 import Connection from "../../../models/Connection";
 import FilterTable from "../../UrbanPlanner/FilterTable/FilterPopup";
 import Document from "../../../models/document";
+import { Button } from "react-bootstrap";
+import Legend from "../../../components/diagramComponents/Legend";
 
 interface DiagramProps {
   filterTableVisible: boolean;
@@ -50,15 +52,19 @@ const Diagram = (props: DiagramProps) => {
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
+  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(true);
 
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
   const [connectionPopupVisible, setConnectionPopupVisible] = useState(false);
   const [linkTypesForPopup, setLinkTypesForPopup] = useState<string[]>([]);
   const [allDocs, setAllDocs] = useState<Document[]>([]);
-  const [tooltip, setTooltip] = useState<{ visible: boolean; title: string; x: number; y: number }>(
-    { visible: false, title: "", x: 0, y: 0 }
-  );
+  const [tooltip, setTooltip] = useState<{
+    visible: boolean;
+    title: string;
+    x: number;
+    y: number;
+  }>({ visible: false, title: "", x: 0, y: 0 });
   const { isSidebarOpen } = useSidebar();
   const [newConnection, setNewConnection] = useState<Connection>({
     documentId1: 0,
@@ -151,7 +157,9 @@ const Diagram = (props: DiagramProps) => {
   useEffect(() => {
     if (filteredDocuments.length < allDocs.length) {
       const filteredNodeIds = filteredDocuments.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      const updatedNodes = nodes.filter((node: Node) =>
+        filteredNodeIds.includes(Number(node.id))
+      );
       setNodes(updatedNodes);
     } else if (filteredDocuments.length === 0) {
       setNodes([]);
@@ -168,7 +176,9 @@ const Diagram = (props: DiagramProps) => {
         doc.title.toLowerCase().includes(searchTitle.toLowerCase())
       );
       const filteredNodeIds = filtered.map((doc) => doc.documentId);
-      const updatedNodes = nodes.filter((node: Node) => filteredNodeIds.includes(Number(node.id)));
+      const updatedNodes = nodes.filter((node: Node) =>
+        filteredNodeIds.includes(Number(node.id))
+      );
       setNodes(updatedNodes);
       if (searchTitle === "") {
         setNodes(initialNodes);
@@ -204,6 +214,20 @@ const Diagram = (props: DiagramProps) => {
           />
         </div>
       )}
+      <Button
+        onClick={() => setIsLegendVisible(!isLegendVisible)}
+        className="legend-button"
+      >
+        <i className="bi bi-info-circle"></i>
+      </Button>
+
+      <div>
+        <Legend
+          isLegendVisible={isLegendVisible}
+          setIsLegendVisible={setIsLegendVisible}
+        />
+      </div>
+
       <div className={`diagram-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div
           style={{
