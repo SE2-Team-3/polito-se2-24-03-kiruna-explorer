@@ -40,7 +40,7 @@ const ExploreMap = ({
   useEffect(() => {
     API.getDocuments().then((docs) => {
       setDocuments(docs);
-      if (filteredDocuments.length === 0) {
+      if (filteredDocuments.length === 0 || docs.length - filteredDocuments.length === 1) {
         setFilteredDocuments(docs);
       } // Inizializza con tutti i documenti
     });
