@@ -7,7 +7,7 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
 - [:rocket: Getting Started](#rocket-getting-started)
 - [:hammer_and_wrench: Technical Debt Management](#hammer_and_wrench-technical-debt-management)
 - [:sparkles: Features](#sparkles-features)
-- [:framed_picture: UI Application screenshots-first release](#framed_picture-ui-application-screenshots)
+- [:framed_picture: UI Application screenshots-first release](#framed_picture-ui-application-screenshots-release-1)
 - [📊 Diagrams](./assets/diagrams/)
   - [🖍️ Usecase Diagram](./assets/diagrams/UsecaseDiagram.jpeg)
   - [🧩 Class Diagram](./assets/diagrams/ClassDiagramR2.jpeg)
@@ -127,7 +127,7 @@ If you are using docker environment, please make sure that you have the followin
 - ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# **:framed_picture: UI Application screenshots (Demo-2)**
+# **:framed_picture: UI Application screenshots (Release-1)**
 
 ### 🔑 Login page
 
