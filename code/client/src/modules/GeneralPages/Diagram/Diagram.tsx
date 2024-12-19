@@ -27,6 +27,8 @@ import Legend from "../../../components/diagramComponents/Legend";
 interface DiagramProps {
   filterTableVisible: boolean;
   setFilterTableVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isLegendVisible: boolean;
+  setIsLegendVisible: React.Dispatch<React.SetStateAction<boolean>>;
   filteredDocuments: Document[];
   setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
   searchTitle: string;
@@ -43,6 +45,8 @@ interface DiagramProps {
 const Diagram = (props: DiagramProps) => {
   const filterTableVisible = props.filterTableVisible;
   const setFilterTableVisible = props.setFilterTableVisible;
+  const isLegendVisible = props.isLegendVisible;
+  const setIsLegendVisible = props.setIsLegendVisible;
   const filteredDocuments = props.filteredDocuments;
   const setFilteredDocuments = props.setFilteredDocuments;
   const searchTitle = props.searchTitle;
@@ -53,7 +57,7 @@ const Diagram = (props: DiagramProps) => {
   const nodes = props.nodes;
   const edges = props.edges;
   const yearWidths = props.yearWidths;
-  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(false);
+  
   const defaultViewport = props.defaultViewport;
 
   const navigate = useNavigate();
@@ -190,6 +194,11 @@ const Diagram = (props: DiagramProps) => {
     setFilterTableVisible(false);
   };
 
+  const handleShowLegend = () => {
+    setIsLegendVisible(!isLegendVisible);
+    setFilterTableVisible(false);
+  };
+
   return (
     <>
       {tooltip.visible && (
@@ -216,10 +225,7 @@ const Diagram = (props: DiagramProps) => {
           />
         </div>
       )}
-      <Button
-        onClick={() => setIsLegendVisible(!isLegendVisible)}
-        className="legend-button"
-      >
+      <Button onClick={handleShowLegend} className="legend-button">
         <i className="bi bi-info-circle"></i>
       </Button>
 

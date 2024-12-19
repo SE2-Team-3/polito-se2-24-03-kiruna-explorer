@@ -15,6 +15,8 @@ interface NavBarProps {
   doLogOut: () => void;
   filterTableVisible: boolean;
   setFilterTableVisible: Dispatch<SetStateAction<boolean>>;
+  isLegendVisible: boolean;
+  setIsLegendVisible: Dispatch<SetStateAction<boolean>>;
   filteredDocuments: Document[];
   setFilteredDocuments: Dispatch<SetStateAction<Document[]>>;
 }
@@ -47,6 +49,11 @@ const NavBar: FC<NavBarProps> = (props) => {
     props.setFilteredDocuments(allDocs);
     props.setFilterTableVisible(false);
   };
+
+  const handleShowFilterTable = () => {
+    props.setFilterTableVisible(!props.filterTableVisible);
+    props.setIsLegendVisible(false);
+  }
 
   const showSearchBar =
     location.pathname === "/urban-planner/documents-list" ||
@@ -128,9 +135,7 @@ const NavBar: FC<NavBarProps> = (props) => {
             <Col sm={2}>
               <button
                 className="filter-button-diagram"
-                onClick={() =>
-                  props.setFilterTableVisible(!props.filterTableVisible)
-                }
+                onClick={handleShowFilterTable}
               >
                 Filter
               </button>

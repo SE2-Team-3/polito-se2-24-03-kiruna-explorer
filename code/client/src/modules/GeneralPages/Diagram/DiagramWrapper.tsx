@@ -25,6 +25,8 @@ interface DiagramWrapperProps {
   setFilteredDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
   filterTableVisible: boolean;
   setFilterTableVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isLegendVisible: boolean;
+  setIsLegendVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DiagramWrapper = (props: DiagramWrapperProps) => {
@@ -162,6 +164,8 @@ const DiagramWrapper = (props: DiagramWrapperProps) => {
         <Diagram
           filterTableVisible={props.filterTableVisible}
           setFilterTableVisible={props.setFilterTableVisible}
+          isLegendVisible={props.isLegendVisible}
+          setIsLegendVisible={props.setIsLegendVisible}
           filteredDocuments={props.filteredDocuments}
           setFilteredDocuments={props.setFilteredDocuments}
           searchTitle={props.searchTitle}
