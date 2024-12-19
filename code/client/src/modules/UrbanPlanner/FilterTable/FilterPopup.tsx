@@ -147,7 +147,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                   type="checkbox"
                   name="language"
                   value="English"
-                  checked={filters.language === "English"}
+                  checked={filters.language ? filters.language.includes("English"): false}
                   onChange={handleChange}
                 />
                 English
@@ -159,7 +159,7 @@ const FilterTable: FC<FilterProps> = (props) => {
                   type="checkbox"
                   name="language"
                   value="Swedish"
-                  checked={filters.language === "Swedish"}
+                  checked={filters.language ? filters.language.includes("Swedish"): false}
                   onChange={handleChange}
                 />
                 Swedish
