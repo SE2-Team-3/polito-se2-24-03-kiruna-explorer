@@ -127,7 +127,7 @@ If you are using docker environment, please make sure that you have the followin
 - ### 🪢 Diagram-to-Map Linking:
   Users can select a document in the diagram, which will show its position on the map, facilitating seamless navigation between views.
 
-# **:framed_picture: UI Application screenshots**
+# **:framed_picture: UI Application screenshots (Demo-2)**
 
 ### 🔑 Login page
 
