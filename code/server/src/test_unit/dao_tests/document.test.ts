@@ -416,4 +416,163 @@ describe("DocumentDAO unit tests", () => {
       mockDBRun.mockRestore();
     });
   });
+
+  describe("getStakeholders", () => {
+    it("should return the stakeholders", async () => {
+      const expectedStakeholders = [
+        {
+          stakeholderId:"1",
+          stakeholderName:"SH_1"
+        },
+        {
+          stakeholderId:"2",
+          stakeholderName:"SH_2"
+        },
+      ];
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, expectedStakeholders);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getStakeholders();
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(2)
+      expect(result[0].stakeholderId).toBeDefined();
+      expect(result[0].stakeholderName).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
+
+  describe("getDocumentTypes", () => {
+    it("should return the document types", async () => {
+      const expectedDocumentTypes = [
+        {
+          documentTypeId:"1",
+          documentTypeName:"DT_1"
+        },
+        {
+          documentTypeId:"2",
+          documentTypeName:"DT_2"
+        },
+      ];
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, expectedDocumentTypes);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getDocumentTypes();
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(2)
+      expect(result[0].documentTypeId).toBeDefined();
+      expect(result[0].documentTypeName).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
+
+  describe("getNodeTypes", () => {
+    it("should return the node types", async () => {
+      const expectedNodeTypes = [
+        {
+          nodeTypeId:"1",
+          nodeTypeName:"NT_1"
+        },
+        {
+          nodeTypeId:"2",
+          nodeTypeName:"NT_2"
+        },
+      ];
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBAll = jest
+        .spyOn(db, "all")
+        .mockImplementationOnce((sql, callback) => {
+          callback(null, expectedNodeTypes);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.getNodeTypes();
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(2)
+      expect(result[0].nodeTypeId).toBeDefined();
+      expect(result[0].nodeTypeName).toBeDefined();
+      mockDBAll.mockRestore();
+    });
+  });
+
+  describe("createDocumentType", () => {
+    test("It should resolve true", async () => {
+
+      const dt = "DT_1"
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBRun = jest
+        .spyOn(db, "run")
+        .mockImplementation((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.createDocumentType(dt);
+      expect(result).toBeDefined();
+      expect(result).toEqual(true)
+      mockDBRun.mockRestore();
+    });
+  });
+
+  describe("createNodeType", () => {
+    test("It should resolve true", async () => {
+
+      const nt = "NT_1"
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBRun = jest
+        .spyOn(db, "run")
+        .mockImplementation((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.createNodeType(nt);
+      expect(result).toBeDefined();
+      expect(result).toEqual(true)
+      mockDBRun.mockRestore();
+    });
+  });
+
+  describe("createStakeholder", () => {
+    test("It should resolve true", async () => {
+
+      const sh = "SH_1"
+
+      const documentDAO = new DocumentDAO();
+
+      const mockDBRun = jest
+        .spyOn(db, "run")
+        .mockImplementation((sql, params, callback) => {
+          callback(null);
+          return {} as Database;
+        });
+
+      const result = await documentDAO.createStakeholder(sh);
+      expect(result).toBeDefined();
+      expect(result).toEqual(true)
+      mockDBRun.mockRestore();
+    });
+  });
 });
