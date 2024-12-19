@@ -38,6 +38,7 @@ function App() {
   const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
   const [currentLayer, setCurrentLayer] = useState<keyof typeof tileLayers>("satellite"); // Stato per il layer selezionato
   const [filterTableVisible, setFilterTableVisible] = useState(false);
+  const [isLegendVisible, setIsLegendVisible] = useState<boolean>(false);
   const [uploadDocumentId, setUploadDocumentId] = useState<number | undefined>(undefined);
 
   const [newDocument, setNewDocument] = useState<NewDocument>({
@@ -159,6 +160,8 @@ function App() {
                 doLogOut={doLogOut}
                 filterTableVisible={filterTableVisible}
                 setFilterTableVisible={setFilterTableVisible}
+                isLegendVisible={isLegendVisible}
+                setIsLegendVisible={setIsLegendVisible}
                 filteredDocuments={filteredDocuments}
                 setFilteredDocuments={setFilteredDocuments}
               />
@@ -194,6 +197,8 @@ function App() {
                       setFilteredDocuments={setFilteredDocuments}
                       filterTableVisible={filterTableVisible}
                       setFilterTableVisible={setFilterTableVisible}
+                      isLegendVisible={isLegendVisible}
+                      setIsLegendVisible={setIsLegendVisible}
                     />
                   }
                 />
@@ -206,6 +211,8 @@ function App() {
                       setFilteredDocuments={setFilteredDocuments}
                       filterTableVisible={filterTableVisible}
                       setFilterTableVisible={setFilterTableVisible}
+                      isLegendVisible={isLegendVisible}
+                      setIsLegendVisible={setIsLegendVisible}
                     />
                   }
                 />
