@@ -80,8 +80,8 @@ sections:
       Then the code will be reviewed to reduce the issues as much as possible and avoid any maintainability and reliability and security issues.
     - In addition, we considered a dedicated general track of TD management task to analyz the whole code and report any issues to solve them.
 
-  - Total hours estimated estimated: 2h
-  - Total hours spent: 2h
+  - Total hours estimated estimated: 24h
+  - Total hours spent: 24h
 
 ## ASSESSMENT
 
