@@ -44,9 +44,10 @@ const EdgeDefault = ({
         y={midY - labelHeight / 2}
         requiredExtensions="http://www.w3.org/1999/xhtml"
         className="edgebutton-foreignobject"
-        style={{borderRadius:"20%"}}
+        style={{ borderRadius: "20%" }}
       >
-        <text
+        {/* Fallback element for Support other browsers e.g. Firefox */}
+        <span
           style={{
             display: "flex",
             alignItems: "center",
@@ -56,10 +57,13 @@ const EdgeDefault = ({
             padding: `${labelPadding}px`,
             cursor: "pointer",
             textAlign: "center",
+            borderRadius: "20%",
+            border: "1px solid #3d52a0",
           }}
+          className="edgebutton-foreignobject"
         >
           {label}
-        </text>
+        </span>
       </foreignObject>
     </>
   );

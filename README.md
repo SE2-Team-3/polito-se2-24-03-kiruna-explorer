@@ -15,12 +15,13 @@ Kiruna Explorer is a web application designed to help urban planners, residents,
   - [🏁 Sprint 1](./Retrospectives/Retrospective_sprint-1.md)
   - [🏁 Sprint 2](./Retrospectives/Retrospective_sprint-2.md)
   - [🏁 Sprint 3](./Retrospectives/Retrospective_sprint-3.md)
+  - [🏁 Sprint 4](./Retrospectives/Retrospective_sprint-4.md)
 - [:shield: License](#shield-License)
 
 ## :rocket: Getting Started 
 
 ### 🛠️ Prerequisites 
-...
+
 
 
 Make sure you have the following installed on your machine:
@@ -60,6 +61,17 @@ If you are using docker environment, please make sure that you have the followin
    ```
    docker-compose up --build
    ```
+
+### 🔑 Default users credentials:
+  ```
+  User#1:
+    "username": "planner",        
+    "password": "planner",
+  User#2:
+    "username": "freja.johansson",        
+    "password": "freja.johansson",
+  ```
+
    🔥 Happy coding!
 
 ## :hammer_and_wrench: Technical Debt Management

@@ -1,4 +1,5 @@
 import { EdgeProps, getBezierPath, getEdgeCenter } from "@xyflow/react";
+import { FaRegCircle } from "react-icons/fa";
 
 const foreignObjectSize = 16;
 
@@ -45,7 +46,23 @@ const EdgePrevision = ({
         className="edgebutton-foreignobject"
         style={{ borderRadius: "50%" }}
         requiredExtensions="http://www.w3.org/1999/xhtml"
-      />
+      >
+        {/* Fallback element for Support other browsers e.g. Firefox */}
+        <span
+          className="edgebutton-foreignobject"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "1px solid #3d52a0",
+          }}
+        >
+          <FaRegCircle />
+        </span>
+      </foreignObject>
     </>
   );
 };
